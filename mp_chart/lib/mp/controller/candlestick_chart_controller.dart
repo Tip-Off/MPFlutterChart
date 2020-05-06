@@ -14,11 +14,20 @@ import 'package:mp_chart/mp/core/touch_listener.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/candlestick_chart_painter.dart';
+import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
 class CandlestickChartController
     extends BarLineScatterCandleBubbleController<CandlestickChartPainter> {
+
+  double _initialXZoom = 0;
+  final double initialXPosition;
+  final double initialXRange;
+
   CandlestickChartController(
-      {int maxVisibleCount = 100,
+      {
+      this.initialXPosition = 0,
+      this.initialXRange = 0,
+      int maxVisibleCount = 100,
       bool autoScaleMinMaxEnabled = true,
       bool doubleTapToZoomEnabled = true,
       bool highlightPerDragEnabled = true,
@@ -183,7 +192,27 @@ class CandlestickChartController
         zoomMatrixBuffer,
         customViewPortEnabled,
         chartTransListener);
+
+    initialParameters();
   }
+
+  void initialParameters() {
+    if (initialXRange > 0) {
+      _initialXZoom = _initialXZoom == 1 ? 1 : ((data.xMax - 1) - data.xMin).abs() / initialXRange;
+
+      var matrix =  painter.viewPortHandler.getMatrixTouch();
+
+      painter.viewPortHandler.zoom2(_initialXZoom, 0, matrix);
+      painter.viewPortHandler.refresh(matrix);
+
+      if (_initialXZoom != 1) {
+        moveViewToAnimated(initialXPosition - 1, 0, AxisDependency.LEFT, 1);
+      }
+
+      _initialXZoom = 1;
+    }
+  }
+
 
   @override
   CandlestickChartState createRealState() {
