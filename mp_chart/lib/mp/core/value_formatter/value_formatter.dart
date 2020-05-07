@@ -8,7 +8,10 @@ import 'package:mp_chart/mp/core/entry/radar_entry.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 
 abstract class ValueFormatter {
+  AxisBase axisFormatter;
+
   String getFormattedValue2(double value, AxisBase axis) {
+    axisFormatter = axis;
     return getFormattedValue1(value);
   }
 
@@ -22,6 +25,7 @@ abstract class ValueFormatter {
   }
 
   String getAxisLabel(double value, AxisBase axis) {
+    axisFormatter = axis;
     return getFormattedValue1(value);
   }
 

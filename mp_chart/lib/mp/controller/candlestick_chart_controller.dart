@@ -25,7 +25,7 @@ class CandlestickChartController
 
   CandlestickChartController(
       {
-      this.initialXPosition = 0,
+      this.initialXPosition = -1,
       this.initialXRange = 0,
       int maxVisibleCount = 100,
       bool autoScaleMinMaxEnabled = true,
@@ -205,7 +205,7 @@ class CandlestickChartController
       painter.viewPortHandler.refresh(matrix);
 
       if (_initialXZoom != 1) {
-        moveViewToAnimated(initialXPosition - 1.0, 0, AxisDependency.LEFT, 50);
+        moveViewToAnimated(initialXPosition < 0 ? data.xMax : initialXPosition, 0, AxisDependency.LEFT, 50);
       }
       
       _initialXZoom = 1;
