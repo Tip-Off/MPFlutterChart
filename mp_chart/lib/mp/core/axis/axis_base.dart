@@ -436,6 +436,7 @@ abstract class AxisBase extends ComponentBase {
   void setAxisMinimum(double min) {
     _customAxisMin = true;
     _axisMinimum = min;
+    print('setAxisMinimummdaf $_axisMinimum');
     this._axisRange = (_axisMaximum - min).abs();
   }
 
@@ -471,6 +472,7 @@ abstract class AxisBase extends ComponentBase {
   /// @param dataMax the max value according to chart data
   void calculate(double dataMin, double dataMax) {
     // if custom, use value as is, else use data value
+//    double min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
     double min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
     double max = _customAxisMax ? _axisMaximum : (dataMax + _spaceMax);
 

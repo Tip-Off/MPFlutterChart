@@ -302,7 +302,9 @@ class ViewPortHandler {
     _matrixTouch.copyInto(outputMatrix);
     final double x = transformedPts[0] - offsetLeft();
     final double y = transformedPts[1] - offsetTop();
+    print('x, y $x, $y');
     Matrix4Utils.postTranslate(outputMatrix, -x, -y);
+    print('tttt $outputMatrix');
   }
 
   Matrix4 mCenterViewPortMatrixBuffer = Matrix4.identity();

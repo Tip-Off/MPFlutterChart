@@ -10,10 +10,62 @@ import 'package:mp_chart/mp/core/utils/highlight_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:optimized_gesture_detector/details.dart';
 import 'package:optimized_gesture_detector/direction.dart';
+import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
 
 abstract class BarLineScatterCandleBubbleChart<
     C extends BarLineScatterCandleBubbleController> extends Chart<C> {
   const BarLineScatterCandleBubbleChart(C controller) : super(controller);
+}
+
+enum AxisTouchE {
+  BOTTOM, TOP, LEFT, RIGHT, NO_AXIS
+}
+
+class AxisEnabled {
+  final bool botton;
+  final bool top;
+  final bool left;
+  final bool right;
+
+  AxisEnabled({
+    this.botton = false,
+    this.top = false,
+    this.left = false,
+    this.right = false,
+  });
+}
+
+class _AxisTouch {
+  final Rect validArea;
+  final Offset point;
+  final AxisEnabled axisEnabled;
+
+  _AxisTouch(this.validArea, this.point, this.axisEnabled);
+
+  AxisTouchE calculate() {
+
+    if (validArea.contains(point)) {
+      return AxisTouchE.NO_AXIS;
+    }
+
+    if (point.dy > validArea.bottom && axisEnabled.botton) {
+      return AxisTouchE.BOTTOM;
+    }
+
+    if (point.dx > validArea.right && axisEnabled.right) {
+      return AxisTouchE.RIGHT;
+    }
+
+    if (point.dy < validArea.top && axisEnabled.top) {
+      return AxisTouchE.TOP;
+    }
+
+    if (point.dx < validArea.left && axisEnabled.left) {
+      return AxisTouchE.LEFT;
+    }
+    return AxisTouchE.NO_AXIS;
+  }
+
 }
 
 class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
@@ -24,6 +76,8 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   double _curX = 0.0;
   double _curY = 0.0;
   double _scale = -1.0;
+
+  bool _startInside = true;
 
   MPPointF _getTrans(double x, double y) {
     return Utils.local2Chart(widget.controller, x, y, inverted: _inverted());
@@ -89,6 +143,21 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     }
   }
 
+  bool tapInValidArea(double x, double y) {
+    var validArea = widget.controller.painter.viewPortHandler.contentRect;
+    return validArea.contains(Offset(x, y));
+  }
+
+  AxisEnabled get axisEnabled {
+    var xAxisPosition = widget.controller.xAxis.position;
+    return AxisEnabled(
+      botton: xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.BOTTOM,
+      top: xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.TOP,
+      left: widget.controller.axisLeft.enabled,
+      right: widget.controller.axisRight.enabled
+    );
+  }
+
   @override
   void onDoubleTapUp(TapUpDetails details) {
     widget.controller.stopDeceleration();
@@ -120,6 +189,9 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     widget.controller.stopDeceleration();
     _curX = details.localPoint.dx;
     _curY = details.localPoint.dy;
+
+    defineIfStartInside(_curX, _curY);
+
     if (widget.controller.touchEventListener != null) {
       var point = _getTouchValue(
           widget.controller.touchEventListener.valueType(),
@@ -131,8 +203,44 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     }
   }
 
+  void defineIfStartInside(double x, double y) {
+    _startInside = tapInValidArea(x, y);
+  }
+
+  bool tryScaleUsingAxis(double dx, double dy) {
+    var rect = widget.controller.painter.viewPortHandler.contentRect;
+    var offset = Offset(dx, dy);
+
+    var touch = _AxisTouch(rect, offset, axisEnabled);
+    var axis = touch.calculate();
+
+    if (axis != AxisTouchE.NO_AXIS) {
+      var ndx = dx - _curX;
+      var scale = 1 + (ndx / 100);
+
+      var trans = _getTrans(_curX, _curY);
+      var h = widget.controller.painter.viewPortHandler;
+
+      bool canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
+      widget.controller.painter
+          .zoom(canZoomMoreX ? scale : 1, 1, trans.x, trans.y);
+
+      setStateIfNotDispose();
+      _curX = dx;
+
+      return true;
+    }
+
+    return false;
+  }
+
   @override
   void onMoveUpdate(OpsMoveUpdateDetails details) {
+    var scaled = tryScaleUsingAxis(details.localPoint.dx, details.localPoint.dy);
+    if (scaled) {
+      return;
+    }
+
     if (widget.controller.painter.highlightPerDragEnabled) {
       final highlighted = widget.controller.painter.getHighlightByTouchPoint(
           details.localPoint.dx, details.localPoint.dy);
@@ -214,6 +322,10 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
 
   @override
   void onMoveEnd(OpsMoveEndDetails details) {
+    if (!_startInside) {
+      return;
+    }
+
     widget.controller
       ..stopDeceleration()
       ..setDecelerationVelocity(details.velocity.pixelsPerSecond)
