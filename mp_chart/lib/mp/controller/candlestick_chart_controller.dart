@@ -22,11 +22,13 @@ class CandlestickChartController
   double _initialXZoom = 0;
   final int initialXPosition;
   final int initialXRange;
+  final bool specialMoveEnabled;
 
   CandlestickChartController(
       {
       this.initialXPosition = -1,
       this.initialXRange = 0,
+      this.specialMoveEnabled = false,
       int maxVisibleCount = 100,
       bool autoScaleMinMaxEnabled = true,
       bool doubleTapToZoomEnabled = true,
@@ -215,6 +217,6 @@ class CandlestickChartController
 
   @override
   CandlestickChartState createRealState() {
-    return CandlestickChartState();
+    return CandlestickChartState(specialMoveEnabled);
   }
 }

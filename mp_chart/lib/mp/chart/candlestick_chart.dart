@@ -8,4 +8,7 @@ class CandlestickChart
 }
 
 class CandlestickChartState
-    extends BarLineScatterCandleBubbleState<CandlestickChart> {}
+    extends BarLineScatterCandleBubbleState<CandlestickChart> {
+
+  CandlestickChartState(bool specialMoveEnabled) : super(specialMoveEnabled);
+}
