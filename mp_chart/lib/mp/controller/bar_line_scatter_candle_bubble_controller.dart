@@ -53,6 +53,8 @@ abstract class BarLineScatterCandleBubbleController<
   Color backgroundColor;
   double borderStrokeWidth;
 
+  bool highlightMagneticSetEnabled;
+
   /// this is used for user get touch event if they needed
   OnTouchEventListener touchEventListener;
 
@@ -108,6 +110,7 @@ abstract class BarLineScatterCandleBubbleController<
       this.axisRightSettingFunction,
       this.touchEventListener,
       this.chartTransListener,
+      this.highlightMagneticSetEnabled = true,
       IMarker marker,
       Description description,
       String noDataText = "No chart data available.",

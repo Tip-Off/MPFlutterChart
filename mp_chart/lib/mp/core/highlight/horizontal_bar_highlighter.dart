@@ -17,7 +17,7 @@ class HorizontalBarHighlighter extends BarHighlighter {
 
     MPPointD pos = getValsForTouch(y, x);
 
-    Highlight high = getHighlightForX(pos.y, y, x);
+    Highlight high = getHighlightForX(pos.y, pos.x, y, x);
     if (high == null) return null;
 
     IBarDataSet set = barData.getDataSetByIndex(high.dataSetIndex);

@@ -30,8 +30,9 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
   Highlight getHighlight(double x, double y) {
     MPPointD pos = getValsForTouch(x, y);
     double xVal = pos.x;
+    double yVal = pos.y;
     MPPointD.recycleInstance2(pos);
-    Highlight high = getHighlightForX(xVal, x, y);
+    Highlight high = getHighlightForX(xVal, yVal, x, y);
     return high;
   }
 
@@ -55,7 +56,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
   /// @param x
   /// @param y
   /// @return
-  Highlight getHighlightForX(double xVal, double x, double y) {
+  Highlight getHighlightForX(double xVal, double yVal, double x, double y) {
     List<Highlight> closestValues = getHighlightsAtXValue(xVal, x, y);
 
     if (closestValues.isEmpty) {
@@ -73,6 +74,9 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
 
     Highlight detail = getClosestHighlightByPixel(
         closestValues, x, y, axis, _provider.getMaxHighlightDistance());
+
+    detail.freeX = xVal;
+    detail.freeY = yVal;
 
     return detail;
   }

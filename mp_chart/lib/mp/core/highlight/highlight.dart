@@ -7,6 +7,12 @@ class Highlight {
   /// the y-value of the highlighted value
   double _y = double.nan;
 
+  ///
+  double freeX = double.nan;
+
+  ///
+  double freeY = double.nan;
+
   /// the x-pixel of the highlight
   double _xPx;
 
@@ -33,15 +39,18 @@ class Highlight {
   /// the y-position (pixels) on which this highlight object was last drawn
   double _drawY;
 
-  Highlight(
-      {double x = double.nan,
-      double y = double.nan,
-      double xPx = 0,
-      double yPx = 0,
-      int dataSetIndex = 0,
-      int stackIndex = -1,
-      // ignore: avoid_init_to_null
-      AxisDependency axis = null}) {
+  Highlight({
+    this.freeX,
+    this.freeY,
+    double x = double.nan,
+    double y = double.nan,
+    double xPx = 0,
+    double yPx = 0,
+    int dataSetIndex = 0,
+    int stackIndex = -1,
+    // ignore: avoid_init_to_null
+    AxisDependency axis = null,
+  }) {
     this._x = x;
     this._y = y;
     this._xPx = xPx;
@@ -58,6 +67,10 @@ class Highlight {
   double get xPx => _xPx;
 
   double get yPx => _yPx;
+
+  set y (double yy) {
+    _y = yy;
+  }
 
   // ignore: unnecessary_getters_setters
   int get dataIndex => _dataIndex;
@@ -101,6 +114,9 @@ class Highlight {
     else {
       if (this._dataSetIndex == h._dataSetIndex &&
           this._x == h._x &&
+          this._y == h._y &&
+          this.freeX == h.freeX &&
+          this.freeY == h.freeY &&
           this._stackIndex == h._stackIndex &&
           this._dataIndex == h._dataIndex)
         return true;

@@ -11,6 +11,8 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:optimized_gesture_detector/details.dart';
 import 'package:optimized_gesture_detector/direction.dart';
 import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
+import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
+
 
 abstract class BarLineScatterCandleBubbleChart<
     C extends BarLineScatterCandleBubbleController> extends Chart<C> {
@@ -290,6 +292,12 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     if (_canMove()) {
       final highlighted = widget.controller.painter.getHighlightByTouchPoint(
           details.localPoint.dx, details.localPoint.dy);
+
+      if (widget.controller.highlightMagneticSetEnabled) {
+        highlighted.freeX = double.nan;
+        highlighted.freeY = double.nan;
+      }
+
       if (highlighted?.equalTo(lastHighlighted) == false) {
         lastHighlighted = HighlightUtils.performHighlight(
             widget.controller.painter, highlighted, lastHighlighted);

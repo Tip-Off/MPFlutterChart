@@ -29,6 +29,7 @@ class CandlestickChartController
       this.initialXPosition = -1,
       this.initialXRange = 0,
       this.specialMoveEnabled = false,
+      bool highlightMagneticSetEnabled = true,
       int maxVisibleCount = 100,
       bool autoScaleMinMaxEnabled = true,
       bool doubleTapToZoomEnabled = true,
@@ -84,6 +85,7 @@ class CandlestickChartController
       ChartTransListener chartTransListener})
       : super(
             marker: marker,
+            highlightMagneticSetEnabled: highlightMagneticSetEnabled,
             description: description,
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
