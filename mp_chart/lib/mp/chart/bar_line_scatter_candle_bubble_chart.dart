@@ -80,9 +80,6 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   double _scale = -1.0;
 
   bool _startInside = true;
-  final bool specialMoveEnabled;
-
-  BarLineScatterCandleBubbleState(this.specialMoveEnabled);
 
   MPPointF _getTrans(double x, double y) {
     return Utils.local2Chart(widget.controller, x, y, inverted: _inverted());
@@ -127,7 +124,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   }
 
   void _specialSingleTapUp(TapUpDetails details) {
-    if (specialMoveEnabled) {
+    if (widget.controller.specialMoveEnabled) {
       return;
     }
 
@@ -173,7 +170,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   }
 
   bool _specialDoubleTapUp(TapUpDetails details) {
-    if (!specialMoveEnabled) {
+    if (!widget.controller.specialMoveEnabled) {
       return false;
     }
 
@@ -232,7 +229,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   void onMoveStart(OpsMoveStartDetails details) {
     widget.controller.stopDeceleration();
 
-    if (specialMoveEnabled) {
+    if (widget.controller.specialMoveEnabled) {
       return;
     }
 
@@ -284,8 +281,8 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   }
 
   bool _canMove() {
-    return (specialMoveEnabled && widget.controller.painter.highlightPerDragEnabled && lastHighlighted != null)
-        || (!specialMoveEnabled && widget.controller.painter.highlightPerDragEnabled);
+    return (widget.controller.specialMoveEnabled && widget.controller.painter.highlightPerDragEnabled && lastHighlighted != null)
+        || (!widget.controller.specialMoveEnabled && widget.controller.painter.highlightPerDragEnabled);
   }
 
   bool _specialMove(OpsMoveUpdateDetails details) {
@@ -303,7 +300,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
             widget.controller.painter, highlighted, lastHighlighted);
         setStateIfNotDispose();
       }
-      return specialMoveEnabled;
+      return widget.controller.specialMoveEnabled;
     }
     return false;
   }
@@ -401,7 +398,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
       ..setDecelerationVelocity(details.velocity.pixelsPerSecond)
       ..computeScroll();
 
-    if (!_startInside || specialMoveEnabled) {
+    if (!_startInside || widget.controller.specialMoveEnabled) {
       return;
     }
 

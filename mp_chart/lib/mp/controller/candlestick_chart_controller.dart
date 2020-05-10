@@ -22,13 +22,14 @@ class CandlestickChartController
   double _initialXZoom = 0;
   final int initialXPosition;
   final int initialXRange;
-  final bool specialMoveEnabled;
+//  final bool specialMoveEnabled;
 
   CandlestickChartController(
       {
       this.initialXPosition = -1,
       this.initialXRange = 0,
-      this.specialMoveEnabled = false,
+//      this.specialMoveEnabled = false,
+      bool specialMoveEnabled = false,
       bool highlightMagneticSetEnabled = true,
       int maxVisibleCount = 100,
       bool autoScaleMinMaxEnabled = true,
@@ -85,6 +86,7 @@ class CandlestickChartController
       ChartTransListener chartTransListener})
       : super(
             marker: marker,
+            specialMoveEnabled: specialMoveEnabled,
             highlightMagneticSetEnabled: highlightMagneticSetEnabled,
             description: description,
             noDataText: noDataText,
@@ -219,6 +221,6 @@ class CandlestickChartController
 
   @override
   CandlestickChartState createRealState() {
-    return CandlestickChartState(specialMoveEnabled);
+    return CandlestickChartState();
   }
 }

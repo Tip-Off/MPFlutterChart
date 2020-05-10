@@ -53,7 +53,8 @@ abstract class BarLineScatterCandleBubbleController<
   Color backgroundColor;
   double borderStrokeWidth;
 
-  bool highlightMagneticSetEnabled;
+  final bool highlightMagneticSetEnabled;
+  final bool specialMoveEnabled;
 
   /// this is used for user get touch event if they needed
   OnTouchEventListener touchEventListener;
@@ -110,6 +111,7 @@ abstract class BarLineScatterCandleBubbleController<
       this.axisRightSettingFunction,
       this.touchEventListener,
       this.chartTransListener,
+      this.specialMoveEnabled = false,
       this.highlightMagneticSetEnabled = true,
       IMarker marker,
       Description description,

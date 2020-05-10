@@ -5,7 +5,4 @@ class BarChart extends BarLineScatterCandleBubbleChart<BarChartController> {
   const BarChart(BarChartController controller) : super(controller);
 }
 
-class BarChartState extends BarLineScatterCandleBubbleState<BarChart> {
-
-  BarChartState() : super(false);
-}
+class BarChartState extends BarLineScatterCandleBubbleState<BarChart> {}
