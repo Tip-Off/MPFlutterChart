@@ -305,9 +305,10 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   void drawExtras(Canvas c) {}
 
   @override
-  void drawHighlighted(Canvas c, List<Highlight> indices) {
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     CandleData candleData = _porvider.getCandleData();
 
+    var pix = MPPointD(0, 0);
     for (Highlight high in indices) {
       ICandleDataSet set = candleData.getDataSetByIndex(high.dataSetIndex);
 
@@ -323,7 +324,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
       var yVal = high.freeY.isNaN ? high.y : high.freeY;
 
-      MPPointD pix = _porvider
+      pix = _porvider
           .getTransformer(set.getAxisDependency())
           .getPixelForValues(e.x, yVal);
 
@@ -332,5 +333,6 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
       // draw the lines
       drawHighlightLines(c, pix.x, pix.y, set);
     }
+    return pix;
   }
 }

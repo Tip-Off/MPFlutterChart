@@ -279,7 +279,7 @@ class RadarChartRenderer extends LineRadarRenderer {
   }
 
   @override
-  void drawHighlighted(Canvas c, List<Highlight> indices) {
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     double sliceangle = _painter.getSliceAngle();
 
     // calculate the factor that is needed for transforming the value to
@@ -340,6 +340,8 @@ class RadarChartRenderer extends LineRadarRenderer {
 
     MPPointF.recycleInstance(center);
     MPPointF.recycleInstance(pOut);
+
+    return MPPointD(center.x, center.y);
   }
 
   Path mDrawHighlightCirclePathBuffer = new Path();

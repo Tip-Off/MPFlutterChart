@@ -13,6 +13,12 @@ class Highlight {
   ///
   double freeY = double.nan;
 
+  ///
+  double highlightX = double.nan;
+
+  ///
+  double highlightY = double.nan;
+
   /// the x-pixel of the highlight
   double _xPx;
 
@@ -42,6 +48,8 @@ class Highlight {
   Highlight({
     this.freeX,
     this.freeY,
+    this.highlightX,
+    this.highlightY,
     double x = double.nan,
     double y = double.nan,
     double xPx = 0,

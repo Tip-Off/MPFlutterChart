@@ -827,10 +827,10 @@ class PieChartRenderer extends DataRenderer {
   Rect _drawHighlightedRectF = Rect.zero;
 
   @override
-  void drawHighlighted(Canvas c, List<Highlight> indices) {
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     final bool drawInnerArc = _painter.isDrawHoleEnabled() &&
         !_painter.isDrawSlicesUnderHoleEnabled();
-    if (drawInnerArc && _painter.isDrawRoundedSlicesEnabled()) return;
+    if (drawInnerArc && _painter.isDrawRoundedSlicesEnabled()) return MPPointD(0, 0);
 
     double phaseX = animator.getPhaseX();
     double phaseY = animator.getPhaseY();
@@ -1026,6 +1026,8 @@ class PieChartRenderer extends DataRenderer {
     }
 
     MPPointF.recycleInstance(center);
+
+    return MPPointD(center.x, center.y);
   }
 
   /// This gives all pie-slices a rounded edge.

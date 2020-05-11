@@ -31,6 +31,7 @@ import 'package:mp_chart/mp/core/utils/matrix4_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/painter.dart';
+import 'package:mp_chart/mp/core/render/axis_renderer.dart';
 
 abstract class BarLineChartBasePainter<
         T extends BarLineScatterCandleBubbleData<
@@ -294,8 +295,10 @@ abstract class BarLineChartBasePainter<
       _axisRendererRight.renderGridLines(canvas);
 
     // if highlighting is enabled
-    if (valuesToHighlight())
-      renderer.drawHighlighted(canvas, indicesToHighlight);
+    var highlightPoint = MPPointD(0, 0);
+    if (valuesToHighlight()) {
+      highlightPoint = renderer.drawHighlighted(canvas, indicesToHighlight);
+    }
 
     // Removes clipping rectangle
     canvas.restore();
@@ -314,6 +317,13 @@ abstract class BarLineChartBasePainter<
     _xAxisRenderer.renderAxisLabels(canvas);
     _axisRendererLeft.renderAxisLabels(canvas);
     _axisRendererRight.renderAxisLabels(canvas);
+
+    if (valuesToHighlight() && indicesToHighlight.length == 1) {
+      var axisPointY = indicesToHighlight.first.highlightY;
+      if (axisPointY != null) {
+        _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointY, axisPointY)));
+      }
+    }
 
     if (_clipValuesToContent) {
       canvas.save();

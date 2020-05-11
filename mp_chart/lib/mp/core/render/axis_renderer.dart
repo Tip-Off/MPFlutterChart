@@ -11,6 +11,13 @@ import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 
+class AxisHighlightRenderOpt {
+  final MPPointD screenPoint;
+  final MPPointD axisPoint;
+
+  AxisHighlightRenderOpt(this.screenPoint, this.axisPoint);
+}
+
 abstract class AxisRenderer extends Renderer {
   /// base axis this axis renderer works with */
   AxisBase _axis;
@@ -261,4 +268,6 @@ abstract class AxisRenderer extends Renderer {
   ///
   /// @param c
   void renderLimitLines(Canvas c);
+
+  void renderHighlight(Canvas c, AxisHighlightRenderOpt opt);
 }

@@ -464,7 +464,7 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
   }
 
   @override
-  void drawHighlighted(Canvas c, List<Highlight> indices) {
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     BarData barData = _provider.getBarData();
 
     for (Highlight high in indices) {
@@ -507,6 +507,8 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
       setHighlightDrawPos(high, _barRect);
       c.drawRect(_barRect, highlightPaint);
     }
+
+    return MPPointD(0, 0);
   }
 
   /// Sets the drawing position of the highlight object based on the riven bar-rect.

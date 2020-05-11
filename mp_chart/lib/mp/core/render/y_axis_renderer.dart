@@ -394,6 +394,120 @@ class YAxisRenderer extends AxisRenderer {
     }
   }
 
+  @override
+    void renderHighlight(Canvas c, AxisHighlightRenderOpt opt) {
+    print('y_axis_renderer');
+
+
+
+//    List<double> positions = getTransformedPositions();
+//
+//    AxisDependency dependency = _yAxis.axisDependency;
+//    YAxisLabelPosition labelPosition = _yAxis.position;
+//
+//    double xPos = 0;
+//
+//    axisLabelPaint = PainterUtils.create(
+//        axisLabelPaint, null, _yAxis.textColor, _yAxis.textSize,
+//        fontFamily: _yAxis.typeface?.fontFamily,
+//        fontWeight: _yAxis.typeface?.fontWeight);
+//    if (dependency == AxisDependency.LEFT) {
+//      if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
+//        xPos = viewPortHandler.offsetLeft();
+//      } else {
+//        xPos = viewPortHandler.offsetLeft();
+//      }
+//    } else {
+//      if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
+//        xPos = viewPortHandler.contentRight();
+//      } else {
+//        xPos = viewPortHandler.contentRight();
+//      }
+//    }
+//
+//    drawYLabels(c, xPos, positions, dependency, labelPosition);
+
+    _drawYHighlightLabels(c, viewPortHandler.contentRight(), opt, _yAxis.axisDependency, _yAxis.position);
+  }
+
+  void _drawYHighlightLabels(
+      Canvas c,
+      double fixedPosition,
+      AxisHighlightRenderOpt opt,
+      AxisDependency axisDependency,
+      YAxisLabelPosition position,
+      ) {
+
+
+//        print(viewPortHandler.getContentRect());
+
+        axisLabelPaint.text = TextSpan(
+          text: _yAxis.getDirectFormattedLabel(opt.axisPoint.y),
+          style: axisLabelPaint.text.style,
+//          children: [
+//            WidgetSpan(
+//                alignment: PlaceholderAlignment.baseline,
+//                baseline: TextBaseline.alphabetic,
+//                child: ConstrainedBox(
+//                  constraints: BoxConstraints(maxWidth: 100),
+//                  child: Text(' bla'),
+//                )
+//            ),
+//          ]
+        );
+
+
+
+
+        axisLabelPaint.layout();
+    var labelPosition = Offset(fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
+
+    var paint = Paint()
+        ..color = ColorUtils.HOLO_GREEN_LIGHT;
+
+        c.drawRect(Rect.fromLTWH(labelPosition.dx, labelPosition.dy, axisLabelPaint.width, axisLabelPaint.height), paint);
+//        axisLabelPaint.paint(c, Offset(fixedPosition, 10));
+        axisLabelPaint.paint(c, labelPosition);
+
+//    final int from = _yAxis.drawBottomYLabelEntry ? 0 : 1;
+//    final int to =
+//    _yAxis.drawTopYLabelEntry ? _yAxis.entryCount : (_yAxis.entryCount - 1);
+//
+//    // draw
+//    for (int i = from; i < to; i++) {
+//      String text = _yAxis.getFormattedLabel(i);
+//
+//      axisLabelPaint.text =
+//          TextSpan(text: text, style: axisLabelPaint.text.style);
+//      axisLabelPaint.layout();
+//      if (axisDependency == AxisDependency.LEFT) {
+//        if (position == YAxisLabelPosition.OUTSIDE_CHART) {
+//          axisLabelPaint.paint(
+//              c,
+//              Offset(fixedPosition - axisLabelPaint.width,
+//                  positions[i * 2 + 1] - axisLabelPaint.height / 2));
+//        } else {
+//          axisLabelPaint.paint(
+//              c,
+//              Offset(fixedPosition,
+//                  positions[i * 2 + 1] - axisLabelPaint.height / 2));
+//        }
+//      } else {
+//        if (position == YAxisLabelPosition.OUTSIDE_CHART) {
+//          axisLabelPaint.paint(
+//              c,
+//              Offset(fixedPosition,
+//                  positions[i * 2 + 1] - axisLabelPaint.height / 2));
+//        } else {
+//          axisLabelPaint.paint(
+//              c,
+//              Offset(fixedPosition - axisLabelPaint.width,
+//                  positions[i * 2 + 1] - axisLabelPaint.height / 2));
+//        }
+//      }
+//    }
+  }
+
   // ignore: unnecessary_getters_setters
   Rect get gridClippingRect => _gridClippingRect;
 

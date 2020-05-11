@@ -302,6 +302,10 @@ abstract class AxisBase extends ComponentBase {
       return getValueFormatter().getAxisLabel(_entries[index], this);
   }
 
+  String getDirectFormattedLabel(double entry) {
+    return getValueFormatter().getAxisLabel(entry, this);
+  }
+
   /// Sets the formatter to be used for formatting the axis labels. If no formatter is set, the
   /// chart will
   /// automatically determine a reasonable formatting (concerning decimals) for all the values

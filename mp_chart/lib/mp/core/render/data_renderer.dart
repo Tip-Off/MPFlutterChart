@@ -9,6 +9,7 @@ import 'package:mp_chart/mp/core/render/renderer.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:mp_chart/mp/core/poolable/point.dart';
 
 abstract class DataRenderer extends Renderer {
   /// the animator object used to perform animations on the chart data
@@ -115,5 +116,5 @@ abstract class DataRenderer extends Renderer {
   ///
   /// @param c
   /// @param indices the highlighted values
-  void drawHighlighted(Canvas c, List<Highlight> indices);
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices);
 }

@@ -463,4 +463,9 @@ class XAxisRenderer extends AxisRenderer {
       }
     }
   }
+
+  @override
+  void renderHighlight(Canvas c, AxisHighlightRenderOpt point) {
+    print('x_axis_renderer');
+  }
 }
