@@ -466,124 +466,36 @@ class XAxisRenderer extends AxisRenderer {
 
   @override
   void renderHighlight(Canvas c, AxisHighlightRenderOpt opt) {
-
-//    if (!_xAxis.enabled || !_xAxis.drawLabels) return;
-//
-//    axisLabelPaint.text = TextSpan(
-//        style: TextStyle(
-//            fontSize: _xAxis.textSize,
-//            color: _xAxis.textColor,
-//            fontFamily: _xAxis.typeface?.fontFamily,
-//            fontWeight: _xAxis.typeface?.fontWeight));
-//
-//    MPPointF pointF = MPPointF.getInstance1(0, 0);
-//    if (_xAxis.position == XAxisPosition.TOP) {
-//      pointF.x = 0.5;
-//      pointF.y = 1.0;
-//      drawLabels(c, viewPortHandler.contentTop(), pointF, _xAxis.position);
-//    } else if (_xAxis.position == XAxisPosition.TOP_INSIDE) {
-//      pointF.x = 0.5;
-//      pointF.y = 1.0;
-//      drawLabels(c, viewPortHandler.contentTop() + _xAxis.labelRotatedHeight,
-//          pointF, _xAxis.position);
-//    } else if (_xAxis.position == XAxisPosition.BOTTOM) {
-//      pointF.x = 0.5;
-//      pointF.y = 0.0;
-//      drawLabels(c, viewPortHandler.contentBottom(), pointF, _xAxis.position);
-//    } else if (_xAxis.position == XAxisPosition.BOTTOM_INSIDE) {
-//      pointF.x = 0.5;
-//      pointF.y = 0.0;
-//      drawLabels(c, viewPortHandler.contentBottom() - _xAxis.labelRotatedHeight,
-//          pointF, _xAxis.position);
-//    } else {
-//      // BOTH SIDED
-//      pointF.x = 0.5;
-//      pointF.y = 1.0;
-//      drawLabels(c, viewPortHandler.contentTop(), pointF, XAxisPosition.TOP);
-//      pointF.x = 0.5;
-//      pointF.y = 0.0;
-//      drawLabels(
-//          c, viewPortHandler.contentBottom(), pointF, XAxisPosition.BOTTOM);
-//    }
-//    MPPointF.recycleInstance(pointF);
-
-    if (_xAxis.position == XAxisPosition.BOTTOM) {
-      print('yey bot');
-
-
-      //      pointF.x = 0.5;
-//      pointF.y = 0.0;
-//      drawLabels(c, viewPortHandler.contentBottom(), pointF, _xAxis.position);
-
-      _drawXHighlightLabels(c, viewPortHandler.contentBottom(), opt);
-
-    } else {
-      print('not bot');
+    switch(_xAxis.position) {
+      case XAxisPosition.BOTTOM:
+        _drawXHighlightLabels(c, viewPortHandler.contentBottom(), opt);
+        break;
+      case XAxisPosition.TOP:
+        _drawXHighlightLabels(c, viewPortHandler.contentTop() - axisLabelPaint.height, opt);
+        break;
+      case XAxisPosition.BOTTOM_INSIDE:
+        _drawXHighlightLabels(c, viewPortHandler.contentBottom() + axisLabelPaint.height, opt);
+        break;
+      case XAxisPosition.BOTH_SIDED:
+        _drawXHighlightLabels(c, viewPortHandler.contentBottom(), opt);
+        _drawXHighlightLabels(c, viewPortHandler.contentTop() - axisLabelPaint.height, opt);
+        break;
+      default:
+        break;
     }
-
-    print('x_axis_renderer');
   }
 
-
-//  void renderHighlight(Canvas c, AxisHighlightRenderOpt opt) {
-//    AxisDependency dependency = _yAxis.axisDependency;
-//    YAxisLabelPosition labelPosition = _yAxis.position;
-//
-//    double xPos = 0;
-//    if (dependency == AxisDependency.LEFT) {
-//      if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
-//        xPos = viewPortHandler.offsetLeft();
-//      } else {
-//        xPos = viewPortHandler.offsetLeft();
-//      }
-//    } else {
-//      if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
-//        xPos = viewPortHandler.contentRight();
-//      } else {
-//        xPos = viewPortHandler.contentRight();
-//      }
-//    }
-//
-//    _drawYHighlightLabels(c, xPos, opt, _yAxis.axisDependency, _yAxis.position);
-//  }
-//
-  void _drawXHighlightLabels(
-      Canvas c,
-      double fixedPosition,
-      AxisHighlightRenderOpt opt,
-//      AxisDependency axisDependency,
-//      YAxisLabelPosition position,
-      ) {
-
+  void _drawXHighlightLabels(Canvas c, double fixedPosition, AxisHighlightRenderOpt opt) {
     axisLabelPaint.text = TextSpan(
-//      text: _yAxis.getDirectFormattedLabel(opt.axisPoint.y),
       text: _xAxis.getDirectFormattedLabel(opt.axisPoint.x.roundToDouble()),
       style: axisLabelPaint.text.style,
     );
-
     axisLabelPaint.layout();
-
-    print(opt.screenPoint.x);
-
 
     var labelPosition = Offset(opt.screenPoint.x, fixedPosition);
     if (opt.screenPoint.x > axisLabelPaint.width * 2) {
       labelPosition = Offset(opt.screenPoint.x - axisLabelPaint.width, fixedPosition);
     }
-
-//    if (axisDependency == AxisDependency.LEFT) {
-//      if (position == YAxisLabelPosition.OUTSIDE_CHART) {
-//        labelPosition = Offset(fixedPosition - axisLabelPaint.width, opt.screenPoint.y - axisLabelPaint.height / 2);
-//      } else {
-//        labelPosition = Offset(fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
-//      }
-//    } else {
-//      if (position == YAxisLabelPosition.OUTSIDE_CHART) {
-//        labelPosition = Offset(fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
-//      } else {
-//        labelPosition = Offset(fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
-//      }
-//    }
 
     var paint = Paint()
       ..color = ColorUtils.HOLO_GREEN_LIGHT;
