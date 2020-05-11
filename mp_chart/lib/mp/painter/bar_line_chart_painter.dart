@@ -319,10 +319,12 @@ abstract class BarLineChartBasePainter<
     _axisRendererRight.renderAxisLabels(canvas);
 
     if (valuesToHighlight() && indicesToHighlight.length == 1) {
+      var axisPointX = indicesToHighlight.first.highlightX;
       var axisPointY = indicesToHighlight.first.highlightY;
-      if (axisPointY != null) {
-        _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointY, axisPointY)));
-        _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointY, axisPointY)));
+      if (axisPointY != null && axisPointX != null) {
+        _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
+        _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
+        _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
       }
     }
 
