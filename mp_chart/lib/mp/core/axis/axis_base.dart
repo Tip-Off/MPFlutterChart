@@ -303,7 +303,7 @@ abstract class AxisBase extends ComponentBase {
   }
 
   String getDirectFormattedLabel(double entry) {
-    return getValueFormatter().getAxisLabel(entry, this);
+    return getValueFormatter().getDirectFormattedValue(entry, this);
   }
 
   /// Sets the formatter to be used for formatting the axis labels. If no formatter is set, the

@@ -196,7 +196,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
       Highlight h = widget.controller.painter.getHighlightByTouchPoint(
           details.localPosition.dx, details.localPosition.dy);
 
-      h.highlightY = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).x;
+      h.highlightX = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).x;
       h.highlightY = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).y;
 
       lastHighlighted = HighlightUtils.performHighlight(
@@ -299,7 +299,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
         highlighted.freeY = double.nan;
       }
 
-      highlighted.highlightY = widget.controller.getValuesByTouchPoint(details.localPoint.dx, details.localPoint.dy, AxisDependency.LEFT).x;
+      highlighted.highlightX = widget.controller.getValuesByTouchPoint(details.localPoint.dx, details.localPoint.dy, AxisDependency.LEFT).x;
       highlighted.highlightY = widget.controller.getValuesByTouchPoint(details.localPoint.dx, details.localPoint.dy, AxisDependency.LEFT).y;
 
       if (highlighted?.equalTo(lastHighlighted) == false) {

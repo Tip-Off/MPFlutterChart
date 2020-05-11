@@ -24,6 +24,10 @@ abstract class ValueFormatter {
     return value.toString();
   }
 
+  String getDirectFormattedValue(double value, AxisBase axis) {
+    return getAxisLabel(value, axis);
+  }
+
   String getAxisLabel(double value, AxisBase axis) {
     axisFormatter = axis;
     return getFormattedValue1(value);
