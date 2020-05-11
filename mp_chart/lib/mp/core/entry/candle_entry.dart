@@ -14,19 +14,36 @@ class CandleEntry extends Entry {
   /// open value
   double _open = 0;
 
-  CandleEntry(
-      {double x,
-      double shadowH,
-      double shadowL,
-      double open,
-      double close,
-      ui.Image icon,
-      Object data})
-      : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
+  final double volume;
+
+  //TODO: refactory
+  CandleEntry({
+    this.volume = 0,
+    double x,
+    double shadowH,
+    double shadowL,
+    double open,
+    double close,
+    ui.Image icon,
+    Object data
+  }) : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
     this._shadowHigh = shadowH;
     this._shadowLow = shadowL;
     this._open = open;
     this._close = close;
+  }
+
+  @override
+  String toString() {
+    return '''{
+      x: $x,
+      y: $y,
+      open: $open,
+      close: $close,
+      high: $shadowHigh,
+      low: $shadowLow,
+      volume: $volume,
+    }''';
   }
 
   /// Returns the overall range (difference) between shadow-high and

@@ -301,9 +301,10 @@ abstract class BarLineChartBasePainter<
     }
 
     // Removes clipping rectangle
-    canvas.restore();
+
 
     renderer.drawExtras(canvas);
+    canvas.restore();
 
     if (xAxis.enabled && !xAxis.drawLimitLineBehindData)
       _xAxisRenderer.renderLimitLines(canvas);

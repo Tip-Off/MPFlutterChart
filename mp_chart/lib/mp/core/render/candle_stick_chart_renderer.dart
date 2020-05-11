@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/painting.dart';
 import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/data/candle_data.dart';
@@ -302,7 +303,76 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   }
 
   @override
-  void drawExtras(Canvas c) {}
+  void drawExtras(Canvas c) {
+
+    CandleData candleData = _porvider.getCandleData();
+
+    for (ICandleDataSet set in candleData.dataSets) {
+      if (set.isVisible()) _drawVolumeDataSet(c, set);
+    }
+  }
+
+  double _getMaximumVolume(ICandleDataSet dataSet) {
+    var maxVolume = 0.0;
+    for (int i = xBounds.min; i <= xBounds.range + xBounds.min; i++) {
+      maxVolume = max(maxVolume, dataSet.getEntryForIndex(i).volume);
+    }
+    return maxVolume;
+  }
+
+  Color _getColor(double open, double close, ICandleDataSet dataSet, int index) {
+    if (open > close) {
+      return dataSet.getDecreasingColor() == ColorUtils.COLOR_NONE
+        ? dataSet.getColor2(index)
+        : dataSet.getDecreasingColor();
+    }
+    if (open < close) {
+      return dataSet.getIncreasingColor() == ColorUtils.COLOR_NONE
+          ? dataSet.getColor2(index)
+          : dataSet.getIncreasingColor();
+    }
+
+    return dataSet.getNeutralColor() == ColorUtils.COLOR_NONE
+        ? dataSet.getColor2(index)
+        : dataSet.getNeutralColor();
+  }
+
+  void _drawVolumeDataSet(Canvas c, ICandleDataSet dataSet) {
+    Transformer trans = _porvider.getTransformer(dataSet.getAxisDependency());
+
+    double barSpace = dataSet.getBarSpace();
+    //TODO: change to getShowVolumeBar()
+    bool showCandleBar = dataSet.getShowCandleBar();
+
+    xBounds.set(_porvider, dataSet);
+    renderPaint.strokeWidth = dataSet.getShadowWidth();
+
+    var maximumVolume = _getMaximumVolume(dataSet);
+
+//    // draw the body
+    for (int j = xBounds.min; j <= xBounds.range + xBounds.min; j++) {
+      CandleEntry e = dataSet.getEntryForIndex(j);
+      if (e == null) continue;
+
+      final double xPos = e.x;
+      final double volume = e.volume;
+      final double factor = volume / maximumVolume;
+      final double h2 = viewPortHandler.getChartHeight() * .2;
+
+      if (showCandleBar) {
+        var xBar = trans.getPixelForValues(xPos - 0.5 + barSpace, 0).x;
+        var sizeBar = trans.getPixelForValues(xPos + 0.5 - barSpace, 0).x;
+        var widthBar = (sizeBar - xBar).abs();
+        var heightBar = h2 * factor;
+        var yBar = viewPortHandler.contentBottom() - heightBar;
+        
+        renderPaint
+          ..color = _getColor(e.open, e.close, dataSet, j).withOpacity(.4);
+
+        c.drawRect(Rect.fromLTWH(xBar, yBar, widthBar, heightBar), renderPaint);
+      }
+    }
+  }
 
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
