@@ -233,14 +233,14 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   void onMoveStart(OpsMoveStartDetails details) {
     widget.controller.stopDeceleration();
 
-    if (widget.controller.specialMoveEnabled) {
-      return;
-    }
-
     _curX = details.localPoint.dx;
     _curY = details.localPoint.dy;
 
     defineIfStartInside(_curX, _curY);
+
+    if (widget.controller.specialMoveEnabled) {
+      return;
+    }
 
     if (widget.controller.touchEventListener != null) {
       var point = _getTouchValue(
@@ -258,13 +258,17 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   }
 
   bool tryScaleUsingAxis(double dx, double dy) {
+    if (_startInside) {
+      return false;
+    }
+
     var rect = widget.controller.painter.viewPortHandler.contentRect;
     var offset = Offset(dx, dy);
 
     var touch = _AxisTouch(rect, offset, axisEnabled);
     var axis = touch.calculate();
 
-    if (axis != AxisTouchE.NO_AXIS) {
+    if (axis == AxisTouchE.BOTTOM || axis == AxisTouchE.TOP) {
       var ndx = dx - _curX;
       var scale = 1 + (ndx / 100);
 
