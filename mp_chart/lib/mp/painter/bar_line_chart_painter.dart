@@ -328,6 +328,8 @@ abstract class BarLineChartBasePainter<
         if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData) {
           _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
         }
+
+
         _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
       }
     }

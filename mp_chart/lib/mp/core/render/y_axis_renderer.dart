@@ -447,11 +447,17 @@ class YAxisRenderer extends AxisRenderer {
       }
     }
 
-    var paint = Paint()
-      ..color = ColorUtils.HOLO_GREEN_LIGHT;
+    var validPoint = Offset(viewPortHandler.getContentCenter().x, labelPosition.dy);
 
-    c.drawRect(Rect.fromLTWH(labelPosition.dx, labelPosition.dy, axisLabelPaint.width, axisLabelPaint.height), paint);
-    axisLabelPaint.paint(c, labelPosition);
+    if (viewPortHandler.getContentRect().contains(validPoint)) {
+      var paint = Paint()
+        ..color = ColorUtils.HOLO_GREEN_LIGHT;
+
+      c.drawRect(Rect.fromLTWH(labelPosition.dx, labelPosition.dy, axisLabelPaint.width, axisLabelPaint.height), paint);
+      axisLabelPaint.paint(c, labelPosition);
+    }
+
+
   }
 
 
