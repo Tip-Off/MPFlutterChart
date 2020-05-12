@@ -392,7 +392,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
       double highValue = e.shadowHigh * animator.getPhaseY();
       double y = (lowValue + highValue) / 2;
 
-      var yVal = high.freeY.isNaN ? high.y : high.freeY;
+      var yVal = high.freeY == null || high.freeY.isNaN ? high.y : high.freeY;
 
       pix = _porvider
           .getTransformer(set.getAxisDependency())

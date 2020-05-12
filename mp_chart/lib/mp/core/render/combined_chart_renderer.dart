@@ -12,6 +12,7 @@ import 'package:mp_chart/mp/core/render/scatter_chart_renderer.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/combined_chart_painter.dart';
 import 'package:mp_chart/mp/painter/painter.dart';
+import 'package:mp_chart/mp/core/poolable/point.dart';
 
 class CombinedChartRenderer extends DataRenderer {
   /// all rederers for the different kinds of data this combined-renderer can draw
@@ -91,10 +92,11 @@ class CombinedChartRenderer extends DataRenderer {
   List<Highlight> mHighlightBuffer = List<Highlight>();
 
   @override
-  void drawHighlighted(Canvas c, List<Highlight> indices) {
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     ChartPainter chart = _painter;
-    if (chart == null) return;
+    if (chart == null) return MPPointD(0, 0);
 
+    var pix = MPPointD(0, 0);
     for (DataRenderer renderer in _renderers) {
       ChartData data;
 
@@ -120,8 +122,9 @@ class CombinedChartRenderer extends DataRenderer {
           mHighlightBuffer.add(h);
       }
 
-      renderer.drawHighlighted(c, mHighlightBuffer);
+      pix = renderer.drawHighlighted(c, mHighlightBuffer);
     }
+    return pix;
   }
 
   /// Returns the sub-renderer object at the specified index.

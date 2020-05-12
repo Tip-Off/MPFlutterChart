@@ -198,7 +198,7 @@ class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
   void drawExtras(Canvas c) {}
 
   @override
-  void drawHighlighted(Canvas c, List<Highlight> indices) {
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     BubbleData bubbleData = _provider.getBubbleData();
 
     double phaseY = animator.getPhaseY();
@@ -259,5 +259,6 @@ class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
       c.drawCircle(
           Offset(pointBuffer[0], pointBuffer[1]), shapeHalf, highlightPaint);
     }
+    return MPPointD(0, 0);
   }
 }

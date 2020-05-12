@@ -13,6 +13,7 @@ import 'package:mp_chart/mp/core/touch_listener.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/combined_chart_painter.dart';
+import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
 class CombinedChartController
     extends BarLineScatterCandleBubbleController<CombinedChartPainter> {
@@ -22,8 +23,16 @@ class CombinedChartController
   bool fitBars;
   List<DrawOrder> drawOrder;
 
-  CombinedChartController(
-      {this.drawValueAboveBar = false,
+  double _initialXZoom = 0;
+  final int initialXPosition;
+  final int initialXRange;
+  
+  CombinedChartController({
+      this.initialXPosition = -1,
+      this.initialXRange = 0,
+      bool specialMoveEnabled = false,
+      bool highlightMagneticSetEnabled = true,
+      this.drawValueAboveBar = false,
       this.highlightFullBarEnabled = true,
       this.drawBarShadow = false,
       this.fitBars = true,
@@ -83,6 +92,8 @@ class CombinedChartController
       ChartTransListener chartTransListener})
       : super(
             marker: marker,
+            specialMoveEnabled: specialMoveEnabled,
+            highlightMagneticSetEnabled: highlightMagneticSetEnabled,
             description: description,
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
@@ -198,8 +209,26 @@ class CombinedChartController
         fitBars,
         drawOrder,
         chartTransListener);
-  }
 
+    initialParameters();
+  }
+  
+  void initialParameters() {
+    if (initialXRange > 0) {
+      _initialXZoom = _initialXZoom == 1 ? 1 : ((data.xMax - 1) - data.xMin).abs() / initialXRange;
+
+      var matrix =  painter.viewPortHandler.getMatrixTouch();
+      painter.viewPortHandler.zoom2(_initialXZoom, 0, matrix);
+      painter.viewPortHandler.refresh(matrix);
+
+      if (_initialXZoom != 1) {
+        moveViewToAnimated(initialXPosition < 0 ? data.xMax : initialXPosition, 0, AxisDependency.LEFT, 50);
+      }
+
+      _initialXZoom = 1;
+    }
+  }
+  
   @override
   CombinedChartState createRealState() {
     return CombinedChartState();

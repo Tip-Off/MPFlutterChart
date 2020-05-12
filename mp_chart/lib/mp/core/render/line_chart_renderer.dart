@@ -727,9 +727,10 @@ class LineChartRenderer extends LineRadarRenderer {
   }
 
   @override
-  void drawHighlighted(Canvas c, List<Highlight> indices) {
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     LineData lineData = _provider.getLineData();
 
+    var pix = MPPointD(0, 0);
     for (Highlight high in indices) {
       ILineDataSet set = lineData.getDataSetByIndex(high.dataSetIndex);
 
@@ -739,7 +740,7 @@ class LineChartRenderer extends LineRadarRenderer {
 
       if (!isInBoundsX(e, set)) continue;
 
-      MPPointD pix = _provider
+      pix = _provider
           .getTransformer(set.getAxisDependency())
           .getPixelForValues(e.x, e.y * animator.getPhaseY());
 
@@ -748,6 +749,7 @@ class LineChartRenderer extends LineRadarRenderer {
       // draw the lines
       drawHighlightLines(c, pix.x, pix.y, set);
     }
+    return pix;
   }
 
 //  /**

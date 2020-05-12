@@ -158,9 +158,10 @@ class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
   void drawExtras(Canvas c) {}
 
   @override
-  void drawHighlighted(Canvas c, List<Highlight> indices) {
+  MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     ScatterData scatterData = _provider.getScatterData();
 
+    var pix = MPPointD(0, 0);
     for (Highlight high in indices) {
       IScatterDataSet set = scatterData.getDataSetByIndex(high.dataSetIndex);
 
@@ -170,7 +171,7 @@ class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
       if (!isInBoundsX(e, set)) continue;
 
-      MPPointD pix = _provider
+      pix = _provider
           .getTransformer(set.getAxisDependency())
           .getPixelForValues(e.x, e.y * animator.getPhaseY());
 
@@ -179,5 +180,6 @@ class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
       // draw the lines
       drawHighlightLines(c, pix.x, pix.y, set);
     }
+    return pix;
   }
 }
