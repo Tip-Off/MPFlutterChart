@@ -123,6 +123,8 @@ class CombinedChartRenderer extends DataRenderer {
       }
 
       pix = renderer.drawHighlighted(c, mHighlightBuffer);
+
+      renderer.drawFloatingLegend(c, mHighlightBuffer);
     }
     return pix;
   }
@@ -148,4 +150,7 @@ class CombinedChartRenderer extends DataRenderer {
   void setSubRenderers(List<DataRenderer> renderers) {
     this._renderers = renderers;
   }
+
+  @override
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {}
 }

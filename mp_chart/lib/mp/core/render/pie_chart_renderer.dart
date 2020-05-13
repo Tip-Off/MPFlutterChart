@@ -1136,4 +1136,7 @@ class PieChartRenderer extends DataRenderer {
         style?.color == null ? ColorUtils.WHITE : style?.color,
         Utils.convertDpToPixel(size));
   }
+
+  @override
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {}
 }

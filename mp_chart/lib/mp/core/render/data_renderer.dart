@@ -117,4 +117,7 @@ abstract class DataRenderer extends Renderer {
   /// @param c
   /// @param indices the highlighted values
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices);
+
+  ///
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices);
 }

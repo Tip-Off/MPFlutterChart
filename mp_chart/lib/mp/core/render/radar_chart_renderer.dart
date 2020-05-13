@@ -387,4 +387,7 @@ class RadarChartRenderer extends LineRadarRenderer {
 
     c.restore();
   }
+
+  @override
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {}
 }

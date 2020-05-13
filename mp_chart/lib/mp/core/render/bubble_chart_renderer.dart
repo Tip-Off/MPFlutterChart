@@ -261,4 +261,7 @@ class BubbleChartRenderer extends BarLineScatterCandleBubbleRenderer {
     }
     return MPPointD(0, 0);
   }
+
+  @override
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {}
 }

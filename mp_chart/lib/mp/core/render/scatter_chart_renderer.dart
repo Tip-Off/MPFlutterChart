@@ -182,4 +182,7 @@ class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
     }
     return pix;
   }
+
+  @override
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {}
 }

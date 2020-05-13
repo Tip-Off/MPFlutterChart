@@ -754,6 +754,11 @@ class LineChartRenderer extends LineRadarRenderer {
     return pix;
   }
 
+  @override
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {
+
+  }
+
 //  /**
 //   * Sets the Bitmap.Config to be used by this renderer.
 //   * Default: Bitmap.Config.ARGB_8888

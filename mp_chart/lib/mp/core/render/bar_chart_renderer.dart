@@ -519,4 +519,7 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
   @override
   void drawExtras(Canvas c) {}
+
+  @override
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {}
 }

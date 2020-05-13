@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/data/candle_data.dart';
@@ -25,10 +26,31 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   List<double> _openBuffers = List(4);
   List<double> _closeBuffers = List(4);
 
+  TextPainter _labelText;
+
+  final _floatingLegendBg = Color.fromARGB(150, 50, 50, 50);
+
+  final _whiteStyle = TextStyle(
+    fontSize: 10,
+    color: Colors.white,
+  );
+
+  final _greenStyle = TextStyle(
+    fontSize: 10,
+    color: Colors.lightGreenAccent,
+  );
+
+  final _redStyle = TextStyle(
+    fontSize: 10,
+    color: Colors.redAccent,
+  );
+
   CandleStickChartRenderer(CandleDataProvider chart, Animator animator,
       ViewPortHandler viewPortHandler)
       : super(animator, viewPortHandler) {
     _porvider = chart;
+
+    _labelText = PainterUtils.create(null, null, ColorUtils.WHITE, null);
   }
 
   CandleDataProvider get porvider => _porvider;
@@ -405,4 +427,95 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     }
     return pix;
   }
+
+  @override
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {
+    if (indices.isNotEmpty) {
+      var candleData = _porvider.getCandleData();
+      for (ICandleDataSet set in candleData.dataSets) {
+        if (set.isVisible()) _drawFloatingLegend(c, set, indices.first);
+      }
+    }
+  }
+
+  void _drawFloatingLegend(Canvas c, ICandleDataSet dataSet, Highlight h) {
+    final e = dataSet.getEntryForXValue2(h.x, 0);
+    final ohlcPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
+
+    _drawOHLC(c, e, ohlcPosition);
+
+    final volPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + _labelText.height);
+    _drawVol(c, e, volPosition);
+  }
+
+  void _drawOHLC(Canvas c, CandleEntry e, Offset labelPosition) {
+    var style = _colorByEntry(e);
+
+    _labelText.text = TextSpan(
+        text: '',
+        style: _whiteStyle,
+        children: [
+          TextSpan(
+              text: 'O',
+              style: _whiteStyle
+          ),
+          TextSpan(
+              text: '${e.open}',
+              style: style
+          ),
+          TextSpan(
+              text: '\tH',
+              style: _whiteStyle
+          ),
+          TextSpan(
+              text: '${e.shadowHigh}',
+              style: style
+          ),
+
+          TextSpan(
+              text: '\tL',
+              style: _whiteStyle
+          ),
+          TextSpan(
+              text: '${e.shadowLow}',
+              style: style
+          ),
+
+          TextSpan(
+              text: '\tC',
+              style: _whiteStyle
+          ),
+          TextSpan(
+              text: '${e.close}',
+              style: style
+          ),
+        ]
+    );
+    _labelText.layout();
+    _drawFloatingLegendBg(c, labelPosition, _labelText.size);
+    _labelText.paint(c, labelPosition);
+  }
+
+  void _drawVol(Canvas c, CandleEntry e, Offset labelPosition) {
+    _labelText.text = TextSpan(
+        text: 'Vol ',
+        style: _whiteStyle,
+        children: [
+          TextSpan(
+              text: '${e.volume}',
+              style: _colorByEntry(e),
+          ),
+        ]
+    );
+    _labelText.layout();
+    _drawFloatingLegendBg(c, labelPosition, _labelText.size);
+    _labelText.paint(c, labelPosition);
+  }
+
+  void _drawFloatingLegendBg(Canvas c, Offset position, Size size) {
+    c.drawRect(Rect.fromLTWH(position.dx, position.dy, size.width, size.height), Paint()
+      ..color = _floatingLegendBg);
+  }
+
+  TextStyle _colorByEntry(CandleEntry e) => e.close > e.open ? _greenStyle : _redStyle;
 }
