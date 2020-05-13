@@ -96,7 +96,7 @@ class CombinedChartRenderer extends DataRenderer {
     ChartPainter chart = _painter;
     if (chart == null) return MPPointD(0, 0);
 
-    var pix = MPPointD(0, 0);
+    var pix = MPPointD(-1, -1);
     for (DataRenderer renderer in _renderers) {
       ChartData data;
 
@@ -118,7 +118,7 @@ class CombinedChartRenderer extends DataRenderer {
       mHighlightBuffer.clear();
 
       for (Highlight h in indices) {
-        if (h.dataIndex == dataIndex || h.dataIndex == -1)
+//        if (h.dataIndex == dataIndex || h.dataIndex == -1)
           mHighlightBuffer.add(h);
       }
 

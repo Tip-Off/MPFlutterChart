@@ -500,6 +500,8 @@ class XAxisRenderer extends AxisRenderer {
     var paint = Paint()
       ..color = ColorUtils.HOLO_GREEN_LIGHT;
 
+
+
     c.drawRect(Rect.fromLTWH(labelPosition.dx, labelPosition.dy, axisLabelPaint.width, axisLabelPaint.height), paint);
     axisLabelPaint.paint(c, labelPosition);
   }

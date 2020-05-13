@@ -740,9 +740,11 @@ class LineChartRenderer extends LineRadarRenderer {
 
       if (!isInBoundsX(e, set)) continue;
 
+      var yVal = high.freeY == null || high.freeY.isNaN ? high.y : high.freeY;
+
       pix = _provider
           .getTransformer(set.getAxisDependency())
-          .getPixelForValues(e.x, e.y * animator.getPhaseY());
+          .getPixelForValues(e.x, yVal);
 
       high.setDraw(pix.x, pix.y);
 
