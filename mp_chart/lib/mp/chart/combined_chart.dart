@@ -133,6 +133,10 @@ class CombinedChartState extends ChartState<CombinedChart> {
       lastHighlighted = HighlightUtils.performHighlight(
           widget.controller.painter, h, lastHighlighted);
       setStateIfNotDispose();
+
+      if (widget.controller.touchEventListener != null) {
+        widget.controller.touchEventListener.onPerformHighlight(lastHighlighted, HighlightStatus.END);
+      }
     } else {
       lastHighlighted = null;
     }
@@ -176,6 +180,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
     if (lastHighlighted != null) {
       lastHighlighted = null;
       setStateIfNotDispose();
+      if (widget.controller.touchEventListener != null) {
+        widget.controller.touchEventListener.onPerformHighlight(lastHighlighted, HighlightStatus.END);
+      }
       return true;
     }
 
@@ -203,6 +210,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
       lastHighlighted = HighlightUtils.performHighlight(
           widget.controller.painter, h, lastHighlighted);
       setStateIfNotDispose();
+      if (widget.controller.touchEventListener != null) {
+        widget.controller.touchEventListener.onPerformHighlight(lastHighlighted, HighlightStatus.START);
+      }
     } else {
       lastHighlighted = null;
     }
@@ -317,6 +327,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
         lastHighlighted = HighlightUtils.performHighlight(
             widget.controller.painter, highlighted, lastHighlighted);
         setStateIfNotDispose();
+        if (widget.controller.touchEventListener != null) {
+          widget.controller.touchEventListener.onPerformHighlight(lastHighlighted, HighlightStatus.MOVE);
+        }
       }
       return widget.controller.specialMoveEnabled;
     }

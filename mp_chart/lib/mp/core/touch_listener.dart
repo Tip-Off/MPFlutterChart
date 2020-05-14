@@ -1,3 +1,5 @@
+import 'package:mp_chart/mp/core/highlight/highlight.dart';
+
 mixin OnTouchEventListener {
   TouchValueType valueType();
   void onTapDown(double x, double y);
@@ -12,6 +14,7 @@ mixin OnTouchEventListener {
   void onDragStart(double x, double y);
   void onDragUpdate(double x, double y);
   void onDragEnd(double x, double y);
+  void onPerformHighlight(Highlight h, HighlightStatus status);
 }
 
 enum TouchValueType{

@@ -1,5 +1,9 @@
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
+enum HighlightStatus {
+  START, MOVE, END
+}
+
 class Highlight {
   /// the x-value of the highlighted value
   double _x = double.nan;

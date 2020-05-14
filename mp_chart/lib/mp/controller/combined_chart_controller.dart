@@ -210,7 +210,7 @@ class CombinedChartController
         drawOrder,
         chartTransListener);
 
-//    initialParameters();
+    initialParameters();
   }
   
   void initialParameters() {
@@ -220,10 +220,6 @@ class CombinedChartController
       var matrix =  viewPortHandler.getMatrixTouch();
       viewPortHandler.zoom2(_initialXZoom, 0, matrix);
       viewPortHandler.refresh(matrix);
-
-//      if (_initialXZoom != 1) {
-        moveViewToAnimated(initialXPosition < 0 ? data.xMax : initialXPosition, 0, AxisDependency.LEFT, 50);
-//      }
 
       _initialXZoom = 1;
     }
