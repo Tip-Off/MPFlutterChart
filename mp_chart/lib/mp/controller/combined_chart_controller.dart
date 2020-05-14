@@ -210,20 +210,20 @@ class CombinedChartController
         drawOrder,
         chartTransListener);
 
-    initialParameters();
+//    initialParameters();
   }
   
   void initialParameters() {
     if (initialXRange > 0) {
       _initialXZoom = _initialXZoom == 1 ? 1 : ((data.xMax - 1) - data.xMin).abs() / initialXRange;
 
-      var matrix =  painter.viewPortHandler.getMatrixTouch();
-      painter.viewPortHandler.zoom2(_initialXZoom, 0, matrix);
-      painter.viewPortHandler.refresh(matrix);
+      var matrix =  viewPortHandler.getMatrixTouch();
+      viewPortHandler.zoom2(_initialXZoom, 0, matrix);
+      viewPortHandler.refresh(matrix);
 
-      if (_initialXZoom != 1) {
+//      if (_initialXZoom != 1) {
         moveViewToAnimated(initialXPosition < 0 ? data.xMax : initialXPosition, 0, AxisDependency.LEFT, 50);
-      }
+//      }
 
       _initialXZoom = 1;
     }

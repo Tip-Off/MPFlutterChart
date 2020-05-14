@@ -195,8 +195,10 @@ class CombinedChartState extends ChartState<CombinedChart> {
       Highlight h = widget.controller.painter.getHighlightByTouchPoint(
           details.localPosition.dx, details.localPosition.dy);
 
-      h.highlightX = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).x;
-      h.highlightY = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).y;
+      if (h != null) {
+        h.highlightX = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).x;
+        h.highlightY = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).y;
+      }
 
       lastHighlighted = HighlightUtils.performHighlight(
           widget.controller.painter, h, lastHighlighted);

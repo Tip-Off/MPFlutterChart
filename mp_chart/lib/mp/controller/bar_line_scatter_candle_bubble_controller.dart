@@ -151,7 +151,14 @@ abstract class BarLineScatterCandleBubbleController<
             infoTextSize: infoTextSize,
             descTextColor: descTextColor,
             infoBgColor: infoBgColor,
-            infoTextColor: infoTextColor);
+            infoTextColor: infoTextColor) {
+    if (axisLeft == null) {
+      axisLeft = initAxisLeft();
+    }
+    if (axisRight == null) {
+      axisRight = initAxisRight();
+    }
+  }
 
   OnDrawListener initDrawListener() {
     return null;
@@ -192,12 +199,12 @@ abstract class BarLineScatterCandleBubbleController<
       ..color = backgroundColor == null ? ColorUtils.WHITE : backgroundColor;
 
     drawListener ??= initDrawListener();
-    if (axisLeft == null) {
-      axisLeft = initAxisLeft();
-    }
-    if (axisRight == null) {
-      axisRight = initAxisRight();
-    }
+//    if (axisLeft == null) {
+//      axisLeft = initAxisLeft();
+//    }
+//    if (axisRight == null) {
+//      axisRight = initAxisRight();
+//    }
     leftAxisTransformer ??= initLeftAxisTransformer();
     rightAxisTransformer ??= initRightAxisTransformer();
     zoomMatrixBuffer ??= initZoomMatrixBuffer();

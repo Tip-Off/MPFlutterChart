@@ -440,16 +440,10 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
   void _drawFloatingLegend(Canvas c, ICandleDataSet dataSet, Highlight h) {
     final e = dataSet.getEntryForXValue2(h.x, 0);
-//
-//    var index = dataSet.getEntryIndex2(e);
-//    print('index $index');
-
     final ohlcPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
-
     _drawOHLC(c, e, ohlcPosition);
 
     final diffPosition = Offset(viewPortHandler.contentLeft() + _labelText.width, viewPortHandler.contentTop());
-
     _drawDiff(c, dataSet, e, diffPosition);
 
     final volPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + _labelText.height);
@@ -505,15 +499,12 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   }
 
   void _drawDiff(Canvas c, ICandleDataSet dataSet, CandleEntry currentEntry, Offset labelPosition) {
-
     var currentIndex = dataSet.getEntryIndex2(currentEntry);
 
     if (currentIndex > 0) {
-
       var previousEntry = dataSet.getEntryForIndex(currentIndex - 1);
       var diff = currentEntry.close - previousEntry.close;
       var diffPorcentage = diff / previousEntry.close * 100;
-
       var signal = diff > 0 ? '+' : '';
 
       _labelText.text = TextSpan(
