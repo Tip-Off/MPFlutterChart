@@ -24,13 +24,13 @@ enum AxisTouchE {
 }
 
 class AxisEnabled {
-  final bool botton;
+  final bool bottom;
   final bool top;
   final bool left;
   final bool right;
 
   AxisEnabled({
-    this.botton = false,
+    this.bottom = false,
     this.top = false,
     this.left = false,
     this.right = false,
@@ -50,7 +50,7 @@ class _AxisTouch {
       return AxisTouchE.NO_AXIS;
     }
 
-    if (point.dy > validArea.bottom && axisEnabled.botton) {
+    if (point.dy > validArea.bottom && axisEnabled.bottom) {
       return AxisTouchE.BOTTOM;
     }
 
@@ -165,14 +165,14 @@ class CombinedChartState extends ChartState<CombinedChart> {
   AxisEnabled get axisEnabled {
     var xAxisPosition = widget.controller.xAxis.position;
     return AxisEnabled(
-        botton: xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.BOTTOM,
+        bottom: xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.BOTTOM,
         top: xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.TOP,
         left: widget.controller.axisLeft.enabled,
         right: widget.controller.axisRight.enabled
     );
   }
 
-  bool _specialDoubleTapUp(TapUpDetails details) {
+  bool _specialDragHighlight(Offset localPosition) {
     if (!widget.controller.specialMoveEnabled) {
       return false;
     }
@@ -189,7 +189,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
     if (widget.controller.painter.doubleTapToZoomEnabled &&
         widget.controller.painter.getData().getEntryCount() > 0) {
       MPPointF trans =
-      _getTrans(details.localPosition.dx, details.localPosition.dy);
+      _getTrans(localPosition.dx, localPosition.dy);
       widget.controller.painter.zoom(
           widget.controller.painter.scaleXEnabled ? 1.2 : 1,
           widget.controller.painter.scaleYEnabled ? 1.2 : 1,
@@ -200,11 +200,11 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
     if (widget.controller.painter.highLightPerTapEnabled) {
       Highlight h = widget.controller.painter.getHighlightByTouchPoint(
-          details.localPosition.dx, details.localPosition.dy);
+          localPosition.dx, localPosition.dy);
 
       if (h != null) {
-        h.highlightX = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).x;
-        h.highlightY = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).y;
+        h.highlightX = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).x;
+        h.highlightY = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).y;
       }
 
       lastHighlighted = HighlightUtils.performHighlight(
@@ -223,11 +223,6 @@ class CombinedChartState extends ChartState<CombinedChart> {
   @override
   void onDoubleTapUp(TapUpDetails details) {
     widget.controller.stopDeceleration();
-
-    var specialDoubleTapUp = _specialDoubleTapUp(details);
-    if (specialDoubleTapUp) {
-      return;
-    }
 
     if (widget.controller.touchEventListener != null) {
       var point = _getTouchValue(
@@ -304,10 +299,10 @@ class CombinedChartState extends ChartState<CombinedChart> {
         || (!widget.controller.specialMoveEnabled && widget.controller.painter.highlightPerDragEnabled);
   }
 
-  bool _specialMove(OpsMoveUpdateDetails details) {
+  bool _specialMove(Offset localPosition) {
     if (_canMove()) {
       final highlighted = widget.controller.painter.getHighlightByTouchPoint(
-          details.localPoint.dx, details.localPoint.dy);
+          localPosition.dx, localPosition.dy);
 
       if (widget.controller.highlightMagneticSetEnabled) {
         highlighted.freeX = double.nan;
@@ -318,10 +313,10 @@ class CombinedChartState extends ChartState<CombinedChart> {
       highlighted.highlightY = lastHighlighted.highlightY;
 
       if (highlighted?.x != lastHighlighted.x) {
-        highlighted.highlightX = widget.controller.getValuesByTouchPoint(details.localPoint.dx, details.localPoint.dy, AxisDependency.LEFT).x;
+        highlighted.highlightX = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).x;
       }
 
-      highlighted.highlightY = widget.controller.getValuesByTouchPoint(details.localPoint.dx, details.localPoint.dy, AxisDependency.LEFT).y;
+      highlighted.highlightY = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).y;
 
       if (highlighted?.equalTo(lastHighlighted) == false) {
         lastHighlighted = HighlightUtils.performHighlight(
@@ -340,11 +335,6 @@ class CombinedChartState extends ChartState<CombinedChart> {
   void onMoveUpdate(OpsMoveUpdateDetails details) {
     var scaled = tryScaleUsingAxis(details.localPoint.dx, details.localPoint.dy);
     if (scaled) {
-      return;
-    }
-
-    var specialMoved = _specialMove(details);
-    if (specialMoved) {
       return;
     }
 
@@ -562,38 +552,47 @@ class CombinedChartState extends ChartState<CombinedChart> {
   }
 
   void onDragStart(LongPressStartDetails details) {
-    if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(
-          widget.controller.touchEventListener.valueType(),
-          details.globalPosition.dx,
-          details.globalPosition.dy,
-          details.localPosition.dx,
-          details.localPosition.dy);
-      widget.controller.touchEventListener.onDragStart(point.x, point.y);
+    var specialDoubleTapUp = _specialDragHighlight(details.localPosition);
+    if (specialDoubleTapUp) {
+      if (widget.controller.touchEventListener != null) {
+        var point = _getTouchValue(
+            widget.controller.touchEventListener.valueType(),
+            details.globalPosition.dx,
+            details.globalPosition.dy,
+            details.localPosition.dx,
+            details.localPosition.dy);
+        widget.controller.touchEventListener.onDragStart(point.x, point.y);
+      }
     }
   }
 
   void onDragUpdate(LongPressMoveUpdateDetails details) {
-    if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(
-          widget.controller.touchEventListener.valueType(),
-          details.globalPosition.dx,
-          details.globalPosition.dy,
-          details.localPosition.dx,
-          details.localPosition.dy);
-      widget.controller.touchEventListener.onDragUpdate(point.x, point.y);
+    var specialMoved = _specialMove(details.localPosition);
+    if (specialMoved) {
+      if (widget.controller.touchEventListener != null) {
+        var point = _getTouchValue(
+            widget.controller.touchEventListener.valueType(),
+            details.globalPosition.dx,
+            details.globalPosition.dy,
+            details.localPosition.dx,
+            details.localPosition.dy);
+        widget.controller.touchEventListener.onDragUpdate(point.x, point.y);
+      }
     }
   }
 
   void onDragEnd(LongPressEndDetails details) {
-    if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(
-          widget.controller.touchEventListener.valueType(),
-          details.globalPosition.dx,
-          details.globalPosition.dy,
-          details.localPosition.dx,
-          details.localPosition.dy);
-      widget.controller.touchEventListener.onDragEnd(point.x, point.y);
+    var specialDoubleTapUp = _specialDragHighlight(details.localPosition);
+    if (specialDoubleTapUp) {
+      if (widget.controller.touchEventListener != null) {
+        var point = _getTouchValue(
+            widget.controller.touchEventListener.valueType(),
+            details.globalPosition.dx,
+            details.globalPosition.dy,
+            details.localPosition.dx,
+            details.localPosition.dy);
+        widget.controller.touchEventListener.onDragEnd(point.x, point.y);
+      }
     }
   }
 
