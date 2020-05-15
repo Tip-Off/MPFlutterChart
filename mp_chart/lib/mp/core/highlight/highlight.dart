@@ -60,6 +60,7 @@ class Highlight {
     double yPx = 0,
     int dataSetIndex = 0,
     int stackIndex = -1,
+    int dataIndex = -1,
     // ignore: avoid_init_to_null
     AxisDependency axis = null,
   }) {
@@ -67,10 +68,39 @@ class Highlight {
     this._y = y;
     this._xPx = xPx;
     this._yPx = yPx;
+    this._dataIndex = dataIndex;
     this._dataSetIndex = dataSetIndex;
     this._axis = axis;
     this._stackIndex = stackIndex;
   }
+  
+  Highlight copyWith({
+    double freeX, 
+    double freeY,
+    double highlightX,
+    double highlightY,
+    double x, 
+    double y, 
+    double xPx, 
+    double yPx,
+    int dataSetIndex,
+    int stackIndex,
+    int dataIndex,
+    AxisDependency axis,
+  }) => Highlight(
+    freeX: freeX ?? this.freeX,
+    freeY: freeY ?? this.freeY,
+    highlightX: highlightX ?? this.highlightX,
+    highlightY: highlightY ?? this.highlightY,
+    x: x ?? this.x,
+    y: y ?? this.y,
+    xPx: xPx ?? this.xPx,
+    yPx: yPx ?? this.yPx,
+    dataSetIndex: dataSetIndex ?? this.dataSetIndex,
+    stackIndex: stackIndex ?? this.stackIndex,
+    dataIndex: dataIndex ?? this.dataIndex,
+    axis: axis ?? this.axis,
+  );
 
   double get x => _x;
 

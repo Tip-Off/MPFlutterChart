@@ -39,6 +39,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
 
   BarChartPainter(
       BarData data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -96,6 +97,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
         _fitBars = fitBars,
         super(
             data,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,

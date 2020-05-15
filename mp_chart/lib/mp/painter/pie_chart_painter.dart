@@ -141,6 +141,7 @@ class PieChartPainter extends PieRadarChartPainter<PieData> {
         _holeColor = holeColor,
         super(
             data,
+            null,
             animator,
             viewPortHandler,
             maxHighlightDistance,

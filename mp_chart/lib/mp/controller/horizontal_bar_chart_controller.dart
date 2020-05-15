@@ -143,6 +143,7 @@ class HorizontalBarChartController extends BarChartController {
   void initialPainter() {
     painter = HorizontalBarChartPainter(
         data,
+        painter != null ? painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,

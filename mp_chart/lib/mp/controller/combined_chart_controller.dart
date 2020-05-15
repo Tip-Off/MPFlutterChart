@@ -157,6 +157,7 @@ class CombinedChartController
   void initialPainter() {
     painter = CombinedChartPainter(
         data,
+        painter != null ? painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,
@@ -212,7 +213,7 @@ class CombinedChartController
 
     initialParameters();
   }
-  
+
   void initialParameters() {
     if (initialXRange > 0) {
       _initialXZoom = _initialXZoom == 1 ? 1 : ((data.xMax - 1) - data.xMin).abs() / initialXRange;

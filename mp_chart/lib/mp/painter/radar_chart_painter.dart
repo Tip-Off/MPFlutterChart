@@ -107,6 +107,7 @@ class RadarChartPainter extends PieRadarChartPainter<RadarData> {
         _yAxis = yAxis,
         super(
           data,
+          null,
           animator,
           viewPortHandler,
           maxHighlightDistance,

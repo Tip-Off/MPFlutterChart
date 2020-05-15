@@ -85,6 +85,8 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>>
   /// chart
   List<Highlight> _indicesToHighlight;
 
+  Highlight _highlightForced;
+
   Size _size;
 
   /// flag that indicates if offsets calculation has already been done or not
@@ -121,9 +123,12 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>>
 
   List<Highlight> get indicesToHighlight => _indicesToHighlight;
 
+  Highlight get highlightForced => _highlightForced;
+
   bool get highLightPerTapEnabled => _highLightPerTapEnabled;
 
   ChartPainter(T data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -163,6 +168,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>>
         _legendRenderer = legendRenderer,
         _rendererSettingFunction = rendererSettingFunction,
         _selectionListener = selectedListener,
+        _highlightForced = highlightForced,
         super() {
     initDefaultNormal();
     if (data == null || data.dataSets == null || data.dataSets.length == 0) {
@@ -380,6 +386,32 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>>
         _selectionListener?.onValueSelected(e, high);
       }
     }
+  }
+
+  void highlightValueForce(Highlight high, bool callListener) {
+    Entry e;
+
+    if (high == null) {
+      _highlightForced = null;
+    } else {
+      e = _data.getEntryForHighlight(high);
+      if (e == null) {
+        _highlightForced = null;
+        high = null;
+      } else {
+        // set the indices to highlight
+        _highlightForced = high;
+      }
+    }
+
+//    if (callListener && _selectionListener != null) {
+//      if (!valuesToHighlight())
+//        _selectionListener?.onNothingSelected();
+//      else {
+//        // notify the listener
+//        _selectionListener?.onValueSelected(e, high);
+//      }
+//    }
   }
 
   /// Returns the Highlight object (contains x-index and DataSet index) of the

@@ -144,6 +144,7 @@ abstract class BarLineChartBasePainter<
 
   BarLineChartBasePainter(
       T data,
+      Highlight highlighForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -221,6 +222,7 @@ abstract class BarLineChartBasePainter<
         _chartTransListener = chartTransListener,
         super(
             data,
+            highlighForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,
@@ -298,8 +300,9 @@ abstract class BarLineChartBasePainter<
     var highlightPoint = MPPointD(0, 0);
     if (valuesToHighlight()) {
       highlightPoint = renderer.drawHighlighted(canvas, indicesToHighlight);
+    } else if (highlightForced != null) {
+      highlightPoint = renderer.drawHighlighted(canvas, [highlightForced]);
     }
-
     // Removes clipping rectangle
 
 

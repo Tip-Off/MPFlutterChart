@@ -16,6 +16,20 @@ abstract class HighlightUtils {
     return lastHighlight;
   }
 
+  static Highlight forcePerformHighlight(ChartPainter painter, Highlight curHighlight, Highlight lastHighlight) {
+//    if (curHighlight == null || curHighlight.equalTo(lastHighlight)) {
+//      painter.highlightValue6(null, true);
+//      lastHighlight = null;
+//    } else {
+//      painter.highlightValueForce(curHighlight, true);
+//      lastHighlight = curHighlight;
+//    }
+    painter.highlightValueForce(curHighlight, true);
+    return lastHighlight;
+  }
+
+
+
   static Highlight performHighlightDrag(
       ChartPainter painter, Highlight lastHighlight, Offset offset) {
     Highlight h = painter.getHighlightByTouchPoint(offset.dx, offset.dy);

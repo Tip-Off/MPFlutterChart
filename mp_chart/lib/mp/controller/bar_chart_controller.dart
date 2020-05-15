@@ -140,6 +140,7 @@ class BarChartController
   void initialPainter() {
     painter = BarChartPainter(
         data,
+        painter != null ?painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,

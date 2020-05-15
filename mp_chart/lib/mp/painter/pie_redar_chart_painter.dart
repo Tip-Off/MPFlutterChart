@@ -21,6 +21,7 @@ import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/painter.dart';
 
 import 'radar_chart_painter.dart';
+import 'package:mp_chart/mp/core/highlight/highlight.dart';
 
 abstract class PieRadarChartPainter<T extends ChartData<IDataSet<Entry>>>
     extends ChartPainter<T> {
@@ -40,6 +41,7 @@ abstract class PieRadarChartPainter<T extends ChartData<IDataSet<Entry>>>
 
   PieRadarChartPainter(
       T data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -71,6 +73,7 @@ abstract class PieRadarChartPainter<T extends ChartData<IDataSet<Entry>>>
         _backgroundColor = backgroundColor,
         super(
             data,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,

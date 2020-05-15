@@ -33,6 +33,7 @@ import 'package:mp_chart/mp/painter/bar_chart_painter.dart';
 class HorizontalBarChartPainter extends BarChartPainter {
   HorizontalBarChartPainter(
       BarData data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -86,6 +87,7 @@ class HorizontalBarChartPainter extends BarChartPainter {
       ChartTransListener chartTransListener)
       : super(
             data,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,
