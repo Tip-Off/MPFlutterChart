@@ -237,6 +237,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
 
   @override
   void onMoveStart(OpsMoveStartDetails details) {
+
+//    print('onMoveStart ${details.globalPoint}');
+
     widget.controller.stopDeceleration();
 
     _curX = details.localPoint.dx;
@@ -262,7 +265,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
   void defineIfStartInside(double x, double y) {
     if (y.isFinite) {
       _startInside = tapInValidArea(x, _curY);
-      print('define if inside $_startInside, ($x, $_curY)');
+//      print('define if inside $_startInside, ($x, $_curY)');
     }
   }
 

@@ -12,6 +12,7 @@ import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/poolable/size.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:flutter/material.dart';
 
 class XAxisRenderer extends AxisRenderer {
   XAxis _xAxis;
@@ -488,7 +489,9 @@ class XAxisRenderer extends AxisRenderer {
   void _drawXHighlightLabels(Canvas c, double fixedPosition, AxisHighlightRenderOpt opt) {
     axisLabelPaint.text = TextSpan(
       text: _xAxis.getDirectFormattedLabel(opt.axisPoint.x.roundToDouble()),
-      style: axisLabelPaint.text.style,
+      style: axisLabelPaint.text.style.copyWith(
+          color: Colors.white
+      ),
     );
     axisLabelPaint.layout();
 
@@ -498,11 +501,9 @@ class XAxisRenderer extends AxisRenderer {
     }
 
     var paint = Paint()
-      ..color = ColorUtils.HOLO_GREEN_LIGHT;
-
-
-
-    c.drawRect(Rect.fromLTWH(labelPosition.dx, labelPosition.dy, axisLabelPaint.width, axisLabelPaint.height), paint);
+      ..color = Colors.deepOrange;
+    
+    c.drawRect(Rect.fromLTWH(labelPosition.dx - 2, labelPosition.dy - 1, axisLabelPaint.width + 3, axisLabelPaint.height + 2), paint);
     axisLabelPaint.paint(c, labelPosition);
   }
 }

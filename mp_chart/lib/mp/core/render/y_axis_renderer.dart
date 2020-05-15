@@ -14,6 +14,7 @@ import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
+import 'package:flutter/material.dart';
 
 class YAxisRenderer extends AxisRenderer {
   YAxis _yAxis;
@@ -402,7 +403,7 @@ class YAxisRenderer extends AxisRenderer {
     double xPos = 0;
     if (dependency == AxisDependency.LEFT) {
       if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
-        xPos = viewPortHandler.offsetLeft();
+        xPos = viewPortHandler.offsetLeft() - axisLabelPaint.width;
       } else {
         xPos = viewPortHandler.offsetLeft();
       }
@@ -410,7 +411,7 @@ class YAxisRenderer extends AxisRenderer {
       if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
         xPos = viewPortHandler.contentRight();
       } else {
-        xPos = viewPortHandler.contentRight();
+        xPos = viewPortHandler.contentRight() - axisLabelPaint.width;
       }
     }
 
@@ -427,7 +428,9 @@ class YAxisRenderer extends AxisRenderer {
 
     axisLabelPaint.text = TextSpan(
       text: _yAxis.getDirectFormattedLabel(opt.axisPoint.y),
-      style: axisLabelPaint.text.style,
+      style: axisLabelPaint.text.style.copyWith(
+        color: Colors.white
+      ),
     );
 
     axisLabelPaint.layout();
@@ -451,9 +454,9 @@ class YAxisRenderer extends AxisRenderer {
 
     if (viewPortHandler.getContentRect().contains(validPoint)) {
       var paint = Paint()
-        ..color = ColorUtils.HOLO_GREEN_LIGHT;
+        ..color = Colors.deepOrange;
 
-      c.drawRect(Rect.fromLTWH(labelPosition.dx, labelPosition.dy, axisLabelPaint.width, axisLabelPaint.height), paint);
+      c.drawRect(Rect.fromLTWH(labelPosition.dx - 1, labelPosition.dy - 1, axisLabelPaint.width + 2, axisLabelPaint.height + 2), paint);
       axisLabelPaint.paint(c, labelPosition);
     }
 
