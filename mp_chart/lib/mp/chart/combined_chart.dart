@@ -240,11 +240,11 @@ class CombinedChartState extends ChartState<CombinedChart> {
     widget.controller.stopDeceleration();
 
     _curX = details.localPoint.dx;
-    _curY = details.localPoint.dy;
+    _curY = details.localPoint.dy.isFinite? details.localPoint.dy : 0;
 
-    defineIfStartInside(_curX, _curY);
+    defineIfStartInside(_curX, details.localPoint.dy);
 
-    if (widget.controller.specialMoveEnabled) {
+    if (!details.localPoint.dy.isFinite) {
       return;
     }
 
@@ -260,7 +260,10 @@ class CombinedChartState extends ChartState<CombinedChart> {
   }
 
   void defineIfStartInside(double x, double y) {
-    _startInside = tapInValidArea(x, y);
+    if (y.isFinite) {
+      _startInside = tapInValidArea(x, _curY);
+      print('define if inside $_startInside, ($x, $_curY)');
+    }
   }
 
   bool tryScaleUsingAxis(double dx, double dy) {
@@ -410,7 +413,13 @@ class CombinedChartState extends ChartState<CombinedChart> {
 
   @override
   void onMoveEnd(OpsMoveEndDetails details) {
-    if (_canMove()) {
+    if (!_startInside) {
+      if (!details.localPoint.dy.isFinite) {
+        widget.controller
+          ..stopDeceleration()
+          ..setDecelerationVelocity(details.velocity.pixelsPerSecond)
+          ..computeScroll();
+      }
       return;
     }
 
@@ -419,9 +428,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
       ..setDecelerationVelocity(details.velocity.pixelsPerSecond)
       ..computeScroll();
 
-    if (!_startInside || widget.controller.specialMoveEnabled) {
-      return;
-    }
+//    if (!_startInside || widget.controller.specialMoveEnabled) {
+//      return;
+//    }
 
     if (widget.controller.touchEventListener != null) {
       var point = _getTouchValue(
@@ -430,7 +439,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
           details.globalPoint.dy,
           details.localPoint.dx,
           details.localPoint.dy);
-      widget.controller.touchEventListener.onMoveEnd(point.x, point.y);
+      widget.controller.touchEventListener.onMoveEnd(point.x, point.y, pixelPerSecond: details.velocity);
     }
   }
 
