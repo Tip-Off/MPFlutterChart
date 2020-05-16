@@ -433,7 +433,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
           details.globalPoint.dy,
           details.localPoint.dx,
           details.localPoint.dy);
-      widget.controller.touchEventListener.onMoveEnd(point.x, point.y, pixelPerSecond: details.velocity);
+      widget.controller.touchEventListener.onMoveEnd(point.x, point.y);
     }
   }
 

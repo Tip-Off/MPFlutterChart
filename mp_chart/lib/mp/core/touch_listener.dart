@@ -8,7 +8,7 @@ mixin OnTouchEventListener {
   void onDoubleTapUp(double x, double y);
   void onMoveStart(double x, double y);
   void onMoveUpdate(double x, double y);
-  void onMoveEnd(double x, double y, {Velocity pixelPerSecond});
+  void onMoveEnd(double x, double y);
   void onScaleStart(double x, double y);
   void onScaleUpdate(double x, double y);
   void onScaleEnd(double x, double y);
