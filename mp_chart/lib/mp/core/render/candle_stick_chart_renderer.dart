@@ -18,7 +18,7 @@ import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
 class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
-  CandleDataProvider _porvider;
+  CandleDataProvider _provider;
 
   List<double> _shadowBuffers = List(8);
   List<double> _bodyBuffers = List(4);
@@ -48,19 +48,19 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   CandleStickChartRenderer(CandleDataProvider chart, Animator animator,
       ViewPortHandler viewPortHandler)
       : super(animator, viewPortHandler) {
-    _porvider = chart;
+    _provider = chart;
 
     _labelText = PainterUtils.create(null, null, ColorUtils.WHITE, null);
   }
 
-  CandleDataProvider get porvider => _porvider;
+  CandleDataProvider get porvider => _provider;
 
   @override
   void initBuffers() {}
 
   @override
   void drawData(Canvas c) {
-    CandleData candleData = _porvider.getCandleData();
+    CandleData candleData = _provider.getCandleData();
 
     for (ICandleDataSet set in candleData.dataSets) {
       if (set.isVisible()) drawDataSet(c, set);
@@ -68,13 +68,13 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   }
 
   void drawDataSet(Canvas c, ICandleDataSet dataSet) {
-    Transformer trans = _porvider.getTransformer(dataSet.getAxisDependency());
+    Transformer trans = _provider.getTransformer(dataSet.getAxisDependency());
 
     double phaseY = animator.getPhaseY();
     double barSpace = dataSet.getBarSpace();
     bool showCandleBar = dataSet.getShowCandleBar();
 
-    xBounds.set(_porvider, dataSet);
+    xBounds.set(_provider, dataSet);
 
     renderPaint.strokeWidth = dataSet.getShadowWidth();
 
@@ -248,8 +248,8 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   @override
   void drawValues(Canvas c) {
     // if values are drawn
-    if (isDrawingValuesAllowed(_porvider)) {
-      List<ICandleDataSet> dataSets = _porvider.getCandleData().dataSets;
+    if (isDrawingValuesAllowed(_provider)) {
+      List<ICandleDataSet> dataSets = _provider.getCandleData().dataSets;
 
       for (int i = 0; i < dataSets.length; i++) {
         ICandleDataSet dataSet = dataSets[i];
@@ -260,9 +260,9 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
         applyValueTextStyle(dataSet);
 
         Transformer trans =
-            _porvider.getTransformer(dataSet.getAxisDependency());
+            _provider.getTransformer(dataSet.getAxisDependency());
 
-        xBounds.set(_porvider, dataSet);
+        xBounds.set(_provider, dataSet);
 
         List<double> positions = trans.generateTransformedValuesCandle(
             dataSet,
@@ -327,7 +327,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   @override
   void drawExtras(Canvas c) {
 
-    CandleData candleData = _porvider.getCandleData();
+    CandleData candleData = _provider.getCandleData();
 
     for (ICandleDataSet set in candleData.dataSets) {
       if (set.isVisible()) _drawVolumeDataSet(c, set);
@@ -360,13 +360,13 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   }
 
   void _drawVolumeDataSet(Canvas c, ICandleDataSet dataSet) {
-    Transformer trans = _porvider.getTransformer(dataSet.getAxisDependency());
+    Transformer trans = _provider.getTransformer(dataSet.getAxisDependency());
 
     double barSpace = dataSet.getBarSpace();
     //TODO: change to getShowVolumeBar()
     bool showCandleBar = dataSet.getShowCandleBar();
 
-    xBounds.set(_porvider, dataSet);
+    xBounds.set(_provider, dataSet);
     renderPaint.strokeWidth = dataSet.getShadowWidth();
 
     var maximumVolume = _getMaximumVolume(dataSet);
@@ -398,7 +398,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
-    CandleData candleData = _porvider.getCandleData();
+    CandleData candleData = _provider.getCandleData();
 
     var pix = MPPointD(0, 0);
     for (Highlight high in indices) {
@@ -416,7 +416,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
       var yVal = high.freeY == null || high.freeY.isNaN ? high.y : high.freeY;
 
-      pix = _porvider
+      pix = _provider
           .getTransformer(set.getAxisDependency())
           .getPixelForValues(e.x, yVal);
 
@@ -431,7 +431,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   @override
   MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {
     if (indices.isNotEmpty) {
-      var candleData = _porvider.getCandleData();
+      var candleData = _provider.getCandleData();
       for (ICandleDataSet set in candleData.dataSets) {
         if (set.isVisible()) _drawFloatingLegend(c, set, indices.first);
       }
