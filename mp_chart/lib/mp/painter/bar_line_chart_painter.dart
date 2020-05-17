@@ -297,13 +297,13 @@ abstract class BarLineChartBasePainter<
 //    if (!_axisRight.drawGridLinesBehindData)
 //      _axisRendererRight.renderGridLines(canvas);
 
-//    // if highlighting is enabled
-//    var highlightPoint = MPPointD(0, 0);
-//    if (valuesToHighlight()) {
-//      highlightPoint = renderer.drawHighlighted(canvas, indicesToHighlight);
-//    } else if (highlightForced != null) {
-//      highlightPoint = renderer.drawHighlighted(canvas, [highlightForced]);
-//    }
+    // if highlighting is enabled
+    var highlightPoint = MPPointD(0, 0);
+    if (valuesToHighlight()) {
+      highlightPoint = renderer.drawHighlighted(canvas, indicesToHighlight);
+    } else if (highlightForced != null) {
+      highlightPoint = renderer.drawHighlighted(canvas, [highlightForced]);
+    }
 
     // Removes clipping rectangle
 
@@ -324,22 +324,22 @@ abstract class BarLineChartBasePainter<
     _axisRendererLeft.renderAxisLabels(canvas);
     _axisRendererRight.renderAxisLabels(canvas);
 
-//    if (valuesToHighlight() && indicesToHighlight.length == 1) {
-//      var axisPointX = indicesToHighlight.first.highlightX;
-//      var axisPointY = indicesToHighlight.first.highlightY;
-//
-////      print('x, y $axisPointX, $axisPointY');
-//      if (axisPointY != null && axisPointX != null) {
-//        if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
-//          _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
-//        }
-//        if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData) {
-//          _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
-//        }
-//
-//        _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
-//      }
-//    }
+    if (valuesToHighlight() && indicesToHighlight.length == 1) {
+      var axisPointX = indicesToHighlight.first.highlightX;
+      var axisPointY = indicesToHighlight.first.highlightY;
+
+//      print('x, y $axisPointX, $axisPointY');
+      if (axisPointY != null && axisPointX != null) {
+        if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
+          _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
+        }
+        if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData) {
+          _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
+        }
+
+        _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
+      }
+    }
 
 //    if (_clipValuesToContent) {
 //      canvas.save();
