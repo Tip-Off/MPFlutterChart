@@ -136,6 +136,7 @@ class BubbleChartController
   void initialPainter() {
     painter = BubbleChartPainter(
         data,
+        null,
         animator,
         viewPortHandler,
         maxHighlightDistance,

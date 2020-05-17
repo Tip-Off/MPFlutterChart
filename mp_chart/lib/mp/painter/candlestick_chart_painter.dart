@@ -7,6 +7,7 @@ import 'package:mp_chart/mp/core/data/candle_data.dart';
 import 'package:mp_chart/mp/core/data_provider/candle_data_provider.dart';
 import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/functions.dart';
+import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/candle_stick_chart_renderer.dart';
@@ -22,6 +23,7 @@ class CandlestickChartPainter extends BarLineChartBasePainter<CandleData>
     implements CandleDataProvider {
   CandlestickChartPainter(
       CandleData data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -71,6 +73,7 @@ class CandlestickChartPainter extends BarLineChartBasePainter<CandleData>
       ChartTransListener chartTransListener)
       : super(
             data,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,

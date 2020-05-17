@@ -136,6 +136,7 @@ class ScatterChartController
   void initialPainter() {
     painter = ScatterChartPainter(
         data,
+        null,
         animator,
         viewPortHandler,
         maxHighlightDistance,

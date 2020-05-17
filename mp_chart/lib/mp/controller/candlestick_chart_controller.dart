@@ -149,6 +149,7 @@ class CandlestickChartController
   void initialPainter() {
     painter = CandlestickChartPainter(
         data,
+        null,
         animator,
         viewPortHandler,
         maxHighlightDistance,

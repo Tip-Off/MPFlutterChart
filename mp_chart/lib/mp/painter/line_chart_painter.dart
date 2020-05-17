@@ -8,6 +8,7 @@ import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/data_provider/line_data_provider.dart';
 import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/functions.dart';
+import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/legend_renderer.dart';
@@ -23,6 +24,7 @@ class LineChartPainter extends BarLineChartBasePainter<LineData>
     implements LineDataProvider {
   LineChartPainter(
       LineData data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -72,6 +74,7 @@ class LineChartPainter extends BarLineChartBasePainter<LineData>
       ChartTransListener chartTransListener)
       : super(
             data,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,

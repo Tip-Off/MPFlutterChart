@@ -7,6 +7,7 @@ import 'package:mp_chart/mp/core/data/bubble_data.dart';
 import 'package:mp_chart/mp/core/data_provider/bubble_data_provider.dart';
 import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/functions.dart';
+import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/bubble_chart_renderer.dart';
@@ -22,6 +23,7 @@ class BubbleChartPainter extends BarLineChartBasePainter<BubbleData>
     implements BubbleDataProvider {
   BubbleChartPainter(
       BubbleData data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -71,6 +73,7 @@ class BubbleChartPainter extends BarLineChartBasePainter<BubbleData>
       ChartTransListener chartTransListener)
       : super(
             data,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,

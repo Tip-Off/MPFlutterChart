@@ -144,7 +144,7 @@ abstract class BarLineChartBasePainter<
 
   BarLineChartBasePainter(
       T data,
-      Highlight highlighForced,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -222,7 +222,7 @@ abstract class BarLineChartBasePainter<
         _chartTransListener = chartTransListener,
         super(
             data,
-            highlighForced,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,

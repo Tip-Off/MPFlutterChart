@@ -140,6 +140,7 @@ class LineChartController
   void initialPainter() {
     painter = LineChartPainter(
         data,
+        null,
         animator,
         viewPortHandler,
         maxHighlightDistance,
