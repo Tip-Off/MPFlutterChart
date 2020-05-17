@@ -252,19 +252,20 @@ abstract class BarLineChartBasePainter<
   @override
   void onPaint(Canvas canvas, Size size) {
     if (_backgroundPaint != null) {
+//      canvas.drawColor(Color.fromARGB(255, 14, 18, 30), BlendMode.clear);
       canvas.drawRect(
           Rect.fromLTRB(0, 0, size.width, size.height), _backgroundPaint);
     }
 
     // execute all drawing commands
-    drawGridBackground(canvas);
+    //drawGridBackground(canvas);
 
     compute();
 
-    _xAxisRenderer.renderAxisLine(canvas);
-    _axisRendererLeft.renderAxisLine(canvas);
-    _axisRendererRight.renderAxisLine(canvas);
-
+//    _xAxisRenderer.renderAxisLine(canvas);
+//    _axisRendererLeft.renderAxisLine(canvas);
+//    _axisRendererRight.renderAxisLine(canvas);
+//
     if (xAxis.drawGridLinesBehindData) _xAxisRenderer.renderGridLines(canvas);
 
     if (_axisLeft.drawGridLinesBehindData)
@@ -272,15 +273,15 @@ abstract class BarLineChartBasePainter<
 
     if (_axisRight.drawGridLinesBehindData)
       _axisRendererRight.renderGridLines(canvas);
-
-    if (xAxis.enabled && xAxis.drawLimitLineBehindData)
-      _xAxisRenderer.renderLimitLines(canvas);
-
-    if (_axisLeft.enabled && _axisLeft.drawLimitLineBehindData)
-      _axisRendererLeft.renderLimitLines(canvas);
-
-    if (_axisRight.enabled && _axisRight.drawLimitLineBehindData)
-      _axisRendererRight.renderLimitLines(canvas);
+//
+//    if (xAxis.enabled && xAxis.drawLimitLineBehindData)
+//      _xAxisRenderer.renderLimitLines(canvas);
+//
+//    if (_axisLeft.enabled && _axisLeft.drawLimitLineBehindData)
+//      _axisRendererLeft.renderLimitLines(canvas);
+//
+//    if (_axisRight.enabled && _axisRight.drawLimitLineBehindData)
+//      _axisRendererRight.renderLimitLines(canvas);
 
     // make sure the data cannot be drawn outside the content-rect
     canvas.save();
@@ -288,67 +289,68 @@ abstract class BarLineChartBasePainter<
 
     renderer.drawData(canvas);
 
-    if (!xAxis.drawGridLinesBehindData) _xAxisRenderer.renderGridLines(canvas);
+//    if (!xAxis.drawGridLinesBehindData) _xAxisRenderer.renderGridLines(canvas);
+//
+//    if (!_axisLeft.drawGridLinesBehindData)
+//      _axisRendererLeft.renderGridLines(canvas);
+//
+//    if (!_axisRight.drawGridLinesBehindData)
+//      _axisRendererRight.renderGridLines(canvas);
 
-    if (!_axisLeft.drawGridLinesBehindData)
-      _axisRendererLeft.renderGridLines(canvas);
+//    // if highlighting is enabled
+//    var highlightPoint = MPPointD(0, 0);
+//    if (valuesToHighlight()) {
+//      highlightPoint = renderer.drawHighlighted(canvas, indicesToHighlight);
+//    } else if (highlightForced != null) {
+//      highlightPoint = renderer.drawHighlighted(canvas, [highlightForced]);
+//    }
 
-    if (!_axisRight.drawGridLinesBehindData)
-      _axisRendererRight.renderGridLines(canvas);
-
-    // if highlighting is enabled
-    var highlightPoint = MPPointD(0, 0);
-    if (valuesToHighlight()) {
-      highlightPoint = renderer.drawHighlighted(canvas, indicesToHighlight);
-    } else if (highlightForced != null) {
-      highlightPoint = renderer.drawHighlighted(canvas, [highlightForced]);
-    }
     // Removes clipping rectangle
 
 
-    renderer.drawExtras(canvas);
+//    renderer.drawExtras(canvas);
     canvas.restore();
 
-    if (xAxis.enabled && !xAxis.drawLimitLineBehindData)
-      _xAxisRenderer.renderLimitLines(canvas);
-
-    if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData)
-      _axisRendererLeft.renderLimitLines(canvas);
-
-    if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData)
-      _axisRendererRight.renderLimitLines(canvas);
+//    if (xAxis.enabled && !xAxis.drawLimitLineBehindData)
+//      _xAxisRenderer.renderLimitLines(canvas);
+//
+//    if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData)
+//      _axisRendererLeft.renderLimitLines(canvas);
+//
+//    if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData)
+//      _axisRendererRight.renderLimitLines(canvas);
 
     _xAxisRenderer.renderAxisLabels(canvas);
     _axisRendererLeft.renderAxisLabels(canvas);
     _axisRendererRight.renderAxisLabels(canvas);
 
-    if (valuesToHighlight() && indicesToHighlight.length == 1) {
-      var axisPointX = indicesToHighlight.first.highlightX;
-      var axisPointY = indicesToHighlight.first.highlightY;
+//    if (valuesToHighlight() && indicesToHighlight.length == 1) {
+//      var axisPointX = indicesToHighlight.first.highlightX;
+//      var axisPointY = indicesToHighlight.first.highlightY;
+//
+////      print('x, y $axisPointX, $axisPointY');
+//      if (axisPointY != null && axisPointX != null) {
+//        if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
+//          _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
+//        }
+//        if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData) {
+//          _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
+//        }
+//
+//        _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
+//      }
+//    }
 
-//      print('x, y $axisPointX, $axisPointY');
-      if (axisPointY != null && axisPointX != null) {
-        if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
-          _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
-        }
-        if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData) {
-          _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
-        }
-
-        _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX, axisPointY)));
-      }
-    }
-
-    if (_clipValuesToContent) {
-      canvas.save();
-      canvas.clipRect(viewPortHandler.getContentRect());
-
-      renderer.drawValues(canvas);
-
-      canvas.restore();
-    } else {
-      renderer.drawValues(canvas);
-    }
+//    if (_clipValuesToContent) {
+//      canvas.save();
+//      canvas.clipRect(viewPortHandler.getContentRect());
+//
+//      renderer.drawValues(canvas);
+//
+//      canvas.restore();
+//    } else {
+//      renderer.drawValues(canvas);
+//    }
 
     legendRenderer.renderLegend(canvas);
 

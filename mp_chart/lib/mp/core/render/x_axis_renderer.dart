@@ -272,11 +272,18 @@ class XAxisRenderer extends AxisRenderer {
 
     setupGridPaint();
 
-    Path gridLinePath = mRenderGridLinesPath;
-    gridLinePath.reset();
+//    Path gridLinePath = mRenderGridLinesPath;
+//    gridLinePath.reset();
+
+    var bottom = viewPortHandler.contentBottom();
+    var top = viewPortHandler.contentTop();
 
     for (int i = 0; i < positions.length; i += 2) {
-      drawGridLine(c, positions[i], positions[i + 1], gridLinePath);
+      var x = positions[i];
+
+      c.drawLine(Offset(x, top), Offset(x, bottom), gridPaint);
+
+      //drawGridLine(c, positions[i], positions[i + 1], gridLinePath);
     }
 
     c.restore();
@@ -316,7 +323,7 @@ class XAxisRenderer extends AxisRenderer {
       path = xAxis.gridDashPathEffect.convert2DashPath(path);
     }
 
-    c.drawPath(path, gridPaint);
+    //c.drawPath(path, Paint()..color = Colors.white);
 
     path.reset();
   }

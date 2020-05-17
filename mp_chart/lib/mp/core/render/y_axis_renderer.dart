@@ -179,21 +179,30 @@ class YAxisRenderer extends AxisRenderer {
         ..color = _yAxis.gridColor
         ..strokeWidth = _yAxis.gridLineWidth;
 
-      Path gridLinePath = _renderGridLinesPath;
-      gridLinePath.reset();
+//      Path gridLinePath = _renderGridLinesPath;
+//      gridLinePath.reset();
+
+      var left = viewPortHandler.offsetLeft();
+      var right = viewPortHandler.contentRight();
 
       // draw the grid
       for (int i = 0; i < positions.length; i += 2) {
-        // draw a path because lines don't support dashing on lower android versions
-        if (yAxis.gridDashPathEffect != null) {
-          c.drawPath(
-              yAxis.gridDashPathEffect
-                  .convert2DashPath(linePath(gridLinePath, i, positions)),
-              gridPaint);
-        } else {
-          c.drawPath(linePath(gridLinePath, i, positions), gridPaint);
-        }
-        gridLinePath.reset();
+//        // draw a path because lines don't support dashing on lower android versions
+//        if (yAxis.gridDashPathEffect != null) {
+//          c.drawPath(
+//              yAxis.gridDashPathEffect
+//                  .convert2DashPath(linePath(gridLinePath, i, positions)),
+//              gridPaint);
+//        } else {
+//          c.drawPath(linePath(gridLinePath, i, positions), gridPaint);
+//        }
+//        gridLinePath.reset();
+//
+//        p.moveTo(viewPortHandler.offsetLeft(), positions[i + 1]);
+//        p.lineTo(viewPortHandler.contentRight(), positions[i + 1]);
+        var y = positions[i + 1];
+
+        c.drawLine(Offset(left, y), Offset(right, y), gridPaint);
       }
 
       c.restore();
