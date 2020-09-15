@@ -15,8 +15,7 @@ import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/scatter_chart_painter.dart';
 
-class ScatterChartController
-    extends BarLineScatterCandleBubbleController<ScatterChartPainter> {
+class ScatterChartController extends BarLineScatterCandleBubbleController<ScatterChartPainter> {
   ScatterChartController({
     int maxVisibleCount = 100,
     bool autoScaleMinMaxEnabled = true,
@@ -65,6 +64,8 @@ class ScatterChartController
     double extraBottomOffset = 0.0,
     double extraLeftOffset = 0.0,
     bool drawMarkers = true,
+    bool resolveGestureHorizontalConflict = false,
+    bool resolveGestureVerticalConflict = false,
     double descTextSize = 12,
     double infoTextSize = 12,
     Color descTextColor,
@@ -86,6 +87,8 @@ class ScatterChartController
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
             drawMarkers: drawMarkers,
+            resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
+            resolveGestureVerticalConflict: resolveGestureVerticalConflict,
             descTextSize: descTextSize,
             infoTextSize: infoTextSize,
             descTextColor: descTextColor,
@@ -136,6 +139,7 @@ class ScatterChartController
   void initialPainter() {
     painter = ScatterChartPainter(
         data,
+        painter != null ? painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,

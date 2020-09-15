@@ -16,8 +16,7 @@ import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/line_chart_painter.dart';
 
-class LineChartController
-    extends BarLineScatterCandleBubbleController<LineChartPainter> {
+class LineChartController extends BarLineScatterCandleBubbleController<LineChartPainter> {
   LineChartController(
       {int maxVisibleCount = 100,
       bool autoScaleMinMaxEnabled = true,
@@ -66,6 +65,8 @@ class LineChartController
       double extraBottomOffset = 0.0,
       double extraLeftOffset = 0.0,
       bool drawMarkers = true,
+      bool resolveGestureHorizontalConflict = false,
+      bool resolveGestureVerticalConflict = false,
       double descTextSize = 12,
       double infoTextSize = 12,
       Color descTextColor,
@@ -87,6 +88,8 @@ class LineChartController
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
             drawMarkers: drawMarkers,
+            resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
+            resolveGestureVerticalConflict: resolveGestureVerticalConflict,
             descTextSize: descTextSize,
             infoTextSize: infoTextSize,
             descTextColor: descTextColor,
@@ -140,6 +143,7 @@ class LineChartController
   void initialPainter() {
     painter = LineChartPainter(
         data,
+        painter != null ? painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,

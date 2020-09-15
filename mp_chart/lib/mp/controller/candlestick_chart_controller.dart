@@ -16,16 +16,13 @@ import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/candlestick_chart_painter.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
-class CandlestickChartController
-    extends BarLineScatterCandleBubbleController<CandlestickChartPainter> {
-
+class CandlestickChartController extends BarLineScatterCandleBubbleController<CandlestickChartPainter> {
   double _initialXZoom = 0;
   final int initialXPosition;
   final int initialXRange;
 
   CandlestickChartController(
-      {
-      this.initialXPosition = -1,
+      {this.initialXPosition = -1,
       this.initialXRange = 0,
       bool specialMoveEnabled = false,
       bool highlightMagneticSetEnabled = true,
@@ -76,6 +73,8 @@ class CandlestickChartController
       double extraBottomOffset = 0.0,
       double extraLeftOffset = 0.0,
       bool drawMarkers = true,
+      bool resolveGestureHorizontalConflict = false,
+      bool resolveGestureVerticalConflict = false,
       double descTextSize = 12,
       double infoTextSize = 12,
       Color descTextColor,
@@ -99,6 +98,8 @@ class CandlestickChartController
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
             drawMarkers: drawMarkers,
+            resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
+            resolveGestureVerticalConflict: resolveGestureVerticalConflict,
             descTextSize: descTextSize,
             infoTextSize: infoTextSize,
             descTextColor: descTextColor,
@@ -149,6 +150,7 @@ class CandlestickChartController
   void initialPainter() {
     painter = CandlestickChartPainter(
         data,
+        painter != null ? painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,
@@ -204,18 +206,17 @@ class CandlestickChartController
     if (initialXRange > 0) {
       _initialXZoom = _initialXZoom == 1 ? 1 : ((data.xMax - 1) - data.xMin).abs() / initialXRange;
 
-        var matrix =  painter.viewPortHandler.getMatrixTouch();
-        painter.viewPortHandler.zoom2(_initialXZoom, 0, matrix);
-        painter.viewPortHandler.refresh(matrix);
+      var matrix = painter.viewPortHandler.getMatrixTouch();
+      painter.viewPortHandler.zoom2(_initialXZoom, 0, matrix);
+      painter.viewPortHandler.refresh(matrix);
 
       if (_initialXZoom != 1) {
         moveViewToAnimated(initialXPosition < 0 ? data.xMax : initialXPosition, 0, AxisDependency.LEFT, 50);
       }
-      
+
       _initialXZoom = 1;
     }
   }
-
 
   @override
   CandlestickChartState createRealState() {

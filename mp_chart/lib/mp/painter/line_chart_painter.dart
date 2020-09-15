@@ -18,11 +18,12 @@ import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/bar_line_chart_painter.dart';
+import 'package:mp_chart/mp/core/highlight/highlight.dart';
 
-class LineChartPainter extends BarLineChartBasePainter<LineData>
-    implements LineDataProvider {
+class LineChartPainter extends BarLineChartBasePainter<LineData> implements LineDataProvider {
   LineChartPainter(
       LineData data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -72,6 +73,7 @@ class LineChartPainter extends BarLineChartBasePainter<LineData>
       ChartTransListener chartTransListener)
       : super(
             data,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,

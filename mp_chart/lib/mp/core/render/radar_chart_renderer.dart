@@ -1,4 +1,5 @@
 import 'package:flutter/painting.dart';
+import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/data/radar_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_radar_data_set.dart';
@@ -119,8 +120,17 @@ class RadarChartRenderer extends LineRadarRenderer {
 //        drawFilledPath(c, surface, drawable);
 //      } else {
 
-      drawFilledPath2(
-          c, surface, dataSet.getFillColor().value, dataSet.getFillAlpha());
+      if (dataSet.isGradientEnabled()) {
+        drawFilledPath3(
+            c,
+            surface,
+            dataSet.getGradientColor1().startColor.value,
+            dataSet.getGradientColor1().endColor.value,
+            dataSet.getFillAlpha());
+      } else {
+        drawFilledPath2(
+            c, surface, dataSet.getFillColor().value, dataSet.getFillAlpha());
+      }
 //      }
     }
 
@@ -177,8 +187,14 @@ class RadarChartRenderer extends LineRadarRenderer {
             pOut);
 
         if (dataSet.isDrawValuesEnabled()) {
-          drawValue(c, formatter.getRadarLabel(entry), pOut.x, pOut.y - yoffset,
-              dataSet.getValueTextColor2(j));
+          drawValue(
+              c,
+              formatter.getRadarLabel(entry),
+              pOut.x,
+              pOut.y - yoffset,
+              dataSet.getValueTextColor2(j),
+              dataSet.getValueTextSize(),
+              dataSet.getValueTypeface());
         }
 
         if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
@@ -202,14 +218,10 @@ class RadarChartRenderer extends LineRadarRenderer {
   }
 
   @override
-  void drawValue(Canvas c, String valueText, double x, double y, Color color) {
-    valuePaint = PainterUtils.create(
-        valuePaint,
-        valueText,
-        color,
-        valuePaint.text.style.fontSize == null
-            ? Utils.convertDpToPixel(9)
-            : valuePaint.text.style.fontSize);
+  void drawValue(Canvas c, String valueText, double x, double y, Color color,
+      double textSize, TypeFace typeFace) {
+    valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize,
+        fontFamily: typeFace?.fontFamily, fontWeight: typeFace?.fontWeight);
     valuePaint.layout();
     valuePaint.paint(
         c, Offset(x - valuePaint.width / 2, y - valuePaint.height));

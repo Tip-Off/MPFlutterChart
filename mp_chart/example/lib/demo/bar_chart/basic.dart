@@ -34,8 +34,7 @@ class BarChartBasic extends StatefulWidget {
   }
 }
 
-class BarChartBasicState extends BarActionState<BarChartBasic>
-    implements OnChartValueSelectedListener {
+class BarChartBasicState extends BarActionState<BarChartBasic> implements OnChartValueSelectedListener {
   var random = Random(1);
   int _count = 12;
   double _range = 50.0;
@@ -82,16 +81,15 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
                             })),
                   ),
                   Container(
+                      constraints: BoxConstraints.expand(height: 50, width: 60),
                       padding: EdgeInsets.only(right: 15.0),
-                      child: Text(
+                      child: Center(
+                          child: Text(
                         "$_count",
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: ColorUtils.BLACK,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
-                      )),
+                        style: TextStyle(color: ColorUtils.BLACK, fontSize: 12, fontWeight: FontWeight.bold),
+                      ))),
                 ],
               ),
               Row(
@@ -110,16 +108,15 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
                             })),
                   ),
                   Container(
+                      constraints: BoxConstraints.expand(height: 50, width: 60),
                       padding: EdgeInsets.only(right: 15.0),
-                      child: Text(
+                      child: Center(
+                          child: Text(
                         "${_range.toInt()}",
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: ColorUtils.BLACK,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
-                      )),
+                        style: TextStyle(color: ColorUtils.BLACK, fontSize: 12, fontWeight: FontWeight.bold),
+                      ))),
                 ],
               )
             ],
@@ -272,7 +269,7 @@ class BarChartBasicState extends BarActionState<BarChartBasic>
   }
 }
 
-class MyChartTransListener with ChartTransListener{
+class MyChartTransListener with ChartTransListener {
   @override
   void scale(double scaleX, double scaleY, double x, double y) {
     print("scale scaleX: $scaleX, scaleY: $scaleY, x: $x, y: $y");
@@ -282,7 +279,6 @@ class MyChartTransListener with ChartTransListener{
   void translate(double dx, double dy) {
     print("translate dx: $dx, dy: $dy");
   }
-
 }
 
 class MyTouchEventListener with OnTouchEventListener {
@@ -349,5 +345,10 @@ class MyTouchEventListener with OnTouchEventListener {
   @override
   void onDragUpdate(double x, double y) {
     print("onDragUpdate x: $x, y: $y");
+  }
+
+  @override
+  void onPerformHighlight(Highlight h, HighlightStatus status) {
+    // TODO: implement onPerformHighlight
   }
 }

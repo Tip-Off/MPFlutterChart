@@ -15,8 +15,7 @@ import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/bubble_chart_painter.dart';
 
-class BubbleChartController
-    extends BarLineScatterCandleBubbleController<BubbleChartPainter> {
+class BubbleChartController extends BarLineScatterCandleBubbleController<BubbleChartPainter> {
   BubbleChartController({
     int maxVisibleCount = 100,
     bool autoScaleMinMaxEnabled = true,
@@ -66,6 +65,8 @@ class BubbleChartController
     double extraBottomOffset = 0.0,
     double extraLeftOffset = 0.0,
     bool drawMarkers = true,
+    bool resolveGestureHorizontalConflict = false,
+    bool resolveGestureVerticalConflict = false,
     double descTextSize = 12,
     double infoTextSize = 12,
     Color descTextColor,
@@ -86,6 +87,8 @@ class BubbleChartController
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
             drawMarkers: drawMarkers,
+            resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
+            resolveGestureVerticalConflict: resolveGestureVerticalConflict,
             descTextSize: descTextSize,
             infoTextSize: infoTextSize,
             descTextColor: descTextColor,
@@ -136,6 +139,7 @@ class BubbleChartController
   void initialPainter() {
     painter = BubbleChartPainter(
         data,
+        painter != null ? painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,

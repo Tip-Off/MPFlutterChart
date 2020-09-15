@@ -80,8 +80,10 @@ class PieChartValueLinesState extends PieActionState<PieChartValueLines>
                             })),
                   ),
                   Container(
+                      constraints: BoxConstraints.expand(height: 50, width: 60),
                       padding: EdgeInsets.only(right: 15.0),
-                      child: Text(
+                      child: Center(
+                          child: Text(
                         "$_count",
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
@@ -89,7 +91,7 @@ class PieChartValueLinesState extends PieActionState<PieChartValueLines>
                             color: ColorUtils.BLACK,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
-                      )),
+                      ))),
                 ],
               ),
               Row(
@@ -108,8 +110,10 @@ class PieChartValueLinesState extends PieActionState<PieChartValueLines>
                             })),
                   ),
                   Container(
+                      constraints: BoxConstraints.expand(height: 50, width: 60),
                       padding: EdgeInsets.only(right: 15.0),
-                      child: Text(
+                      child: Center(
+                          child: Text(
                         "${_range.toInt()}",
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
@@ -117,7 +121,7 @@ class PieChartValueLinesState extends PieActionState<PieChartValueLines>
                             color: ColorUtils.BLACK,
                             fontSize: 12,
                             fontWeight: FontWeight.bold),
-                      )),
+                      ))),
                 ],
               )
             ],
@@ -203,7 +207,9 @@ class PieChartValueLinesState extends PieActionState<PieChartValueLines>
       entries.add(PieEntry(
           icon: img,
           value: (random.nextDouble() * range) + range / 5,
-          label: PARTIES[i % PARTIES.length]));
+          label: PARTIES[i % PARTIES.length],
+          labelColor: ColorUtils.BLACK,
+          labelTextSize: 15));
     }
 
     PieDataSet dataSet = new PieDataSet(entries, "Election Results");

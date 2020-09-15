@@ -17,11 +17,12 @@ import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/bar_line_chart_painter.dart';
+import 'package:mp_chart/mp/core/highlight/highlight.dart';
 
-class CandlestickChartPainter extends BarLineChartBasePainter<CandleData>
-    implements CandleDataProvider {
+class CandlestickChartPainter extends BarLineChartBasePainter<CandleData> implements CandleDataProvider {
   CandlestickChartPainter(
       CandleData data,
+      Highlight highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -71,6 +72,7 @@ class CandlestickChartPainter extends BarLineChartBasePainter<CandleData>
       ChartTransListener chartTransListener)
       : super(
             data,
+            highlightForced,
             animator,
             viewPortHandler,
             maxHighlightDistance,

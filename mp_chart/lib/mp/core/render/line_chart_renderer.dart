@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/painting.dart';
+import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/bounds.dart';
 import 'package:mp_chart/mp/core/cache.dart';
 import 'package:mp_chart/mp/core/animator.dart';
@@ -17,6 +18,7 @@ import 'package:mp_chart/mp/core/render/line_radar_renderer.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
@@ -306,8 +308,13 @@ class LineChartRenderer extends LineRadarRenderer {
 //      drawFilledPath(c, spline, drawable);
 //    } else {
 
-    drawFilledPath2(
-        c, spline, dataSet.getFillColor().value, dataSet.getFillAlpha());
+    if (dataSet.isGradientEnabled()) {
+      drawFilledPath3(c, spline, dataSet.getGradientColor1().startColor.value,
+          dataSet.getGradientColor1().endColor.value, dataSet.getFillAlpha());
+    } else {
+      drawFilledPath2(
+          c, spline, dataSet.getFillColor().value, dataSet.getFillAlpha());
+    }
 
 //    }
   }
@@ -477,12 +484,17 @@ class LineChartRenderer extends LineRadarRenderer {
           trans,
         );
 
-        drawFilledPath2(
-          c,
-          filled,
-          dataSet.getFillColor().value,
-          dataSet.getFillAlpha(),
-        );
+        if (dataSet.isGradientEnabled()) {
+          drawFilledPath3(
+              c,
+              filled,
+              dataSet.getGradientColor1().startColor.value,
+              dataSet.getGradientColor1().endColor.value,
+              dataSet.getFillAlpha());
+        } else {
+          drawFilledPath2(
+              c, filled, dataSet.getFillColor().value, dataSet.getFillAlpha());
+        }
       }
 
       iterations++;
@@ -600,8 +612,14 @@ class LineChartRenderer extends LineRadarRenderer {
           Entry entry = dataSet.getEntryForIndex(j ~/ 2 + xBounds.min);
 
           if (dataSet.isDrawValuesEnabled()) {
-            drawValue(c, formatter.getPointLabel(entry), x, y - valOffset,
-                dataSet.getValueTextColor2(j ~/ 2));
+            drawValue(
+                c,
+                formatter.getPointLabel(entry),
+                x,
+                y - valOffset,
+                dataSet.getValueTextColor2(j ~/ 2),
+                dataSet.getValueTextSize(),
+                dataSet.getValueTypeface());
           }
 
           if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
@@ -620,14 +638,10 @@ class LineChartRenderer extends LineRadarRenderer {
   }
 
   @override
-  void drawValue(Canvas c, String valueText, double x, double y, Color color) {
-    valuePaint.text = TextSpan(
-        text: valueText,
-        style: TextStyle(
-            color: color,
-            fontSize: valuePaint.text?.style?.fontSize == null
-                ? Utils.convertDpToPixel(9)
-                : valuePaint.text.style.fontSize));
+  void drawValue(Canvas c, String valueText, double x, double y, Color color,
+      double textSize, TypeFace typeFace) {
+    valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize,
+        fontFamily: typeFace?.fontFamily, fontWeight: typeFace?.fontWeight);
     valuePaint.layout();
     valuePaint.paint(
         c, Offset(x - valuePaint.width / 2, y - valuePaint.height));
