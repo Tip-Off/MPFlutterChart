@@ -12,6 +12,7 @@ import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/line_data_provider.dart';
+import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/mode.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
@@ -714,37 +715,27 @@ class LineChartRenderer extends LineRadarRenderer {
   }
 
   @override
-  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices, int index) {
+  Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
     final data = _provider.getData();
-    data.dataSets.forEach((element) {
-      if (element.isVisible()) _drawFloatingLegend(c, element, indices.first, index);
+    var drawSize = rendererSize;
+    data.dataSets.where((element) => element is LineDataSet).toList().asMap().forEach((i, element) {
+      if (element.isVisible()) {
+        final legendSize = _drawFloatingLegend(c, element, indices.first, drawSize);
+        drawSize = Size(drawSize.width + legendSize.width, drawSize.height + legendSize.height);
+      }
     });
+    return drawSize;
   }
 
-  void _drawFloatingLegend(Canvas c, IDataSet dataSet, Highlight h, int index) {
+  Size _drawFloatingLegend(Canvas c, IDataSet dataSet, Highlight h, Size rendererSize) {
     final e = dataSet.getEntryForXValue2(h.x, 0);
 
-    // print('index $index');
-    // print('index ${_provider.getLineData().dataSets[index].getLabel()}');
-
-    for (int i = 0; i < _provider.getLineData().dataSets.length; ++i) {
-      final ohlcPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + 10 * (index + i));
-
-      print('blibs >>>>> ${10 * (index + i)}');
-      _drawTextLegend(c, e, ohlcPosition);
-    }
-
-    // final ohlcPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() - 10 * index);
-    // _drawTextLegend(c, e, ohlcPosition);
-
-    // final diffPosition = Offset(viewPortHandler.contentLeft() + _labelText.width, viewPortHandler.contentTop());
-    // _drawDiff(c, dataSet, e, diffPosition);
-
-    // final volPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + _labelText.height);
-    // _drawVol(c, e, volPosition);
+    final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + rendererSize.height);
+    final legendText = dataSet.getLabel();
+    return _drawTextLegend(c, e, legendText, position);
   }
 
-  void _drawTextLegend(Canvas c, Entry e, Offset labelPosition) {
+  Size _drawTextLegend(Canvas c, Entry e, String text, Offset labelPosition) {
     // var style = _colorByEntry(e);
 
     final _whiteStyle = TextStyle(
@@ -756,12 +747,14 @@ class LineChartRenderer extends LineRadarRenderer {
       text: '',
       style: _whiteStyle,
       children: [
-        TextSpan(text: 'aaaaaaaa', style: _whiteStyle),
+        TextSpan(text: '$text', style: _whiteStyle),
       ],
     );
     _labelText.layout();
     _drawFloatingLegendBg(c, labelPosition, _labelText.size);
     _labelText.paint(c, labelPosition);
+
+    return _labelText.size;
   }
 
   void _drawFloatingLegendBg(Canvas c, Offset position, Size size) {

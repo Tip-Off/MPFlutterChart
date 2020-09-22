@@ -391,28 +391,35 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   }
 
   @override
-  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices, int index) {
+  Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
+    var size = Size(0, 0);
     if (indices.isNotEmpty) {
       var candleData = _porvider.getCandleData();
       for (ICandleDataSet set in candleData.dataSets) {
-        if (set.isVisible()) _drawFloatingLegend(c, set, indices.first);
+        if (set.isVisible()) {
+          final drawSize = _drawFloatingLegend(c, set, indices.first);
+          size = Size(size.width + drawSize.width, size.height + drawSize.height);
+        }
       }
     }
+    return size;
   }
 
-  void _drawFloatingLegend(Canvas c, ICandleDataSet dataSet, Highlight h) {
+  Size _drawFloatingLegend(Canvas c, ICandleDataSet dataSet, Highlight h) {
     final e = dataSet.getEntryForXValue2(h.x, 0);
     final ohlcPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
-    _drawOHLC(c, e, ohlcPosition);
+    final ohlcSize = _drawOHLC(c, e, ohlcPosition);
 
     final diffPosition = Offset(viewPortHandler.contentLeft() + _labelText.width, viewPortHandler.contentTop());
     _drawDiff(c, dataSet, e, diffPosition);
 
     final volPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + _labelText.height);
-    _drawVol(c, e, volPosition);
+    final volSize = _drawVol(c, e, volPosition);
+
+    return Size(ohlcSize.width + volSize.width, ohlcSize.height + volSize.height);
   }
 
-  void _drawOHLC(Canvas c, CandleEntry e, Offset labelPosition) {
+  Size _drawOHLC(Canvas c, CandleEntry e, Offset labelPosition) {
     var style = _colorByEntry(e);
 
     _labelText.text = TextSpan(text: '', style: _whiteStyle, children: [
@@ -428,6 +435,8 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     _labelText.layout();
     _drawFloatingLegendBg(c, labelPosition, _labelText.size);
     _labelText.paint(c, labelPosition);
+
+    return _labelText.size;
   }
 
   void _drawDiff(Canvas c, ICandleDataSet dataSet, CandleEntry currentEntry, Offset labelPosition) {
@@ -455,7 +464,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     }
   }
 
-  void _drawVol(Canvas c, CandleEntry e, Offset labelPosition) {
+  Size _drawVol(Canvas c, CandleEntry e, Offset labelPosition) {
     _labelText.text = TextSpan(text: 'Vol ', style: _whiteStyle, children: [
       TextSpan(
         text: '${e.volume}',
@@ -465,6 +474,8 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     _labelText.layout();
     _drawFloatingLegendBg(c, labelPosition, _labelText.size);
     _labelText.paint(c, labelPosition);
+
+    return _labelText.size;
   }
 
   void _drawFloatingLegendBg(Canvas c, Offset position, Size size) {

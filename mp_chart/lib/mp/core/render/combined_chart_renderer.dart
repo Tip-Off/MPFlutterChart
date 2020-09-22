@@ -120,12 +120,14 @@ class CombinedChartRenderer extends DataRenderer {
 //       renderer.drawFloatingLegend(c, mHighlightBuffer);
 //     }
     var floatingCount = 0;
+    var rendererSize = Size(0, 0);
     _renderers.forEach((renderer) {
       ChartData data;
 
-      if (renderer is CandleStickChartRenderer)
+      if (renderer is CandleStickChartRenderer) {
         data = renderer.porvider.getCandleData();
-      else if (renderer is BarChartRenderer)
+        floatingCount++;
+      } else if (renderer is BarChartRenderer)
         data = renderer.provider.getBarData();
       else if (renderer is LineChartRenderer)
         data = renderer.provider.getLineData();
@@ -145,7 +147,8 @@ class CombinedChartRenderer extends DataRenderer {
       pix = renderer.drawHighlighted(c, mHighlightBuffer);
 
       print('floating count ${renderer.runtimeType}, ${data.dataSets.length},  $floatingCount');
-      renderer.drawFloatingLegend(c, mHighlightBuffer, floatingCount);
+      final legendSize = renderer.drawFloatingLegend(c, mHighlightBuffer, rendererSize);
+      rendererSize = Size(rendererSize.width + legendSize.width, rendererSize.height + legendSize.height);
 
       floatingCount += data.dataSets.length;
     });
@@ -176,5 +179,5 @@ class CombinedChartRenderer extends DataRenderer {
   }
 
   @override
-  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices, int index) {}
+  Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) => rendererSize;
 }

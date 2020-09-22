@@ -115,5 +115,5 @@ abstract class DataRenderer extends Renderer {
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices);
 
   ///
-  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices, int index);
+  Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize);
 }
