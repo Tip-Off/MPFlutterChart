@@ -30,8 +30,7 @@ import 'package:mp_chart/mp/painter/bar_line_chart_painter.dart';
 
 enum DrawOrder { BAR, BUBBLE, LINE, CANDLE, SCATTER }
 
-class CombinedChartPainter extends BarLineChartBasePainter<CombinedData>
-    implements CombinedDataProvider {
+class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> implements CombinedDataProvider {
   /// if set to true, all values are drawn above their bars, instead of below
   /// their top
   bool _drawValueAboveBar = true;
@@ -156,12 +155,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData>
             chartTransListener);
 
   List<DrawOrder> initDrawOrder() {
-    return List()
-      ..add(DrawOrder.BAR)
-      ..add(DrawOrder.BUBBLE)
-      ..add(DrawOrder.LINE)
-      ..add(DrawOrder.CANDLE)
-      ..add(DrawOrder.SCATTER);
+    return List()..add(DrawOrder.CANDLE)..add(DrawOrder.BAR)..add(DrawOrder.BUBBLE)..add(DrawOrder.LINE)..add(DrawOrder.SCATTER);
   }
 
   @override
@@ -196,15 +190,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData>
 
       // For isHighlightFullBarEnabled, remove stackIndex
       return Highlight(
-          x: h.x,
-          y: h.y,
-          xPx: h.xPx,
-          yPx: h.yPx,
-          freeX: h.freeX,
-          freeY: h.freeY,
-          dataSetIndex: h.dataSetIndex,
-          stackIndex: h.stackIndex,
-          axis: h.axis)
+          x: h.x, y: h.y, xPx: h.xPx, yPx: h.yPx, freeX: h.freeX, freeY: h.freeY, dataSetIndex: h.dataSetIndex, stackIndex: h.stackIndex, axis: h.axis)
         ..dataIndex = h.dataIndex;
     }
   }

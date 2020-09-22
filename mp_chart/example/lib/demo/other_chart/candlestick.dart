@@ -20,8 +20,7 @@ class OtherChartCandlestick extends StatefulWidget {
   }
 }
 
-class OtherChartCandlestickState
-    extends CandlestickActionState<OtherChartCandlestick> {
+class OtherChartCandlestickState extends CandlestickActionState<OtherChartCandlestick> {
   var random = Random(1);
   int _count = 40;
   double _range = 100.0;
@@ -40,12 +39,7 @@ class OtherChartCandlestickState
   Widget getBody() {
     return Stack(
       children: <Widget>[
-        Positioned(
-            right: 0,
-            left: 0,
-            top: 0,
-            bottom: 100,
-            child: CandlestickChart(controller)),
+        Positioned(right: 0, left: 0, top: 0, bottom: 100, child: CandlestickChart(controller)),
         Positioned(
           left: 0,
           right: 0,
@@ -77,10 +71,7 @@ class OtherChartCandlestickState
                         "$_count",
                         textDirection: TextDirection.ltr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: ColorUtils.BLACK,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: ColorUtils.BLACK, fontSize: 12, fontWeight: FontWeight.bold),
                       ))),
                 ],
               ),
@@ -104,18 +95,14 @@ class OtherChartCandlestickState
                                 })),
                       ),
                       Container(
-                          constraints:
-                              BoxConstraints.expand(height: 50, width: 60),
+                          constraints: BoxConstraints.expand(height: 50, width: 60),
                           padding: EdgeInsets.only(right: 15.0),
                           child: Center(
                               child: Text(
                             "${_range.toInt()}",
                             textDirection: TextDirection.ltr,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: ColorUtils.BLACK,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: ColorUtils.BLACK, fontSize: 12, fontWeight: FontWeight.bold),
                           ))),
                     ],
                   ))
@@ -176,17 +163,12 @@ class OtherChartCandlestickState
       bool even = i % 2 == 0;
 
       values.add(CandleEntry(
-          x: i.toDouble(),
-          shadowH: val + high,
-          shadowL: val - low,
-          icon: img,
-          open: even ? val + open : val - open,
-          close: even ? val - close : val + close));
+          x: i.toDouble(), shadowH: val + high, shadowL: val - low, icon: img, open: even ? val + open : val - open, close: even ? val - close : val + close));
     }
 
     CandleDataSet set1 = CandleDataSet(values, "Data Set");
 
-    set1.setDrawIcons(false);
+    set1.setDrawIcons(true);
     set1.setAxisDependency(AxisDependency.LEFT);
 //        set1.setColor(Color.rgb(80, 80, 80));
     set1.setShadowColor(ColorUtils.DKGRAY);

@@ -21,9 +21,7 @@ class CombinedChartRenderer extends DataRenderer {
 
   ChartPainter _painter;
 
-  CombinedChartRenderer(CombinedChartPainter chart, Animator animator,
-      ViewPortHandler viewPortHandler)
-      : super(animator, viewPortHandler) {
+  CombinedChartRenderer(CombinedChartPainter chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
     _painter = chart;
     createRenderers();
   }
@@ -41,27 +39,19 @@ class CombinedChartRenderer extends DataRenderer {
     for (DrawOrder order in orders) {
       switch (order) {
         case DrawOrder.BAR:
-          if (chart.getBarData() != null)
-            _renderers.add(BarChartRenderer(chart, animator, viewPortHandler));
+          if (chart.getBarData() != null) _renderers.add(BarChartRenderer(chart, animator, viewPortHandler));
           break;
         case DrawOrder.BUBBLE:
-          if (chart.getBubbleData() != null)
-            _renderers
-                .add(BubbleChartRenderer(chart, animator, viewPortHandler));
+          if (chart.getBubbleData() != null) _renderers.add(BubbleChartRenderer(chart, animator, viewPortHandler));
           break;
         case DrawOrder.LINE:
-          if (chart.getLineData() != null)
-            _renderers.add(LineChartRenderer(chart, animator, viewPortHandler));
+          if (chart.getLineData() != null) _renderers.add(LineChartRenderer(chart, animator, viewPortHandler));
           break;
         case DrawOrder.CANDLE:
-          if (chart.getCandleData() != null)
-            _renderers.add(
-                CandleStickChartRenderer(chart, animator, viewPortHandler));
+          if (chart.getCandleData() != null) _renderers.add(CandleStickChartRenderer(chart, animator, viewPortHandler));
           break;
         case DrawOrder.SCATTER:
-          if (chart.getScatterData() != null)
-            _renderers
-                .add(ScatterChartRenderer(chart, animator, viewPortHandler));
+          if (chart.getScatterData() != null) _renderers.add(ScatterChartRenderer(chart, animator, viewPortHandler));
           break;
       }
     }
@@ -78,8 +68,7 @@ class CombinedChartRenderer extends DataRenderer {
   }
 
   @override
-  void drawValue(Canvas c, String valueText, double x, double y, Color color,
-      double textSize, TypeFace typeFace) {}
+  void drawValue(Canvas c, String valueText, double x, double y, Color color, double textSize, TypeFace typeFace) {}
 
   @override
   void drawValues(Canvas c) {
@@ -93,41 +82,74 @@ class CombinedChartRenderer extends DataRenderer {
 
   List<Highlight> mHighlightBuffer = List<Highlight>();
 
+  // var floatingCount = 0;
+
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     ChartPainter chart = _painter;
     if (chart == null) return MPPointD(0, 0);
 
     var pix = MPPointD(-1, -1);
-    for (DataRenderer renderer in _renderers) {
+
+    // print('renderer on combined chart renderer ${_renderers.length}');
+
+//     for (DataRenderer renderer in _renderers) {
+//       ChartData data;
+
+//       if (renderer is BarChartRenderer)
+//         data = renderer.provider.getBarData();
+//       else if (renderer is LineChartRenderer)
+//         data = renderer.provider.getLineData();
+//       else if (renderer is CandleStickChartRenderer)
+//         data = renderer.porvider.getCandleData();
+//       else if (renderer is ScatterChartRenderer)
+//         data = renderer.provider.getScatterData();
+//       else if (renderer is BubbleChartRenderer) data = renderer.provider.getBubbleData();
+
+//       int dataIndex = data == null ? -1 : (chart.getData() as CombinedData).getAllData().indexOf(data);
+
+//       mHighlightBuffer.clear();
+
+//       for (Highlight h in indices) {
+// //        if (h.dataIndex == dataIndex || h.dataIndex == -1)
+//         mHighlightBuffer.add(h);
+//       }
+
+//       pix = renderer.drawHighlighted(c, mHighlightBuffer);
+
+//       renderer.drawFloatingLegend(c, mHighlightBuffer);
+//     }
+    var floatingCount = 0;
+    _renderers.forEach((renderer) {
       ChartData data;
 
-      if (renderer is BarChartRenderer)
+      if (renderer is CandleStickChartRenderer)
+        data = renderer.porvider.getCandleData();
+      else if (renderer is BarChartRenderer)
         data = renderer.provider.getBarData();
       else if (renderer is LineChartRenderer)
         data = renderer.provider.getLineData();
-      else if (renderer is CandleStickChartRenderer)
-        data = renderer.porvider.getCandleData();
       else if (renderer is ScatterChartRenderer)
         data = renderer.provider.getScatterData();
-      else if (renderer is BubbleChartRenderer)
-        data = renderer.provider.getBubbleData();
+      else if (renderer is BubbleChartRenderer) data = renderer.provider.getBubbleData();
 
-      int dataIndex = data == null
-          ? -1
-          : (chart.getData() as CombinedData).getAllData().indexOf(data);
+      // int dataIndex = data == null ? -1 : (chart.getData() as CombinedData).getAllData().indexOf(data);
 
       mHighlightBuffer.clear();
 
       for (Highlight h in indices) {
 //        if (h.dataIndex == dataIndex || h.dataIndex == -1)
-          mHighlightBuffer.add(h);
+        mHighlightBuffer.add(h);
       }
 
       pix = renderer.drawHighlighted(c, mHighlightBuffer);
 
-      renderer.drawFloatingLegend(c, mHighlightBuffer);
-    }
+      print('floating count ${renderer.runtimeType}, ${data.dataSets.length},  $floatingCount');
+      renderer.drawFloatingLegend(c, mHighlightBuffer, floatingCount);
+
+      floatingCount += data.dataSets.length;
+    });
+
     return pix;
   }
 
@@ -154,5 +176,5 @@ class CombinedChartRenderer extends DataRenderer {
   }
 
   @override
-  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices) {}
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices, int index) {}
 }

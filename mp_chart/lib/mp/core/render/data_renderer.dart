@@ -26,8 +26,7 @@ abstract class DataRenderer extends Renderer {
 
   TextPainter _valuePaint;
 
-  DataRenderer(Animator animator, ViewPortHandler viewPortHandler)
-      : super(viewPortHandler) {
+  DataRenderer(Animator animator, ViewPortHandler viewPortHandler) : super(viewPortHandler) {
     this._animator = animator;
 
     _renderPaint = Paint()
@@ -36,8 +35,7 @@ abstract class DataRenderer extends Renderer {
 
     _drawPaint = Paint();
 
-    _valuePaint = PainterUtils.create(_valuePaint, null,
-        Color.fromARGB(255, 63, 63, 63), Utils.convertDpToPixel(9));
+    _valuePaint = PainterUtils.create(_valuePaint, null, Color.fromARGB(255, 63, 63, 63), Utils.convertDpToPixel(9));
 
     _highlightPaint = Paint()
       ..isAntiAlias = true
@@ -47,8 +45,7 @@ abstract class DataRenderer extends Renderer {
   }
 
   bool isDrawingValuesAllowed(ChartInterface chart) {
-    return chart.getData().getEntryCount() <
-        chart.getMaxVisibleCount() * viewPortHandler.getScaleX();
+    return chart.getData().getEntryCount() < chart.getMaxVisibleCount() * viewPortHandler.getScaleX();
   }
 
   // ignore: unnecessary_getters_setters
@@ -78,10 +75,8 @@ abstract class DataRenderer extends Renderer {
   ///
   /// @param set
   void applyValueTextStyle(IDataSet set) {
-    _valuePaint = PainterUtils.create(_valuePaint, null,
-        Color.fromARGB(255, 63, 63, 63), Utils.convertDpToPixel(9),
-        fontFamily: set?.getValueTypeface()?.fontFamily,
-        fontWeight: set?.getValueTypeface()?.fontWeight);
+    _valuePaint = PainterUtils.create(_valuePaint, null, Color.fromARGB(255, 63, 63, 63), Utils.convertDpToPixel(9),
+        fontFamily: set?.getValueTypeface()?.fontFamily, fontWeight: set?.getValueTypeface()?.fontWeight);
   }
 
   /// Initializes the buffers used for rendering with a  size. Since this
@@ -120,5 +115,5 @@ abstract class DataRenderer extends Renderer {
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices);
 
   ///
-  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices);
+  MPPointD drawFloatingLegend(Canvas c, List<Highlight> indices, int index);
 }
