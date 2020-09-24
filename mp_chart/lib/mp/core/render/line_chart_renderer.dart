@@ -8,6 +8,7 @@ import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/bounds.dart';
 import 'package:mp_chart/mp/core/cache.dart';
 import 'package:mp_chart/mp/core/animator.dart';
+import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
@@ -718,37 +719,54 @@ class LineChartRenderer extends LineRadarRenderer {
   Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
     final data = _provider.getData();
     var drawSize = rendererSize;
-    data.dataSets.where((element) => element is LineDataSet).toList().asMap().forEach((i, element) {
-      if (element.isVisible()) {
-        final legendSize = _drawFloatingLegend(c, element, indices.first, drawSize);
-        drawSize = Size(drawSize.width + legendSize.width, drawSize.height + legendSize.height);
-      }
+
+    final Map<String, List<EntryColor>> entryColors = _createEntries(data, indices);
+
+    entryColors.keys.forEach((element) {
+      final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + rendererSize.height);
+      final legendSize = _drawTextLegend(c, entryColors[element], element, position);
+      drawSize = Size(drawSize.width + legendSize.width, drawSize.height + legendSize.height);
     });
+
     return drawSize;
   }
 
-  Size _drawFloatingLegend(Canvas c, IDataSet dataSet, Highlight h, Size rendererSize) {
-    final e = dataSet.getEntryForXValue2(h.x, 0);
+  Map<String, List<EntryColor>> _createEntries(BarLineScatterCandleBubbleData data, List<Highlight> indices) {
+    final Map<String, List<EntryColor>> entryColors = {};
+    data.dataSets.where((element) => element is LineDataSet).toList().asMap().forEach((i, element) {
+      if (element.isVisible()) {
+        final h = indices.first;
+        final entry = element.getEntryForXValue2(h.x, 0);
+        final legendText = element.getLabel();
+        final legend = legendText.split('@');
+        final text = legend[0];
+        var inputs = '';
+        if (legend.length > 1) {
+          inputs = legend[1];
+        }
+        final color = element.getColor1();
 
-    final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + rendererSize.height);
-    final legendText = dataSet.getLabel();
-    return _drawTextLegend(c, e, legendText, position);
+        if (entryColors.containsKey(text)) {
+          entryColors[text].add(EntryColor(entry, color, inputs));
+        } else {
+          entryColors.putIfAbsent(text, () => [EntryColor(entry, color, inputs)]);
+        }
+      }
+    });
+
+    return entryColors;
   }
 
-  Size _drawTextLegend(Canvas c, Entry e, String text, Offset labelPosition) {
-    // var style = _colorByEntry(e);
-
-    final _whiteStyle = TextStyle(
-      fontSize: 10,
-      color: Colors.white,
-    );
+  Size _drawTextLegend(Canvas c, List<EntryColor> entryColor, String text, Offset labelPosition) {
+    final span = _createTextSpan(entryColor, text);
 
     _labelText.text = TextSpan(
       text: '',
-      style: _whiteStyle,
-      children: [
-        TextSpan(text: '$text', style: _whiteStyle),
-      ],
+      style: TextStyle(
+        fontSize: 10,
+        color: Colors.white,
+      ),
+      children: span,
     );
     _labelText.layout();
     _drawFloatingLegendBg(c, labelPosition, _labelText.size);
@@ -757,46 +775,53 @@ class LineChartRenderer extends LineRadarRenderer {
     return _labelText.size;
   }
 
+  List<InlineSpan> _createTextSpan(List<EntryColor> entryColor, String text) {
+    final _whiteStyle = TextStyle(
+      fontSize: 10,
+      color: Colors.white,
+    );
+
+    final span = <InlineSpan>[TextSpan(text: '$text', style: _whiteStyle)];
+    span.add(TextSpan(text: ' (', style: _whiteStyle));
+
+    entryColor.forEach((element) {
+      span.add(
+        TextSpan(
+          text: ' ${element.input}',
+          style: TextStyle(
+            fontSize: 10,
+            color: element.color,
+          ),
+        ),
+      );
+    });
+
+    span.add(TextSpan(text: ' ) ', style: _whiteStyle));
+
+    entryColor.forEach((element) {
+      span.add(
+        TextSpan(
+          text: ' ${element.entry.y.toStringAsFixed(2)}',
+          style: TextStyle(
+            fontSize: 10,
+            color: element.color,
+          ),
+        ),
+      );
+    });
+
+    return span;
+  }
+
   void _drawFloatingLegendBg(Canvas c, Offset position, Size size) {
     c.drawRect(Rect.fromLTWH(position.dx, position.dy, size.width, size.height), Paint()..color = _floatingLegendBg);
   }
+}
 
-//  /**
-//   * Sets the Bitmap.Config to be used by this renderer.
-//   * Default: Bitmap.Config.ARGB_8888
-//   * Use Bitmap.Config.ARGB_4444 to consume less memory.
-//   *
-//   * @param config
-//   */
-//   void setBitmapConfig(Bitmap.Config config) {
-//    mBitmapConfig = config;
-//    releaseBitmap();
-//  }
-//
-//  /**
-//   * Returns the Bitmap.Config that is used by this renderer.
-//   *
-//   * @return
-//   */
-//   Bitmap.Config getBitmapConfig() {
-//    return mBitmapConfig;
-//  }
-//
-//  /**
-//   * Releases the drawing bitmap. This should be called when {@link LineChart#onDetachedFromWindow()}.
-//   */
-//   void releaseBitmap() {
-//    if (mBitmapCanvas != null) {
-//      mBitmapCanvas.setBitmap(null);
-//      mBitmapCanvas = null;
-//    }
-//    if (mDrawBitmap != null) {
-//      Bitmap drawBitmap = mDrawBitmap.get();
-//      if (drawBitmap != null) {
-//        drawBitmap.recycle();
-//      }
-//      mDrawBitmap.clear();
-//      mDrawBitmap = null;
-//    }
-//  }
+class EntryColor {
+  final Entry entry;
+  final Color color;
+  final String input;
+
+  EntryColor(this.entry, this.color, this.input);
 }
