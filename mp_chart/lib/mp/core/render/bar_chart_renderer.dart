@@ -385,19 +385,26 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     BarData barData = _provider.getBarData();
 
+    var pix = MPPointD(0, 0);
+
     for (Highlight high in indices) {
-      IBarDataSet set = barData.getDataSetByIndex(high.dataSetIndex);
+      IBarDataSet dataSet; // = barData.getDataSetByIndex(high.dataSetIndex);
+      if (high.dataSetIndex >= 0) {
+        dataSet = barData.getDataSetByIndex(high.dataSetIndex);
+      } else {
+        dataSet = barData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).length > 0, orElse: () => null);
+      }
 
-      if (set == null || !set.isHighlightEnabled()) continue;
+      if (dataSet == null || !dataSet.isHighlightEnabled()) continue;
 
-      BarEntry e = set.getEntryForXValue2(high.x, high.y);
+      BarEntry e = dataSet.getEntryForXValue2(high.x, high.y);
 
-      if (!isInBoundsX(e, set)) continue;
+      if (!isInBoundsX(e, dataSet)) continue;
 
-      Transformer trans = _provider.getTransformer(set.getAxisDependency());
+      Transformer trans = _provider.getTransformer(dataSet.getAxisDependency());
 
-      var color = set.getHighLightColor();
-      highlightPaint.color = Color.fromARGB(set.getHighLightAlpha(), color.red, color.green, color.blue);
+      var color = dataSet.getHighLightColor();
+      highlightPaint.color = Color.fromARGB(dataSet.getHighLightAlpha(), color.red, color.green, color.blue);
 
       bool isStack = (high.stackIndex >= 0 && e.isStacked()) ? true : false;
 
@@ -419,13 +426,14 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
         y2 = 0.0;
       }
 
+      pix = _provider.getTransformer(dataSet.getAxisDependency()).getPixelForValues(e.x, y1); //MPPointD(e.x, y2);
       prepareBarHighlight(e.x, y1, y2, barData.barWidth / 2.0, trans);
 
       setHighlightDrawPos(high, _barRect);
       c.drawRect(_barRect, highlightPaint);
     }
 
-    return MPPointD(0, 0);
+    return pix;
   }
 
   /// Sets the drawing position of the highlight object based on the riven bar-rect.

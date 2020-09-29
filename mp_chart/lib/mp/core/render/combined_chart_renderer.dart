@@ -18,8 +18,8 @@ import 'package:mp_chart/mp/core/poolable/point.dart';
 class CombinedChartRenderer extends DataRenderer {
   /// all rederers for the different kinds of data this combined-renderer can draw
   List<DataRenderer> _renderers = List<DataRenderer>();
-
   ChartPainter _painter;
+  List<Highlight> mHighlightBuffer = List<Highlight>();
 
   CombinedChartRenderer(CombinedChartPainter chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
     _painter = chart;
@@ -80,77 +80,37 @@ class CombinedChartRenderer extends DataRenderer {
     for (DataRenderer renderer in _renderers) renderer.drawExtras(c);
   }
 
-  List<Highlight> mHighlightBuffer = List<Highlight>();
-
-  // var floatingCount = 0;
-
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
     ChartPainter chart = _painter;
     if (chart == null) return MPPointD(0, 0);
 
     var pix = MPPointD(-1, -1);
-
-    // print('renderer on combined chart renderer ${_renderers.length}');
-
-//     for (DataRenderer renderer in _renderers) {
-//       ChartData data;
-
-//       if (renderer is BarChartRenderer)
-//         data = renderer.provider.getBarData();
-//       else if (renderer is LineChartRenderer)
-//         data = renderer.provider.getLineData();
-//       else if (renderer is CandleStickChartRenderer)
-//         data = renderer.porvider.getCandleData();
-//       else if (renderer is ScatterChartRenderer)
-//         data = renderer.provider.getScatterData();
-//       else if (renderer is BubbleChartRenderer) data = renderer.provider.getBubbleData();
-
-//       int dataIndex = data == null ? -1 : (chart.getData() as CombinedData).getAllData().indexOf(data);
-
-//       mHighlightBuffer.clear();
-
-//       for (Highlight h in indices) {
-// //        if (h.dataIndex == dataIndex || h.dataIndex == -1)
-//         mHighlightBuffer.add(h);
-//       }
-
-//       pix = renderer.drawHighlighted(c, mHighlightBuffer);
-
-//       renderer.drawFloatingLegend(c, mHighlightBuffer);
-//     }
-    var floatingCount = 0;
     var rendererSize = Size(0, 0);
     _renderers.forEach((renderer) {
-      ChartData data;
+      // ChartData data;
 
-      if (renderer is CandleStickChartRenderer) {
-        data = renderer.porvider.getCandleData();
-        floatingCount++;
-      } else if (renderer is BarChartRenderer)
-        data = renderer.provider.getBarData();
-      else if (renderer is LineChartRenderer)
-        data = renderer.provider.getLineData();
-      else if (renderer is ScatterChartRenderer)
-        data = renderer.provider.getScatterData();
-      else if (renderer is BubbleChartRenderer) data = renderer.provider.getBubbleData();
+      // if (renderer is CandleStickChartRenderer) {
+      //   data = renderer.porvider.getCandleData();
+      // } else if (renderer is BarChartRenderer)
+      //   data = renderer.provider.getBarData();
+      // else if (renderer is LineChartRenderer)
+      //   data = renderer.provider.getLineData();
+      // else if (renderer is ScatterChartRenderer)
+      //   data = renderer.provider.getScatterData();
+      // else if (renderer is BubbleChartRenderer) data = renderer.provider.getBubbleData();
 
       // int dataIndex = data == null ? -1 : (chart.getData() as CombinedData).getAllData().indexOf(data);
 
       mHighlightBuffer.clear();
 
       for (Highlight h in indices) {
-//        if (h.dataIndex == dataIndex || h.dataIndex == -1)
         mHighlightBuffer.add(h);
       }
 
       pix = renderer.drawHighlighted(c, mHighlightBuffer);
-
-      print('floating count ${renderer.runtimeType}, ${data.dataSets.length},  $floatingCount');
       final legendSize = renderer.drawFloatingLegend(c, mHighlightBuffer, rendererSize);
       rendererSize = Size(rendererSize.width + legendSize.width, rendererSize.height + legendSize.height);
-
-      floatingCount += data.dataSets.length;
     });
 
     return pix;

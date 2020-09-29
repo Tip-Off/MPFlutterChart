@@ -150,6 +150,18 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
     // The value of the highlighted entry could be NaN -
     //   if we are not interested in highlighting a specific value.
 
+    if (highlight.dataSetIndex < 0) {
+      for (var element in data.dataSets) {
+        final entries = element.getEntriesForXValue(highlight.x);
+        for (Entry entry in entries) {
+          if (entry.y == highlight.y || highlight.y.isNaN) {
+            return entry;
+          }
+        }
+      }
+      return null;
+    }
+
     List<Entry> entries = data.getDataSetByIndex(highlight.dataSetIndex).getEntriesForXValue(highlight.x);
     for (Entry entry in entries) if (entry.y == highlight.y || highlight.y.isNaN) return entry;
 

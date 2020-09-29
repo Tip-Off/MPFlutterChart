@@ -758,7 +758,7 @@ class LineChartRenderer extends LineRadarRenderer {
   }
 
   Size _drawTextLegend(Canvas c, List<EntryColor> entryColor, String text, Offset labelPosition) {
-    final span = _createTextSpan(entryColor, text);
+    final span = _createTextSpan(entryColor, text.split('#').first);
 
     _labelText.text = TextSpan(
       text: '',

@@ -366,26 +366,27 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
     var pix = MPPointD(0, 0);
     for (Highlight high in indices) {
-      ICandleDataSet set = candleData.getDataSetByIndex(high.dataSetIndex);
+      ICandleDataSet dataSet; // = candleData.getDataSetByIndex(high.dataSetIndex);
 
-      if (set == null || !set.isHighlightEnabled()) continue;
+      if (high.dataSetIndex >= 0) {
+        dataSet = candleData.getDataSetByIndex(high.dataSetIndex);
+      } else {
+        dataSet = candleData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).length > 0, orElse: () => null);
+      }
 
-      CandleEntry e = set.getEntryForXValue2(high.x, high.y);
+      if (dataSet == null || !dataSet.isHighlightEnabled()) continue;
 
-      if (!isInBoundsX(e, set)) continue;
+      CandleEntry e = dataSet.getEntryForXValue2(high.x, high.y);
 
-      double lowValue = e.shadowLow * animator.getPhaseY();
-      double highValue = e.shadowHigh * animator.getPhaseY();
-      double y = (lowValue + highValue) / 2;
+      if (!isInBoundsX(e, dataSet)) continue;
 
       var yVal = high.freeY == null || high.freeY.isNaN ? high.y : high.freeY;
-
-      pix = _porvider.getTransformer(set.getAxisDependency()).getPixelForValues(e.x, yVal);
+      pix = _porvider.getTransformer(dataSet.getAxisDependency()).getPixelForValues(e.x, yVal);
 
       high.setDraw(pix.x, pix.y);
 
       // draw the lines
-      drawHighlightLines(c, pix.x, pix.y, set);
+      drawHighlightLines(c, pix.x, pix.y, dataSet);
     }
     return pix;
   }

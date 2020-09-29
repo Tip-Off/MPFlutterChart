@@ -5,14 +5,14 @@ import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/render/data_renderer.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
+import 'package:flutter/painting.dart';
 
 abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
   /// buffer for storing the current minimum and maximum visible x
   XBounds _xBounds;
+  Path _highlightLinePath = Path();
 
-  BarLineScatterCandleBubbleRenderer(
-      Animator animator, ViewPortHandler viewPortHandler)
-      : super(animator, viewPortHandler) {
+  BarLineScatterCandleBubbleRenderer(Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
     _xBounds = XBounds(this.animator);
   }
 
@@ -29,8 +29,7 @@ abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
   /// @param set
   /// @return
   bool shouldDrawValues(IDataSet set) {
-    return set.isVisible() &&
-        (set.isDrawValuesEnabled() || set.isDrawIconsEnabled());
+    return set.isVisible() && (set.isDrawValuesEnabled() || set.isDrawIconsEnabled());
   }
 
   /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
@@ -47,6 +46,36 @@ abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
       return false;
     } else {
       return true;
+    }
+  }
+
+  /// Draws vertical & horizontal highlight-lines if enabled.
+  ///
+  /// @param c
+  /// @param x x-position of the highlight line intersection
+  /// @param y y-position of the highlight line intersection
+  /// @param set the currently drawn dataset
+  void drawBarHighlightLines(Canvas c, double x, double y, IBarLineScatterCandleBubbleDataSet dataSet) {
+    // set color and stroke-width
+    highlightPaint
+      ..color = dataSet.getHighLightColor()
+      ..strokeWidth = 1.0;
+
+    // draw vertical highlight lines
+    if (dataSet.isHighlightEnabled()) {
+      // create vertical path
+      _highlightLinePath.reset();
+      _highlightLinePath.moveTo(x, viewPortHandler.contentTop());
+      _highlightLinePath.lineTo(x, viewPortHandler.contentBottom());
+
+      c.drawPath(_highlightLinePath, highlightPaint);
+
+      // create horizontal path
+      _highlightLinePath.reset();
+      _highlightLinePath.moveTo(viewPortHandler.contentLeft(), y);
+      _highlightLinePath.lineTo(viewPortHandler.contentRight(), y);
+
+      c.drawPath(_highlightLinePath, highlightPaint);
     }
   }
 }
