@@ -17,6 +17,7 @@ import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/mode.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
+import 'package:mp_chart/mp/core/render/float_legend_utils.dart';
 import 'package:mp_chart/mp/core/render/line_radar_renderer.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
@@ -34,7 +35,7 @@ class LineChartRenderer extends LineRadarRenderer {
   Paint _circlePaintInner;
 
   TextPainter _labelText;
-  final _floatingLegendBg = Color.fromARGB(150, 50, 50, 50);
+  // final _floatingLegendBg = Color.fromARGB(150, 50, 50, 50);
 
   /**
    * Bitmap object used for drawing the paths (otherwise they are too long if
@@ -718,107 +719,6 @@ class LineChartRenderer extends LineRadarRenderer {
   @override
   Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
     final data = _provider.getData();
-    var drawSize = rendererSize;
-
-    final Map<String, List<EntryColor>> entryColors = _createEntries(data, indices);
-
-    entryColors.keys.forEach((element) {
-      final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + drawSize.height);
-      final legendSize = _drawTextLegend(c, entryColors[element], element, position);
-      drawSize = Size(drawSize.width + legendSize.width, drawSize.height + legendSize.height);
-    });
-
-    return drawSize;
+    return FloatLegendUtils.drawFloatingLegend<LineDataSet>(_labelText, c, viewPortHandler, data, indices, rendererSize);
   }
-
-  Map<String, List<EntryColor>> _createEntries(BarLineScatterCandleBubbleData data, List<Highlight> indices) {
-    final Map<String, List<EntryColor>> entryColors = {};
-    data.dataSets.where((element) => element is LineDataSet).toList().asMap().forEach((i, element) {
-      if (element.isVisible()) {
-        final h = indices.first;
-        final entry = element.getEntryForXValue2(h.x, 0);
-        final legendText = element.getLabel();
-        final legend = legendText.split('@');
-        final text = legend[0];
-        var inputs = '';
-        if (legend.length > 1) {
-          inputs = legend[1];
-        }
-        final color = element.getColor1();
-
-        if (entryColors.containsKey(text)) {
-          entryColors[text].add(EntryColor(entry, color, inputs));
-        } else {
-          entryColors.putIfAbsent(text, () => [EntryColor(entry, color, inputs)]);
-        }
-      }
-    });
-
-    return entryColors;
-  }
-
-  Size _drawTextLegend(Canvas c, List<EntryColor> entryColor, String text, Offset labelPosition) {
-    final span = _createTextSpan(entryColor, text.split('#').first);
-
-    _labelText.text = TextSpan(
-      text: '',
-      style: TextStyle(
-        fontSize: 10,
-        color: Colors.white,
-      ),
-      children: span,
-    );
-    _labelText.layout();
-    _drawFloatingLegendBg(c, labelPosition, _labelText.size);
-    _labelText.paint(c, labelPosition);
-
-    return _labelText.size;
-  }
-
-  List<InlineSpan> _createTextSpan(List<EntryColor> entryColor, String text) {
-    final _whiteStyle = TextStyle(
-      fontSize: 10,
-      color: Colors.white,
-    );
-
-    final span = <InlineSpan>[TextSpan(text: '$text', style: _whiteStyle)];
-    span.add(TextSpan(text: ' (', style: _whiteStyle));
-
-    entryColor.forEach((element) {
-      span.add(
-        TextSpan(
-          text: element.input.isEmpty ? '' : ' ${element.input}',
-          style: _whiteStyle,
-        ),
-      );
-    });
-
-    span.add(TextSpan(text: ' ) ', style: _whiteStyle));
-
-    entryColor.forEach((element) {
-      span.add(
-        TextSpan(
-          text: ' ${element.entry.y.toStringAsFixed(2)}',
-          style: TextStyle(
-            fontSize: 10,
-            color: element.color,
-          ),
-        ),
-      );
-    });
-
-    return span;
-  }
-
-  void _drawFloatingLegendBg(Canvas c, Offset position, Size size) {
-    c.drawRect(Rect.fromLTWH(position.dx, position.dy, size.width, size.height), Paint()..color = _floatingLegendBg);
-  }
-}
-
-class EntryColor {
-  final Entry entry;
-  final Color color;
-  final String input;
-
-  EntryColor(this.entry, this.color, this.input);
 }
