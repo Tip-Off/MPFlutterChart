@@ -723,7 +723,7 @@ class LineChartRenderer extends LineRadarRenderer {
     final Map<String, List<EntryColor>> entryColors = _createEntries(data, indices);
 
     entryColors.keys.forEach((element) {
-      final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + rendererSize.height);
+      final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + drawSize.height);
       final legendSize = _drawTextLegend(c, entryColors[element], element, position);
       drawSize = Size(drawSize.width + legendSize.width, drawSize.height + legendSize.height);
     });
@@ -787,11 +787,8 @@ class LineChartRenderer extends LineRadarRenderer {
     entryColor.forEach((element) {
       span.add(
         TextSpan(
-          text: ' ${element.input}',
-          style: TextStyle(
-            fontSize: 10,
-            color: element.color,
-          ),
+          text: element.input.isEmpty ? '' : ' ${element.input}',
+          style: _whiteStyle,
         ),
       );
     });
