@@ -9,13 +9,16 @@ import 'package:mp_chart/mp/core/color/gradient_color.dart';
 import 'package:mp_chart/mp/core/data/bar_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_data_provider.dart';
+import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
 import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/range.dart';
 import 'package:mp_chart/mp/core/render/bar_line_scatter_candle_bubble_renderer.dart';
+import 'package:mp_chart/mp/core/render/float_legend_utils.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
+import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
@@ -28,12 +31,14 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
   Rect _barRect = Rect.zero;
 
   List<BarBuffer> _barBuffers;
+  TextPainter _labelText;
 
   Paint _shadowPaint;
   Paint _barBorderPaint;
 
   BarChartRenderer(BarDataProvider chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
     this._provider = chart;
+    _labelText = PainterUtils.create(null, null, ColorUtils.WHITE, null);
 
     highlightPaint = Paint()
       ..isAntiAlias = true
@@ -446,5 +451,8 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
   void drawExtras(Canvas c) {}
 
   @override
-  Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) => rendererSize;
+  Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
+    final data = _provider.getData();
+    return FloatLegendUtils.drawFloatingLegend<BarDataSet>(_labelText, c, viewPortHandler, data, indices, rendererSize);
+  }
 }

@@ -696,22 +696,27 @@ class LineChartRenderer extends LineRadarRenderer {
 
     var pix = MPPointD(0, 0);
     for (Highlight high in indices) {
-      ILineDataSet set = lineData.getDataSetByIndex(high.dataSetIndex);
+      ILineDataSet dataSet;
+      if (high.dataSetIndex >= 0) {
+        dataSet = lineData.getDataSetByIndex(high.dataSetIndex);
+      } else {
+        dataSet = lineData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).length > 0, orElse: () => null);
+      }
 
-      if (set == null || !set.isHighlightEnabled()) continue;
+      if (dataSet == null || !dataSet.isHighlightEnabled()) continue;
 
-      Entry e = set.getEntryForXValue2(high.x, high.y);
+      Entry e = dataSet.getEntryForXValue2(high.x, high.y);
 
-      if (!isInBoundsX(e, set)) continue;
+      if (!isInBoundsX(e, dataSet)) continue;
 
       var yVal = high.freeY == null || high.freeY.isNaN ? high.y : high.freeY;
 
-      pix = _provider.getTransformer(set.getAxisDependency()).getPixelForValues(e.x, yVal);
+      pix = _provider.getTransformer(dataSet.getAxisDependency()).getPixelForValues(e.x, yVal);
 
       high.setDraw(pix.x, pix.y);
 
       // draw the lines
-      drawHighlightLines(c, pix.x, pix.y, set);
+      drawHighlightLines(c, pix.x, pix.y, dataSet);
     }
     return pix;
   }
