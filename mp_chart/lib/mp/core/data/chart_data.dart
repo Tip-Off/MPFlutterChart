@@ -93,11 +93,9 @@ class ChartData<T extends IDataSet<Entry>> {
 
       for (T dataSet in _dataSets) {
         if (dataSet.getAxisDependency() == AxisDependency.LEFT) {
-          if (dataSet.getYMin() < _leftAxisMin)
-            _leftAxisMin = dataSet.getYMin();
+          if (dataSet.getYMin() < _leftAxisMin) _leftAxisMin = dataSet.getYMin();
 
-          if (dataSet.getYMax() > _leftAxisMax)
-            _leftAxisMax = dataSet.getYMax();
+          if (dataSet.getYMax() > _leftAxisMax) _leftAxisMax = dataSet.getYMax();
         }
       }
     }
@@ -111,11 +109,9 @@ class ChartData<T extends IDataSet<Entry>> {
 
       for (T dataSet in _dataSets) {
         if (dataSet.getAxisDependency() == AxisDependency.RIGHT) {
-          if (dataSet.getYMin() < _rightAxisMin)
-            _rightAxisMin = dataSet.getYMin();
+          if (dataSet.getYMin() < _rightAxisMin) _rightAxisMin = dataSet.getYMin();
 
-          if (dataSet.getYMax() > _rightAxisMax)
-            _rightAxisMax = dataSet.getYMax();
+          if (dataSet.getYMax() > _rightAxisMax) _rightAxisMax = dataSet.getYMax();
         }
       }
     }
@@ -219,12 +215,9 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @return
   int getDataSetIndexByLabel(List<T> dataSets, String label, bool ignorecase) {
     if (ignorecase) {
-      for (int i = 0; i < dataSets.length; i++)
-        if (DartAdapterUtils.equalsIgnoreCase(label, dataSets[i].getLabel()))
-          return i;
+      for (int i = 0; i < dataSets.length; i++) if (DartAdapterUtils.equalsIgnoreCase(label, dataSets[i].getLabel())) return i;
     } else {
-      for (int i = 0; i < dataSets.length; i++)
-        if (label == dataSets[i].getLabel()) return i;
+      for (int i = 0; i < dataSets.length; i++) if (label == dataSets[i].getLabel()) return i;
     }
 
     return -1;
@@ -251,8 +244,7 @@ class ChartData<T extends IDataSet<Entry>> {
     if (highlight.dataSetIndex >= _dataSets.length)
       return null;
     else {
-      return _dataSets[highlight.dataSetIndex]
-          .getEntryForXValue2(highlight.x, highlight.y);
+      return _dataSets[highlight.dataSetIndex].getEntryForXValue2(highlight.x, highlight.y);
     }
   }
 
@@ -273,8 +265,7 @@ class ChartData<T extends IDataSet<Entry>> {
   }
 
   T getDataSetByIndex(int index) {
-    if (_dataSets == null || index < 0 || index >= _dataSets.length)
-      return null;
+    if (_dataSets == null || index < 0 || index >= _dataSets.length) return null;
 
     return _dataSets[index];
   }

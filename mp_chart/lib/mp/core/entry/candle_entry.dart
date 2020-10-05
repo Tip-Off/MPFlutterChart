@@ -16,16 +16,19 @@ class CandleEntry extends Entry {
 
   final double volume;
 
+  bool highlighted;
+
   //TODO: refactory
   CandleEntry({
     this.volume = 0,
+    this.highlighted = false,
     double x,
     double shadowH,
     double shadowL,
     double open,
     double close,
     ui.Image icon,
-    Object data
+    Object data,
   }) : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
     this._shadowHigh = shadowH;
     this._shadowLow = shadowL;
@@ -63,12 +66,15 @@ class CandleEntry extends Entry {
 
   CandleEntry copy() {
     CandleEntry c = CandleEntry(
-        x: x,
-        shadowH: _shadowHigh,
-        shadowL: _shadowLow,
-        open: _open,
-        close: _close,
-        data: mData);
+      x: x,
+      shadowH: _shadowHigh,
+      shadowL: _shadowLow,
+      open: _open,
+      close: _close,
+      highlighted: highlighted,
+      volume: volume,
+      data: mData,
+    );
     return c;
   }
 

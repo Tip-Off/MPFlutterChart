@@ -90,6 +90,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
       final double close = e.close;
       final double high = e.shadowHigh;
       final double low = e.shadowLow;
+      final bool candleHighlight = e.highlighted;
 
       if (showCandleBar) {
         // calculate the shadow
@@ -147,33 +148,56 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
         // draw body differently for increasing and decreasing entry
         if (open > close) {
           // decreasing
-
           if (dataSet.getDecreasingColor() == ColorUtils.COLOR_NONE) {
             renderPaint.color = dataSet.getColor2(j);
+            renderPaint.style = PaintingStyle.fill;
+            c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[3], _bodyBuffers[2], _bodyBuffers[1]), renderPaint);
           } else {
-            renderPaint.color = dataSet.getDecreasingColor();
+            //renderPaint.color = dataSet.getDecreasingColor();
+            // renderPaint.color = _highlightColorOr(dataSet, dataSet.getDecreasingColor(), candleHighlight);
+
+            // renderPaint.style = PaintingStyle.fill;
+            // c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
+            // renderPaint.color = dataSet.getDecreasingColor();
+            // renderPaint.style = PaintingStyle.stroke;
+            // c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
+
+            final color1 = _highlightColorOr(dataSet, dataSet.getDecreasingColor(), candleHighlight);
+            _drawWithBorder(c, dataSet.getDecreasingColor(), color1, candleHighlight);
           }
 
-          renderPaint.style = PaintingStyle.fill;
+          // renderPaint.style = PaintingStyle.fill;
 
-          c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[3], _bodyBuffers[2], _bodyBuffers[1]), renderPaint);
+          // c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[3], _bodyBuffers[2], _bodyBuffers[1]), renderPaint);
         } else if (open < close) {
           if (dataSet.getIncreasingColor() == ColorUtils.COLOR_NONE) {
             renderPaint.color = dataSet.getColor2(j);
+            renderPaint.style = PaintingStyle.fill;
+            c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
           } else {
-            renderPaint.color = dataSet.getIncreasingColor();
+            // renderPaint.color = dataSet.getIncreasingColor();
+            // renderPaint.color = _highlightColorOr(dataSet, dataSet.getIncreasingColor(), candleHighlight);
+            // renderPaint.style = PaintingStyle.fill;
+            // c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
+            // renderPaint.color = dataSet.getIncreasingColor();
+            // renderPaint.style = PaintingStyle.stroke;
+            // c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
+
+            final color1 = _highlightColorOr(dataSet, dataSet.getIncreasingColor(), candleHighlight);
+            _drawWithBorder(c, dataSet.getIncreasingColor(), color1, candleHighlight);
           }
 
-          renderPaint.style = PaintingStyle.fill;
+          // renderPaint.style = PaintingStyle.fill;
 
-          c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
+          // c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
         } else {
           // equal values
 
           if (dataSet.getNeutralColor() == ColorUtils.COLOR_NONE) {
             renderPaint.color = dataSet.getColor2(j);
           } else {
-            renderPaint.color = dataSet.getNeutralColor();
+            // renderPaint.color = dataSet.getNeutralColor();
+            renderPaint.color = _highlightColorOr(dataSet, dataSet.getNeutralColor(), candleHighlight);
           }
 
           c.drawLine(Offset(_bodyBuffers[0], _bodyBuffers[1]), Offset(_bodyBuffers[2], _bodyBuffers[3]), renderPaint);
@@ -213,6 +237,23 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
         c.drawLine(Offset(_openBuffers[0], _openBuffers[1]), Offset(_openBuffers[2], _openBuffers[3]), renderPaint);
         c.drawLine(Offset(_closeBuffers[0], _closeBuffers[1]), Offset(_closeBuffers[2], _closeBuffers[3]), renderPaint);
       }
+    }
+  }
+
+  Color _highlightColorOr(ICandleDataSet dataSet, Color alternative, bool candleHighlight) =>
+      dataSet.getHighlightCandleEnabled() && candleHighlight ? dataSet.getHighlightCandleColor() : alternative;
+
+  void _drawWithBorder(Canvas c, Color border, Color fill, bool hasBorder) {
+    renderPaint.color = fill;
+    renderPaint.style = PaintingStyle.fill;
+    c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
+    if (hasBorder) {
+      renderPaint.color = border;
+      renderPaint.style = PaintingStyle.stroke;
+      final currentWidth = renderPaint.strokeWidth;
+      // renderPaint.strokeWidth = 2.0;
+      c.drawRect(Rect.fromLTRB(_bodyBuffers[0], _bodyBuffers[1], _bodyBuffers[2], _bodyBuffers[3]), renderPaint);
+      renderPaint.strokeWidth = currentWidth;
     }
   }
 
@@ -353,8 +394,8 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
         var heightBar = h2 * factor;
         var yBar = viewPortHandler.contentBottom() - heightBar;
 
-        renderPaint..color = _getColor(e.open, e.close, dataSet, j).withOpacity(.4);
-
+        renderPaint.color = _getColor(e.open, e.close, dataSet, j).withOpacity(.4);
+        renderPaint.style = PaintingStyle.fill;
         c.drawRect(Rect.fromLTWH(xBar, yBar, widthBar, heightBar), renderPaint);
       }
     }

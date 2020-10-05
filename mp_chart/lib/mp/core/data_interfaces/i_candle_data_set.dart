@@ -57,4 +57,12 @@ mixin ICandleDataSet implements ILineScatterCandleRadarDataSet<CandleEntry> {
   ///
   /// @return
   bool getShadowColorSameAsCandle();
+
+  bool getHighlightCandleEnabled();
+
+  void setHighlightCandleEnabled(bool status);
+
+  Color getHighlightCandleColor();
+
+  void setHighlightCandleColor(Color color);
 }

@@ -9,8 +9,7 @@ import 'package:mp_chart/mp/core/entry/candle_entry.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
-class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry>
-    implements ICandleDataSet {
+class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implements ICandleDataSet {
   /// the width of the shadow of the candle
   double _shadowWidth = 3;
 
@@ -19,6 +18,10 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry>
   /// <p/>
   /// - default: true
   bool _showCandleBar = true;
+
+  bool _highligtEnabled = false;
+
+  Color _highligtCandleColor = ColorUtils.COLOR_SKIP;
 
   /// the space between the candle entries, default 0.1f (10%)
   double _barSpace = 0.1;
@@ -230,5 +233,21 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry>
   @override
   DashPathEffect getDashPathEffectHighlight() {
     return null;
+  }
+
+  @override
+  bool getHighlightCandleEnabled() => _highligtEnabled;
+
+  @override
+  void setHighlightCandleEnabled(bool status) {
+    _highligtEnabled = status;
+  }
+
+  @override
+  Color getHighlightCandleColor() => _highligtCandleColor;
+
+  @override
+  void setHighlightCandleColor(Color color) {
+    _highligtCandleColor = color;
   }
 }
