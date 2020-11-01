@@ -9,6 +9,7 @@ import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_line_scatter_candle_bubble_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_line_scatter_candle_bubble_data_provider.dart';
+import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
 import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
@@ -22,6 +23,7 @@ import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
+import 'package:mp_chart/mp/core/render/bar_chart_renderer.dart';
 import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
@@ -325,7 +327,12 @@ abstract class BarLineChartBasePainter<
     if (valuesToHighlight() && indicesToHighlight.length == 1) {
       var axisPointX = indicesToHighlight.first.highlightX;
       var axisPointY = indicesToHighlight.first.highlightY;
-      var pointOnChartY = indicesToHighlight.first.y;
+      
+      var pointOnChartY = axisPointY;
+      final dataSet = getData();
+      if (dataSet.dataSets.length > 0 && dataSet.dataSets.first is BarDataSet) {
+        pointOnChartY = indicesToHighlight.first.y;
+      }
 
       if (axisPointY != null && axisPointX != null) {
         if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
