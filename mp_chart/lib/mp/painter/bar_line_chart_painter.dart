@@ -402,7 +402,7 @@ abstract class BarLineChartBasePainter<
 
   @override
   void calcMinMax() {
-    xAxis.calculate(getData().xMin + 10, getData().xMax + .5);
+    xAxis.calculate(getData().xMin - .5, getData().xMax + .5);
     // calculate axis range (min / max) according to provided data
     _axisLeft.calculate(getData().getYMin2(AxisDependency.LEFT),
         getData().getYMax2(AxisDependency.LEFT));
