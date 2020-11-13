@@ -416,6 +416,8 @@ class LineChartRenderer extends LineRadarRenderer {
 
           if (e1 == null || e2 == null) continue;
 
+          if (e1.mData is bool && !e1.mData) continue;
+
           mLineBuffer[j++] = e1.x;
           mLineBuffer[j++] = e1.y * phaseY;
 
