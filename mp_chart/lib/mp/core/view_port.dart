@@ -371,6 +371,9 @@ class ViewPortHandler {
     }
 
     double maxTransX = -width * (_scaleX - 1);
+
+    maxTransX = maxTransX - (width - 100);
+
     _transX = min(max(curTransX, maxTransX - _transOffsetX), _transOffsetX);
 
     double maxTransY = height * (_scaleY - 1);
