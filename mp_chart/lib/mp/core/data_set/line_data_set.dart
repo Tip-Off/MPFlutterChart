@@ -11,6 +11,8 @@ import 'package:mp_chart/mp/core/fill_formatter/i_fill_formatter.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
+import '../../image_store.dart';
+
 class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   /// Drawing mode for this line dataset
   ///*/
@@ -158,8 +160,9 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   /// @param lineLength  the length of the line pieces
   /// @param spaceLength the length of space in between the pieces
   /// @param phase       offset, in degrees (normally, use 0)
-  void enableDashedLine(double lineLength, double spaceLength, double phase) {
-    _dashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
+  void enableDashedLine(int lineLength, Color color) {
+    _dashPathEffect =
+        DashPathEffect(ImageStore.getHorizontalDashed(), lineLength, color);
   }
 
   /// Disables the line to be drawn in dashed mode.

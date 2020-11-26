@@ -10,8 +10,8 @@ abstract class CanvasUtils {
       {DashPathEffect effect}) {
     if (effect == null) {
       for (int i = offset; i < count; i += 4) {
-        canvas.drawLine(ui.Offset(pts[i], pts[i + 1]),
-            ui.Offset(pts[i + 2], pts[i + 3]), paint);
+        // canvas.drawLine(ui.Offset(pts[i], pts[i + 1]),
+        //     ui.Offset(pts[i + 2], pts[i + 3]), paint);
       }
     } else {
       var path = Path();
@@ -19,8 +19,8 @@ abstract class CanvasUtils {
         path.reset();
         path.moveTo(pts[i], pts[i + 1]);
         path.lineTo(pts[i + 2], pts[i + 3]);
-        path = effect.convert2DashPath(path);
-        canvas.drawPath(path, paint);
+        //path = effect.convert2DashPath(path);
+        //canvas.drawPath(path, paint);
       }
     }
   }
@@ -49,13 +49,13 @@ abstract class CanvasUtils {
       Offset offset, LimitLine limitLine) {
     if (limitLine.drawBackground) {
       Paint paint = Paint()..color = limitLine.backgroundColor;
-      canvas.drawRect(
-          Rect.fromLTRB(
-              offset.dx - LABEL_SPACE,
-              offset.dy - LABEL_SPACE,
-              offset.dx + LABEL_SPACE + textPainter.width,
-              offset.dy + LABEL_SPACE + textPainter.height),
-          paint);
+      // canvas.drawRect(
+      //     Rect.fromLTRB(
+      //         offset.dx - LABEL_SPACE,
+      //         offset.dy - LABEL_SPACE,
+      //         offset.dx + LABEL_SPACE + textPainter.width,
+      //         offset.dy + LABEL_SPACE + textPainter.height),
+      //     paint);
     }
   }
 }

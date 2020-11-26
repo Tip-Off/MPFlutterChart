@@ -89,27 +89,27 @@ class YAxisRenderer extends AxisRenderer {
       ..strokeWidth = _yAxis.axisLineWidth;
 
     _renderGridLinesPath.reset();
-    if (_yAxis.axisDependency == AxisDependency.LEFT) {
-      _renderGridLinesPath.moveTo(
-          viewPortHandler.contentLeft(), viewPortHandler.contentTop());
-      _renderGridLinesPath.lineTo(
-          viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
-      if (_yAxis.axisLineDashPathEffect != null) {
-        _renderGridLinesPath = _yAxis.axisLineDashPathEffect
-            .convert2DashPath(_renderGridLinesPath);
-      }
-      c.drawPath(_renderGridLinesPath, axisLinePaint);
-    } else {
-      _renderGridLinesPath.moveTo(
-          viewPortHandler.contentRight(), viewPortHandler.contentTop());
-      _renderGridLinesPath.lineTo(
-          viewPortHandler.contentRight(), viewPortHandler.contentBottom());
-      if (_yAxis.axisLineDashPathEffect != null) {
-        _renderGridLinesPath = _yAxis.axisLineDashPathEffect
-            .convert2DashPath(_renderGridLinesPath);
-      }
-      c.drawPath(_renderGridLinesPath, axisLinePaint);
-    }
+    // if (_yAxis.axisDependency == AxisDependency.LEFT) {
+    //   _renderGridLinesPath.moveTo(
+    //       viewPortHandler.contentLeft(), viewPortHandler.contentTop());
+    //   _renderGridLinesPath.lineTo(
+    //       viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
+    //   if (_yAxis.axisLineDashPathEffect != null) {
+    //     _renderGridLinesPath = _yAxis.axisLineDashPathEffect
+    //         .convert2DashPath(_renderGridLinesPath);
+    //   }
+    //   c.drawPath(_renderGridLinesPath, axisLinePaint);
+    // } else {
+    //   _renderGridLinesPath.moveTo(
+    //       viewPortHandler.contentRight(), viewPortHandler.contentTop());
+    //   _renderGridLinesPath.lineTo(
+    //       viewPortHandler.contentRight(), viewPortHandler.contentBottom());
+    //   if (_yAxis.axisLineDashPathEffect != null) {
+    //     _renderGridLinesPath = _yAxis.axisLineDashPathEffect
+    //         .convert2DashPath(_renderGridLinesPath);
+    //   }
+    //   //c.drawPath(_renderGridLinesPath, axisLinePaint);
+    // }
   }
 
   /// draws the y-labels on the specified x-position
@@ -186,10 +186,10 @@ class YAxisRenderer extends AxisRenderer {
       for (int i = 0; i < positions.length; i += 2) {
         // draw a path because lines don't support dashing on lower android versions
         if (yAxis.gridDashPathEffect != null) {
-          c.drawPath(
-              yAxis.gridDashPathEffect
-                  .convert2DashPath(linePath(gridLinePath, i, positions)),
-              gridPaint);
+          // c.drawPath(
+          //     yAxis.gridDashPathEffect
+          //         .convert2DashPath(linePath(gridLinePath, i, positions)),
+          //     gridPaint);
         } else {
           c.drawPath(linePath(gridLinePath, i, positions), gridPaint);
         }
@@ -299,7 +299,7 @@ class YAxisRenderer extends AxisRenderer {
   ///
   /// @param c
   @override
-  void renderLimitLines(Canvas c) {
+  Future<void> renderLimitLines(Canvas c) async {
     List<LimitLine> limitLines = _yAxis.getLimitLines();
 
     if (limitLines == null || limitLines.length <= 0) return;
@@ -336,9 +336,15 @@ class YAxisRenderer extends AxisRenderer {
       limitLinePath.lineTo(viewPortHandler.contentRight(), pts[1]);
 
       if (l.dashPathEffect != null) {
-        limitLinePath = l.dashPathEffect.convert2DashPath(limitLinePath);
+        var dashPathEffect = l.dashPathEffect;
+
+        var paint = dashPathEffect.paint;
+
+        c.drawLine(Offset(0, 50), Offset(600, 50), paint);
+      } else {
+        c.drawPath(limitLinePath, limitLinePaint);
       }
-      c.drawPath(limitLinePath, limitLinePaint);
+
       limitLinePath.reset();
 
       String label = l.label;
@@ -419,18 +425,15 @@ class YAxisRenderer extends AxisRenderer {
   }
 
   void _drawYHighlightLabels(
-      Canvas c,
-      double fixedPosition,
-      AxisHighlightRenderOpt opt,
-      AxisDependency axisDependency,
-      YAxisLabelPosition position,
-    ) {
-
+    Canvas c,
+    double fixedPosition,
+    AxisHighlightRenderOpt opt,
+    AxisDependency axisDependency,
+    YAxisLabelPosition position,
+  ) {
     axisLabelPaint.text = TextSpan(
       text: _yAxis.getDirectFormattedLabel(opt.axisPoint.y),
-      style: axisLabelPaint.text.style.copyWith(
-        color: Colors.white
-      ),
+      style: axisLabelPaint.text.style.copyWith(color: Colors.white),
     );
 
     axisLabelPaint.layout();
@@ -438,31 +441,35 @@ class YAxisRenderer extends AxisRenderer {
     var labelPosition = Offset(0, 0);
     if (axisDependency == AxisDependency.LEFT) {
       if (position == YAxisLabelPosition.OUTSIDE_CHART) {
-        labelPosition = Offset(fixedPosition - axisLabelPaint.width, opt.screenPoint.y - axisLabelPaint.height / 2);
+        labelPosition = Offset(fixedPosition - axisLabelPaint.width,
+            opt.screenPoint.y - axisLabelPaint.height / 2);
       } else {
-        labelPosition = Offset(fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
+        labelPosition = Offset(
+            fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
       }
     } else {
       if (position == YAxisLabelPosition.OUTSIDE_CHART) {
-        labelPosition = Offset(fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
+        labelPosition = Offset(
+            fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
       } else {
-        labelPosition = Offset(fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
+        labelPosition = Offset(
+            fixedPosition, opt.screenPoint.y - axisLabelPaint.height / 2);
       }
     }
 
-    var validPoint = Offset(viewPortHandler.getContentCenter().x, labelPosition.dy);
+    var validPoint =
+        Offset(viewPortHandler.getContentCenter().x, labelPosition.dy);
 
     if (viewPortHandler.getContentRect().contains(validPoint)) {
-      var paint = Paint()
-        ..color = Colors.deepOrange;
+      var paint = Paint()..color = Colors.deepOrange;
 
-      c.drawRect(Rect.fromLTWH(labelPosition.dx - 1, labelPosition.dy - 1, axisLabelPaint.width + 2, axisLabelPaint.height + 2), paint);
+      c.drawRect(
+          Rect.fromLTWH(labelPosition.dx - 1, labelPosition.dy - 1,
+              axisLabelPaint.width + 2, axisLabelPaint.height + 2),
+          paint);
       axisLabelPaint.paint(c, labelPosition);
     }
-
-
   }
-
 
   // ignore: unnecessary_getters_setters
   Rect get gridClippingRect => _gridClippingRect;

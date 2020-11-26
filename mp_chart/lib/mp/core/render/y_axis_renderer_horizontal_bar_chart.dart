@@ -231,7 +231,7 @@ class YAxisRendererHorizontalBarChart extends YAxisRenderer {
   ///
   /// @param c
   @override
-  void renderLimitLines(Canvas c) {
+  Future<void> renderLimitLines(Canvas c) async {
     List<LimitLine> limitLines = yAxis.getLimitLines();
 
     if (limitLines == null || limitLines.length <= 0) return;
@@ -274,9 +274,9 @@ class YAxisRendererHorizontalBarChart extends YAxisRenderer {
         ..strokeWidth = l.lineWidth;
 
       if (l.dashPathEffect != null) {
-        limitLinePath = l.dashPathEffect.convert2DashPath(limitLinePath);
+        // limitLinePath = l.dashPathEffect.convert2DashPath(limitLinePath);
       }
-      c.drawPath(limitLinePath, limitLinePaint);
+      //c.drawPath(limitLinePath, limitLinePaint);
       limitLinePath.reset();
 
       String label = l.label;

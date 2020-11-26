@@ -1,32 +1,23 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'dart:ui';
 
-import 'package:path_drawing/path_drawing.dart';
+import 'package:flutter/material.dart';
 
 class DashPathEffect {
-  CircularIntervalList<double> _circularIntervalList;
+  ui.Image image;
 
-  DashOffset _dashOffset;
+  Float64List matrix = Float64List.fromList(Matrix4.identity().storage);
 
-  CircularIntervalList<double> get circularIntervalList =>
-      _circularIntervalList;
-
-  DashPathEffect(double lineLength, double spaceLength, double value)
-      : _circularIntervalList =
-            CircularIntervalList<double>(<double>[lineLength, spaceLength]),
-        _dashOffset = DashOffset.absolute(value);
-
-  Path convert2DashPath(Path path) {
-    if (_circularIntervalList == null) {
-      return path;
-    }
-    return dashPath(path,
-        dashArray: _circularIntervalList, dashOffset: _dashOffset);
+  ui.Paint get paint {
+    return Paint()
+      ..colorFilter = ColorFilter.mode(Colors.orange, BlendMode.srcIn)
+      ..strokeWidth = 2
+      ..shader =
+          ImageShader(image, TileMode.repeated, TileMode.repeated, matrix);
   }
 
-  @override
-  String toString() {
-    return 'DashPathEffect{_circularIntervalList: $_circularIntervalList,\n _dashOffset: $_dashOffset}';
-  }
+  DashPathEffect(this.image, int lineStroke, Color color);
 }
 
 class TypeFace {

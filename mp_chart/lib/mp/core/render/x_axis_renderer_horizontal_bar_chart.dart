@@ -164,7 +164,7 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
     gridLinePath.lineTo(viewPortHandler.contentLeft(), y);
 
     // draw a path because lines don't support dashing on lower android versions
-    c.drawPath(gridLinePath, gridPaint);
+    //c.drawPath(gridLinePath, gridPaint);
 
     gridLinePath.reset();
   }
@@ -178,25 +178,25 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
       ..color = xAxis.axisLineColor
       ..strokeWidth = xAxis.axisLineWidth;
 
-    if (xAxis.position == XAxisPosition.TOP ||
-        xAxis.position == XAxisPosition.TOP_INSIDE ||
-        xAxis.position == XAxisPosition.BOTH_SIDED) {
-      c.drawLine(
-          Offset(viewPortHandler.contentRight(), viewPortHandler.contentTop()),
-          Offset(
-              viewPortHandler.contentRight(), viewPortHandler.contentBottom()),
-          axisLinePaint);
-    }
+    // if (xAxis.position == XAxisPosition.TOP ||
+    //     xAxis.position == XAxisPosition.TOP_INSIDE ||
+    //     xAxis.position == XAxisPosition.BOTH_SIDED) {
+    //   c.drawLine(
+    //       Offset(viewPortHandler.contentRight(), viewPortHandler.contentTop()),
+    //       Offset(
+    //           viewPortHandler.contentRight(), viewPortHandler.contentBottom()),
+    //       axisLinePaint);
+    // }
 
-    if (xAxis.position == XAxisPosition.BOTTOM ||
-        xAxis.position == XAxisPosition.BOTTOM_INSIDE ||
-        xAxis.position == XAxisPosition.BOTH_SIDED) {
-      c.drawLine(
-          Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop()),
-          Offset(
-              viewPortHandler.contentLeft(), viewPortHandler.contentBottom()),
-          axisLinePaint);
-    }
+    // if (xAxis.position == XAxisPosition.BOTTOM ||
+    //     xAxis.position == XAxisPosition.BOTTOM_INSIDE ||
+    //     xAxis.position == XAxisPosition.BOTH_SIDED) {
+    //   c.drawLine(
+    //       Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop()),
+    //       Offset(
+    //           viewPortHandler.contentLeft(), viewPortHandler.contentBottom()),
+    //       axisLinePaint);
+    // }
   }
 
   Path mRenderLimitLinesPathBuffer = Path();
@@ -244,9 +244,9 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
       limitLinePath.lineTo(viewPortHandler.contentRight(), pts[1]);
 
       if (l.dashPathEffect != null) {
-        limitLinePath = l.dashPathEffect.convert2DashPath(limitLinePath);
+        //limitLinePath = l.dashPathEffect.convert2DashPath(limitLinePath);
       }
-      c.drawPath(limitLinePath, limitLinePaint);
+      //c.drawPath(limitLinePath, limitLinePaint);
       limitLinePath.reset();
 
       String label = l.label;

@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_scatter_candle_radar_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/bar_line_scatter_candle_bubble_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
+
+import '../../image_store.dart';
 
 abstract class LineScatterCandleRadarDataSet<T extends Entry>
     extends BarLineScatterCandleBubbleDataSet<T>
@@ -70,9 +73,9 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   /// @param lineLength the length of the line pieces
   /// @param spaceLength the length of space inbetween the line-pieces
   /// @param phase offset, in degrees (normally, use 0)
-  void enableDashedHighlightLine(
-      double lineLength, double spaceLength, double phase) {
-    _highlightDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
+  void enableDashedHighlightLine(int lineLength, Color color) {
+    _highlightDashPathEffect =
+        DashPathEffect(ImageStore.getHorizontalDashed(), lineLength, color);
   }
 
   /// Disables the highlight-line to be drawn in dashed mode.
@@ -117,7 +120,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   /// and Cur's x value(Cur: Entry at index).
   @override
   bool addEntryByIndex(int index, T e) {
-    if(index < 0 || index > getEntryCount()){
+    if (index < 0 || index > getEntryCount()) {
       return false;
     }
 
@@ -126,17 +129,17 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
       return addEntry(e);
     }
 
-    if(index == 0){
+    if (index == 0) {
       var cur = valueDatas[index];
       if (e.x >= cur.x) {
         return false;
       }
-    } else if(index == getEntryCount()){
+    } else if (index == getEntryCount()) {
       var pre = valueDatas[index - 1];
-      if(e.x <= pre.x){
+      if (e.x <= pre.x) {
         return false;
       }
-    }else {
+    } else {
       var cur = valueDatas[index];
       var pre = valueDatas[index - 1];
       if (e.x >= cur.x || e.x <= pre.x) {

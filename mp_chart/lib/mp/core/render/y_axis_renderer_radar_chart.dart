@@ -178,7 +178,7 @@ class YAxisRendererRadarChart extends YAxisRenderer {
   Path mRenderLimitLinesPathBuffer = new Path();
 
   @override
-  void renderLimitLines(Canvas c) {
+  Future<void> renderLimitLines(Canvas c) async {
     List<LimitLine> limitLines = yAxis.getLimitLines();
 
     if (limitLines == null) return;
@@ -220,9 +220,9 @@ class YAxisRendererRadarChart extends YAxisRenderer {
       limitPath.close();
 
       if (l.dashPathEffect != null) {
-        limitPath = l.dashPathEffect.convert2DashPath(limitPath);
+        //limitPath = l.dashPathEffect.convert2DashPath(limitPath);
       }
-      c.drawPath(limitPath, limitLinePaint);
+      //c.drawPath(limitPath, limitLinePaint);
     }
     MPPointF.recycleInstance(center);
     MPPointF.recycleInstance(pOut);

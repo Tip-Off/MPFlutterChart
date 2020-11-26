@@ -183,7 +183,8 @@ class LegendRenderer extends Renderer {
   TextPainter getLabelPainter() {
     var fontFamily = _legend.typeface?.fontFamily;
     var fontWeight = _legend.typeface?.fontWeight;
-    return PainterUtils.create(_legendLabelPaint, null, _legend.textColor, _legend.textSize,
+    return PainterUtils.create(
+        _legendLabelPaint, null, _legend.textColor, _legend.textSize,
         fontFamily: fontFamily, fontWeight: fontWeight);
   }
 
@@ -481,26 +482,26 @@ class LegendRenderer extends Renderer {
 
       case LegendForm.LINE:
         {
-          final double formLineWidth = Utils.convertDpToPixel(
-              entry.formLineWidth.isNaN
-                  ? legend.formLineWidth
-                  : entry.formLineWidth);
-          final DashPathEffect formLineDashEffect =
-              entry.formLineDashEffect == null
-                  ? legend.getFormLineDashEffect()
-                  : entry.formLineDashEffect;
-          _legendFormPaint = Paint()
-            ..isAntiAlias = true
-            ..color = entry.formColor
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = formLineWidth;
-          _lineFormPath.reset();
-          _lineFormPath.moveTo(x, y);
-          _lineFormPath.lineTo(x + formSize, y);
-          if (formLineDashEffect != null) {
-            _lineFormPath = formLineDashEffect.convert2DashPath(_lineFormPath);
-          }
-          c.drawPath(_lineFormPath, _legendFormPaint);
+          // final double formLineWidth = Utils.convertDpToPixel(
+          //     entry.formLineWidth.isNaN
+          //         ? legend.formLineWidth
+          //         : entry.formLineWidth);
+          // final DashPathEffect formLineDashEffect =
+          //     entry.formLineDashEffect == null
+          //         ? legend.getFormLineDashEffect()
+          //         : entry.formLineDashEffect;
+          // _legendFormPaint = Paint()
+          //   ..isAntiAlias = true
+          //   ..color = entry.formColor
+          //   ..style = PaintingStyle.stroke
+          //   ..strokeWidth = formLineWidth;
+          // _lineFormPath.reset();
+          // _lineFormPath.moveTo(x, y);
+          // _lineFormPath.lineTo(x + formSize, y);
+          // if (formLineDashEffect != null) {
+          //   _lineFormPath = formLineDashEffect.convert2DashPath(_lineFormPath);
+          // }
+          // c.drawPath(_lineFormPath, _legendFormPaint);
         }
         break;
     }

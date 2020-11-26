@@ -1,11 +1,14 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/component.dart';
 import 'package:mp_chart/mp/core/limit_line.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/value_formatter/default_axis_value_formatter.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
+
+import '../../image_store.dart';
 
 abstract class AxisBase extends ComponentBase {
   /// custom formatter that is used instead of the auto-formatter if set
@@ -340,9 +343,9 @@ abstract class AxisBase extends ComponentBase {
   /// @param lineLength  the length of the line pieces
   /// @param spaceLength the length of space in between the pieces
   /// @param phase       offset, in degrees (normally, use 0)
-  void enableGridDashedLine(
-      double lineLength, double spaceLength, double phase) {
-    _gridDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
+  void enableGridDashedLine(int lineLength, Color color) {
+    _gridDashPathEffect =
+        DashPathEffect(ImageStore.getHorizontalDashed(), lineLength, color);
   }
 
   // ignore: unnecessary_getters_setters
@@ -372,9 +375,9 @@ abstract class AxisBase extends ComponentBase {
   /// @param lineLength  the length of the line pieces
   /// @param spaceLength the length of space in between the pieces
   /// @param phase       offset, in degrees (normally, use 0)
-  void enableAxisLineDashedLine(
-      double lineLength, double spaceLength, double phase) {
-    _axisLineDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
+  void enableAxisLineDashedLine(int lineLength, Color color) {
+    _axisLineDashPathEffect =
+        DashPathEffect(ImageStore.getHorizontalDashed(), lineLength, color);
   }
 
   /// Disables the axis line to be drawn in dashed mode.

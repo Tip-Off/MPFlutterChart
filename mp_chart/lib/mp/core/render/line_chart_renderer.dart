@@ -55,7 +55,9 @@ class LineChartRenderer extends LineRadarRenderer {
   Path _cubicPath = Path();
   Path _cubicFillPath = Path();
 
-  LineChartRenderer(LineDataProvider chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
+  LineChartRenderer(LineDataProvider chart, Animator animator,
+      ViewPortHandler viewPortHandler)
+      : super(animator, viewPortHandler) {
     _provider = chart;
 
     _labelText = PainterUtils.create(null, null, ColorUtils.WHITE, null);
@@ -172,9 +174,11 @@ class LineChartRenderer extends LineRadarRenderer {
 
     int i = 2;
     for (int j = xBounds.min + 1; j <= xBounds.range + xBounds.min; j++) {
-      _cubicPath.cubicTo(list[i], list[i + 1], list[i + 2], list[i + 3], list[i + 4], list[i + 5]);
+      _cubicPath.cubicTo(list[i], list[i + 1], list[i + 2], list[i + 3],
+          list[i + 4], list[i + 5]);
       if (dataSet.isDrawFilledEnabled()) {
-        _cubicFillPath.cubicTo(list[i], list[i + 1], list[i + 2], list[i + 3], list[i + 4], list[i + 5]);
+        _cubicFillPath.cubicTo(list[i], list[i + 1], list[i + 2], list[i + 3],
+            list[i + 4], list[i + 5]);
       }
       i += 6;
     }
@@ -186,9 +190,9 @@ class LineChartRenderer extends LineRadarRenderer {
     }
 
     if (dataSet.getDashPathEffect() != null) {
-      _cubicPath = dataSet.getDashPathEffect().convert2DashPath(_cubicPath);
+      //_cubicPath = dataSet.getDashPathEffect().convert2DashPath(_cubicPath);
     }
-    canvas.drawPath(_cubicPath, renderPaint);
+    //canvas.drawPath(_cubicPath, renderPaint);
   }
 
   void drawCubicBezier(Canvas canvas, ILineDataSet dataSet) {
@@ -271,9 +275,11 @@ class LineChartRenderer extends LineRadarRenderer {
 
     int i = 2;
     for (int j = xBounds.min + 1; j <= xBounds.range + xBounds.min; j++) {
-      _cubicPath.cubicTo(list[i], list[i + 1], list[i + 2], list[i + 3], list[i + 4], list[i + 5]);
+      _cubicPath.cubicTo(list[i], list[i + 1], list[i + 2], list[i + 3],
+          list[i + 4], list[i + 5]);
       if (dataSet.isDrawFilledEnabled()) {
-        _cubicFillPath.cubicTo(list[i], list[i + 1], list[i + 2], list[i + 3], list[i + 4], list[i + 5]);
+        _cubicFillPath.cubicTo(list[i], list[i + 1], list[i + 2], list[i + 3],
+            list[i + 4], list[i + 5]);
       }
       i += 6;
     }
@@ -283,14 +289,16 @@ class LineChartRenderer extends LineRadarRenderer {
       drawCubicFill(canvas, dataSet, _cubicFillPath, trans, xBounds);
     }
 
-    if (dataSet.getDashPathEffect() != null) {
-      _cubicPath = dataSet.getDashPathEffect().convert2DashPath(_cubicPath);
-    }
-    canvas.drawPath(_cubicPath, renderPaint);
+    // if (dataSet.getDashPathEffect() != null) {
+    //   _cubicPath = dataSet.getDashPathEffect().convert2DashPath(_cubicPath);
+    // }
+    //canvas.drawPath(_cubicPath, renderPaint);
   }
 
-  void drawCubicFill(Canvas c, ILineDataSet dataSet, Path spline, Transformer trans, XBounds bounds) {
-    double fillMin = dataSet.getFillFormatter().getFillLinePosition(dataSet, _provider);
+  void drawCubicFill(Canvas c, ILineDataSet dataSet, Path spline,
+      Transformer trans, XBounds bounds) {
+    double fillMin =
+        dataSet.getFillFormatter().getFillLinePosition(dataSet, _provider);
 
     List<double> list = List();
     list.add(dataSet.getEntryForIndex(bounds.min + bounds.range).x);
@@ -310,9 +318,11 @@ class LineChartRenderer extends LineRadarRenderer {
 //    } else {
 
     if (dataSet.isGradientEnabled()) {
-      drawFilledPath3(c, spline, dataSet.getGradientColor1().startColor.value, dataSet.getGradientColor1().endColor.value, dataSet.getFillAlpha());
+      drawFilledPath3(c, spline, dataSet.getGradientColor1().startColor.value,
+          dataSet.getGradientColor1().endColor.value, dataSet.getFillAlpha());
     } else {
-      drawFilledPath2(c, spline, dataSet.getFillColor().value, dataSet.getFillAlpha());
+      drawFilledPath2(
+          c, spline, dataSet.getFillColor().value, dataSet.getFillAlpha());
     }
 
 //    }
@@ -354,7 +364,8 @@ class LineChartRenderer extends LineRadarRenderer {
 
     // more than 1 color
     if (dataSet.getColors().length > 1) {
-      if (mLineBuffer.length <= pointsPerEntryPair * 2) mLineBuffer = List(pointsPerEntryPair * 4);
+      if (mLineBuffer.length <= pointsPerEntryPair * 2)
+        mLineBuffer = List(pointsPerEntryPair * 4);
 
       for (int j = xBounds.min; j <= xBounds.range + xBounds.min; j++) {
         Entry e = dataSet.getEntryForIndex(j);
@@ -391,18 +402,23 @@ class LineChartRenderer extends LineRadarRenderer {
         // make sure the lines don't do shitty things outside
         // bounds
         if (!viewPortHandler.isInBoundsLeft(mLineBuffer[2]) ||
-            (!viewPortHandler.isInBoundsTop(mLineBuffer[1]) && !viewPortHandler.isInBoundsBottom(mLineBuffer[3]))) continue;
+            (!viewPortHandler.isInBoundsTop(mLineBuffer[1]) &&
+                !viewPortHandler.isInBoundsBottom(mLineBuffer[3]))) continue;
 
         // get the color that is set for this line-segment
         renderPaint..color = dataSet.getColor2(j);
 
-        CanvasUtils.drawLines(canvas, mLineBuffer, 0, pointsPerEntryPair * 2, renderPaint, effect: dataSet.getDashPathEffect());
+        // CanvasUtils.drawLines(
+        //     canvas, mLineBuffer, 0, pointsPerEntryPair * 2, renderPaint,
+        //     effect: dataSet.getDashPathEffect());
       }
     } else {
       // only one color per dataset
 
-      if (mLineBuffer.length < max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 2)
-        mLineBuffer = List(max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 4);
+      if (mLineBuffer.length <
+          max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 2)
+        mLineBuffer = List(
+            max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 4);
 
       Entry e1, e2;
 
@@ -435,11 +451,14 @@ class LineChartRenderer extends LineRadarRenderer {
         if (j > 0) {
           trans.pointValuesToPixel(mLineBuffer);
 
-          final int size = max((xBounds.range + 1) * pointsPerEntryPair, pointsPerEntryPair) * 2;
+          final int size = max((xBounds.range + 1) * pointsPerEntryPair,
+                  pointsPerEntryPair) *
+              2;
 
           renderPaint..color = dataSet.getColor1();
 
-          CanvasUtils.drawLines(canvas, mLineBuffer, 0, size, renderPaint, effect: dataSet.getDashPathEffect());
+          // CanvasUtils.drawLines(canvas, mLineBuffer, 0, size, renderPaint,
+          //     effect: dataSet.getDashPathEffect());
         }
       }
     }
@@ -451,7 +470,8 @@ class LineChartRenderer extends LineRadarRenderer {
   /// @param dataSet
   /// @param trans
   /// @param bounds
-  void drawLinearFill(Canvas c, ILineDataSet dataSet, Transformer trans, XBounds bounds) {
+  void drawLinearFill(
+      Canvas c, ILineDataSet dataSet, Transformer trans, XBounds bounds) {
     final int startingIndex = bounds.min;
     final int endingIndex = bounds.range + bounds.min;
     final int indexInterval = 128;
@@ -476,9 +496,15 @@ class LineChartRenderer extends LineRadarRenderer {
         );
 
         if (dataSet.isGradientEnabled()) {
-          drawFilledPath3(c, filled, dataSet.getGradientColor1().startColor.value, dataSet.getGradientColor1().endColor.value, dataSet.getFillAlpha());
+          drawFilledPath3(
+              c,
+              filled,
+              dataSet.getGradientColor1().startColor.value,
+              dataSet.getGradientColor1().endColor.value,
+              dataSet.getFillAlpha());
         } else {
-          drawFilledPath2(c, filled, dataSet.getFillColor().value, dataSet.getFillAlpha());
+          drawFilledPath2(
+              c, filled, dataSet.getFillColor().value, dataSet.getFillAlpha());
         }
       }
 
@@ -493,8 +519,10 @@ class LineChartRenderer extends LineRadarRenderer {
   /// @param endIndex   The index from which to stop reading the dataset
   /// @param outputPath The path object that will be assigned the chart data.
   /// @return
-  void generateFilledPath(final ILineDataSet dataSet, final int startIndex, final int endIndex, final Path outputPath, final Transformer trans) {
-    final double fillMin = dataSet.getFillFormatter().getFillLinePosition(dataSet, _provider);
+  void generateFilledPath(final ILineDataSet dataSet, final int startIndex,
+      final int endIndex, final Path outputPath, final Transformer trans) {
+    final double fillMin =
+        dataSet.getFillFormatter().getFillLinePosition(dataSet, _provider);
     final double phaseY = animator.getPhaseY();
     final bool isDrawSteppedEnabled = dataSet.getMode() == Mode.STEPPED;
 
@@ -561,7 +589,8 @@ class LineChartRenderer extends LineRadarRenderer {
         // apply the text-styling defined by the DataSet
         applyValueTextStyle(dataSet);
 
-        Transformer trans = _provider.getTransformer(dataSet.getAxisDependency());
+        Transformer trans =
+            _provider.getTransformer(dataSet.getAxisDependency());
 
         // make sure the values do not interfear with the circles
         int valOffset = (dataSet.getCircleRadius() * 1.75).toInt();
@@ -570,7 +599,12 @@ class LineChartRenderer extends LineRadarRenderer {
 
         xBounds.set(_provider, dataSet);
 
-        List<double> positions = trans.generateTransformedValuesLine(dataSet, animator.getPhaseX(), animator.getPhaseY(), xBounds.min, xBounds.max);
+        List<double> positions = trans.generateTransformedValuesLine(
+            dataSet,
+            animator.getPhaseX(),
+            animator.getPhaseY(),
+            xBounds.min,
+            xBounds.max);
         ValueFormatter formatter = dataSet.getValueFormatter();
 
         MPPointF iconsOffset = MPPointF.getInstance3(dataSet.getIconsOffset());
@@ -583,17 +617,29 @@ class LineChartRenderer extends LineRadarRenderer {
 
           if (!viewPortHandler.isInBoundsRight(x)) break;
 
-          if (!viewPortHandler.isInBoundsLeft(x) || !viewPortHandler.isInBoundsY(y)) continue;
+          if (!viewPortHandler.isInBoundsLeft(x) ||
+              !viewPortHandler.isInBoundsY(y)) continue;
 
           Entry entry = dataSet.getEntryForIndex(j ~/ 2 + xBounds.min);
 
           if (dataSet.isDrawValuesEnabled()) {
-            drawValue(c, formatter.getPointLabel(entry), x, y - valOffset, dataSet.getValueTextColor2(j ~/ 2), dataSet.getValueTextSize(),
+            drawValue(
+                c,
+                formatter.getPointLabel(entry),
+                x,
+                y - valOffset,
+                dataSet.getValueTextColor2(j ~/ 2),
+                dataSet.getValueTextSize(),
                 dataSet.getValueTypeface());
           }
 
           if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
-            CanvasUtils.drawImage(c, Offset(x + iconsOffset.x, y + iconsOffset.y), entry.mIcon, Size(15, 15), drawPaint);
+            CanvasUtils.drawImage(
+                c,
+                Offset(x + iconsOffset.x, y + iconsOffset.y),
+                entry.mIcon,
+                Size(15, 15),
+                drawPaint);
           }
         }
 
@@ -603,10 +649,13 @@ class LineChartRenderer extends LineRadarRenderer {
   }
 
   @override
-  void drawValue(Canvas c, String valueText, double x, double y, Color color, double textSize, TypeFace typeFace) {
-    valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize, fontFamily: typeFace?.fontFamily, fontWeight: typeFace?.fontWeight);
+  void drawValue(Canvas c, String valueText, double x, double y, Color color,
+      double textSize, TypeFace typeFace) {
+    valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize,
+        fontFamily: typeFace?.fontFamily, fontWeight: typeFace?.fontWeight);
     valuePaint.layout();
-    valuePaint.paint(c, Offset(x - valuePaint.width / 2, y - valuePaint.height));
+    valuePaint.paint(
+        c, Offset(x - valuePaint.width / 2, y - valuePaint.height));
   }
 
   @override
@@ -637,7 +686,9 @@ class LineChartRenderer extends LineRadarRenderer {
     for (int i = 0; i < dataSets.length; i++) {
       ILineDataSet dataSet = dataSets[i];
 
-      if (!dataSet.isVisible() || !dataSet.isDrawCirclesEnabled() || dataSet.getEntryCount() == 0) continue;
+      if (!dataSet.isVisible() ||
+          !dataSet.isDrawCirclesEnabled() ||
+          dataSet.getEntryCount() == 0) continue;
 
       _circlePaintInner..color = dataSet.getCircleHoleColor();
 
@@ -646,8 +697,11 @@ class LineChartRenderer extends LineRadarRenderer {
 
       double circleRadius = dataSet.getCircleRadius();
       double circleHoleRadius = dataSet.getCircleHoleRadius();
-      bool drawCircleHole = dataSet.isDrawCircleHoleEnabled() && circleHoleRadius < circleRadius && circleHoleRadius > 0;
-      bool drawTransparentCircleHole = drawCircleHole && dataSet.getCircleHoleColor() == ColorUtils.COLOR_NONE;
+      bool drawCircleHole = dataSet.isDrawCircleHoleEnabled() &&
+          circleHoleRadius < circleRadius &&
+          circleHoleRadius > 0;
+      bool drawTransparentCircleHole = drawCircleHole &&
+          dataSet.getCircleHoleColor() == ColorUtils.COLOR_NONE;
 
       int boundsRangeCount = xBounds.range + xBounds.min;
 
@@ -663,7 +717,8 @@ class LineChartRenderer extends LineRadarRenderer {
 
         if (!viewPortHandler.isInBoundsRight(mCirclesBuffer[0])) break;
 
-        if (!viewPortHandler.isInBoundsLeft(mCirclesBuffer[0]) || !viewPortHandler.isInBoundsY(mCirclesBuffer[1])) continue;
+        if (!viewPortHandler.isInBoundsLeft(mCirclesBuffer[0]) ||
+            !viewPortHandler.isInBoundsY(mCirclesBuffer[1])) continue;
 
         int colorCount = dataSet.getCircleColorCount();
         double circleRadius = dataSet.getCircleRadius();
@@ -672,14 +727,18 @@ class LineChartRenderer extends LineRadarRenderer {
         renderPaint..color = dataSet.getCircleColor(i % colorCount);
 
         if (drawTransparentCircleHole) {
-          c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]), circleRadius, renderPaint);
+          c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]),
+              circleRadius, renderPaint);
 
-          c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]), circleHoleRadius, renderPaint);
+          c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]),
+              circleHoleRadius, renderPaint);
         } else {
-          c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]), circleRadius, renderPaint);
+          c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]),
+              circleRadius, renderPaint);
 
           if (drawCircleHole) {
-            c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]), circleHoleRadius, _circlePaintInner);
+            c.drawCircle(Offset(mCirclesBuffer[0], mCirclesBuffer[1]),
+                circleHoleRadius, _circlePaintInner);
           }
         }
       }
@@ -702,7 +761,9 @@ class LineChartRenderer extends LineRadarRenderer {
       if (high.dataSetIndex >= 0) {
         dataSet = lineData.getDataSetByIndex(high.dataSetIndex);
       } else {
-        dataSet = lineData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).length > 0, orElse: () => null);
+        dataSet = lineData.dataSets.firstWhere(
+            (element) => element.getEntriesForXValue(high.x).length > 0,
+            orElse: () => null);
       }
 
       if (dataSet == null || !dataSet.isHighlightEnabled()) continue;
@@ -713,19 +774,23 @@ class LineChartRenderer extends LineRadarRenderer {
 
       var yVal = high.freeY == null || high.freeY.isNaN ? high.y : high.freeY;
 
-      pix = _provider.getTransformer(dataSet.getAxisDependency()).getPixelForValues(e.x, yVal);
+      pix = _provider
+          .getTransformer(dataSet.getAxisDependency())
+          .getPixelForValues(e.x, yVal);
 
       high.setDraw(pix.x, pix.y);
 
       // draw the lines
-      drawHighlightLines(c, pix.x, pix.y, dataSet);
+      //drawHighlightLines(c, pix.x, pix.y, dataSet);
     }
     return pix;
   }
 
   @override
-  Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
+  Size drawFloatingLegend(
+      Canvas c, List<Highlight> indices, Size rendererSize) {
     final data = _provider.getData();
-    return FloatLegendUtils.drawFloatingLegend<LineDataSet>(_labelText, c, viewPortHandler, data, indices, rendererSize);
+    return FloatLegendUtils.drawFloatingLegend<LineDataSet>(
+        _labelText, c, viewPortHandler, data, indices, rendererSize);
   }
 }

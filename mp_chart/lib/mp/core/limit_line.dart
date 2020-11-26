@@ -4,6 +4,8 @@ import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/enums/limit_label_postion.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
+import '../image_store.dart';
+
 class LimitLine extends ComponentBase {
   /// limit / maximum (the y-value or xIndex)
   double _limit = 0;
@@ -57,10 +59,9 @@ class LimitLine extends ComponentBase {
   /// Enables the line to be drawn in dashed mode, e.g. like this "- - - - - -"
   ///
   /// @param lineLength the length of the line pieces
-  /// @param spaceLength the length of space inbetween the pieces
-  /// @param phase offset, in degrees (normally, use 0)
-  void enableDashedLine(double lineLength, double spaceLength, double phase) {
-    _dashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
+  void enableDashedLine(int lineLength, Color color) {
+    _dashPathEffect =
+        DashPathEffect(ImageStore.getHorizontalDashed(), lineLength, color);
   }
 
   /// Disables the line to be drawn in dashed mode.
@@ -123,6 +124,4 @@ class LimitLine extends ComponentBase {
   set drawBackground(bool value) {
     _drawBackground = value;
   }
-
-
 }

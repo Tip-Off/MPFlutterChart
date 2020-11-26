@@ -34,11 +34,11 @@ abstract class LineScatterCandleRadarRenderer
       _highlightLinePath.lineTo(x, viewPortHandler.contentBottom());
 
       if (set.getDashPathEffectHighlight() != null) {
-        _highlightLinePath = set
-            .getDashPathEffectHighlight()
-            .convert2DashPath(_highlightLinePath);
+        // _highlightLinePath = set
+        //     .getDashPathEffectHighlight()
+        //     .convert2DashPath(_highlightLinePath);
       }
-      c.drawPath(_highlightLinePath, highlightPaint);
+      //c.drawPath(_highlightLinePath, highlightPaint);
     }
 
     // draw horizontal highlight lines
@@ -49,11 +49,11 @@ abstract class LineScatterCandleRadarRenderer
       _highlightLinePath.lineTo(viewPortHandler.contentRight(), y);
 
       if (set.getDashPathEffectHighlight() != null) {
-        _highlightLinePath = set
-            .getDashPathEffectHighlight()
-            .convert2DashPath(_highlightLinePath);
+        // _highlightLinePath = set
+        //     .getDashPathEffectHighlight()
+        //     .convert2DashPath(_highlightLinePath);
       }
-      c.drawPath(_highlightLinePath, highlightPaint);
+      //c.drawPath(_highlightLinePath, highlightPaint);
     }
   }
 }
