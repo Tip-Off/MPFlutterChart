@@ -248,6 +248,10 @@ abstract class BarLineScatterCandleBubbleController<
   ///
   /// @param xValue
   void moveViewToX(double xValue) {
+    // This is hardcoded to relate to the hardcoded value from
+    // ViewPort limitTransAndScale function
+    xValue = xValue - 50;
+
     List<double> pts = List();
     pts.add(xValue);
     pts.add(0.0);
@@ -279,6 +283,10 @@ abstract class BarLineScatterCandleBubbleController<
   /// @param yValue
   /// @param axis   - which axis should be used as a reference for the y-axis
   void moveViewTo(double xValue, double yValue, AxisDependency axis) {
+    // This is hardcoded to relate to the hardcoded value from
+    // ViewPort limitTransAndScale function
+    xValue = xValue - 50;
+
     double yInView = getAxisRange(axis) / viewPortHandler.getScaleY();
     List<double> pts = List();
     pts.add(xValue);
@@ -297,6 +305,10 @@ abstract class BarLineScatterCandleBubbleController<
   /// @param duration the duration of the animation in milliseconds
   void moveViewToAnimated(
       double xValue, double yValue, AxisDependency axis, int durationMillis) {
+    // This is hardcoded to relate to the hardcoded value from
+    // ViewPort limitTransAndScale function
+    xValue = xValue - 50;
+
     MPPointD bounds = getValuesByTouchPoint(
         viewPortHandler.contentLeft(), viewPortHandler.contentTop(), axis);
     double yInView = getAxisRange(axis) / viewPortHandler.getScaleY();
