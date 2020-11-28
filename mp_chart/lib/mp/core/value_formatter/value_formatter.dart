@@ -3,7 +3,6 @@ import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/entry/bubble_entry.dart';
 import 'package:mp_chart/mp/core/entry/candle_entry.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/entry/pie_entry.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 
 abstract class ValueFormatter {
@@ -41,10 +40,6 @@ abstract class ValueFormatter {
 
   String getPointLabel(Entry entry) {
     return getFormattedValue1(entry.y);
-  }
-
-  String getPieLabel(double value, PieEntry pieEntry) {
-    return getFormattedValue1(value);
   }
 
   String getBubbleLabel(BubbleEntry bubbleEntry) {
