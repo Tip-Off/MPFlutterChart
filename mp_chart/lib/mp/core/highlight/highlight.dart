@@ -4,10 +4,10 @@ enum HighlightStatus { START, MOVE, END }
 
 class Highlight {
   /// the x-value of the highlighted value
-  double _x = double.nan;
+  double x = double.nan;
 
   /// the y-value of the highlighted value
-  double _y = double.nan;
+  double y = double.nan;
 
   ///
   double freeX = double.nan;
@@ -62,8 +62,8 @@ class Highlight {
     // ignore: avoid_init_to_null
     AxisDependency axis = null,
   }) {
-    this._x = x;
-    this._y = y;
+    this.x = x;
+    this.y = y;
     this._xPx = xPx;
     this._yPx = yPx;
     this._dataIndex = dataIndex;
@@ -101,17 +101,9 @@ class Highlight {
         axis: axis ?? this.axis,
       );
 
-  double get x => _x;
-
-  double get y => _y;
-
   double get xPx => _xPx;
 
   double get yPx => _yPx;
-
-  set y(double yy) {
-    _y = yy;
-  }
 
   // ignore: unnecessary_getters_setters
   int get dataIndex => _dataIndex;
@@ -154,8 +146,8 @@ class Highlight {
       return false;
     else {
       if (this._dataSetIndex == h._dataSetIndex &&
-          this._x == h._x &&
-          this._y == h._y &&
+          this.x == h.x &&
+          this.y == h.y &&
           this.freeX == h.freeX &&
           this.freeY == h.freeY &&
           this._stackIndex == h._stackIndex &&
@@ -168,6 +160,6 @@ class Highlight {
 
   @override
   String toString() {
-    return "Highlight, x: $_x, y: $_y, dataSetIndex: $_dataSetIndex, stackIndex (only stacked barentry): $_stackIndex";
+    return "Highlight, x: $x, y: $y, dataSetIndex: $_dataSetIndex, stackIndex (only stacked barentry): $_stackIndex";
   }
 }
