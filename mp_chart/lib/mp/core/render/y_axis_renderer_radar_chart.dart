@@ -13,8 +13,7 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 class YAxisRendererRadarChart extends YAxisRenderer {
   RadarChartPainter _painter;
 
-  YAxisRendererRadarChart(
-      ViewPortHandler viewPortHandler, YAxis yAxis, RadarChartPainter chart)
+  YAxisRendererRadarChart(ViewPortHandler viewPortHandler, YAxis yAxis, RadarChartPainter chart)
       : super(viewPortHandler, yAxis, null) {
     this._painter = chart;
   }
@@ -42,12 +41,10 @@ class YAxisRendererRadarChart extends YAxisRenderer {
 
     // If granularity is enabled, then do not allow the interval to go below specified granularity.
     // This is used to avoid repeated values when rounding values for display.
-    if (axis.granularityEnabled)
-      interval = interval < axis.granularity ? axis.granularity : interval;
+    if (axis.granularityEnabled) interval = interval < axis.granularity ? axis.granularity : interval;
 
     // Normalize interval
-    double intervalMagnitude =
-        Utils.roundToNextSignificant(pow(10.0, log(interval) / ln10));
+    double intervalMagnitude = Utils.roundToNextSignificant(pow(10.0, log(interval) / ln10));
     int intervalSigDigit = (interval ~/ intervalMagnitude);
     if (intervalSigDigit > 5) {
       // Use one order of magnitude higher, to avoid intervals like 0.9 or
@@ -79,15 +76,12 @@ class YAxisRendererRadarChart extends YAxisRenderer {
 
       // no forced count
     } else {
-      double first =
-          interval == 0.0 ? 0.0 : (yMin / interval).ceil() * interval;
+      double first = interval == 0.0 ? 0.0 : (yMin / interval).ceil() * interval;
       if (centeringEnabled) {
         first -= interval;
       }
 
-      double last = interval == 0.0
-          ? 0.0
-          : Utils.nextUp((yMax / interval).floor() * interval);
+      double last = interval == 0.0 ? 0.0 : Utils.nextUp((yMax / interval).floor() * interval);
 
       double f;
       int i;
@@ -109,8 +103,7 @@ class YAxisRendererRadarChart extends YAxisRenderer {
 
       f = first;
       for (i = 0; i < n; f += interval, ++i) {
-        if (f ==
-            0.0) // Fix for negative zero case (Where value == -0.0, and 0.0 == -0.0)
+        if (f == 0.0) // Fix for negative zero case (Where value == -0.0, and 0.0 == -0.0)
           f = 0.0;
 
         axis.entries[i] = f.toDouble();
@@ -152,8 +145,7 @@ class YAxisRendererRadarChart extends YAxisRenderer {
     double factor = _painter.getFactor();
 
     final int from = yAxis.drawBottomYLabelEntry ? 0 : 1;
-    final int to =
-        yAxis.drawTopYLabelEntry ? yAxis.entryCount : (yAxis.entryCount - 1);
+    final int to = yAxis.drawTopYLabelEntry ? yAxis.entryCount : (yAxis.entryCount - 1);
 
     for (int j = from; j < to; j++) {
       double r = (yAxis.entries[j] - yAxis.axisMinimum) * factor;
@@ -161,21 +153,16 @@ class YAxisRendererRadarChart extends YAxisRenderer {
       Utils.getPosition(center, r, _painter.getRotationAngle(), pOut);
 
       String label = yAxis.getFormattedLabel(j);
-      axisLabelPaint = PainterUtils.create(
-          axisLabelPaint, label, yAxis.textColor, yAxis.textSize,
-          fontWeight: yAxis.typeface?.fontWeight,
-          fontFamily: yAxis.typeface?.fontFamily);
+      axisLabelPaint = PainterUtils.create(axisLabelPaint, label, yAxis.textColor, yAxis.textSize,
+          fontWeight: yAxis.typeface?.fontWeight, fontFamily: yAxis.typeface?.fontFamily);
       axisLabelPaint.layout();
-      axisLabelPaint.paint(
-          c,
-          Offset(pOut.x + 10 - axisLabelPaint.width,
-              pOut.y - axisLabelPaint.height));
+      axisLabelPaint.paint(c, Offset(pOut.x + 10 - axisLabelPaint.width, pOut.y - axisLabelPaint.height));
     }
     MPPointF.recycleInstance(center);
     MPPointF.recycleInstance(pOut);
   }
 
-  Path mRenderLimitLinesPathBuffer = new Path();
+  Path mRenderLimitLinesPathBuffer = Path();
 
   @override
   void renderLimitLines(Canvas c) {
@@ -206,11 +193,8 @@ class YAxisRendererRadarChart extends YAxisRenderer {
       Path limitPath = mRenderLimitLinesPathBuffer;
       limitPath.reset();
 
-      for (int j = 0;
-          j < _painter.getData().getMaxEntryCountSet().getEntryCount();
-          j++) {
-        Utils.getPosition(
-            center, r, sliceangle * j + _painter.getRotationAngle(), pOut);
+      for (int j = 0; j < _painter.getData().getMaxEntryCountSet().getEntryCount(); j++) {
+        Utils.getPosition(center, r, sliceangle * j + _painter.getRotationAngle(), pOut);
 
         if (j == 0)
           limitPath.moveTo(pOut.x, pOut.y);

@@ -16,8 +16,7 @@ import 'package:mp_chart/mp/core/render/triangle_shape_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_shape_renderer.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 
-class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
-    implements IScatterDataSet {
+class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> implements IScatterDataSet {
   /// the size the scattershape will have, in density pixels
   double _shapeSize = 15;
 

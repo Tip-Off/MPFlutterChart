@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui show window;
 
-/**
- * @Author: thl
- * @GitHub: https://github.com/Sky24n
- * @Email: 863764940@qq.com
- * @Email: sky24no@gmail.com
- * @Description: Screen Util.
- * @Date: 2018/9/8
- */
+/// @Author: thl
+/// @GitHub: https://github.com/Sky24n
+/// @Email: 863764940@qq.com
+/// @Email: sky24no@gmail.com
+/// @Description: Screen Util.
+/// @Date: 2018/9/8
 
 ///默认设计稿尺寸（单位 dp or pt）
 double _designW = 360.0;
 double _designH = 640.0;
 double _designD = 3.0;
 
-/**
- * 配置设计稿尺寸（单位 dp or pt）
- * w 宽
- * h 高
- * density 像素密度
- */
+/// 配置设计稿尺寸（单位 dp or pt）
+/// w 宽
+/// h 高
+/// density 像素密度
 
 /// 配置设计稿尺寸 屏幕 宽，高，密度。
 /// Configuration design draft size  screen width, height, density.
-void setDesignWHD(double w, double h, {double density: 3.0}) {
+void setDesignWHD(double w, double h, {double density = 3.0}) {
   _designW = w;
   _designH = h;
   _designD = density;
@@ -176,18 +172,14 @@ class ScreenUtils {
   /// 返回根据屏幕宽适配后尺寸（单位 dp or pt）
   /// sizePx unit px
   double getWidthPx(double sizePx) {
-    return _screenWidth == 0.0
-        ? (sizePx / _designD)
-        : (sizePx * _screenWidth / (_designW * _designD));
+    return _screenWidth == 0.0 ? (sizePx / _designD) : (sizePx * _screenWidth / (_designW * _designD));
   }
 
   /// returns the size after adaptation according to the screen height.(unit dp or pt)
   /// 返回根据屏幕高适配后尺寸（单位 dp or pt）
   /// sizePx unit px
   double getHeightPx(double sizePx) {
-    return _screenHeight == 0.0
-        ? (sizePx / _designD)
-        : (sizePx * _screenHeight / (_designH * _designD));
+    return _screenHeight == 0.0 ? (sizePx / _designD) : (sizePx * _screenHeight / (_designH * _designD));
   }
 
   /// returns the font size after adaptation according to the screen density.

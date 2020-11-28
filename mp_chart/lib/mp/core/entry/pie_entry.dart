@@ -9,13 +9,7 @@ class PieEntry extends Entry {
   double _labelTextSize;
   ui.Color _labelColor;
 
-  PieEntry(
-      {double value,
-      String label,
-      ui.Image icon,
-      Object data,
-      double labelTextSize,
-      ui.Color labelColor})
+  PieEntry({double value, String label, ui.Image icon, Object data, double labelTextSize, ui.Color labelColor})
       : super(x: 0, y: value, icon: icon, data: data) {
     this._label = label;
     this._labelTextSize = labelTextSize ?? Utils.convertDpToPixel(10);

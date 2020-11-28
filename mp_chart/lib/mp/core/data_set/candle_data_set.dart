@@ -141,7 +141,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
     return _showCandleBar;
   }
 
-  /** BELOW THIS COLOR HANDLING */
+  /// BELOW THIS COLOR HANDLING
 
   /// Sets the one and ONLY color that should be used for this DataSet when
   /// open == close.

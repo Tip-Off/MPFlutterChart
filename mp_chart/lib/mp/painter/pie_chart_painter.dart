@@ -133,8 +133,7 @@ class PieChartPainter extends PieRadarChartPainter<PieData> {
         _drawCenterText = drawCenterText,
         _centerTextRadiusPercent = centerTextRadiusPercent,
         _maxAngle = maxAngle,
-        _centerTextOffset =
-            MPPointF.getInstance1(centerTextOffsetX, centerTextOffsetY),
+        _centerTextOffset = MPPointF.getInstance1(centerTextOffsetX, centerTextOffsetY),
         _minAngleForSlices = minAngleForSlices,
         _centerTextTypeface = centerTextTypeface,
         _entryLabelTypeface = entryLabelTypeface,
@@ -171,8 +170,7 @@ class PieChartPainter extends PieRadarChartPainter<PieData> {
   void initDefaultWithData() {
     super.initDefaultWithData();
     renderer = PieChartRenderer(this, animator, viewPortHandler,
-        centerTextTypeface: _centerTextTypeface,
-        entryLabelTypeface: _entryLabelTypeface);
+        centerTextTypeface: _centerTextTypeface, entryLabelTypeface: _entryLabelTypeface);
     highlighter = PieHighlighter(this);
   }
 
@@ -211,8 +209,7 @@ class PieChartPainter extends PieRadarChartPainter<PieData> {
 
     // create the circle box that will contain the pie-chart (the bounds of
     // the pie-chart)
-    _circleBox = Rect.fromLTRB(c.x - radius + shift, c.y - radius + shift,
-        c.x + radius - shift, c.y + radius - shift);
+    _circleBox = Rect.fromLTRB(c.x - radius + shift, c.y - radius + shift, c.x + radius - shift, c.y + radius - shift);
 
     MPPointF.recycleInstance(c);
   }
@@ -243,18 +240,10 @@ class PieChartPainter extends PieRadarChartPainter<PieData> {
     double offset = _drawAngles[entryIndex] / 2;
 
     // calculate the text position
-    double x = (r *
-            cos(((rotationAngle + _absoluteAngles[entryIndex] - offset) *
-                    animator.getPhaseY()) /
-                180 *
-                pi) +
+    double x = (r * cos(((rotationAngle + _absoluteAngles[entryIndex] - offset) * animator.getPhaseY()) / 180 * pi) +
         center.x);
-    double y = (r *
-            sin((rotationAngle + _absoluteAngles[entryIndex] - offset) *
-                animator.getPhaseY() /
-                180 *
-                pi) +
-        center.y);
+    double y =
+        (r * sin((rotationAngle + _absoluteAngles[entryIndex] - offset) * animator.getPhaseY() / 180 * pi) + center.y);
 
     MPPointF.recycleInstance(center);
     return List()..add(x)..add(y);
@@ -283,8 +272,7 @@ class PieChartPainter extends PieRadarChartPainter<PieData> {
 
     List<IPieDataSet> dataSets = getData().dataSets;
 
-    bool hasMinAngle =
-        _minAngleForSlices != 0 && entryCount * _minAngleForSlices <= _maxAngle;
+    bool hasMinAngle = _minAngleForSlices != 0 && entryCount * _minAngleForSlices <= _maxAngle;
     List<double> minAngles = List(entryCount);
 
     int cnt = 0;
@@ -295,8 +283,7 @@ class PieChartPainter extends PieRadarChartPainter<PieData> {
       IPieDataSet set = dataSets[i];
 
       for (int j = 0; j < set.getEntryCount(); j++) {
-        double drawAngle =
-            calcAngle2(set.getEntryForIndex(j).y.abs(), yValueSum);
+        double drawAngle = calcAngle2(set.getEntryForIndex(j).y.abs(), yValueSum);
 
         if (hasMinAngle) {
           double temp = drawAngle - _minAngleForSlices;
@@ -389,8 +376,7 @@ class PieChartPainter extends PieRadarChartPainter<PieData> {
     List<IPieDataSet> dataSets = getData().dataSets;
 
     for (int i = 0; i < dataSets.length; i++) {
-      if (dataSets[i].getEntryForXValue2(xIndex.toDouble(), double.nan) != null)
-        return i;
+      if (dataSets[i].getEntryForXValue2(xIndex.toDouble(), double.nan) != null) return i;
     }
 
     return -1;

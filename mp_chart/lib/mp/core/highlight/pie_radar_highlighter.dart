@@ -3,8 +3,7 @@ import 'package:mp_chart/mp/core/highlight/i_highlighter.dart';
 import 'package:mp_chart/mp/painter/pie_chart_painter.dart';
 import 'package:mp_chart/mp/painter/pie_redar_chart_painter.dart';
 
-abstract class PieRadarHighlighter<T extends PieRadarChartPainter>
-    implements IHighlighter {
+abstract class PieRadarHighlighter<T extends PieRadarChartPainter> implements IHighlighter {
   T _painter;
 
   /// buffer for storing previously highlighted values
@@ -36,8 +35,7 @@ abstract class PieRadarHighlighter<T extends PieRadarChartPainter>
       int index = _painter.getIndexForAngle(angle);
 
       // check if the index could be found
-      if (index < 0 ||
-          index >= _painter.getData().getMaxEntryCountSet().getEntryCount()) {
+      if (index < 0 || index >= _painter.getData().getMaxEntryCountSet().getEntryCount()) {
         return null;
       } else {
         return getClosestHighlight(index, x, y);

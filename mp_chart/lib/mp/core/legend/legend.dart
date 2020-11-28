@@ -26,8 +26,7 @@ class Legend extends ComponentBase {
   /// then it's auto, if true, then custom. default false (automatic legend)
   bool _isLegendCustom = false;
 
-  LegendHorizontalAlignment _horizontalAlignment =
-      LegendHorizontalAlignment.LEFT;
+  LegendHorizontalAlignment _horizontalAlignment = LegendHorizontalAlignment.LEFT;
   LegendVerticalAlignment _verticalAlignment = LegendVerticalAlignment.BOTTOM;
   LegendOrientation _orientation = LegendOrientation.HORIZONTAL;
   bool _drawInside = false;
@@ -96,7 +95,7 @@ class Legend extends ComponentBase {
     this.xOffset = Utils.convertDpToPixel(5);
     this.yOffset = Utils.convertDpToPixel(3);
     if (entries == null) {
-      throw new Exception("entries array is NULL");
+      throw Exception("entries array is NULL");
     }
 
     this._entries = entries;
@@ -120,8 +119,7 @@ class Legend extends ComponentBase {
     double maxFormSize = 0;
     double formToTextSpace = Utils.convertDpToPixel(_formToTextSpace);
     for (LegendEntry entry in _entries) {
-      final double formSize = Utils.convertDpToPixel(
-          double.nan == entry.formSize ? _formSize : entry.formSize);
+      final double formSize = Utils.convertDpToPixel(double.nan == entry.formSize ? _formSize : entry.formSize);
       if (formSize > maxFormSize) maxFormSize = formSize;
 
       String label = entry.label;
@@ -172,8 +170,7 @@ class Legend extends ComponentBase {
 
       if (entry.formColor == ColorUtils.COLOR_SKIP)
         entry.form = LegendForm.NONE;
-      else if (entry.formColor == ColorUtils.COLOR_NONE)
-        entry.form = LegendForm.EMPTY;
+      else if (entry.formColor == ColorUtils.COLOR_NONE) entry.form = LegendForm.EMPTY;
 
       entries.add(entry);
     }
@@ -344,8 +341,7 @@ class Legend extends ComponentBase {
   /// the Legend.
   ///
   /// @param labelpaint
-  void calculateDimensions(
-      TextPainter labelpainter, ViewPortHandler viewPortHandler) {
+  void calculateDimensions(TextPainter labelpainter, ViewPortHandler viewPortHandler) {
     double defaultFormSize = Utils.convertDpToPixel(_formSize);
     double stackSpace = Utils.convertDpToPixel(_stackSpace);
     double formToTextSpace = Utils.convertDpToPixel(_formToTextSpace);
@@ -368,9 +364,7 @@ class Legend extends ComponentBase {
           for (int i = 0; i < entryCount; i++) {
             LegendEntry e = entries[i];
             bool drawingForm = e.form != LegendForm.NONE;
-            double formSize = e.formSize.isNaN
-                ? defaultFormSize
-                : Utils.convertDpToPixel(e.formSize);
+            double formSize = e.formSize.isNaN ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
             String label = e.label;
 
             if (!wasStacked) width = 0;
@@ -394,8 +388,7 @@ class Legend extends ComponentBase {
 
               width += Utils.calcTextWidth(labelpainter, label);
 
-              if (i < entryCount - 1)
-                maxHeight += labelLineHeight + yEntrySpace;
+              if (i < entryCount - 1) maxHeight += labelLineHeight + yEntrySpace;
             } else {
               wasStacked = true;
               width += formSize;
@@ -413,8 +406,7 @@ class Legend extends ComponentBase {
       case LegendOrientation.HORIZONTAL:
         {
           double labelLineHeight = Utils.getLineHeight1(labelpainter);
-          double labelLineSpacing =
-              Utils.getLineSpacing1(labelpainter) + yEntrySpace;
+          double labelLineSpacing = Utils.getLineSpacing1(labelpainter) + yEntrySpace;
           double contentWidth = viewPortHandler.chartWidth() * _maxSizePercent;
 
           // Start calculating layout
@@ -430,9 +422,7 @@ class Legend extends ComponentBase {
           for (int i = 0; i < entryCount; i++) {
             LegendEntry e = entries[i];
             bool drawingForm = e.form != LegendForm.NONE;
-            double formSize = e.formSize.isNaN
-                ? defaultFormSize
-                : Utils.convertDpToPixel(e.formSize);
+            double formSize = e.formSize.isNaN ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
             String label = e.label;
 
             _calculatedLabelBreakPoints.add(false);
@@ -448,8 +438,7 @@ class Legend extends ComponentBase {
 
             // grouped forms have null labels
             if (label != null) {
-              _calculatedLabelSizes
-                  .add(Utils.calcTextSize1(labelpainter, label));
+              _calculatedLabelSizes.add(Utils.calcTextSize1(labelpainter, label));
               requiredWidth += drawingForm ? formToTextSpace + formSize : 0;
               requiredWidth += _calculatedLabelSizes[i].width;
             } else {
@@ -471,28 +460,24 @@ class Legend extends ComponentBase {
                   currentLineWidth == 0
                   // It simply fits
                   ||
-                  (contentWidth - currentLineWidth >=
-                      requiredSpacing + requiredWidth)) {
+                  (contentWidth - currentLineWidth >= requiredSpacing + requiredWidth)) {
                 // Expand current line
                 currentLineWidth += requiredSpacing + requiredWidth;
               } else {
                 // It doesn't fit, we need to wrap a line
 
                 // Add current line size to array
-                _calculatedLineSizes
-                    .add(FSize.getInstance(currentLineWidth, labelLineHeight));
+                _calculatedLineSizes.add(FSize.getInstance(currentLineWidth, labelLineHeight));
                 maxLineWidth = max(maxLineWidth, currentLineWidth);
 
                 // Start a new line
-                _calculatedLabelBreakPoints.insert(
-                    stackedStartIndex > -1 ? stackedStartIndex : i, true);
+                _calculatedLabelBreakPoints.insert(stackedStartIndex > -1 ? stackedStartIndex : i, true);
                 currentLineWidth = requiredWidth;
               }
 
               if (i == entryCount - 1) {
                 // Add last line size to array
-                _calculatedLineSizes
-                    .add(FSize.getInstance(currentLineWidth, labelLineHeight));
+                _calculatedLineSizes.add(FSize.getInstance(currentLineWidth, labelLineHeight));
                 maxLineWidth = max(maxLineWidth, currentLineWidth);
               }
             }
@@ -501,12 +486,8 @@ class Legend extends ComponentBase {
           }
 
           _neededWidth = maxLineWidth;
-          _neededHeight =
-              labelLineHeight * (_calculatedLineSizes.length).toDouble() +
-                  labelLineSpacing *
-                      (_calculatedLineSizes.length == 0
-                          ? 0
-                          : (_calculatedLineSizes.length - 1));
+          _neededHeight = labelLineHeight * (_calculatedLineSizes.length).toDouble() +
+              labelLineSpacing * (_calculatedLineSizes.length == 0 ? 0 : (_calculatedLineSizes.length - 1));
 
           break;
         }

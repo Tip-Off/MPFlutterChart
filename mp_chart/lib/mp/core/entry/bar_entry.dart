@@ -16,11 +16,9 @@ class BarEntry extends Entry {
   /// the sum of all positive values this entry (if stacked) contains
   double _positiveSum;
 
-  BarEntry({double x, double y, ui.Image icon, Object data})
-      : super(x: x, y: y, icon: icon, data: data);
+  BarEntry({double x, double y, ui.Image icon, Object data}) : super(x: x, y: y, icon: icon, data: data);
 
-  BarEntry.fromListYVals(
-      {double x, List<double> vals, ui.Image icon, Object data})
+  BarEntry.fromListYVals({double x, List<double> vals, ui.Image icon, Object data})
       : super(x: x, y: calcSum(vals), icon: icon, data: data) {
     this._yVals = vals;
     calcPosNegSum();

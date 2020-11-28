@@ -122,9 +122,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   /// @return
   String toSimpleString() {
     StringBuffer buffer = StringBuffer();
-    buffer.write("DataSet, label: " +
-        (getLabel() == null ? "" : getLabel()) +
-        ", entries:${_values.length}\n");
+    buffer.write("DataSet, label: " + (getLabel() == null ? "" : getLabel()) + ", entries:${_values.length}\n");
     return buffer.toString();
   }
 
@@ -278,10 +276,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
     while (low < high) {
       int m = (low + high) ~/ 2;
 
-      final double d1 = _values[m].x - xValue,
-          d2 = _values[m + 1].x - xValue,
-          ad1 = d1.abs(),
-          ad2 = d2.abs();
+      final double d1 = _values[m].x - xValue, d2 = _values[m + 1].x - xValue, ad1 = d1.abs(), ad2 = d2.abs();
 
       if (ad2 < ad1) {
         // [m + 1] is closer to xValue
@@ -322,8 +317,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
       // Search by closest to y-value
       if (!(closestToY.isNaN)) {
-        while (closest > 0 && _values[closest - 1].x == closestXValue)
-          closest -= 1;
+        while (closest > 0 && _values[closest - 1].x == closestXValue) closest -= 1;
 
         double closestYValue = _values[closest].y;
         int closestYIndex = closest;
@@ -336,8 +330,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
           if (value.x != closestXValue) break;
 
-          if ((value.y - closestToY).abs() <
-              (closestYValue - closestToY).abs()) {
+          if ((value.y - closestToY).abs() < (closestYValue - closestToY).abs()) {
             closestYValue = closestToY;
             closestYIndex = closest;
           }

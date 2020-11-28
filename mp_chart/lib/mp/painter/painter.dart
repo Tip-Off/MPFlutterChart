@@ -183,7 +183,8 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
     _setupDefaultFormatter(_data.getYMin1(), _data.getYMax1());
 
     for (IDataSet set in _data.dataSets) {
-      if (set.needsFormatter() || set.getValueFormatter() == _defaultValueFormatter) set.setValueFormatter(_defaultValueFormatter);
+      if (set.needsFormatter() || set.getValueFormatter() == _defaultValueFormatter)
+        set.setValueFormatter(_defaultValueFormatter);
     }
   }
 
@@ -273,7 +274,8 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   ///
   /// @return
   bool valuesToHighlight() {
-    var res = _indicesToHighlight == null || _indicesToHighlight.length <= 0 || _indicesToHighlight[0] == null ? false : true;
+    var res =
+        _indicesToHighlight == null || _indicesToHighlight.length <= 0 || _indicesToHighlight[0] == null ? false : true;
     return res;
   }
 

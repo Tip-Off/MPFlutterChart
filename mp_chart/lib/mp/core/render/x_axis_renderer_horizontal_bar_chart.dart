@@ -14,20 +14,16 @@ import 'package:mp_chart/mp/core/poolable/size.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
 class XAxisRendererHorizontalBarChart extends XAxisRenderer {
-  XAxisRendererHorizontalBarChart(
-      ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans)
+  XAxisRendererHorizontalBarChart(ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans)
       : super(viewPortHandler, xAxis, trans);
 
   @override
   void computeAxis(double min, double max, bool inverted) {
     // calculate the starting and entry point of the y-labels (depending on
     // zoom / contentrect bounds)
-    if (viewPortHandler.contentWidth() > 10 &&
-        !viewPortHandler.isFullyZoomedOutY()) {
-      MPPointD p1 = trans.getValuesByTouchPoint1(
-          viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
-      MPPointD p2 = trans.getValuesByTouchPoint1(
-          viewPortHandler.contentLeft(), viewPortHandler.contentTop());
+    if (viewPortHandler.contentWidth() > 10 && !viewPortHandler.isFullyZoomedOutY()) {
+      MPPointD p1 = trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
+      MPPointD p2 = trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
 
       if (inverted) {
         min = p2.y;
@@ -49,9 +45,7 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
     axisLabelPaint = PainterUtils.create(
         axisLabelPaint,
         null,
-        axisLabelPaint.text.style.color == null
-            ? ColorUtils.HOLO_GREEN_DARK
-            : axisLabelPaint.text.style.color,
+        axisLabelPaint.text.style.color == null ? ColorUtils.HOLO_GREEN_DARK : axisLabelPaint.text.style.color,
         xAxis.textSize,
         fontWeight: xAxis.typeface?.fontWeight,
         fontFamily: xAxis.typeface?.fontFamily);
@@ -60,17 +54,15 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
 
     final FSize labelSize = Utils.calcTextSize1(axisLabelPaint, longest);
 
-    final double labelWidth =
-        (labelSize.width + xAxis.xOffset * 3.5).toInt().toDouble();
+    final double labelWidth = (labelSize.width + xAxis.xOffset * 3.5).toInt().toDouble();
     final double labelHeight = labelSize.height;
 
-    final FSize labelRotatedSize = Utils.getSizeOfRotatedRectangleByDegrees(
-        labelSize.width, labelHeight, xAxis.labelRotationAngle);
+    final FSize labelRotatedSize =
+        Utils.getSizeOfRotatedRectangleByDegrees(labelSize.width, labelHeight, xAxis.labelRotationAngle);
 
     xAxis.labelWidth = labelWidth.round();
     xAxis.labelHeight = labelHeight.round();
-    xAxis.labelRotatedWidth =
-        (labelRotatedSize.width + xAxis.xOffset * 3.5).toInt();
+    xAxis.labelRotatedWidth = (labelRotatedSize.width + xAxis.xOffset * 3.5).toInt();
     xAxis.labelRotatedHeight = labelRotatedSize.height.round();
 
     FSize.recycleInstance(labelRotatedSize);
@@ -80,10 +72,8 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
   void renderAxisLabels(Canvas c) {
     if (!xAxis.enabled || !xAxis.drawLabels) return;
 
-    axisLabelPaint = PainterUtils.create(
-        axisLabelPaint, null, xAxis.textColor, xAxis.textSize,
-        fontFamily: xAxis.typeface?.fontFamily,
-        fontWeight: xAxis.typeface?.fontWeight);
+    axisLabelPaint = PainterUtils.create(axisLabelPaint, null, xAxis.textColor, xAxis.textSize,
+        fontFamily: xAxis.typeface?.fontFamily, fontWeight: xAxis.typeface?.fontWeight);
 
     MPPointF pointF = MPPointF.getInstance1(0, 0);
 
@@ -117,8 +107,7 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
   }
 
   @override
-  void drawLabels(
-      Canvas c, double pos, MPPointF anchor, XAxisPosition position) {
+  void drawLabels(Canvas c, double pos, MPPointF anchor, XAxisPosition position) {
     final double labelRotationAngleDegrees = xAxis.labelRotationAngle;
     bool centeringEnabled = xAxis.isCenterAxisLabelsEnabled();
 
@@ -139,11 +128,8 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
       double y = positions[i + 1];
 
       if (viewPortHandler.isInBoundsY(y)) {
-        String label = xAxis
-            .getValueFormatter()
-            .getAxisLabel(xAxis.entries[i ~/ 2], xAxis);
-        Utils.drawXAxisValueHorizontal(c, label, pos, y, axisLabelPaint, anchor,
-            labelRotationAngleDegrees, position);
+        String label = xAxis.getValueFormatter().getAxisLabel(xAxis.entries[i ~/ 2], xAxis);
+        Utils.drawXAxisValueHorizontal(c, label, pos, y, axisLabelPaint, anchor, labelRotationAngleDegrees, position);
       }
     }
   }
@@ -181,21 +167,15 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
     if (xAxis.position == XAxisPosition.TOP ||
         xAxis.position == XAxisPosition.TOP_INSIDE ||
         xAxis.position == XAxisPosition.BOTH_SIDED) {
-      c.drawLine(
-          Offset(viewPortHandler.contentRight(), viewPortHandler.contentTop()),
-          Offset(
-              viewPortHandler.contentRight(), viewPortHandler.contentBottom()),
-          axisLinePaint);
+      c.drawLine(Offset(viewPortHandler.contentRight(), viewPortHandler.contentTop()),
+          Offset(viewPortHandler.contentRight(), viewPortHandler.contentBottom()), axisLinePaint);
     }
 
     if (xAxis.position == XAxisPosition.BOTTOM ||
         xAxis.position == XAxisPosition.BOTTOM_INSIDE ||
         xAxis.position == XAxisPosition.BOTH_SIDED) {
-      c.drawLine(
-          Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop()),
-          Offset(
-              viewPortHandler.contentLeft(), viewPortHandler.contentBottom()),
-          axisLinePaint);
+      c.drawLine(Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop()),
+          Offset(viewPortHandler.contentLeft(), viewPortHandler.contentBottom()), axisLinePaint);
     }
   }
 
@@ -253,62 +233,47 @@ class XAxisRendererHorizontalBarChart extends XAxisRenderer {
 
       // if drawing the limit-value label is enabled
       if (label != null && label.isNotEmpty) {
-        final double labelLineHeight =
-            Utils.calcTextHeight(axisLabelPaint, label).toDouble();
+        final double labelLineHeight = Utils.calcTextHeight(axisLabelPaint, label).toDouble();
         double xOffset = l.xOffset;
         double yOffset = l.lineWidth + labelLineHeight + l.yOffset;
 
         final LimitLabelPosition position = l.labelPosition;
 
         if (position == LimitLabelPosition.RIGHT_TOP) {
-          axisLabelPaint = PainterUtils.create(
-              axisLabelPaint, label, l.textColor, l.textSize);
+          axisLabelPaint = PainterUtils.create(axisLabelPaint, label, l.textColor, l.textSize);
           axisLabelPaint.layout();
-          var offset = Offset(
-              viewPortHandler.contentRight() - xOffset - axisLabelPaint.width,
-              pts[1] - yOffset);
+          var offset = Offset(viewPortHandler.contentRight() - xOffset - axisLabelPaint.width, pts[1] - yOffset);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else if (position == LimitLabelPosition.RIGHT_BOTTOM) {
-          axisLabelPaint = PainterUtils.create(
-              axisLabelPaint, label, l.textColor, l.textSize);
+          axisLabelPaint = PainterUtils.create(axisLabelPaint, label, l.textColor, l.textSize);
           axisLabelPaint.layout();
-          var offset = Offset(
-              viewPortHandler.contentRight() - xOffset - axisLabelPaint.width,
-              pts[1] + yOffset);
+          var offset = Offset(viewPortHandler.contentRight() - xOffset - axisLabelPaint.width, pts[1] + yOffset);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else if (position == LimitLabelPosition.RIGHT_CENTER) {
-          axisLabelPaint = PainterUtils.create(
-              axisLabelPaint, label, l.textColor, l.textSize);
+          axisLabelPaint = PainterUtils.create(axisLabelPaint, label, l.textColor, l.textSize);
           axisLabelPaint.layout();
           var offset = Offset(
-              viewPortHandler.contentRight() - xOffset - axisLabelPaint.width,
-              pts[1] - axisLabelPaint.height / 2);
+              viewPortHandler.contentRight() - xOffset - axisLabelPaint.width, pts[1] - axisLabelPaint.height / 2);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else if (position == LimitLabelPosition.LEFT_CENTER) {
-          axisLabelPaint = PainterUtils.create(
-              axisLabelPaint, label, l.textColor, l.textSize);
+          axisLabelPaint = PainterUtils.create(axisLabelPaint, label, l.textColor, l.textSize);
           axisLabelPaint.layout();
-          var offset = Offset(viewPortHandler.contentLeft() + xOffset,
-              pts[1] - axisLabelPaint.height / 2);
+          var offset = Offset(viewPortHandler.contentLeft() + xOffset, pts[1] - axisLabelPaint.height / 2);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else if (position == LimitLabelPosition.LEFT_TOP) {
-          axisLabelPaint = PainterUtils.create(
-              axisLabelPaint, label, l.textColor, l.textSize);
+          axisLabelPaint = PainterUtils.create(axisLabelPaint, label, l.textColor, l.textSize);
           axisLabelPaint.layout();
-          var offset =
-              Offset(viewPortHandler.contentLeft() + xOffset, pts[1] - yOffset);
+          var offset = Offset(viewPortHandler.contentLeft() + xOffset, pts[1] - yOffset);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else {
-          axisLabelPaint = PainterUtils.create(
-              axisLabelPaint, label, l.textColor, l.textSize);
+          axisLabelPaint = PainterUtils.create(axisLabelPaint, label, l.textColor, l.textSize);
           axisLabelPaint.layout();
-          var offset =
-              Offset(viewPortHandler.offsetLeft() + xOffset, pts[1] + yOffset);
+          var offset = Offset(viewPortHandler.offsetLeft() + xOffset, pts[1] + yOffset);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         }

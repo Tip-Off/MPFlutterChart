@@ -204,7 +204,7 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
     return _mode == Mode.STEPPED;
   }
 
-  /** ALL CODE BELOW RELATED TO CIRCLE-COLORS */
+  /// ALL CODE BELOW RELATED TO CIRCLE-COLORS
 
   /// returns all colors specified for the circles
   ///
@@ -295,11 +295,7 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   DataSet<Entry> copy1() {
     List<Entry> entries = List();
     for (int i = 0; i < values.length; i++) {
-      entries.add(Entry(
-          x: values[i].x,
-          y: values[i].y,
-          icon: values[i].mIcon,
-          data: values[i].mData));
+      entries.add(Entry(x: values[i].x, y: values[i].y, icon: values[i].mIcon, data: values[i].mData));
     }
     LineDataSet copied = LineDataSet(entries, getLabel());
     copy(copied);

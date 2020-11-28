@@ -10,8 +10,7 @@ import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/highlight/i_highlighter.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 
-class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
-    implements IHighlighter {
+class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> implements IHighlighter {
   /// instance of the data-provider
   T _provider;
 
@@ -44,9 +43,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
   /// @return
   MPPointD getValsForTouch(double x, double y) {
     // take any transformer to determine the x-axis value
-    MPPointD pos = _provider
-        .getTransformer(AxisDependency.LEFT)
-        .getValuesByTouchPoint1(x, y);
+    MPPointD pos = _provider.getTransformer(AxisDependency.LEFT).getValuesByTouchPoint1(x, y);
     return pos;
   }
 
@@ -63,17 +60,12 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
       return null;
     }
 
-    double leftAxisMinDist =
-        getMinimumDistance(closestValues, y, AxisDependency.LEFT);
-    double rightAxisMinDist =
-        getMinimumDistance(closestValues, y, AxisDependency.RIGHT);
+    double leftAxisMinDist = getMinimumDistance(closestValues, y, AxisDependency.LEFT);
+    double rightAxisMinDist = getMinimumDistance(closestValues, y, AxisDependency.RIGHT);
 
-    AxisDependency axis = leftAxisMinDist < rightAxisMinDist
-        ? AxisDependency.LEFT
-        : AxisDependency.RIGHT;
+    AxisDependency axis = leftAxisMinDist < rightAxisMinDist ? AxisDependency.LEFT : AxisDependency.RIGHT;
 
-    Highlight detail = getClosestHighlightByPixel(
-        closestValues, x, y, axis, _provider.getMaxHighlightDistance());
+    Highlight detail = getClosestHighlightByPixel(closestValues, x, y, axis, _provider.getMaxHighlightDistance());
 
     detail.freeX = xVal;
     detail.freeY = yVal;
@@ -88,8 +80,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
   /// @param pos
   /// @param axis
   /// @return
-  double getMinimumDistance(
-      List<Highlight> closestValues, double pos, AxisDependency axis) {
+  double getMinimumDistance(List<Highlight> closestValues, double pos, AxisDependency axis) {
     double distance = double.infinity;
 
     for (int i = 0; i < closestValues.length; i++) {
@@ -124,16 +115,13 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
 
     if (data == null) return _highlightBuffer;
 
-    for (int i = 0, dataSetCount = data.getDataSetCount();
-        i < dataSetCount;
-        i++) {
+    for (int i = 0, dataSetCount = data.getDataSetCount(); i < dataSetCount; i++) {
       IDataSet dataSet = data.getDataSetByIndex(i);
 
       // don't include DataSets that cannot be highlighted
       if (!dataSet.isHighlightEnabled()) continue;
 
-      _highlightBuffer
-          .addAll(buildHighlights(dataSet, i, xVal, Rounding.CLOSEST));
+      _highlightBuffer.addAll(buildHighlights(dataSet, i, xVal, Rounding.CLOSEST));
     }
 
     return _highlightBuffer;
@@ -146,8 +134,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
   /// @param xVal
   /// @param rounding
   /// @return
-  List<Highlight> buildHighlights(
-      IDataSet set, int dataSetIndex, double xVal, Rounding rounding) {
+  List<Highlight> buildHighlights(IDataSet set, int dataSetIndex, double xVal, Rounding rounding) {
     List<Highlight> highlights = List();
 
     //noinspection unchecked
@@ -164,17 +151,10 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
     if (entries.length == 0) return highlights;
 
     for (Entry e in entries) {
-      MPPointD pixels = _provider
-          .getTransformer(set.getAxisDependency())
-          .getPixelForValues(e.x, e.y);
+      MPPointD pixels = _provider.getTransformer(set.getAxisDependency()).getPixelForValues(e.x, e.y);
 
-      highlights.add(new Highlight(
-          x: e.x,
-          y: e.y,
-          xPx: pixels.x,
-          yPx: pixels.y,
-          dataSetIndex: dataSetIndex,
-          axis: set.getAxisDependency()));
+      highlights.add(Highlight(
+          x: e.x, y: e.y, xPx: pixels.x, yPx: pixels.y, dataSetIndex: dataSetIndex, axis: set.getAxisDependency()));
     }
 
     return highlights;
@@ -190,8 +170,8 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider>
   /// @param axis                 the closest axis
   /// @param minSelectionDistance
   /// @return
-  Highlight getClosestHighlightByPixel(List<Highlight> closestValues, double x,
-      double y, AxisDependency axis, double minSelectionDistance) {
+  Highlight getClosestHighlightByPixel(
+      List<Highlight> closestValues, double x, double y, AxisDependency axis, double minSelectionDistance) {
     Highlight closest;
     double distance = minSelectionDistance;
 

@@ -9,16 +9,10 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 class SquareShapeRenderer implements IShapeRenderer {
   @override
   void renderShape(
-      Canvas c,
-      IScatterDataSet dataSet,
-      ViewPortHandler viewPortHandler,
-      double posX,
-      double posY,
-      Paint renderPaint) {
+      Canvas c, IScatterDataSet dataSet, ViewPortHandler viewPortHandler, double posX, double posY, Paint renderPaint) {
     final double shapeSize = dataSet.getScatterShapeSize();
     final double shapeHalf = shapeSize / 2;
-    final double shapeHoleSizeHalf =
-        Utils.convertDpToPixel(dataSet.getScatterShapeHoleRadius());
+    final double shapeHoleSizeHalf = Utils.convertDpToPixel(dataSet.getScatterShapeHoleRadius());
     final double shapeHoleSize = shapeHoleSizeHalf * 2.0;
     final double shapeStrokeSize = (shapeSize - shapeHoleSize) / 2.0;
     final double shapeStrokeSizeHalf = shapeStrokeSize / 2.0;
@@ -31,11 +25,8 @@ class SquareShapeRenderer implements IShapeRenderer {
         ..strokeWidth = shapeStrokeSize;
 
       c.drawRect(
-          Rect.fromLTRB(
-              posX - shapeHoleSizeHalf - shapeStrokeSizeHalf,
-              posY - shapeHoleSizeHalf - shapeStrokeSizeHalf,
-              posX + shapeHoleSizeHalf + shapeStrokeSizeHalf,
-              posY + shapeHoleSizeHalf + shapeStrokeSizeHalf),
+          Rect.fromLTRB(posX - shapeHoleSizeHalf - shapeStrokeSizeHalf, posY - shapeHoleSizeHalf - shapeStrokeSizeHalf,
+              posX + shapeHoleSizeHalf + shapeStrokeSizeHalf, posY + shapeHoleSizeHalf + shapeStrokeSizeHalf),
           renderPaint);
 
       if (shapeHoleColor != ColorUtils.COLOR_NONE) {
@@ -44,17 +35,14 @@ class SquareShapeRenderer implements IShapeRenderer {
           ..color = shapeHoleColor;
 
         c.drawRect(
-            Rect.fromLTRB(posX - shapeHoleSizeHalf, posY - shapeHoleSizeHalf,
-                posX + shapeHoleSizeHalf, posY + shapeHoleSizeHalf),
+            Rect.fromLTRB(
+                posX - shapeHoleSizeHalf, posY - shapeHoleSizeHalf, posX + shapeHoleSizeHalf, posY + shapeHoleSizeHalf),
             renderPaint);
       }
     } else {
       renderPaint.style = PaintingStyle.fill;
 
-      c.drawRect(
-          Rect.fromLTRB(posX - shapeHalf, posY - shapeHalf, posX + shapeHalf,
-              posY + shapeHalf),
-          renderPaint);
+      c.drawRect(Rect.fromLTRB(posX - shapeHalf, posY - shapeHalf, posX + shapeHalf, posY + shapeHalf), renderPaint);
     }
   }
 }

@@ -4,8 +4,7 @@ class FSize extends Poolable {
   double _width;
   double _height;
 
-  static ObjectPool<Poolable> pool = ObjectPool.create(256, FSize(0, 0))
-    ..setReplenishPercentage(0.5);
+  static ObjectPool<Poolable> pool = ObjectPool.create(256, FSize(0, 0))..setReplenishPercentage(0.5);
 
   @override
   Poolable instantiate() {

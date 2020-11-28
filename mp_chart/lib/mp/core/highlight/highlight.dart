@@ -1,8 +1,6 @@
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
-enum HighlightStatus {
-  START, MOVE, END
-}
+enum HighlightStatus { START, MOVE, END }
 
 class Highlight {
   /// the x-value of the highlighted value
@@ -73,34 +71,35 @@ class Highlight {
     this._axis = axis;
     this._stackIndex = stackIndex;
   }
-  
+
   Highlight copyWith({
-    double freeX, 
+    double freeX,
     double freeY,
     double highlightX,
     double highlightY,
-    double x, 
-    double y, 
-    double xPx, 
+    double x,
+    double y,
+    double xPx,
     double yPx,
     int dataSetIndex,
     int stackIndex,
     int dataIndex,
     AxisDependency axis,
-  }) => Highlight(
-    freeX: freeX ?? this.freeX,
-    freeY: freeY ?? this.freeY,
-    highlightX: highlightX ?? this.highlightX,
-    highlightY: highlightY ?? this.highlightY,
-    x: x ?? this.x,
-    y: y ?? this.y,
-    xPx: xPx ?? this.xPx,
-    yPx: yPx ?? this.yPx,
-    dataSetIndex: dataSetIndex ?? this.dataSetIndex,
-    stackIndex: stackIndex ?? this.stackIndex,
-    dataIndex: dataIndex ?? this.dataIndex,
-    axis: axis ?? this.axis,
-  );
+  }) =>
+      Highlight(
+        freeX: freeX ?? this.freeX,
+        freeY: freeY ?? this.freeY,
+        highlightX: highlightX ?? this.highlightX,
+        highlightY: highlightY ?? this.highlightY,
+        x: x ?? this.x,
+        y: y ?? this.y,
+        xPx: xPx ?? this.xPx,
+        yPx: yPx ?? this.yPx,
+        dataSetIndex: dataSetIndex ?? this.dataSetIndex,
+        stackIndex: stackIndex ?? this.stackIndex,
+        dataIndex: dataIndex ?? this.dataIndex,
+        axis: axis ?? this.axis,
+      );
 
   double get x => _x;
 
@@ -110,7 +109,7 @@ class Highlight {
 
   double get yPx => _yPx;
 
-  set y (double yy) {
+  set y(double yy) {
     _y = yy;
   }
 

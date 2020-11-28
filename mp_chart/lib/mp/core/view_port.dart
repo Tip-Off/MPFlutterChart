@@ -75,10 +75,8 @@ class ViewPortHandler {
       return false;
   }
 
-  void restrainViewPort(double offsetLeft, double offsetTop, double offsetRight,
-      double offsetBottom) {
-    _contentRect = Rect.fromLTRB(offsetLeft, offsetTop,
-        _chartWidth - offsetRight, _chartHeight - offsetBottom);
+  void restrainViewPort(double offsetLeft, double offsetTop, double offsetRight, double offsetBottom) {
+    _contentRect = Rect.fromLTRB(offsetLeft, offsetTop, _chartWidth - offsetRight, _chartHeight - offsetBottom);
   }
 
   double offsetLeft() {
@@ -130,8 +128,7 @@ class ViewPortHandler {
   }
 
   MPPointF getContentCenter() {
-    return MPPointF.getInstance1(
-        _contentRect.center.dx, _contentRect.center.dy);
+    return MPPointF.getInstance1(_contentRect.center.dx, _contentRect.center.dy);
   }
 
   double getChartHeight() {
@@ -149,10 +146,8 @@ class ViewPortHandler {
     return min(_contentRect.width, _contentRect.height);
   }
 
-  /**
-   * ################ ################ ################ ################
-   */
-  /** CODE BELOW THIS RELATED TO SCALING AND GESTURES */
+  /// ################ ################ ################ ################
+  /// CODE BELOW THIS RELATED TO SCALING AND GESTURES
 
   /// Zooms in by 1.4f, x and y are the coordinates (in pixels) of the zoom
   /// center.
@@ -219,8 +214,7 @@ class ViewPortHandler {
     return save;
   }
 
-  void zoom4(
-      double scaleX, double scaleY, double x, double y, Matrix4 outputMatrix) {
+  void zoom4(double scaleX, double scaleY, double x, double y, Matrix4 outputMatrix) {
     _matrixTouch.copyInto(outputMatrix);
     Matrix4Utils.postScaleByPoint(outputMatrix, scaleX, scaleY, x, y);
   }
@@ -456,14 +450,10 @@ class ViewPortHandler {
   Matrix4 getMatrixTouch() {
     return _matrixTouch;
   }
-  
-  void blas() {
-    
-  }
 
-  /**
-   * ################ ################ ################ ################
-   */
+  void blas() {}
+
+  /// ################ ################ ################ ################
 
   /// BELOW METHODS FOR BOUNDS CHECK
 

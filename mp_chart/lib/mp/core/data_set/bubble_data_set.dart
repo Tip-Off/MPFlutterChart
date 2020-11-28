@@ -5,8 +5,7 @@ import 'package:mp_chart/mp/core/data_set/data_set.dart';
 import 'package:mp_chart/mp/core/entry/bubble_entry.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
-class BubbleDataSet extends BarLineScatterCandleBubbleDataSet<BubbleEntry>
-    implements IBubbleDataSet {
+class BubbleDataSet extends BarLineScatterCandleBubbleDataSet<BubbleEntry> implements IBubbleDataSet {
   double _maxSize = 0.0;
   bool _normalizeSize = true;
 

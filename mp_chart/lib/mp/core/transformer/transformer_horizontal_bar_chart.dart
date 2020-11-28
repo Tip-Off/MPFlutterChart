@@ -4,8 +4,7 @@ import 'package:mp_chart/mp/core/utils/matrix4_utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 
 class TransformerHorizontalBarChart extends Transformer {
-  TransformerHorizontalBarChart(ViewPortHandler viewPortHandler)
-      : super(viewPortHandler);
+  TransformerHorizontalBarChart(ViewPortHandler viewPortHandler) : super(viewPortHandler);
 
   /// Prepares the matrix that contains all offsets.
   ///
@@ -19,9 +18,7 @@ class TransformerHorizontalBarChart extends Transformer {
       Matrix4Utils.postTranslate(matrixOffset, viewPortHandler.offsetLeft(),
           viewPortHandler.getChartHeight() - viewPortHandler.offsetBottom());
     else {
-      Matrix4Utils.setTranslate(
-          matrixOffset,
-          -(viewPortHandler.getChartWidth() - viewPortHandler.offsetRight()),
+      Matrix4Utils.setTranslate(matrixOffset, -(viewPortHandler.getChartWidth() - viewPortHandler.offsetRight()),
           viewPortHandler.getChartHeight() - viewPortHandler.offsetBottom());
       Matrix4Utils.postScale(matrixOffset, -1.0, 1.0);
     }

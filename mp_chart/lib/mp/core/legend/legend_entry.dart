@@ -7,12 +7,7 @@ import 'package:mp_chart/mp/core/utils/color_utils.dart';
 class LegendEntry {
   LegendEntry.empty();
 
-  LegendEntry(
-      String label,
-      LegendForm form,
-      double formSize,
-      double formLineWidth,
-      DashPathEffect formLineDashEffect,
+  LegendEntry(String label, LegendForm form, double formSize, double formLineWidth, DashPathEffect formLineDashEffect,
       Color formColor) {
     this._label = label;
     this._form = form;

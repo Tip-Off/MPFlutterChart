@@ -11,16 +11,10 @@ class TriangleShapeRenderer implements IShapeRenderer {
 
   @override
   void renderShape(
-      Canvas c,
-      IScatterDataSet dataSet,
-      ViewPortHandler viewPortHandler,
-      double posX,
-      double posY,
-      Paint renderPaint) {
+      Canvas c, IScatterDataSet dataSet, ViewPortHandler viewPortHandler, double posX, double posY, Paint renderPaint) {
     final double shapeSize = dataSet.getScatterShapeSize();
     final double shapeHalf = shapeSize / 2;
-    final double shapeHoleSizeHalf =
-        Utils.convertDpToPixel(dataSet.getScatterShapeHoleRadius());
+    final double shapeHoleSizeHalf = Utils.convertDpToPixel(dataSet.getScatterShapeHoleRadius());
     final double shapeHoleSize = shapeHoleSizeHalf * 2.0;
     final double shapeStrokeSize = (shapeSize - shapeHoleSize) / 2.0;
 
@@ -39,13 +33,10 @@ class TriangleShapeRenderer implements IShapeRenderer {
     if (shapeSize > 0.0) {
       tri.lineTo(posX, posY - shapeHalf);
 
-      tri.moveTo(posX - shapeHalf + shapeStrokeSize,
-          posY + shapeHalf - shapeStrokeSize);
-      tri.lineTo(posX + shapeHalf - shapeStrokeSize,
-          posY + shapeHalf - shapeStrokeSize);
+      tri.moveTo(posX - shapeHalf + shapeStrokeSize, posY + shapeHalf - shapeStrokeSize);
+      tri.lineTo(posX + shapeHalf - shapeStrokeSize, posY + shapeHalf - shapeStrokeSize);
       tri.lineTo(posX, posY - shapeHalf + shapeStrokeSize);
-      tri.lineTo(posX - shapeHalf + shapeStrokeSize,
-          posY + shapeHalf - shapeStrokeSize);
+      tri.lineTo(posX - shapeHalf + shapeStrokeSize, posY + shapeHalf - shapeStrokeSize);
     }
 
     tri.close();
@@ -57,10 +48,8 @@ class TriangleShapeRenderer implements IShapeRenderer {
       renderPaint.color = shapeHoleColor;
 
       tri.moveTo(posX, posY - shapeHalf + shapeStrokeSize);
-      tri.lineTo(posX + shapeHalf - shapeStrokeSize,
-          posY + shapeHalf - shapeStrokeSize);
-      tri.lineTo(posX - shapeHalf + shapeStrokeSize,
-          posY + shapeHalf - shapeStrokeSize);
+      tri.lineTo(posX + shapeHalf - shapeStrokeSize, posY + shapeHalf - shapeStrokeSize);
+      tri.lineTo(posX - shapeHalf + shapeStrokeSize, posY + shapeHalf - shapeStrokeSize);
       tri.close();
 
       c.drawPath(tri, renderPaint);

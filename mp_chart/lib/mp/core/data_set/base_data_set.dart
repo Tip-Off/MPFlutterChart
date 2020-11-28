@@ -121,9 +121,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     return _gradientColors[index % _gradientColors.length];
   }
 
-  /**
-   * ###### ###### COLOR SETTING RELATED METHODS ##### ######
-   */
+  /// ###### ###### COLOR SETTING RELATED METHODS ##### ######
 
   /// Sets the colors that should be used fore this DataSet. Colors are reused
   /// as soon as the number of Entries the DataSet represents is higher than

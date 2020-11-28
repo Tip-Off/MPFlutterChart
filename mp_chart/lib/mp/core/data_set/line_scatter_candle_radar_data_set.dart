@@ -5,8 +5,7 @@ import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
-abstract class LineScatterCandleRadarDataSet<T extends Entry>
-    extends BarLineScatterCandleBubbleDataSet<T>
+abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineScatterCandleBubbleDataSet<T>
     implements ILineScatterCandleRadarDataSet<T> {
   bool _drawVerticalHighlightIndicator = true;
   bool _drawHorizontalHighlightIndicator = true;
@@ -20,8 +19,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   /// the path effect for dashed highlight-lines
 //   DashPathEffect mHighlightDashPathEffect = null;
 
-  LineScatterCandleRadarDataSet(List<T> yVals, String label)
-      : super(yVals, label) {
+  LineScatterCandleRadarDataSet(List<T> yVals, String label) : super(yVals, label) {
     _highlightLineWidth = Utils.convertDpToPixel(0.5);
   }
 
@@ -70,8 +68,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   /// @param lineLength the length of the line pieces
   /// @param spaceLength the length of space inbetween the line-pieces
   /// @param phase offset, in degrees (normally, use 0)
-  void enableDashedHighlightLine(
-      double lineLength, double spaceLength, double phase) {
+  void enableDashedHighlightLine(double lineLength, double spaceLength, double phase) {
     _highlightDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
   }
 
@@ -101,13 +98,10 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
     super.copy(baseDataSet);
     if (baseDataSet is LineScatterCandleRadarDataSet) {
       var lineScatterCandleRadarDataSet = baseDataSet;
-      lineScatterCandleRadarDataSet._drawHorizontalHighlightIndicator =
-          _drawHorizontalHighlightIndicator;
-      lineScatterCandleRadarDataSet._drawVerticalHighlightIndicator =
-          _drawVerticalHighlightIndicator;
+      lineScatterCandleRadarDataSet._drawHorizontalHighlightIndicator = _drawHorizontalHighlightIndicator;
+      lineScatterCandleRadarDataSet._drawVerticalHighlightIndicator = _drawVerticalHighlightIndicator;
       lineScatterCandleRadarDataSet._highlightLineWidth = _highlightLineWidth;
-      lineScatterCandleRadarDataSet._highlightDashPathEffect =
-          _highlightDashPathEffect;
+      lineScatterCandleRadarDataSet._highlightDashPathEffect = _highlightDashPathEffect;
     }
   }
 
@@ -117,7 +111,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
   /// and Cur's x value(Cur: Entry at index).
   @override
   bool addEntryByIndex(int index, T e) {
-    if(index < 0 || index > getEntryCount()){
+    if (index < 0 || index > getEntryCount()) {
       return false;
     }
 
@@ -126,17 +120,17 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry>
       return addEntry(e);
     }
 
-    if(index == 0){
+    if (index == 0) {
       var cur = valueDatas[index];
       if (e.x >= cur.x) {
         return false;
       }
-    } else if(index == getEntryCount()){
+    } else if (index == getEntryCount()) {
       var pre = valueDatas[index - 1];
-      if(e.x <= pre.x){
+      if (e.x <= pre.x) {
         return false;
       }
-    }else {
+    } else {
       var cur = valueDatas[index];
       var pre = valueDatas[index - 1];
       if (e.x >= cur.x || e.x <= pre.x) {

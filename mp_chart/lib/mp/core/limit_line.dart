@@ -123,6 +123,4 @@ class LimitLine extends ComponentBase {
   set drawBackground(bool value) {
     _drawBackground = value;
   }
-
-
 }

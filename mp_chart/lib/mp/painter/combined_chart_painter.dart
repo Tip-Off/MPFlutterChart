@@ -155,7 +155,12 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
             chartTransListener);
 
   List<DrawOrder> initDrawOrder() {
-    return List()..add(DrawOrder.CANDLE)..add(DrawOrder.BAR)..add(DrawOrder.BUBBLE)..add(DrawOrder.LINE)..add(DrawOrder.SCATTER);
+    return List()
+      ..add(DrawOrder.CANDLE)
+      ..add(DrawOrder.BAR)
+      ..add(DrawOrder.BUBBLE)
+      ..add(DrawOrder.LINE)
+      ..add(DrawOrder.SCATTER);
   }
 
   @override
@@ -190,7 +195,15 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
 
       // For isHighlightFullBarEnabled, remove stackIndex
       return Highlight(
-          x: h.x, y: h.y, xPx: h.xPx, yPx: h.yPx, freeX: h.freeX, freeY: h.freeY, dataSetIndex: h.dataSetIndex, stackIndex: h.stackIndex, axis: h.axis)
+          x: h.x,
+          y: h.y,
+          xPx: h.xPx,
+          yPx: h.yPx,
+          freeX: h.freeX,
+          freeY: h.freeY,
+          dataSetIndex: h.dataSetIndex,
+          stackIndex: h.stackIndex,
+          axis: h.axis)
         ..dataIndex = h.dataIndex;
     }
   }

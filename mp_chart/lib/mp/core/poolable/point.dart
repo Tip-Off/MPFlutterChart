@@ -1,6 +1,5 @@
 class MPPointF extends Poolable {
-  static ObjectPool<Poolable> pool = ObjectPool.create(32, MPPointF(0, 0))
-    ..setReplenishPercentage(0.5);
+  static ObjectPool<Poolable> pool = ObjectPool.create(32, MPPointF(0, 0))..setReplenishPercentage(0.5);
 
   double _x;
   double _y;
@@ -56,13 +55,12 @@ class MPPointF extends Poolable {
 
   @override
   Poolable instantiate() {
-    return new MPPointF(0, 0);
+    return MPPointF(0, 0);
   }
 }
 
 class MPPointD extends Poolable {
-  static ObjectPool<Poolable> pool = ObjectPool.create(64, new MPPointD(0, 0))
-    ..setReplenishPercentage(0.5);
+  static ObjectPool<Poolable> pool = ObjectPool.create(64, MPPointD(0, 0))..setReplenishPercentage(0.5);
 
   static MPPointD getInstance1(double x, double y) {
     MPPointD result = pool.get();
@@ -136,8 +134,7 @@ class ObjectPool<T extends Poolable> {
 
   ObjectPool(int withCapacity, T object) {
     if (withCapacity <= 0) {
-      throw new Exception(
-          "Object Pool must be instantiated with a capacity greater than 0!");
+      throw Exception("Object Pool must be instantiated with a capacity greater than 0!");
     }
     this.desiredCapacity = withCapacity;
     this.objects = List(this.desiredCapacity);
@@ -208,10 +205,9 @@ class ObjectPool<T extends Poolable> {
   void recycle1(T object) {
     if (object.currentOwnerId != Poolable.NO_OWNER) {
       if (object.currentOwnerId == this.poolId) {
-        throw new Exception(
-            "The object passed is already stored in this pool!");
+        throw Exception("The object passed is already stored in this pool!");
       } else {
-        throw new Exception(
+        throw Exception(
             "The object to recycle already belongs to poolId ${object.currentOwnerId}.  Object cannot belong to two different pool instances simultaneously!");
       }
     }
@@ -240,10 +236,9 @@ class ObjectPool<T extends Poolable> {
       T object = objects[i];
       if (object.currentOwnerId != Poolable.NO_OWNER) {
         if (object.currentOwnerId == this.poolId) {
-          throw new Exception(
-              "The object passed is already stored in this pool!");
+          throw Exception("The object passed is already stored in this pool!");
         } else {
-          throw new Exception(
+          throw Exception(
               "The object to recycle already belongs to poolId ${object.currentOwnerId}.  Object cannot belong to two different pool instances simultaneously!");
         }
       }

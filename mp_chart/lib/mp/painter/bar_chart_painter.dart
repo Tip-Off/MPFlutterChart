@@ -24,8 +24,7 @@ import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/bar_line_chart_painter.dart';
 
-class BarChartPainter extends BarLineChartBasePainter<BarData>
-    implements BarDataProvider {
+class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDataProvider {
   /// flag that indicates whether the highlight should be full-bar oriented, or single-value?
   final bool _highlightFullBarEnabled;
 
@@ -158,17 +157,14 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   @override
   void calcMinMax() {
     if (_fitBars) {
-      xAxis.calculate(getBarData().xMin - getBarData().barWidth / 2.0,
-          getBarData().xMax + getBarData().barWidth / 2.0);
+      xAxis.calculate(getBarData().xMin - getBarData().barWidth / 2.0, getBarData().xMax + getBarData().barWidth / 2.0);
     } else {
       xAxis.calculate(getBarData().xMin, getBarData().xMax);
     }
 
     // calculate axis range (min / max) according to provided data
-    axisLeft.calculate(getBarData().getYMin2(AxisDependency.LEFT),
-        getBarData().getYMax2(AxisDependency.LEFT));
-    axisRight.calculate(getBarData().getYMin2(AxisDependency.RIGHT),
-        getBarData().getYMax2(AxisDependency.RIGHT));
+    axisLeft.calculate(getBarData().getYMin2(AxisDependency.LEFT), getBarData().getYMax2(AxisDependency.LEFT));
+    axisRight.calculate(getBarData().getYMin2(AxisDependency.RIGHT), getBarData().getYMax2(AxisDependency.RIGHT));
   }
 
   /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch
@@ -188,13 +184,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
 
       // For isHighlightFullBarEnabled, remove stackIndex
       return Highlight(
-          x: h.x,
-          y: h.y,
-          xPx: h.xPx,
-          yPx: h.yPx,
-          dataSetIndex: h.dataSetIndex,
-          stackIndex: -1,
-          axis: h.axis);
+          x: h.x, y: h.y, xPx: h.xPx, yPx: h.yPx, dataSetIndex: h.dataSetIndex, stackIndex: -1, axis: h.axis);
     }
   }
 
@@ -209,8 +199,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
     IBarDataSet set = getBarData().getDataSetForEntry(e);
 
     if (set == null) {
-      bounds = Rect.fromLTRB(double.minPositive, double.minPositive,
-          double.minPositive, double.minPositive);
+      bounds = Rect.fromLTRB(double.minPositive, double.minPositive, double.minPositive, double.minPositive);
       return bounds;
     }
 
@@ -256,9 +245,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   /// @param dataSetIndex
   /// @param stackIndex   the index inside the stack - only relevant for stacked entries
   void highlightValue(double x, int dataSetIndex, int stackIndex) {
-    highlightValue6(
-        Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex),
-        false);
+    highlightValue6(Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex), false);
   }
 
   /// Groups all BarDataSet objects this data object holds together by modifying the x-value of their entries.
@@ -271,8 +258,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   /// @param barSpace   the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
   void groupBars(double fromX, double groupSpace, double barSpace) {
     if (getBarData() == null) {
-      throw Exception(
-          "You need to set data for the chart before grouping bars.");
+      throw Exception("You need to set data for the chart before grouping bars.");
     } else {
       getBarData().groupBars(fromX, groupSpace, barSpace);
     }

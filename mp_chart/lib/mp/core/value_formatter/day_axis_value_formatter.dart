@@ -77,8 +77,7 @@ class DayAxisValueFormatter extends ValueFormatter {
 
       if (year < 1582)
         is29Feb = (year < 1 ? year + 1 : year) % 4 == 0;
-      else if (year > 1582)
-        is29Feb = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+      else if (year > 1582) is29Feb = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
 
       return is29Feb ? 29 : 28;
     }

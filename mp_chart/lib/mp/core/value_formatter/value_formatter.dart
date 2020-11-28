@@ -15,8 +15,7 @@ abstract class ValueFormatter {
     return getFormattedValue1(value);
   }
 
-  String getFormattedValue3(double value, Entry entry, int dataSetIndex,
-      ViewPortHandler viewPortHandler) {
+  String getFormattedValue3(double value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
     return getFormattedValue1(value);
   }
 

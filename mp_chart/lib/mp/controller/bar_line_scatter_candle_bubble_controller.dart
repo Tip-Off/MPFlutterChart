@@ -17,8 +17,7 @@ import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/painter/bar_line_chart_painter.dart';
 
-abstract class BarLineScatterCandleBubbleController<
-    P extends BarLineChartBasePainter> extends Controller<P> {
+abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePainter> extends Controller<P> {
   int maxVisibleCount;
   bool autoScaleMinMaxEnabled;
   bool doubleTapToZoomEnabled;
@@ -176,22 +175,17 @@ abstract class BarLineScatterCandleBubbleController<
 
   Transformer initRightAxisTransformer() => Transformer(viewPortHandler);
 
-  YAxisRenderer initAxisRendererLeft() =>
-      YAxisRenderer(viewPortHandler, axisLeft, leftAxisTransformer);
+  YAxisRenderer initAxisRendererLeft() => YAxisRenderer(viewPortHandler, axisLeft, leftAxisTransformer);
 
-  YAxisRenderer initAxisRendererRight() =>
-      YAxisRenderer(viewPortHandler, axisRight, rightAxisTransformer);
+  YAxisRenderer initAxisRendererRight() => YAxisRenderer(viewPortHandler, axisRight, rightAxisTransformer);
 
-  XAxisRenderer initXAxisRenderer() =>
-      XAxisRenderer(viewPortHandler, xAxis, leftAxisTransformer);
+  XAxisRenderer initXAxisRenderer() => XAxisRenderer(viewPortHandler, xAxis, leftAxisTransformer);
 
   @override
   void doneBeforePainterInit() {
     super.doneBeforePainterInit();
     gridBackgroundPaint = Paint()
-      ..color = gridBackColor == null
-          ? Color.fromARGB(255, 240, 240, 240)
-          : gridBackColor
+      ..color = gridBackColor == null ? Color.fromARGB(255, 240, 240, 240) : gridBackColor
       ..style = PaintingStyle.fill;
 
     borderPaint = Paint()
@@ -199,8 +193,7 @@ abstract class BarLineScatterCandleBubbleController<
       ..style = PaintingStyle.stroke
       ..strokeWidth = Utils.convertDpToPixel(borderStrokeWidth);
 
-    backgroundPaint = Paint()
-      ..color = backgroundColor == null ? ColorUtils.WHITE : backgroundColor;
+    backgroundPaint = Paint()..color = backgroundColor == null ? ColorUtils.WHITE : backgroundColor;
 
     drawListener ??= initDrawListener();
 //    if (axisLeft == null) {
@@ -225,8 +218,7 @@ abstract class BarLineScatterCandleBubbleController<
 
   P get painter => super.painter;
 
-  void setViewPortOffsets(final double left, final double top,
-      final double right, final double bottom) {
+  void setViewPortOffsets(final double left, final double top, final double right, final double bottom) {
     customViewPortEnabled = true;
     viewPortHandler.restrainViewPort(left, top, right, bottom);
   }
@@ -303,14 +295,12 @@ abstract class BarLineScatterCandleBubbleController<
   /// @param yValue
   /// @param axis
   /// @param duration the duration of the animation in milliseconds
-  void moveViewToAnimated(
-      double xValue, double yValue, AxisDependency axis, int durationMillis) {
+  void moveViewToAnimated(double xValue, double yValue, AxisDependency axis, int durationMillis) {
     // This is hardcoded to relate to the hardcoded value from
     // ViewPort limitTransAndScale function
     xValue = xValue - 50;
 
-    MPPointD bounds = getValuesByTouchPoint(
-        viewPortHandler.contentLeft(), viewPortHandler.contentTop(), axis);
+    MPPointD bounds = getValuesByTouchPoint(viewPortHandler.contentLeft(), viewPortHandler.contentTop(), axis);
     double yInView = getAxisRange(axis) / viewPortHandler.getScaleY();
 
     yValue = yValue + yInView / 2;
@@ -368,10 +358,8 @@ abstract class BarLineScatterCandleBubbleController<
   /// @param yValue
   /// @param axis
   /// @param duration the duration of the animation in milliseconds
-  void centerViewToAnimated(
-      double xValue, double yValue, AxisDependency axis, int durationMillis) {
-    MPPointD bounds = getValuesByTouchPoint(
-        viewPortHandler.contentLeft(), viewPortHandler.contentTop(), axis);
+  void centerViewToAnimated(double xValue, double yValue, AxisDependency axis, int durationMillis) {
+    MPPointD bounds = getValuesByTouchPoint(viewPortHandler.contentLeft(), viewPortHandler.contentTop(), axis);
     double yInView = getAxisRange(axis) / viewPortHandler.getScaleY();
     double xInView = xAxis.axisRange / viewPortHandler.getScaleX();
 
@@ -440,8 +428,7 @@ abstract class BarLineScatterCandleBubbleController<
     return result;
   }
 
-  void _getValuesByTouchPoint(
-      double x, double y, AxisDependency axis, MPPointD outputPoint) {
+  void _getValuesByTouchPoint(double x, double y, AxisDependency axis, MPPointD outputPoint) {
     painter?.getTransformer(axis)?.getValuesByTouchPoint2(x, y, outputPoint);
   }
 
@@ -469,8 +456,7 @@ abstract class BarLineScatterCandleBubbleController<
   /// @param minYRange
   /// @param maxYRange
   /// @param axis
-  void setVisibleYRange(
-      double minYRange, double maxYRange, AxisDependency axis) {
+  void setVisibleYRange(double minYRange, double maxYRange, AxisDependency axis) {
     double minScale = getAxisRange(axis) / minYRange;
     double maxScale = getAxisRange(axis) / maxYRange;
     viewPortHandler.setMinMaxScaleY(minScale, maxScale);
@@ -513,8 +499,7 @@ abstract class BarLineScatterCandleBubbleController<
       _decelerationLastTime = currentTime;
     }
 
-    if (_decelerationVelocity.x.abs() >= 20 ||
-        _decelerationVelocity.y.abs() >= 20) {
+    if (_decelerationVelocity.x.abs() >= 20 || _decelerationVelocity.y.abs() >= 20) {
       state.setStateIfNotDispose();
       Future.delayed(Duration(milliseconds: 16), () {
         computeScroll();

@@ -10,24 +10,20 @@ import 'package:mp_chart/mp/core/highlight/chart_hightlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/highlight/i_highlighter.dart';
 
-class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider>
-    implements IHighlighter {
+class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider> implements IHighlighter {
   /// bar highlighter for supporting stacked highlighting
   BarHighlighter _barHighlighter;
 
-  CombinedHighlighter(CombinedDataProvider chart, BarDataProvider barChart)
-      : super(chart) {
+  CombinedHighlighter(CombinedDataProvider chart, BarDataProvider barChart) : super(chart) {
     // if there is BarData, create a BarHighlighter
-    _barHighlighter =
-        barChart.getBarData() == null ? null : BarHighlighter(barChart);
+    _barHighlighter = barChart.getBarData() == null ? null : BarHighlighter(barChart);
   }
 
   @override
   List<Highlight> getHighlightsAtXValue(double xVal, double x, double y) {
     highlightBuffer.clear();
 
-    List<BarLineScatterCandleBubbleData> dataObjects =
-        provider.getCombinedData().getAllData();
+    List<BarLineScatterCandleBubbleData> dataObjects = provider.getCombinedData().getAllData();
 
     for (int i = 0; i < dataObjects.length; i++) {
       ChartData dataObject = dataObjects[i];
@@ -41,16 +37,13 @@ class CombinedHighlighter extends ChartHighlighter<CombinedDataProvider>
           highlightBuffer.add(high);
         }
       } else {
-        for (int j = 0, dataSetCount = dataObject.getDataSetCount();
-            j < dataSetCount;
-            j++) {
+        for (int j = 0, dataSetCount = dataObject.getDataSetCount(); j < dataSetCount; j++) {
           IDataSet dataSet = dataObjects[i].getDataSetByIndex(j);
 
           // don't include datasets that cannot be highlighted
           if (!dataSet.isHighlightEnabled()) continue;
 
-          List<Highlight> highs =
-              buildHighlights(dataSet, j, xVal, Rounding.CLOSEST);
+          List<Highlight> highs = buildHighlights(dataSet, j, xVal, Rounding.CLOSEST);
           for (Highlight high in highs) {
             high.dataIndex = (i);
             highlightBuffer.add(high);

@@ -7,20 +7,17 @@ class DashPathEffect {
 
   DashOffset _dashOffset;
 
-  CircularIntervalList<double> get circularIntervalList =>
-      _circularIntervalList;
+  CircularIntervalList<double> get circularIntervalList => _circularIntervalList;
 
   DashPathEffect(double lineLength, double spaceLength, double value)
-      : _circularIntervalList =
-            CircularIntervalList<double>(<double>[lineLength, spaceLength]),
+      : _circularIntervalList = CircularIntervalList<double>(<double>[lineLength, spaceLength]),
         _dashOffset = DashOffset.absolute(value);
 
   Path convert2DashPath(Path path) {
     if (_circularIntervalList == null) {
       return path;
     }
-    return dashPath(path,
-        dashArray: _circularIntervalList, dashOffset: _dashOffset);
+    return dashPath(path, dashArray: _circularIntervalList, dashOffset: _dashOffset);
   }
 
   @override

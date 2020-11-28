@@ -16,8 +16,7 @@ import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/bar_chart_painter.dart';
 
-class BarChartController
-    extends BarLineScatterCandleBubbleController<BarChartPainter> {
+class BarChartController extends BarLineScatterCandleBubbleController<BarChartPainter> {
   bool highlightFullBarEnabled;
   bool drawValueAboveBar;
   bool drawBarShadow;
@@ -144,7 +143,7 @@ class BarChartController
   void initialPainter() {
     painter = BarChartPainter(
         data,
-        painter != null ?painter.highlightForced : null,
+        painter != null ? painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,
@@ -209,8 +208,7 @@ class BarChartController
 
   void groupBars(double fromX, double groupSpace, double barSpace) {
     if (data == null) {
-      throw Exception(
-          "You need to set data for the chart before grouping bars.");
+      throw Exception("You need to set data for the chart before grouping bars.");
     } else {
       data.groupBars(fromX, groupSpace, barSpace);
     }

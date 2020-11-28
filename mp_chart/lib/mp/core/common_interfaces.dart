@@ -41,16 +41,14 @@ mixin OnChartGestureListener {
   /// @param me
   /// @param scaleX scalefactor on the x-axis
   /// @param scaleY scalefactor on the y-axis
-  void onChartScale(
-      double positionX, double positionY, double scaleX, double scaleY);
+  void onChartScale(double positionX, double positionY, double scaleX, double scaleY);
 
   /// Callbacks when the chart is moved / translated via drag gesture.
   ///
   /// @param me
   /// @param dX translation distance on the x-axis
   /// @param dY translation distance on the y-axis
-  void onChartTranslate(
-      double positionX, double positionY, double dX, double dY);
+  void onChartTranslate(double positionX, double positionY, double dX, double dY);
 }
 
 /// Listener for callbacks when selecting values inside the chart by

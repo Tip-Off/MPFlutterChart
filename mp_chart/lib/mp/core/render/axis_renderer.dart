@@ -37,9 +37,7 @@ abstract class AxisRenderer extends Renderer {
   /// paint used for the limit lines
   Paint _limitLinePaint;
 
-  AxisRenderer(
-      ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis)
-      : super(viewPortHandler) {
+  AxisRenderer(ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis) : super(viewPortHandler) {
     this._trans = trans;
     this._axis = axis;
     if (viewPortHandler != null) {
@@ -111,13 +109,9 @@ abstract class AxisRenderer extends Renderer {
   void computeAxis(double min, double max, bool inverted) {
     // calculate the starting and entry point of the y-labels (depending on
     // zoom / contentrect bounds)
-    if (viewPortHandler != null &&
-        viewPortHandler.contentWidth() > 10 &&
-        !viewPortHandler.isFullyZoomedOutY()) {
-      MPPointD p1 = _trans.getValuesByTouchPoint1(
-          viewPortHandler.contentLeft(), viewPortHandler.contentTop());
-      MPPointD p2 = _trans.getValuesByTouchPoint1(
-          viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
+    if (viewPortHandler != null && viewPortHandler.contentWidth() > 10 && !viewPortHandler.isFullyZoomedOutY()) {
+      MPPointD p1 = _trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
+      MPPointD p2 = _trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
 
       if (!inverted) {
         min = p2.y;
@@ -157,13 +151,11 @@ abstract class AxisRenderer extends Renderer {
 
     // If granularity is enabled, then do not allow the interval to go below specified granularity.
     // This is used to avoid repeated values when rounding values for display.
-    if (_axis.granularityEnabled)
-      interval = interval < _axis.granularity ? _axis.granularity : interval;
+    if (_axis.granularityEnabled) interval = interval < _axis.granularity ? _axis.granularity : interval;
 
     // Normalize interval
     try {
-      double intervalMagnitude =
-          Utils.roundToNextSignificant(pow(10.0, log(interval) ~/ ln10));
+      double intervalMagnitude = Utils.roundToNextSignificant(pow(10.0, log(interval) ~/ ln10));
       int intervalSigDigit = interval ~/ intervalMagnitude;
       if (intervalSigDigit > 5) {
         // Use one order of magnitude higher, to avoid intervals like 0.9 or
@@ -197,15 +189,12 @@ abstract class AxisRenderer extends Renderer {
 
       // no forced count
     } else {
-      double first =
-          interval == 0.0 ? 0.0 : (yMin / interval).ceil() * interval;
+      double first = interval == 0.0 ? 0.0 : (yMin / interval).ceil() * interval;
       if (_axis.isCenterAxisLabelsEnabled()) {
         first -= interval;
       }
 
-      double last = interval == 0.0
-          ? 0.0
-          : Utils.nextUp((yMax / interval).floor() * interval);
+      double last = interval == 0.0 ? 0.0 : Utils.nextUp((yMax / interval).floor() * interval);
 
       double f;
       int i;
@@ -225,8 +214,7 @@ abstract class AxisRenderer extends Renderer {
 
       i = 0;
       for (f = first; i < num; f += interval, ++i) {
-        if (f ==
-            0.0) // Fix for negative zero case (Where value == -0.0, and 0.0 == -0.0)
+        if (f == 0.0) // Fix for negative zero case (Where value == -0.0, and 0.0 == -0.0)
           f = 0.0;
 
         _axis.entries[i] = f;

@@ -179,8 +179,7 @@ class YAxis extends AxisBase {
     String label = getLongestLabel();
     double width = Utils.calcTextWidth(p, label) + xOffset * 2;
     if (minWidth > 0) minWidth = Utils.convertDpToPixel(minWidth);
-    if (maxWidth > 0 && maxWidth != double.infinity)
-      maxWidth = Utils.convertDpToPixel(maxWidth);
+    if (maxWidth > 0 && maxWidth != double.infinity) maxWidth = Utils.convertDpToPixel(maxWidth);
     width = max(minWidth, min(width, maxWidth > 0.0 ? maxWidth : width));
     return width;
   }
@@ -239,12 +238,8 @@ class YAxis extends AxisBase {
     range = (max - min).abs();
 
     // calc extra spacing
-    this.axisMinimum = customAxisMin
-        ? this.axisMinimum
-        : min - (range / 100) * spacePercentBottom;
-    this.axisMaximum = customAxisMax
-        ? this.axisMaximum
-        : max + (range / 100) * spacePercentTop;
+    this.axisMinimum = customAxisMin ? this.axisMinimum : min - (range / 100) * spacePercentBottom;
+    this.axisMaximum = customAxisMax ? this.axisMaximum : max + (range / 100) * spacePercentTop;
 
     this.axisRange = (this.axisMinimum - this.axisMaximum).abs();
   }

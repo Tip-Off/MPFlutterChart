@@ -48,14 +48,12 @@ class XBounds {
   ///
   /// @param chart
   /// @param dataSet
-  void set(BarLineScatterCandleBubbleDataProvider chart,
-      IBarLineScatterCandleBubbleDataSet dataSet) {
+  void set(BarLineScatterCandleBubbleDataProvider chart, IBarLineScatterCandleBubbleDataSet dataSet) {
     double phaseX = math.max(0.0, math.min(1.0, _animator.getPhaseX()));
 
     double low = chart.getLowestVisibleX();
     double high = chart.getHighestVisibleX();
-    Entry entryFrom =
-        dataSet.getEntryForXValue1(low, double.nan, Rounding.DOWN);
+    Entry entryFrom = dataSet.getEntryForXValue1(low, double.nan, Rounding.DOWN);
     Entry entryTo = dataSet.getEntryForXValue1(high, double.nan, Rounding.UP);
 
     _min = entryFrom == null ? 0 : dataSet.getEntryIndex2(entryFrom);

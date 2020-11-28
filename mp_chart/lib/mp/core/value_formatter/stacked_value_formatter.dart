@@ -20,7 +20,7 @@ class StackedValueFormatter extends ValueFormatter {
     this._drawWholeStack = drawWholeStack;
     this._suffix = suffix;
 
-    StringBuffer b = new StringBuffer();
+    StringBuffer b = StringBuffer();
     for (int i = 0; i < decimals; i++) {
       if (i == 0) b.write(".");
       b.write("0");

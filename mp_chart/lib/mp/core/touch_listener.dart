@@ -17,6 +17,4 @@ mixin OnTouchEventListener {
   void onPerformHighlight(Highlight h, HighlightStatus status);
 }
 
-enum TouchValueType{
-  SCREEN,LOCAL,CHART
-}
+enum TouchValueType { SCREEN, LOCAL, CHART }

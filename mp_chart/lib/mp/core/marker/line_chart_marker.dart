@@ -36,11 +36,8 @@ class LineChartMarker implements IMarker {
 
   @override
   void draw(Canvas canvas, double posX, double posY) {
-    TextPainter painter = PainterUtils.create(
-        null,
-        "${_formatter.getFormattedValue1(_entry.x)},${_formatter.getFormattedValue1(_entry.y)}",
-        _textColor,
-        _fontSize);
+    TextPainter painter = PainterUtils.create(null,
+        "${_formatter.getFormattedValue1(_entry.x)},${_formatter.getFormattedValue1(_entry.y)}", _textColor, _fontSize);
     Paint paint = Paint()
       ..color = _backColor
       ..strokeWidth = 2
@@ -53,11 +50,10 @@ class LineChartMarker implements IMarker {
     // translate to the correct position and draw
 //    canvas.translate(posX + offset.x, posY + offset.y);
     painter.layout();
-    Offset pos = calculatePos(
-        posX + offset.x, posY + offset.y, painter.width, painter.height);
+    Offset pos = calculatePos(posX + offset.x, posY + offset.y, painter.width, painter.height);
     canvas.drawRRect(
-        RRect.fromLTRBR(pos.dx - 5, pos.dy - 5, pos.dx + painter.width + 5,
-            pos.dy + painter.height + 5, Radius.circular(5)),
+        RRect.fromLTRBR(
+            pos.dx - 5, pos.dy - 5, pos.dx + painter.width + 5, pos.dy + painter.height + 5, Radius.circular(5)),
         paint);
     painter.paint(canvas, pos);
     canvas.restore();

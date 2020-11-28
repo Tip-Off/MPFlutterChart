@@ -205,24 +205,21 @@ class HorizontalBarChartController extends BarChartController {
   IMarker initMarker() => HorizontalBarChartMarker();
 
   @override
-  Transformer initLeftAxisTransformer() =>
-      TransformerHorizontalBarChart(viewPortHandler);
+  Transformer initLeftAxisTransformer() => TransformerHorizontalBarChart(viewPortHandler);
 
   @override
-  Transformer initRightAxisTransformer() =>
-      TransformerHorizontalBarChart(viewPortHandler);
+  Transformer initRightAxisTransformer() => TransformerHorizontalBarChart(viewPortHandler);
 
   @override
-  YAxisRenderer initAxisRendererLeft() => YAxisRendererHorizontalBarChart(
-      viewPortHandler, axisLeft, leftAxisTransformer);
+  YAxisRenderer initAxisRendererLeft() =>
+      YAxisRendererHorizontalBarChart(viewPortHandler, axisLeft, leftAxisTransformer);
 
   @override
-  YAxisRenderer initAxisRendererRight() => YAxisRendererHorizontalBarChart(
-      viewPortHandler, axisRight, rightAxisTransformer);
+  YAxisRenderer initAxisRendererRight() =>
+      YAxisRendererHorizontalBarChart(viewPortHandler, axisRight, rightAxisTransformer);
 
   @override
-  XAxisRenderer initXAxisRenderer() => XAxisRendererHorizontalBarChart(
-      viewPortHandler, xAxis, leftAxisTransformer);
+  XAxisRenderer initXAxisRenderer() => XAxisRendererHorizontalBarChart(viewPortHandler, xAxis, leftAxisTransformer);
 
   @override
   ViewPortHandler initViewPortHandler() => HorizontalViewPortHandler();
@@ -259,8 +256,7 @@ class HorizontalBarChartController extends BarChartController {
   }
 
   @override
-  void setVisibleYRange(
-      double minYRange, double maxYRange, AxisDependency axis) {
+  void setVisibleYRange(double minYRange, double maxYRange, AxisDependency axis) {
     double minScale = getAxisRange(axis) / minYRange;
     double maxScale = getAxisRange(axis) / maxYRange;
     viewPortHandler.setMinMaxScaleX(minScale, maxScale);

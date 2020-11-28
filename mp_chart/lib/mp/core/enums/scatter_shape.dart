@@ -1,9 +1,1 @@
-enum ScatterShape {
-  SQUARE,
-  CIRCLE,
-  TRIANGLE,
-  CROSS,
-  X,
-  CHEVRON_UP,
-  CHEVRON_DOWN
-}
+enum ScatterShape { SQUARE, CIRCLE, TRIANGLE, CROSS, X, CHEVRON_UP, CHEVRON_DOWN }

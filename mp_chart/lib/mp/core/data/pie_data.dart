@@ -39,7 +39,9 @@ class PieData extends ChartData<IPieDataSet> {
         ? DartAdapterUtils.equalsIgnoreCase(label, dataSets[0].getLabel())
             ? dataSets[0]
             : null
-        : (label == dataSets[0].getLabel()) ? dataSets[0] : null;
+        : (label == dataSets[0].getLabel())
+            ? dataSets[0]
+            : null;
   }
 
   @override
@@ -52,8 +54,7 @@ class PieData extends ChartData<IPieDataSet> {
   /// @return
   double getYValueSum() {
     double sum = 0;
-    for (int i = 0; i < getDataSet().getEntryCount(); i++)
-      sum += getDataSet().getEntryForIndex(i).getValue();
+    for (int i = 0; i < getDataSet().getEntryCount(); i++) sum += getDataSet().getEntryForIndex(i).getValue();
     return sum;
   }
 }

@@ -31,8 +31,7 @@ class HorizontalBarHighlighter extends BarHighlighter {
   }
 
   @override
-  List<Highlight> buildHighlights(
-      IDataSet set, int dataSetIndex, double xVal, Rounding rounding) {
+  List<Highlight> buildHighlights(IDataSet set, int dataSetIndex, double xVal, Rounding rounding) {
     List<Highlight> highlights = List();
 
     //noinspection unchecked
@@ -49,17 +48,10 @@ class HorizontalBarHighlighter extends BarHighlighter {
     if (entries.length == 0) return highlights;
 
     for (Entry e in entries) {
-      MPPointD pixels = provider
-          .getTransformer(set.getAxisDependency())
-          .getPixelForValues(e.y, e.x);
+      MPPointD pixels = provider.getTransformer(set.getAxisDependency()).getPixelForValues(e.y, e.x);
 
       highlights.add(Highlight(
-          x: e.x,
-          y: e.y,
-          xPx: pixels.x,
-          yPx: pixels.y,
-          dataSetIndex: dataSetIndex,
-          axis: set.getAxisDependency()));
+          x: e.x, y: e.y, xPx: pixels.x, yPx: pixels.y, dataSetIndex: dataSetIndex, axis: set.getAxisDependency()));
     }
 
     return highlights;

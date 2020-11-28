@@ -118,8 +118,7 @@ class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
     return _usingSliceColorAsValueLineColor;
   }
 
-  void setUsingSliceColorAsValueLineColor(
-      bool usingSliceColorAsValueLineColor) {
+  void setUsingSliceColorAsValueLineColor(bool usingSliceColorAsValueLineColor) {
     this._usingSliceColorAsValueLineColor = usingSliceColorAsValueLineColor;
   }
 
@@ -149,8 +148,7 @@ class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
     return _valueLinePart1OffsetPercentage;
   }
 
-  void setValueLinePart1OffsetPercentage(
-      double valueLinePart1OffsetPercentage) {
+  void setValueLinePart1OffsetPercentage(double valueLinePart1OffsetPercentage) {
     this._valueLinePart1OffsetPercentage = valueLinePart1OffsetPercentage;
   }
 

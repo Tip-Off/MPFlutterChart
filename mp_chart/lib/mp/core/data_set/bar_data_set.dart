@@ -7,8 +7,7 @@ import 'package:mp_chart/mp/core/data_set/data_set.dart';
 import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 
-class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
-    implements IBarDataSet {
+class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements IBarDataSet {
   /// the maximum number of bars that are stacked upon each other, this value
   /// is calculated from the Entries that are added to the DataSet
   int _stackSize = 1;

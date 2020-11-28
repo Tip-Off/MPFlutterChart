@@ -47,8 +47,7 @@ abstract class ChartState<T extends Chart> extends State<T> {
     String fileName = DateTime.now().toIso8601String();
     String path = '$directory/$fileName.png';
     _screenshotController.capture(path: path, pixelRatio: 3.0).then((imgFile) {
-      ImageGallerySaver.saveImage(Uint8List.fromList(imgFile.readAsBytesSync()))
-          .then((value) {
+      ImageGallerySaver.saveImage(Uint8List.fromList(imgFile.readAsBytesSync())).then((value) {
         imgFile.delete();
       });
       isCapturing = false;
@@ -77,8 +76,7 @@ abstract class ChartState<T extends Chart> extends State<T> {
                 // in the middle of the parent.
                 children: [
               ConstrainedBox(
-                  constraints: BoxConstraints(
-                      minHeight: double.infinity, minWidth: double.infinity),
+                  constraints: BoxConstraints(minHeight: double.infinity, minWidth: double.infinity),
                   child: OptimizedGestureDetector(
                       tapDown: (details) {
                         onTapDown(details);
@@ -116,10 +114,8 @@ abstract class ChartState<T extends Chart> extends State<T> {
                       dragEnd: (details) {
                         onDragEnd(details);
                       },
-                      needHorizontalConflictFunc:
-                          widget.controller.horizontalConflictResolveFunc,
-                      needVerticalConflictFunc:
-                          widget.controller.verticalConflictResolveFunc,
+                      needHorizontalConflictFunc: widget.controller.horizontalConflictResolveFunc,
+                      needVerticalConflictFunc: widget.controller.verticalConflictResolveFunc,
                       child: CustomPaint(painter: widget.controller.painter))),
             ])));
   }

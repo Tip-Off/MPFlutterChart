@@ -32,7 +32,7 @@ abstract class ColorUtils {
   static const Color HOLO_BLUE = Color.fromARGB(255, 51, 181, 229);
 
   // ignore: non_constant_identifier_names
-  static const  Color WHITE = Color(0xFFFFFFFF);
+  static const Color WHITE = Color(0xFFFFFFFF);
 
   // ignore: non_constant_identifier_names
   static const Color PURPLE = Color(0xFF512DA8);
@@ -118,8 +118,7 @@ abstract class ColorUtils {
     ..add(Color.fromARGB(255, 179, 48, 80));
 
   static Color colorWithAlpha(Color strokeColor, int alpha) {
-    return Color.fromARGB(
-        alpha, strokeColor.red, strokeColor.green, strokeColor.blue);
+    return Color.fromARGB(alpha, strokeColor.red, strokeColor.green, strokeColor.blue);
   }
 
   static Color getHoloBlue() {

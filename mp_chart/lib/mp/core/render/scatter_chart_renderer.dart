@@ -21,7 +21,8 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
   ScatterDataProvider _provider;
 
-  ScatterChartRenderer(ScatterDataProvider chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
+  ScatterChartRenderer(ScatterDataProvider chart, Animator animator, ViewPortHandler viewPortHandler)
+      : super(animator, viewPortHandler) {
     _provider = chart;
   }
 
@@ -88,9 +89,8 @@ class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
         xBounds.set(_provider, dataSet);
 
-        List<double> positions = _provider
-            .getTransformer(dataSet.getAxisDependency())
-            .generateTransformedValuesScatter(dataSet, animator.getPhaseX(), animator.getPhaseY(), xBounds.min, xBounds.max);
+        List<double> positions = _provider.getTransformer(dataSet.getAxisDependency()).generateTransformedValuesScatter(
+            dataSet, animator.getPhaseX(), animator.getPhaseY(), xBounds.min, xBounds.max);
 
         double shapeSize = Utils.convertDpToPixel(dataSet.getScatterShapeSize());
 
@@ -104,17 +104,25 @@ class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
           if (!viewPortHandler.isInBoundsRight(positions[j])) break;
 
           // make sure the lines don't do shitty things outside bounds
-          if ((!viewPortHandler.isInBoundsLeft(positions[j]) || !viewPortHandler.isInBoundsY(positions[j + 1]))) continue;
+          if ((!viewPortHandler.isInBoundsLeft(positions[j]) || !viewPortHandler.isInBoundsY(positions[j + 1])))
+            continue;
 
           Entry entry = dataSet.getEntryForIndex(j ~/ 2 + xBounds.min);
 
           if (dataSet.isDrawValuesEnabled()) {
-            drawValue(c, formatter.getPointLabel(entry), positions[j], positions[j + 1] - shapeSize, dataSet.getValueTextColor2(j ~/ 2 + xBounds.min),
-                dataSet.getValueTextSize(), dataSet.getValueTypeface());
+            drawValue(
+                c,
+                formatter.getPointLabel(entry),
+                positions[j],
+                positions[j + 1] - shapeSize,
+                dataSet.getValueTextColor2(j ~/ 2 + xBounds.min),
+                dataSet.getValueTextSize(),
+                dataSet.getValueTypeface());
           }
 
           if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
-            CanvasUtils.drawImage(c, Offset(positions[j] + iconsOffset.x, positions[j + 1] + iconsOffset.y), entry.mIcon, Size(15, 15), drawPaint);
+            CanvasUtils.drawImage(c, Offset(positions[j] + iconsOffset.x, positions[j + 1] + iconsOffset.y),
+                entry.mIcon, Size(15, 15), drawPaint);
           }
         }
 
@@ -125,7 +133,8 @@ class ScatterChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   void drawValue(Canvas c, String valueText, double x, double y, Color color, double textSize, TypeFace typeFace) {
-    valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize, fontFamily: typeFace?.fontFamily, fontWeight: typeFace?.fontWeight);
+    valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize,
+        fontFamily: typeFace?.fontFamily, fontWeight: typeFace?.fontWeight);
     valuePaint.layout();
     valuePaint.paint(c, Offset(x - valuePaint.width / 2, y - valuePaint.height));
   }

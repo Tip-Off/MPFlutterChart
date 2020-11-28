@@ -3,8 +3,7 @@ import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
 import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 
 class HorizontalBarBuffer extends BarBuffer {
-  HorizontalBarBuffer(int size, int dataSetCount, bool containsStacks)
-      : super(size, dataSetCount, containsStacks);
+  HorizontalBarBuffer(int size, int dataSetCount, bool containsStacks) : super(size, dataSetCount, containsStacks);
 
   @override
   void feed(IBarDataSet data) {

@@ -14,12 +14,6 @@ class PieHighlighter extends PieRadarHighlighter<PieChartPainter> {
 
     final Entry entry = set.getEntryForIndex(index);
 
-    return new Highlight(
-        x: index.toDouble(),
-        y: entry.y,
-        xPx: x,
-        yPx: y,
-        dataSetIndex: 0,
-        axis: set.getAxisDependency());
+    return Highlight(x: index.toDouble(), y: entry.y, xPx: x, yPx: y, dataSetIndex: 0, axis: set.getAxisDependency());
   }
 }

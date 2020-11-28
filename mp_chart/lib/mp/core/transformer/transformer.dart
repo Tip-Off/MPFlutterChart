@@ -39,8 +39,7 @@ class Transformer {
   /// @param deltaX
   /// @param deltaY
   /// @param yChartMin
-  void prepareMatrixValuePx(
-      double xChartMin, double deltaX, double deltaY, double yChartMin) {
+  void prepareMatrixValuePx(double xChartMin, double deltaX, double deltaY, double yChartMin) {
     double scaleX = ((_viewPortHandler.contentWidth()) / deltaX);
     double scaleY = ((_viewPortHandler.contentHeight()) / deltaY);
 
@@ -69,8 +68,7 @@ class Transformer {
       Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(),
           _viewPortHandler.getChartHeight() - _viewPortHandler.offsetBottom());
     else {
-      Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(),
-          -_viewPortHandler.offsetTop());
+      Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(), -_viewPortHandler.offsetTop());
       Matrix4Utils.postScale(_matrixOffset, 1.0, -1.0);
     }
   }
@@ -82,8 +80,7 @@ class Transformer {
   ///
   /// @param data
   /// @return
-  List<double> generateTransformedValuesScatter(
-      IScatterDataSet data, double phaseX, double phaseY, int from, int to) {
+  List<double> generateTransformedValuesScatter(IScatterDataSet data, double phaseX, double phaseY, int from, int to) {
     int count = (((to - from) * phaseX + 1) * 2).toInt();
     count = count % 2 == 0 ? count : count - 1;
 
@@ -116,10 +113,8 @@ class Transformer {
   ///
   /// @param data
   /// @return
-  List<double> generateTransformedValuesBubble(
-      IBubbleDataSet data, double phaseY, int from, int to) {
-    final int count =
-        (to - from + 1) * 2; // (int) Math.ceil((to - from) * phaseX) * 2;
+  List<double> generateTransformedValuesBubble(IBubbleDataSet data, double phaseY, int from, int to) {
+    final int count = (to - from + 1) * 2; // (int) Math.ceil((to - from) * phaseX) * 2;
 
     if (_valuePointsForGenerateTransformedValuesBubble.length != count) {
       _valuePointsForGenerateTransformedValuesBubble = List(count);
@@ -150,8 +145,7 @@ class Transformer {
   ///
   /// @param data
   /// @return
-  List<double> generateTransformedValuesLine(
-      ILineDataSet data, double phaseX, double phaseY, int min, int max) {
+  List<double> generateTransformedValuesLine(ILineDataSet data, double phaseX, double phaseY, int min, int max) {
     final int count = ((((max - min) * phaseX) + 1).toInt() * 2);
 
     if (_valuePointsForGenerateTransformedValuesLine.length != count) {
@@ -183,8 +177,7 @@ class Transformer {
   ///
   /// @param data
   /// @return
-  List<double> generateTransformedValuesCandle(
-      ICandleDataSet data, double phaseX, double phaseY, int from, int to) {
+  List<double> generateTransformedValuesCandle(ICandleDataSet data, double phaseX, double phaseY, int from, int to) {
     int count = (((to - from) * phaseX + 1) * 2).toInt();
     count = count % 2 == 0 ? count : count - 1;
 
@@ -284,8 +277,7 @@ class Transformer {
   void rectValuesToPixel(List<Rect> rects) {
     Matrix4 m = getValueToPixelMatrix();
 
-    for (int i = 0; i < rects.length; i++)
-      rects[i] = Matrix4Utils.mapRect(m, rects[i]);
+    for (int i = 0; i < rects.length; i++) rects[i] = Matrix4Utils.mapRect(m, rects[i]);
   }
 
   Matrix4 _pixelToValueMatrixBuffer = Matrix4.identity();

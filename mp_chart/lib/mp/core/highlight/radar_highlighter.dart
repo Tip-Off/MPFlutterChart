@@ -13,8 +13,7 @@ class RadarHighlighter extends PieRadarHighlighter<RadarChartPainter> {
   Highlight getClosestHighlight(int index, double x, double y) {
     List<Highlight> highlights = getHighlightsAtIndex(index);
 
-    double distanceToCenter =
-        painter.distanceToCenter(x, y) / painter.getFactor();
+    double distanceToCenter = painter.distanceToCenter(x, y) / painter.getFactor();
 
     Highlight closest;
     double distance = double.infinity;

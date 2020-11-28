@@ -15,8 +15,7 @@ import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
 class YAxisRendererHorizontalBarChart extends YAxisRenderer {
-  YAxisRendererHorizontalBarChart(
-      ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans)
+  YAxisRendererHorizontalBarChart(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans)
       : super(viewPortHandler, yAxis, trans);
 
   /// Computes the axis values.
@@ -27,12 +26,9 @@ class YAxisRendererHorizontalBarChart extends YAxisRenderer {
   void computeAxis(double yMin, double yMax, bool inverted) {
     // calculate the starting and entry point of the y-labels (depending on
     // zoom / contentrect bounds)
-    if (viewPortHandler.contentHeight() > 10 &&
-        !viewPortHandler.isFullyZoomedOutX()) {
-      MPPointD p1 = trans.getValuesByTouchPoint1(
-          viewPortHandler.contentLeft(), viewPortHandler.contentTop());
-      MPPointD p2 = trans.getValuesByTouchPoint1(
-          viewPortHandler.contentRight(), viewPortHandler.contentTop());
+    if (viewPortHandler.contentHeight() > 10 && !viewPortHandler.isFullyZoomedOutX()) {
+      MPPointD p1 = trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
+      MPPointD p2 = trans.getValuesByTouchPoint1(viewPortHandler.contentRight(), viewPortHandler.contentTop());
 
       if (!inverted) {
         yMin = p1.x;
@@ -56,10 +52,8 @@ class YAxisRendererHorizontalBarChart extends YAxisRenderer {
 
     List<double> positions = getTransformedPositions();
 
-    axisLabelPaint = PainterUtils.create(
-        axisLabelPaint, null, yAxis.textColor, yAxis.textSize,
-        fontFamily: yAxis.typeface?.fontFamily,
-        fontWeight: yAxis.typeface?.fontWeight);
+    axisLabelPaint = PainterUtils.create(axisLabelPaint, null, yAxis.textColor, yAxis.textSize,
+        fontFamily: yAxis.typeface?.fontFamily, fontWeight: yAxis.typeface?.fontWeight);
 
 //    double baseYOffset = Utils.convertDpToPixel(2.5);
 //    double textHeight = Utils.calcTextHeight(axisLabelPaint, "Q").toDouble();
@@ -95,17 +89,11 @@ class YAxisRendererHorizontalBarChart extends YAxisRenderer {
       ..strokeWidth = yAxis.axisLineWidth;
 
     if (yAxis.axisDependency == AxisDependency.LEFT) {
-      c.drawLine(
-          Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop()),
-          Offset(viewPortHandler.contentRight(), viewPortHandler.contentTop()),
-          axisLinePaint);
+      c.drawLine(Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop()),
+          Offset(viewPortHandler.contentRight(), viewPortHandler.contentTop()), axisLinePaint);
     } else {
-      c.drawLine(
-          Offset(
-              viewPortHandler.contentLeft(), viewPortHandler.contentBottom()),
-          Offset(
-              viewPortHandler.contentRight(), viewPortHandler.contentBottom()),
-          axisLinePaint);
+      c.drawLine(Offset(viewPortHandler.contentLeft(), viewPortHandler.contentBottom()),
+          Offset(viewPortHandler.contentRight(), viewPortHandler.contentBottom()), axisLinePaint);
     }
   }
 
@@ -114,46 +102,32 @@ class YAxisRendererHorizontalBarChart extends YAxisRenderer {
   /// @param fixedPosition
   /// @param positions
   @override
-  void drawYLabels(Canvas c, double fixedPosition, List<double> positions,
-      AxisDependency axisDependency, YAxisLabelPosition position) {
-    axisLabelPaint = PainterUtils.create(
-        axisLabelPaint, null, yAxis.textColor, yAxis.textSize,
-        fontWeight: yAxis.typeface?.fontWeight,
-        fontFamily: yAxis.typeface?.fontFamily);
+  void drawYLabels(Canvas c, double fixedPosition, List<double> positions, AxisDependency axisDependency,
+      YAxisLabelPosition position) {
+    axisLabelPaint = PainterUtils.create(axisLabelPaint, null, yAxis.textColor, yAxis.textSize,
+        fontWeight: yAxis.typeface?.fontWeight, fontFamily: yAxis.typeface?.fontFamily);
 
     final int from = yAxis.drawBottomYLabelEntry ? 0 : 1;
-    final int to =
-        yAxis.drawTopYLabelEntry ? yAxis.entryCount : (yAxis.entryCount - 1);
+    final int to = yAxis.drawTopYLabelEntry ? yAxis.entryCount : (yAxis.entryCount - 1);
 
     for (int i = from; i < to; i++) {
       String text = yAxis.getFormattedLabel(i);
-      axisLabelPaint.text =
-          TextSpan(text: text, style: axisLabelPaint.text.style);
+      axisLabelPaint.text = TextSpan(text: text, style: axisLabelPaint.text.style);
       axisLabelPaint.layout();
 
       if (axisDependency == AxisDependency.LEFT) {
         if (position == YAxisLabelPosition.OUTSIDE_CHART) {
           axisLabelPaint.paint(
-              c,
-              Offset(positions[i * 2] - axisLabelPaint.width / 2,
-                  fixedPosition - axisLabelPaint.height));
+              c, Offset(positions[i * 2] - axisLabelPaint.width / 2, fixedPosition - axisLabelPaint.height));
         } else {
-          axisLabelPaint.paint(
-              c,
-              Offset(
-                  positions[i * 2] - axisLabelPaint.width / 2, fixedPosition));
+          axisLabelPaint.paint(c, Offset(positions[i * 2] - axisLabelPaint.width / 2, fixedPosition));
         }
       } else {
         if (position == YAxisLabelPosition.OUTSIDE_CHART) {
-          axisLabelPaint.paint(
-              c,
-              Offset(
-                  positions[i * 2] - axisLabelPaint.width / 2, fixedPosition));
+          axisLabelPaint.paint(c, Offset(positions[i * 2] - axisLabelPaint.width / 2, fixedPosition));
         } else {
           axisLabelPaint.paint(
-              c,
-              Offset(positions[i * 2] - axisLabelPaint.width / 2,
-                  fixedPosition - axisLabelPaint.height));
+              c, Offset(positions[i * 2] - axisLabelPaint.width / 2, fixedPosition - axisLabelPaint.height));
         }
       }
     }
@@ -283,55 +257,39 @@ class YAxisRendererHorizontalBarChart extends YAxisRenderer {
 
       // if drawing the limit-value label is enabled
       if (label != null && label.isNotEmpty) {
-        axisLabelPaint =
-            PainterUtils.create(axisLabelPaint, label, l.textColor, l.textSize);
+        axisLabelPaint = PainterUtils.create(axisLabelPaint, label, l.textColor, l.textSize);
         axisLabelPaint.layout();
 
         final LimitLabelPosition position = l.labelPosition;
 
         if (position == LimitLabelPosition.RIGHT_TOP) {
-          final double labelLineHeight =
-              Utils.calcTextHeight(axisLabelPaint, label).toDouble();
-          var offset = Offset(pts[0] + l.xOffset,
-              viewPortHandler.contentTop() + labelLineHeight);
+          final double labelLineHeight = Utils.calcTextHeight(axisLabelPaint, label).toDouble();
+          var offset = Offset(pts[0] + l.xOffset, viewPortHandler.contentTop() + labelLineHeight);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else if (position == LimitLabelPosition.RIGHT_BOTTOM) {
-          var offset = Offset(
-              pts[0] + l.xOffset,
-              viewPortHandler.contentBottom() -
-                  l.yOffset -
-                  axisLabelPaint.height);
+          var offset = Offset(pts[0] + l.xOffset, viewPortHandler.contentBottom() - l.yOffset - axisLabelPaint.height);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else if (position == LimitLabelPosition.CENTER_BOTTOM) {
           var offset = Offset(
-              pts[0] - axisLabelPaint.width / 2,
-              viewPortHandler.contentBottom() -
-                  l.yOffset -
-                  axisLabelPaint.height);
+              pts[0] - axisLabelPaint.width / 2, viewPortHandler.contentBottom() - l.yOffset - axisLabelPaint.height);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else if (position == LimitLabelPosition.CENTER_TOP) {
-          final double labelLineHeight =
-              Utils.calcTextHeight(axisLabelPaint, label).toDouble();
-          var offset = Offset(pts[0] - axisLabelPaint.width / 2,
-              viewPortHandler.contentTop() + labelLineHeight);
+          final double labelLineHeight = Utils.calcTextHeight(axisLabelPaint, label).toDouble();
+          var offset = Offset(pts[0] - axisLabelPaint.width / 2, viewPortHandler.contentTop() + labelLineHeight);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else if (position == LimitLabelPosition.LEFT_TOP) {
-          final double labelLineHeight =
-              Utils.calcTextHeight(axisLabelPaint, label).toDouble();
-          var offset = Offset(pts[0] - l.xOffset - axisLabelPaint.width,
-              viewPortHandler.contentTop() + labelLineHeight);
+          final double labelLineHeight = Utils.calcTextHeight(axisLabelPaint, label).toDouble();
+          var offset =
+              Offset(pts[0] - l.xOffset - axisLabelPaint.width, viewPortHandler.contentTop() + labelLineHeight);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         } else {
-          var offset = Offset(
-              pts[0] - l.xOffset - axisLabelPaint.width,
-              viewPortHandler.contentBottom() -
-                  l.yOffset -
-                  axisLabelPaint.height);
+          var offset = Offset(pts[0] - l.xOffset - axisLabelPaint.width,
+              viewPortHandler.contentBottom() - l.yOffset - axisLabelPaint.height);
           CanvasUtils.renderLimitLabelBackground(c, axisLabelPaint, offset, l);
           axisLabelPaint.paint(c, offset);
         }

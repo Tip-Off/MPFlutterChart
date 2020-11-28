@@ -7,8 +7,7 @@ import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/painter/pie_redar_chart_painter.dart';
 
-abstract class PieRadarController<P extends PieRadarChartPainter>
-    extends Controller<P> {
+abstract class PieRadarController<P extends PieRadarChartPainter> extends Controller<P> {
   double rotationAngle;
   double rawRotationAngle;
   bool rotateEnabled;

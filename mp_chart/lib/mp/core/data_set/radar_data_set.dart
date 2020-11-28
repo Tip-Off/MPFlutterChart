@@ -7,8 +7,7 @@ import 'package:mp_chart/mp/core/data_set/line_radar_data_set.dart';
 import 'package:mp_chart/mp/core/entry/radar_entry.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 
-class RadarDataSet extends LineRadarDataSet<RadarEntry>
-    implements IRadarDataSet {
+class RadarDataSet extends LineRadarDataSet<RadarEntry> implements IRadarDataSet {
   /// flag indicating whether highlight circle should be drawn or not
   bool _drawHighlightCircleEnabled = false;
 

@@ -2,12 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
 
 class LargeValueFormatter extends ValueFormatter {
-  List<String> _suffix = List()
-    ..add("")
-    ..add("k")
-    ..add("m")
-    ..add("b")
-    ..add("t");
+  List<String> _suffix = List()..add("")..add("k")..add("m")..add("b")..add("t");
   int _maxLength = 5;
   NumberFormat _format;
   String _text = "";
@@ -16,7 +11,7 @@ class LargeValueFormatter extends ValueFormatter {
   ///
   /// @param appendix a text that will be appended
   LargeValueFormatter({String appendix = ""}) {
-    _format = new NumberFormat("###E00");
+    _format = NumberFormat("###E00");
     _text = appendix;
   }
 

@@ -326,8 +326,7 @@ abstract class AxisBase extends ComponentBase {
   ValueFormatter getValueFormatter() {
     if (_axisValueFormatter == null ||
         (_axisValueFormatter is DefaultAxisValueFormatter &&
-            (_axisValueFormatter as DefaultAxisValueFormatter).digits !=
-                _decimals))
+            (_axisValueFormatter as DefaultAxisValueFormatter).digits != _decimals))
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
 
     return _axisValueFormatter;
@@ -340,8 +339,7 @@ abstract class AxisBase extends ComponentBase {
   /// @param lineLength  the length of the line pieces
   /// @param spaceLength the length of space in between the pieces
   /// @param phase       offset, in degrees (normally, use 0)
-  void enableGridDashedLine(
-      double lineLength, double spaceLength, double phase) {
+  void enableGridDashedLine(double lineLength, double spaceLength, double phase) {
     _gridDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
   }
 
@@ -372,8 +370,7 @@ abstract class AxisBase extends ComponentBase {
   /// @param lineLength  the length of the line pieces
   /// @param spaceLength the length of space in between the pieces
   /// @param phase       offset, in degrees (normally, use 0)
-  void enableAxisLineDashedLine(
-      double lineLength, double spaceLength, double phase) {
+  void enableAxisLineDashedLine(double lineLength, double spaceLength, double phase) {
     _axisLineDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
   }
 

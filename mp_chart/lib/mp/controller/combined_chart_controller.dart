@@ -14,8 +14,7 @@ import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/combined_chart_painter.dart';
 
-class CombinedChartController
-    extends BarLineScatterCandleBubbleController<CombinedChartPainter> {
+class CombinedChartController extends BarLineScatterCandleBubbleController<CombinedChartPainter> {
   bool drawValueAboveBar;
   bool highlightFullBarEnabled;
   bool drawBarShadow;
@@ -25,9 +24,9 @@ class CombinedChartController
   double _initialXZoom = 0;
   final int initialXPosition;
   final int initialXRange;
-  
-  CombinedChartController({
-      this.initialXPosition = -1,
+
+  CombinedChartController(
+      {this.initialXPosition = -1,
       this.initialXRange = 0,
       bool specialMoveEnabled = false,
       bool highlightMagneticSetEnabled = true,
@@ -221,14 +220,14 @@ class CombinedChartController
     if (initialXRange > 0) {
       _initialXZoom = _initialXZoom == 1 ? 1 : ((data.xMax - 1) - data.xMin).abs() / initialXRange;
 
-      var matrix =  viewPortHandler.getMatrixTouch();
+      var matrix = viewPortHandler.getMatrixTouch();
       viewPortHandler.zoom2(_initialXZoom, 0, matrix);
       viewPortHandler.refresh(matrix);
 
       _initialXZoom = 1;
     }
   }
-  
+
   @override
   CombinedChartState createRealState() {
     return CombinedChartState();

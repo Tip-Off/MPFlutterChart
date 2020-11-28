@@ -20,7 +20,6 @@ class RadarData extends ChartData<IRadarDataSet> {
 
   @override
   Entry getEntryForHighlight(Highlight highlight) {
-    return getDataSetByIndex(highlight.dataSetIndex)
-        .getEntryForIndex(highlight.x.toInt());
+    return getDataSetByIndex(highlight.dataSetIndex).getEntryForIndex(highlight.x.toInt());
   }
 }

@@ -64,8 +64,7 @@ abstract class Matrix4Utils {
     return res;
   }
 
-  static Matrix4 _getScaleTempMatrixByPoint(
-      double sx, double sy, double px, double py) {
+  static Matrix4 _getScaleTempMatrixByPoint(double sx, double sy, double px, double py) {
     return Matrix4.identity()
       ..storage[13] = py - sy * py
       ..storage[5] = sy
@@ -73,8 +72,7 @@ abstract class Matrix4Utils {
       ..storage[0] = sx;
   }
 
-  static void postScaleByPoint(
-      Matrix4 m, double sx, double sy, double px, double py) {
+  static void postScaleByPoint(Matrix4 m, double sx, double sy, double px, double py) {
     var temp = _getScaleTempMatrixByPoint(sx, sy, px, py);
     postConcat(m, temp);
   }
@@ -138,8 +136,7 @@ abstract class Matrix4Utils {
       ..storage[15] = 1;
   }
 
-  static void setScaleByPoint(
-      Matrix4 m, double sx, double sy, double px, double py) {
+  static void setScaleByPoint(Matrix4 m, double sx, double sy, double px, double py) {
     m
       ..storage[0] = sx
       ..storage[1] = 0

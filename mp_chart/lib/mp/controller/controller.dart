@@ -16,8 +16,7 @@ import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/painter.dart';
 import 'package:optimized_gesture_detector/gesture_dectetor.dart';
 
-abstract class Controller<P extends ChartPainter>
-    implements AnimatorUpdateListener {
+abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListener {
   ChartState state;
   ChartData data;
   Animator animator;
@@ -83,13 +82,11 @@ abstract class Controller<P extends ChartPainter>
       descTextColor = ColorUtils.BLACK;
     }
     descPaint = PainterUtils.create(null, null, descTextColor, descTextSize,
-        fontFamily: description?.typeface?.fontFamily,
-        fontWeight: description?.typeface?.fontWeight);
+        fontFamily: description?.typeface?.fontFamily, fontWeight: description?.typeface?.fontWeight);
     if (infoTextColor == null) {
       infoTextColor = ColorUtils.BLACK;
     }
-    infoPaint =
-        PainterUtils.create(null, noDataText, infoTextColor, infoTextSize);
+    infoPaint = PainterUtils.create(null, noDataText, infoTextColor, infoTextSize);
     infoBgColor ??= ColorUtils.WHITE;
 
     if (maxHighlightDistance == 0.0) {
@@ -120,8 +117,7 @@ abstract class Controller<P extends ChartPainter>
 
   Legend initLegend() => Legend();
 
-  LegendRenderer initLegendRenderer() =>
-      LegendRenderer(viewPortHandler, legend);
+  LegendRenderer initLegendRenderer() => LegendRenderer(viewPortHandler, legend);
 
   OnChartValueSelectedListener initSelectionListener() => null;
 
