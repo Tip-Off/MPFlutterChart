@@ -11,7 +11,6 @@ import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/data/scatter_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/combined_data_provider.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/highlight/combined_highlighter.dart';
@@ -55,11 +54,9 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
       double extraRightOffset,
       double extraBottomOffset,
       IMarker marker,
-      Description desc,
       bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
-      TextPainter descPainter,
       XAxis xAxis,
       Legend legend,
       LegendRenderer legendRenderer,
@@ -114,11 +111,9 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
             extraRightOffset,
             extraBottomOffset,
             marker,
-            desc,
             drawMarkers,
             infoBgColor,
             infoPainter,
-            descPainter,
             xAxis,
             legend,
             legendRenderer,

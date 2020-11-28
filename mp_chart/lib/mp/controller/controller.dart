@@ -4,7 +4,6 @@ import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/axis/x_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/chart_data.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
@@ -24,7 +23,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
   ////// needed
   IMarker marker;
-  Description description;
   ViewPortHandler viewPortHandler;
   XAxis xAxis;
   Legend legend;
@@ -39,7 +37,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
   ////// split child property
   Color infoBgColor;
-  TextPainter descPaint;
   TextPainter infoPaint;
 
   XAxisSettingFunction xAxisSettingFunction;
@@ -51,7 +48,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
   Controller(
       {this.marker,
-      this.description,
       this.viewPortHandler,
       this.xAxis,
       this.legend,
@@ -66,23 +62,16 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
       this.drawMarkers = true,
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
-      double descTextSize = 12,
       double infoTextSize = 12,
-      Color descTextColor,
       Color infoTextColor,
       this.infoBgColor,
-      this.descPaint,
       this.infoPaint,
       String noDataText = "No chart data available.",
       this.xAxisSettingFunction,
       this.legendSettingFunction,
       this.rendererSettingFunction}) {
     animator = ChartAnimatorBySys(this);
-    if (descTextColor == null) {
-      descTextColor = ColorUtils.BLACK;
-    }
-    descPaint = PainterUtils.create(null, null, descTextColor, descTextSize,
-        fontFamily: description?.typeface?.fontFamily, fontWeight: description?.typeface?.fontWeight);
+
     if (infoTextColor == null) {
       infoTextColor = ColorUtils.BLACK;
     }
@@ -95,7 +84,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
     this.viewPortHandler ??= initViewPortHandler();
     this.marker ??= initMarker();
-    this.description ??= initDescription();
     this.selectionListener ??= initSelectionListener();
 
     if (resolveGestureHorizontalConflict) {
@@ -108,8 +96,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
   }
 
   IMarker initMarker() => null;
-
-  Description initDescription() => Description();
 
   ViewPortHandler initViewPortHandler() => ViewPortHandler();
 

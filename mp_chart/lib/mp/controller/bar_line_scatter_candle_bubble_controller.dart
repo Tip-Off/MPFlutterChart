@@ -3,7 +3,6 @@ import 'package:mp_chart/mp/controller/controller.dart';
 import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
@@ -113,7 +112,6 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
       this.specialMoveEnabled = false,
       this.highlightMagneticSetEnabled = true,
       IMarker marker,
-      Description description,
       String noDataText = "No chart data available.",
       XAxisSettingFunction xAxisSettingFunction,
       LegendSettingFunction legendSettingFunction,
@@ -128,14 +126,11 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
       bool drawMarkers = true,
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
-      double descTextSize = 12,
       double infoTextSize = 12,
-      Color descTextColor,
       Color infoTextColor,
       Color infoBgColor})
       : super(
             marker: marker,
-            description: description,
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
             legendSettingFunction: legendSettingFunction,
@@ -150,9 +145,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
             drawMarkers: drawMarkers,
             resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
             resolveGestureVerticalConflict: resolveGestureVerticalConflict,
-            descTextSize: descTextSize,
             infoTextSize: infoTextSize,
-            descTextColor: descTextColor,
             infoBgColor: infoBgColor,
             infoTextColor: infoTextColor) {
     if (axisLeft == null) {

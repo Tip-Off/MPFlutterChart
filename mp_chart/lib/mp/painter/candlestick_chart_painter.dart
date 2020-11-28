@@ -5,7 +5,6 @@ import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/candle_data.dart';
 import 'package:mp_chart/mp/core/data_provider/candle_data_provider.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
@@ -32,11 +31,9 @@ class CandlestickChartPainter extends BarLineChartBasePainter<CandleData> implem
       double extraRightOffset,
       double extraBottomOffset,
       IMarker marker,
-      Description desc,
       bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
-      TextPainter descPainter,
       XAxis xAxis,
       Legend legend,
       LegendRenderer legendRenderer,
@@ -82,11 +79,9 @@ class CandlestickChartPainter extends BarLineChartBasePainter<CandleData> implem
             extraRightOffset,
             extraBottomOffset,
             marker,
-            desc,
             drawMarkers,
             infoBgColor,
             infoPainter,
-            descPainter,
             xAxis,
             legend,
             legendRenderer,

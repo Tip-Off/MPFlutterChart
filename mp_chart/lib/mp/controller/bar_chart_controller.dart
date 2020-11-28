@@ -5,7 +5,6 @@ import 'package:mp_chart/mp/controller/bar_line_scatter_candle_bubble_controller
 import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/marker/bar_chart_marker.dart';
 import 'package:mp_chart/mp/core/marker/i_marker.dart';
@@ -62,7 +61,6 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
     OnTouchEventListener touchEventListener,
     ChartTransListener chartTransListener,
     IMarker marker,
-    Description description,
     String noDataText = "No chart data available.",
     XAxisSettingFunction xAxisSettingFunction,
     LegendSettingFunction legendSettingFunction,
@@ -77,14 +75,11 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
     bool drawMarkers = true,
     bool resolveGestureHorizontalConflict = false,
     bool resolveGestureVerticalConflict = false,
-    double descTextSize = 12,
     double infoTextSize = 12,
-    Color descTextColor,
     Color infoTextColor,
     Color infoBgColor,
   }) : super(
             marker: marker,
-            description: description,
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
             legendSettingFunction: legendSettingFunction,
@@ -99,9 +94,7 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
             drawMarkers: drawMarkers,
             resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
             resolveGestureVerticalConflict: resolveGestureVerticalConflict,
-            descTextSize: descTextSize,
             infoTextSize: infoTextSize,
-            descTextColor: descTextColor,
             infoTextColor: infoTextColor,
             infoBgColor: infoBgColor,
             maxVisibleCount: maxVisibleCount,
@@ -153,11 +146,9 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
         extraRightOffset,
         extraBottomOffset,
         marker,
-        description,
         drawMarkers,
         infoBgColor,
         infoPaint,
-        descPaint,
         xAxis,
         legend,
         legendRenderer,

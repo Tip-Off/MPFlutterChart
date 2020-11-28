@@ -10,7 +10,6 @@ import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_line_scatter_candle_bubble_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_line_scatter_candle_bubble_data_provider.dart';
 import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
@@ -153,11 +152,9 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
       double extraRightOffset,
       double extraBottomOffset,
       IMarker marker,
-      Description desc,
       bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
-      TextPainter descPainter,
       XAxis xAxis,
       Legend legend,
       LegendRenderer legendRenderer,
@@ -219,28 +216,8 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
         _borderPaint = borderPaint,
         _backgroundPaint = backgroundPaint,
         _chartTransListener = chartTransListener,
-        super(
-            data,
-            highlighForced,
-            animator,
-            viewPortHandler,
-            maxHighlightDistance,
-            highLightPerTapEnabled,
-            extraLeftOffset,
-            extraTopOffset,
-            extraRightOffset,
-            extraBottomOffset,
-            marker,
-            desc,
-            drawMarkers,
-            infoBgColor,
-            infoPainter,
-            descPainter,
-            xAxis,
-            legend,
-            legendRenderer,
-            rendererSettingFunction,
-            selectedListener);
+        super(data, highlighForced, animator, viewPortHandler, maxHighlightDistance, highLightPerTapEnabled, extraLeftOffset, extraTopOffset, extraRightOffset,
+            extraBottomOffset, marker, drawMarkers, infoBgColor, infoPainter, xAxis, legend, legendRenderer, rendererSettingFunction, selectedListener);
 
   @override
   void initDefaultWithData() {
@@ -342,8 +319,6 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
     }
 
     legendRenderer.renderLegend(canvas);
-
-    drawDescription(canvas, size);
 
     drawMarkers(canvas);
   }

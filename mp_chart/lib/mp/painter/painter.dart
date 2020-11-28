@@ -7,7 +7,6 @@ import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/chart_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/chart_interface.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
@@ -44,15 +43,8 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   /// the view that represents the marker
   final IMarker _marker;
 
-  /// the object responsible for representing the description text
-  final Description _description;
-
   /// if set to true, the marker view is drawn when a value is clicked
   final bool _drawMarkers;
-
-  /// paint object used for drawing the description text in the bottom right
-  /// corner of the chart
-  final TextPainter _descPaint;
 
   /// paint object for drawing the information text when there are no values in
   /// the chart
@@ -134,11 +126,9 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
       double extraRightOffset,
       double extraBottomOffset,
       IMarker marker,
-      Description desc,
       bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
-      TextPainter descPainter,
       XAxis xAxis,
       Legend legend,
       LegendRenderer legendRenderer,
@@ -154,11 +144,9 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
         _extraRightOffset = extraRightOffset,
         _extraBottomOffset = extraBottomOffset,
         _marker = marker,
-        _description = desc,
         _drawMarkers = drawMarkers,
         _infoBackgroundColor = infoBgColor,
         _infoPaint = infoPainter,
-        _descPaint = descPainter,
         _xAxis = xAxis,
         _legend = legend,
         _legendRenderer = legendRenderer,
@@ -247,25 +235,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   }
 
   void onPaint(Canvas canvas, Size size);
-
-  /// Draws the description text in the bottom right corner of the chart (per default)
-  void drawDescription(Canvas c, Size size) {
-    // check if description should be drawn
-    if (_description != null && _description.enabled) {
-      MPPointF position = _description.position;
-      double x, y;
-      // if no position specified, draw on default position
-      if (position == null) {
-        x = size.width - _viewPortHandler.offsetRight() - _description.xOffset;
-        y = size.height - _viewPortHandler.offsetBottom() - _description.yOffset;
-      } else {
-        x = position.x;
-        y = position.y;
-      }
-      _descPaint.layout();
-      _descPaint.paint(c, Offset(x, y));
-    }
-  }
 
   /// Returns true if there are values to highlight, false if there are no
   /// values to highlight. Checks if the highlight array is null, has a length
