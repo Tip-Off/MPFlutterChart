@@ -6,7 +6,6 @@ import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/candle_data.dart';
 import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/touch_listener.dart';
@@ -58,7 +57,6 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
       AxisLeftSettingFunction axisLeftSettingFunction,
       AxisRightSettingFunction axisRightSettingFunction,
       OnTouchEventListener touchEventListener,
-      IMarker marker,
       String noDataText = "No chart data available.",
       XAxisSettingFunction xAxisSettingFunction,
       LegendSettingFunction legendSettingFunction,
@@ -70,7 +68,6 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
       double extraRightOffset = 0.0,
       double extraBottomOffset = 0.0,
       double extraLeftOffset = 0.0,
-      bool drawMarkers = true,
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
       double infoTextSize = 12,
@@ -78,7 +75,6 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
       Color infoBgColor,
       ChartTransListener chartTransListener})
       : super(
-            marker: marker,
             specialMoveEnabled: specialMoveEnabled,
             highlightMagneticSetEnabled: highlightMagneticSetEnabled,
             noDataText: noDataText,
@@ -92,7 +88,6 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
             extraRightOffset: extraRightOffset,
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
-            drawMarkers: drawMarkers,
             resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
             resolveGestureVerticalConflict: resolveGestureVerticalConflict,
             infoTextSize: infoTextSize,
@@ -152,8 +147,6 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
         extraTopOffset,
         extraRightOffset,
         extraBottomOffset,
-        marker,
-        drawMarkers,
         infoBgColor,
         infoPaint,
         xAxis,

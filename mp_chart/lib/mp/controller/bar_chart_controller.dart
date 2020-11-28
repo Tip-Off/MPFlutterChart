@@ -6,8 +6,6 @@ import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/bar_data.dart';
 import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/marker/bar_chart_marker.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/touch_listener.dart';
@@ -60,7 +58,6 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
     AxisRightSettingFunction axisRightSettingFunction,
     OnTouchEventListener touchEventListener,
     ChartTransListener chartTransListener,
-    IMarker marker,
     String noDataText = "No chart data available.",
     XAxisSettingFunction xAxisSettingFunction,
     LegendSettingFunction legendSettingFunction,
@@ -72,14 +69,12 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
     double extraRightOffset = 0.0,
     double extraBottomOffset = 0.0,
     double extraLeftOffset = 0.0,
-    bool drawMarkers = true,
     bool resolveGestureHorizontalConflict = false,
     bool resolveGestureVerticalConflict = false,
     double infoTextSize = 12,
     Color infoTextColor,
     Color infoBgColor,
   }) : super(
-            marker: marker,
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
             legendSettingFunction: legendSettingFunction,
@@ -91,7 +86,6 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
             extraRightOffset: extraRightOffset,
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
-            drawMarkers: drawMarkers,
             resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
             resolveGestureVerticalConflict: resolveGestureVerticalConflict,
             infoTextSize: infoTextSize,
@@ -145,8 +139,6 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
         extraTopOffset,
         extraRightOffset,
         extraBottomOffset,
-        marker,
-        drawMarkers,
         infoBgColor,
         infoPaint,
         xAxis,
@@ -191,9 +183,6 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
   BarChartPainter get painter => super.painter;
 
   BarChartState get state => super.state;
-
-  @override
-  IMarker initMarker() => BarChartMarker();
 
   BarData get data => super.data;
 

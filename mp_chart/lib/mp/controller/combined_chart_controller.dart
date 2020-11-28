@@ -5,7 +5,6 @@ import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/combined_data.dart';
 import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/touch_listener.dart';
@@ -67,7 +66,6 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
       AxisLeftSettingFunction axisLeftSettingFunction,
       AxisRightSettingFunction axisRightSettingFunction,
       OnTouchEventListener touchEventListener,
-      IMarker marker,
       String noDataText = "No chart data available.",
       XAxisSettingFunction xAxisSettingFunction,
       LegendSettingFunction legendSettingFunction,
@@ -79,7 +77,6 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
       double extraRightOffset = 0.0,
       double extraBottomOffset = 0.0,
       double extraLeftOffset = 0.0,
-      bool drawMarkers = true,
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
       double infoTextSize = 12,
@@ -87,7 +84,6 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
       Color infoBgColor,
       ChartTransListener chartTransListener})
       : super(
-            marker: marker,
             specialMoveEnabled: specialMoveEnabled,
             highlightMagneticSetEnabled: highlightMagneticSetEnabled,
             noDataText: noDataText,
@@ -101,7 +97,6 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
             extraRightOffset: extraRightOffset,
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
-            drawMarkers: drawMarkers,
             resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
             resolveGestureVerticalConflict: resolveGestureVerticalConflict,
             infoTextSize: infoTextSize,
@@ -161,8 +156,6 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
         extraTopOffset,
         extraRightOffset,
         extraBottomOffset,
-        marker,
-        drawMarkers,
         infoBgColor,
         infoPaint,
         xAxis,

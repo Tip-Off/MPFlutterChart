@@ -13,7 +13,6 @@ import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/highlight/bar_highlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/bar_chart_renderer.dart';
 import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
@@ -46,8 +45,6 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
       double extraTopOffset,
       double extraRightOffset,
       double extraBottomOffset,
-      IMarker marker,
-      bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
       XAxis xAxis,
@@ -102,8 +99,6 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
             extraTopOffset,
             extraRightOffset,
             extraBottomOffset,
-            marker,
-            drawMarkers,
             infoBgColor,
             infoPainter,
             xAxis,

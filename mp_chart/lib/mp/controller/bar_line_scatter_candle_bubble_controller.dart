@@ -5,7 +5,6 @@ import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
@@ -111,7 +110,6 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
       this.chartTransListener,
       this.specialMoveEnabled = false,
       this.highlightMagneticSetEnabled = true,
-      IMarker marker,
       String noDataText = "No chart data available.",
       XAxisSettingFunction xAxisSettingFunction,
       LegendSettingFunction legendSettingFunction,
@@ -123,14 +121,12 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
       double extraRightOffset = 0.0,
       double extraBottomOffset = 0.0,
       double extraLeftOffset = 0.0,
-      bool drawMarkers = true,
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
       double infoTextSize = 12,
       Color infoTextColor,
       Color infoBgColor})
       : super(
-            marker: marker,
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
             legendSettingFunction: legendSettingFunction,
@@ -142,7 +138,6 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
             extraRightOffset: extraRightOffset,
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
-            drawMarkers: drawMarkers,
             resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
             resolveGestureVerticalConflict: resolveGestureVerticalConflict,
             infoTextSize: infoTextSize,

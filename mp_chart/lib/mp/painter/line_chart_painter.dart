@@ -8,7 +8,6 @@ import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/data_provider/line_data_provider.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/render/line_chart_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
@@ -31,8 +30,6 @@ class LineChartPainter extends BarLineChartBasePainter<LineData> implements Line
       double extraTopOffset,
       double extraRightOffset,
       double extraBottomOffset,
-      IMarker marker,
-      bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
       XAxis xAxis,
@@ -79,8 +76,6 @@ class LineChartPainter extends BarLineChartBasePainter<LineData> implements Line
             extraTopOffset,
             extraRightOffset,
             extraBottomOffset,
-            marker,
-            drawMarkers,
             infoBgColor,
             infoPainter,
             xAxis,

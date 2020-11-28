@@ -12,7 +12,6 @@ import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/highlight/i_highlighter.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/render/data_renderer.dart';
 import 'package:mp_chart/mp/core/render/legend_renderer.dart';
@@ -39,12 +38,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   final bool _highLightPerTapEnabled;
 
   final double _extraTopOffset, _extraRightOffset, _extraBottomOffset, _extraLeftOffset;
-
-  /// the view that represents the marker
-  final IMarker _marker;
-
-  /// if set to true, the marker view is drawn when a value is clicked
-  final bool _drawMarkers;
 
   /// paint object for drawing the information text when there are no values in
   /// the chart
@@ -100,10 +93,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
   double get extraBottomOffset => _extraBottomOffset;
 
-  IMarker get marker => _marker;
-
-  bool get isDrawMarkers => _drawMarkers;
-
   Animator get animator => _animator;
 
   Size get size => _size;
@@ -125,8 +114,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
       double extraTopOffset,
       double extraRightOffset,
       double extraBottomOffset,
-      IMarker marker,
-      bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
       XAxis xAxis,
@@ -143,8 +130,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
         _extraTopOffset = extraTopOffset,
         _extraRightOffset = extraRightOffset,
         _extraBottomOffset = extraBottomOffset,
-        _marker = marker,
-        _drawMarkers = drawMarkers,
         _infoBackgroundColor = infoBgColor,
         _infoPaint = infoPainter,
         _xAxis = xAxis,
@@ -382,42 +367,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
     } else {
       return highlighter.getHighlight(x, y);
     }
-  }
-
-  /// draws all MarkerViews on the highlighted positions
-  void drawMarkers(Canvas canvas) {
-    if (_marker == null || !_drawMarkers || !valuesToHighlight()) return;
-
-    for (int i = 0; i < _indicesToHighlight.length; i++) {
-      Highlight highlight = _indicesToHighlight[i];
-
-      IDataSet set = _data.getDataSetByIndex(highlight.dataSetIndex);
-
-      Entry e = _data.getEntryForHighlight(_indicesToHighlight[i]);
-      int entryIndex = set.getEntryIndex2(e);
-      // make sure entry not null
-      if (e == null || entryIndex > set.getEntryCount() * _animator.getPhaseX()) continue;
-
-      List<double> pos = getMarkerPosition(highlight);
-
-      // check bounds
-      if (!_viewPortHandler.isInBounds(pos[0], pos[1])) continue;
-
-      // callbacks to update the content
-      _marker.refreshContent(e, highlight);
-
-      // draw the marker
-      _marker.draw(canvas, pos[0], pos[1]);
-    }
-  }
-
-  /// Returns the actual position in pixels of the MarkerView for the given
-  /// Highlight object.
-  ///
-  /// @param high
-  /// @return
-  List<double> getMarkerPosition(Highlight high) {
-    return List<double>()..add(high.drawX)..add(high.drawY);
   }
 
   @override

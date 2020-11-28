@@ -6,7 +6,6 @@ import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/chart_data.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
@@ -22,7 +21,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
   P _painter;
 
   ////// needed
-  IMarker marker;
   ViewPortHandler viewPortHandler;
   XAxis xAxis;
   Legend legend;
@@ -33,7 +31,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
   double maxHighlightDistance;
   bool highLightPerTapEnabled;
   double extraTopOffset, extraRightOffset, extraBottomOffset, extraLeftOffset;
-  bool drawMarkers;
 
   ////// split child property
   Color infoBgColor;
@@ -47,8 +44,7 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
   CanDragDownFunction verticalConflictResolveFunc;
 
   Controller(
-      {this.marker,
-      this.viewPortHandler,
+      {this.viewPortHandler,
       this.xAxis,
       this.legend,
       this.legendRenderer,
@@ -59,7 +55,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
       this.extraRightOffset = 0.0,
       this.extraBottomOffset = 0.0,
       this.extraLeftOffset = 0.0,
-      this.drawMarkers = true,
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
       double infoTextSize = 12,
@@ -83,7 +78,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
     }
 
     this.viewPortHandler ??= initViewPortHandler();
-    this.marker ??= initMarker();
     this.selectionListener ??= initSelectionListener();
 
     if (resolveGestureHorizontalConflict) {
@@ -94,8 +88,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
       verticalConflictResolveFunc = () => true;
     }
   }
-
-  IMarker initMarker() => null;
 
   ViewPortHandler initViewPortHandler() => ViewPortHandler();
 

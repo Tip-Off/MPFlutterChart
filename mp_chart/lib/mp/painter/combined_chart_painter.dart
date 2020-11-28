@@ -9,14 +9,11 @@ import 'package:mp_chart/mp/core/data/candle_data.dart';
 import 'package:mp_chart/mp/core/data/combined_data.dart';
 import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/data/scatter_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/combined_data_provider.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/highlight/combined_highlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/combined_chart_renderer.dart';
 import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
@@ -53,8 +50,6 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
       double extraTopOffset,
       double extraRightOffset,
       double extraBottomOffset,
-      IMarker marker,
-      bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
       XAxis xAxis,
@@ -110,8 +105,6 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
             extraTopOffset,
             extraRightOffset,
             extraBottomOffset,
-            marker,
-            drawMarkers,
             infoBgColor,
             infoPainter,
             xAxis,
@@ -269,36 +262,5 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
   void setDrawOrder(List<DrawOrder> order) {
     if (order == null || order.length <= 0) return;
     _drawOrder = order;
-  }
-
-  /// draws all MarkerViews on the highlighted positions
-  void drawMarkers(Canvas canvas) {
-    // if there is no marker view or drawing marker is disabled
-    if (marker == null || !isDrawMarkers || !valuesToHighlight()) return;
-
-    for (int i = 0; i < indicesToHighlight.length; i++) {
-      Highlight highlight = indicesToHighlight[i];
-
-      IDataSet set = getCombinedData().getDataSetByHighlight(highlight);
-
-      Entry e = getCombinedData().getEntryForHighlight(highlight);
-      if (e == null) continue;
-
-      int entryIndex = set.getEntryIndex2(e);
-
-      // make sure entry not null
-      if (entryIndex > set.getEntryCount() * animator.getPhaseX()) continue;
-
-      List<double> pos = getMarkerPosition(highlight);
-
-      // check bounds
-      if (!viewPortHandler.isInBounds(pos[0], pos[1])) continue;
-
-      // callbacks to update the content
-      marker.refreshContent(e, highlight);
-
-      // draw the marker
-      marker.draw(canvas, pos[0], pos[1]);
-    }
   }
 }
