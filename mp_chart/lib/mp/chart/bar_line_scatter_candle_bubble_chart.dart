@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:mp_chart/mp/chart/chart.dart';
-import 'package:mp_chart/mp/chart/horizontal_bar_chart.dart';
 import 'package:mp_chart/mp/controller/bar_line_scatter_candle_bubble_controller.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
@@ -320,13 +319,9 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     var dy = details.localPoint.dy - _curY;
     if (widget.controller.painter.dragYEnabled && widget.controller.painter.dragXEnabled) {
       if (_inverted()) {
-        /// if there is an inverted horizontalbarchart
-        if (widget is HorizontalBarChart) {
-          dx = -dx;
-        } else {
-          dy = -dy;
-        }
+        dy = -dy;
       }
+
       widget.controller.painter.translate(dx, dy);
       if (widget.controller.touchEventListener != null) {
         var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
@@ -337,13 +332,9 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     } else {
       if (widget.controller.painter.dragXEnabled) {
         if (_inverted()) {
-          /// if there is an inverted horizontalbarchart
-          if (widget is HorizontalBarChart) {
-            dx = -dx;
-          } else {
-            dy = -dy;
-          }
+          dy = -dy;
         }
+
         widget.controller.painter.translate(dx, 0.0);
         if (widget.controller.touchEventListener != null) {
           var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
@@ -353,13 +344,9 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
         setStateIfNotDispose();
       } else if (widget.controller.painter.dragYEnabled) {
         if (_inverted()) {
-          /// if there is an inverted horizontalbarchart
-          if (widget is HorizontalBarChart) {
-            dx = -dx;
-          } else {
-            dy = -dy;
-          }
+          dy = -dy;
         }
+
         widget.controller.painter.translate(0.0, dy);
         if (widget.controller.touchEventListener != null) {
           var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,

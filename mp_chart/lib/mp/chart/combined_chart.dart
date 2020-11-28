@@ -10,7 +10,6 @@ import 'package:mp_chart/mp/core/utils/highlight_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:optimized_gesture_detector/details.dart';
 import 'package:optimized_gesture_detector/direction.dart';
-import 'package:mp_chart/mp/chart/horizontal_bar_chart.dart';
 import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
@@ -316,13 +315,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
     var dy = details.localPoint.dy - _curY;
     if (widget.controller.painter.dragYEnabled && widget.controller.painter.dragXEnabled) {
       if (_inverted()) {
-        /// if there is an inverted horizontalbarchart
-        if (widget is HorizontalBarChart) {
-          dx = -dx;
-        } else {
-          dy = -dy;
-        }
+        dy = -dy;
       }
+
       widget.controller.painter.translate(dx, dy);
       if (widget.controller.touchEventListener != null) {
         var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
@@ -333,13 +328,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
     } else {
       if (widget.controller.painter.dragXEnabled) {
         if (_inverted()) {
-          /// if there is an inverted horizontalbarchart
-          if (widget is HorizontalBarChart) {
-            dx = -dx;
-          } else {
-            dy = -dy;
-          }
+          dy = -dy;
         }
+
         widget.controller.painter.translate(dx, 0.0);
         if (widget.controller.touchEventListener != null) {
           var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
@@ -349,13 +340,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
         setStateIfNotDispose();
       } else if (widget.controller.painter.dragYEnabled) {
         if (_inverted()) {
-          /// if there is an inverted horizontalbarchart
-          if (widget is HorizontalBarChart) {
-            dx = -dx;
-          } else {
-            dy = -dy;
-          }
+          dy = -dy;
         }
+
         widget.controller.painter.translate(0.0, dy);
         if (widget.controller.touchEventListener != null) {
           var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
