@@ -5,7 +5,6 @@ import 'package:mp_chart/mp/core/axis/x_axis.dart';
 import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data/bubble_data.dart';
 import 'package:mp_chart/mp/core/data/candle_data.dart';
 import 'package:mp_chart/mp/core/data/combined_data.dart';
 import 'package:mp_chart/mp/core/data/line_data.dart';
@@ -28,7 +27,7 @@ import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/bar_line_chart_painter.dart';
 
-enum DrawOrder { BAR, BUBBLE, LINE, CANDLE, SCATTER }
+enum DrawOrder { BAR, LINE, CANDLE, SCATTER }
 
 class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> implements CombinedDataProvider {
   /// if set to true, all values are drawn above their bars, instead of below
@@ -155,12 +154,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
             chartTransListener);
 
   List<DrawOrder> initDrawOrder() {
-    return List()
-      ..add(DrawOrder.CANDLE)
-      ..add(DrawOrder.BAR)
-      ..add(DrawOrder.BUBBLE)
-      ..add(DrawOrder.LINE)
-      ..add(DrawOrder.SCATTER);
+    return List()..add(DrawOrder.CANDLE)..add(DrawOrder.BAR)..add(DrawOrder.LINE)..add(DrawOrder.SCATTER);
   }
 
   @override
@@ -230,12 +224,6 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
   CandleData getCandleData() {
     if (getCombinedData() == null) return null;
     return getCombinedData().getCandleData();
-  }
-
-  @override
-  BubbleData getBubbleData() {
-    if (getCombinedData() == null) return null;
-    return getCombinedData().getBubbleData();
   }
 
   @override

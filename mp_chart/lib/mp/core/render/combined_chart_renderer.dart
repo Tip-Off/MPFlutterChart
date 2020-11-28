@@ -3,7 +3,6 @@ import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/render/bar_chart_renderer.dart';
-import 'package:mp_chart/mp/core/render/bubble_chart_renderer.dart';
 import 'package:mp_chart/mp/core/render/candle_stick_chart_renderer.dart';
 import 'package:mp_chart/mp/core/render/data_renderer.dart';
 import 'package:mp_chart/mp/core/render/line_chart_renderer.dart';
@@ -39,9 +38,6 @@ class CombinedChartRenderer extends DataRenderer {
       switch (order) {
         case DrawOrder.BAR:
           if (chart.getBarData() != null) _renderers.add(BarChartRenderer(chart, animator, viewPortHandler));
-          break;
-        case DrawOrder.BUBBLE:
-          if (chart.getBubbleData() != null) _renderers.add(BubbleChartRenderer(chart, animator, viewPortHandler));
           break;
         case DrawOrder.LINE:
           if (chart.getLineData() != null) _renderers.add(LineChartRenderer(chart, animator, viewPortHandler));

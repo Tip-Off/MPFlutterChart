@@ -1,5 +1,4 @@
 import 'package:flutter/rendering.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bubble_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_scatter_data_set.dart';
@@ -88,38 +87,6 @@ class Transformer {
       _valuePointsForGenerateTransformedValuesScatter = List(count);
     }
     List<double> valuePoints = _valuePointsForGenerateTransformedValuesScatter;
-
-    for (int j = 0; j < count; j += 2) {
-      Entry e = data.getEntryForIndex(j ~/ 2 + from);
-
-      if (e != null) {
-        valuePoints[j] = e.x;
-        valuePoints[j + 1] = e.y * phaseY;
-      } else {
-        valuePoints[j] = 0;
-        valuePoints[j + 1] = 0;
-      }
-    }
-
-    Matrix4Utils.mapPoints(getValueToPixelMatrix(), valuePoints);
-
-    return valuePoints;
-  }
-
-  List<double> _valuePointsForGenerateTransformedValuesBubble = List(1);
-
-  /// Transforms an List of Entry into a double array containing the x and
-  /// y values Matrix4Utils.transformed with all matrices for the BUBBLECHART.
-  ///
-  /// @param data
-  /// @return
-  List<double> generateTransformedValuesBubble(IBubbleDataSet data, double phaseY, int from, int to) {
-    final int count = (to - from + 1) * 2; // (int) Math.ceil((to - from) * phaseX) * 2;
-
-    if (_valuePointsForGenerateTransformedValuesBubble.length != count) {
-      _valuePointsForGenerateTransformedValuesBubble = List(count);
-    }
-    List<double> valuePoints = _valuePointsForGenerateTransformedValuesBubble;
 
     for (int j = 0; j < count; j += 2) {
       Entry e = data.getEntryForIndex(j ~/ 2 + from);

@@ -1,6 +1,5 @@
 import 'package:mp_chart/mp/core/axis/axis_base.dart';
 import 'package:mp_chart/mp/core/entry/bar_entry.dart';
-import 'package:mp_chart/mp/core/entry/bubble_entry.dart';
 import 'package:mp_chart/mp/core/entry/candle_entry.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
@@ -40,10 +39,6 @@ abstract class ValueFormatter {
 
   String getPointLabel(Entry entry) {
     return getFormattedValue1(entry.y);
-  }
-
-  String getBubbleLabel(BubbleEntry bubbleEntry) {
-    return getFormattedValue1(bubbleEntry.size);
   }
 
   String getCandleLabel(CandleEntry candleEntry) {

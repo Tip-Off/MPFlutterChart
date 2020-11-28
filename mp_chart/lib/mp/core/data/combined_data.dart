@@ -1,6 +1,5 @@
 import 'package:mp_chart/mp/core/data/bar_data.dart';
 import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
-import 'package:mp_chart/mp/core/data/bubble_data.dart';
 import 'package:mp_chart/mp/core/data/candle_data.dart';
 import 'package:mp_chart/mp/core/data/chart_data.dart';
 import 'package:mp_chart/mp/core/data/line_data.dart';
@@ -14,7 +13,6 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
   BarData _barData;
   ScatterData _scatterData;
   CandleData _candleData;
-  BubbleData _bubbleData;
 
   CombinedData() : super();
 
@@ -35,11 +33,6 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
 
   void setData4(CandleData data) {
     _candleData = data;
-    notifyDataChanged();
-  }
-
-  void setData5(BubbleData data) {
-    _bubbleData = data;
     notifyDataChanged();
   }
 
@@ -86,10 +79,6 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
     }
   }
 
-  BubbleData getBubbleData() {
-    return _bubbleData;
-  }
-
   LineData getLineData() {
     return _lineData;
   }
@@ -115,7 +104,6 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
     if (_lineData != null) data.add(_lineData);
     if (_barData != null) data.add(_barData);
     if (_scatterData != null) data.add(_scatterData);
-    if (_bubbleData != null) data.add(_bubbleData);
 
     return data;
   }
@@ -130,7 +118,6 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
     if (_barData != null) _barData.notifyDataChanged();
     if (_candleData != null) _candleData.notifyDataChanged();
     if (_scatterData != null) _scatterData.notifyDataChanged();
-    if (_bubbleData != null) _bubbleData.notifyDataChanged();
 
     calcMinMax1(); // recalculate everything
   }
