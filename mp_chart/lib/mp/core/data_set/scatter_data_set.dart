@@ -6,14 +6,8 @@ import 'package:mp_chart/mp/core/data_set/data_set.dart';
 import 'package:mp_chart/mp/core/data_set/line_scatter_candle_radar_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/scatter_shape.dart';
-import 'package:mp_chart/mp/core/render/chevron_down_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/chevron_up_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/circle_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/cross_shape_renderer.dart';
 import 'package:mp_chart/mp/core/render/i_shape_renderer.dart';
 import 'package:mp_chart/mp/core/render/square_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/triangle_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/x_shape_renderer.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 
 class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> implements IScatterDataSet {
@@ -120,18 +114,6 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> implements ISc
     switch (shape) {
       case ScatterShape.SQUARE:
         return SquareShapeRenderer();
-      case ScatterShape.CIRCLE:
-        return CircleShapeRenderer();
-      case ScatterShape.TRIANGLE:
-        return TriangleShapeRenderer();
-      case ScatterShape.CROSS:
-        return CrossShapeRenderer();
-      case ScatterShape.X:
-        return XShapeRenderer();
-      case ScatterShape.CHEVRON_UP:
-        return ChevronUpShapeRenderer();
-      case ScatterShape.CHEVRON_DOWN:
-        return ChevronDownShapeRenderer();
     }
 
     return null;
