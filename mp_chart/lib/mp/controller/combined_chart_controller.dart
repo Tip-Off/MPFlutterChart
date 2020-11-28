@@ -13,7 +13,6 @@ import 'package:mp_chart/mp/core/touch_listener.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/combined_chart_painter.dart';
-import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
 class CombinedChartController
     extends BarLineScatterCandleBubbleController<CombinedChartPainter> {
