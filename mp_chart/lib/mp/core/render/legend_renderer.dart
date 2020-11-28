@@ -77,24 +77,23 @@ class LegendRenderer extends Renderer {
           List<String> sLabels = bds.getStackLabels();
 
           for (int j = 0; j < clrs.length && j < bds.getStackSize(); j++) {
-            _computedEntries.add(LegendEntry(sLabels[j % sLabels.length], dataSet.getForm(), dataSet.getFormSize(),
-                dataSet.getFormLineWidth(), dataSet.getFormLineDashEffect(), clrs[j]));
+            _computedEntries.add(LegendEntry(
+                sLabels[j % sLabels.length], dataSet.getForm(), dataSet.getFormSize(), dataSet.getFormLineWidth(), dataSet.getFormLineDashEffect(), clrs[j]));
           }
 
           if (bds.getLabel() != null) {
             // add the legend description label
-            _computedEntries.add(
-                LegendEntry(dataSet.getLabel(), LegendForm.NONE, double.nan, double.nan, null, ColorUtils.COLOR_NONE));
+            _computedEntries.add(LegendEntry(dataSet.getLabel(), LegendForm.NONE, double.nan, double.nan, null, ColorUtils.COLOR_NONE));
           }
         } else if (dataSet is ICandleDataSet && dataSet.getDecreasingColor() != ColorUtils.COLOR_NONE) {
           Color decreasingColor = dataSet.getDecreasingColor();
           Color increasingColor = dataSet.getIncreasingColor();
 
-          _computedEntries.add(LegendEntry(null, dataSet.getForm(), dataSet.getFormSize(), dataSet.getFormLineWidth(),
-              dataSet.getFormLineDashEffect(), decreasingColor));
+          _computedEntries
+              .add(LegendEntry(null, dataSet.getForm(), dataSet.getFormSize(), dataSet.getFormLineWidth(), dataSet.getFormLineDashEffect(), decreasingColor));
 
-          _computedEntries.add(LegendEntry(dataSet.getLabel(), dataSet.getForm(), dataSet.getFormSize(),
-              dataSet.getFormLineWidth(), dataSet.getFormLineDashEffect(), increasingColor));
+          _computedEntries.add(LegendEntry(
+              dataSet.getLabel(), dataSet.getForm(), dataSet.getFormSize(), dataSet.getFormLineWidth(), dataSet.getFormLineDashEffect(), increasingColor));
         } else {
           // all others
 
@@ -109,8 +108,8 @@ class LegendRenderer extends Renderer {
               label = data.getDataSetByIndex(i).getLabel();
             }
 
-            _computedEntries.add(LegendEntry(label, dataSet.getForm(), dataSet.getFormSize(),
-                dataSet.getFormLineWidth(), dataSet.getFormLineDashEffect(), clrs[j]));
+            _computedEntries
+                .add(LegendEntry(label, dataSet.getForm(), dataSet.getFormSize(), dataSet.getFormLineWidth(), dataSet.getFormLineDashEffect(), clrs[j]));
           }
         }
       }
@@ -131,8 +130,7 @@ class LegendRenderer extends Renderer {
   TextPainter getLabelPainter() {
     var fontFamily = _legend.typeface?.fontFamily;
     var fontWeight = _legend.typeface?.fontWeight;
-    return PainterUtils.create(_legendLabelPaint, null, _legend.textColor, _legend.textSize,
-        fontFamily: fontFamily, fontWeight: fontWeight);
+    return PainterUtils.create(_legendLabelPaint, null, _legend.textColor, _legend.textSize, fontFamily: fontFamily, fontWeight: fontWeight);
   }
 
   void renderLegend(Canvas c) {
@@ -193,9 +191,7 @@ class LegendRenderer extends Renderer {
         // Horizontally layed out legends do the center offset on a line basis,
         // So here we offset the vertical ones only.
         if (orientation == LegendOrientation.VERTICAL) {
-          originPosX += (direction == LegendDirection.LEFT_TO_RIGHT
-              ? -_legend.neededWidth / 2.0 + xoffset
-              : _legend.neededWidth / 2.0 - xoffset);
+          originPosX += (direction == LegendDirection.LEFT_TO_RIGHT ? -_legend.neededWidth / 2.0 + xoffset : _legend.neededWidth / 2.0 - xoffset);
         }
 
         break;
@@ -237,13 +233,8 @@ class LegendRenderer extends Renderer {
               posY += labelLineHeight + labelLineSpacing;
             }
 
-            if (posX == originPosX &&
-                horizontalAlignment == LegendHorizontalAlignment.CENTER &&
-                lineIndex < calculatedLineSizes.length) {
-              posX += (direction == LegendDirection.RIGHT_TO_LEFT
-                      ? calculatedLineSizes[lineIndex].width
-                      : -calculatedLineSizes[lineIndex].width) /
-                  2;
+            if (posX == originPosX && horizontalAlignment == LegendHorizontalAlignment.CENTER && lineIndex < calculatedLineSizes.length) {
+              posX += (direction == LegendDirection.RIGHT_TO_LEFT ? calculatedLineSizes[lineIndex].width : -calculatedLineSizes[lineIndex].width) / 2;
               lineIndex++;
             }
 
@@ -288,9 +279,7 @@ class LegendRenderer extends Renderer {
               break;
 
             case LegendVerticalAlignment.BOTTOM:
-              posY = (horizontalAlignment == LegendHorizontalAlignment.CENTER
-                  ? viewPortHandler.getChartHeight()
-                  : viewPortHandler.contentBottom());
+              posY = (horizontalAlignment == LegendHorizontalAlignment.CENTER ? viewPortHandler.getChartHeight() : viewPortHandler.contentBottom());
               posY -= _legend.neededHeight + yoffset;
               break;
 
@@ -393,10 +382,8 @@ class LegendRenderer extends Renderer {
 
       case LegendForm.LINE:
         {
-          final double formLineWidth =
-              Utils.convertDpToPixel(entry.formLineWidth.isNaN ? legend.formLineWidth : entry.formLineWidth);
-          final DashPathEffect formLineDashEffect =
-              entry.formLineDashEffect == null ? legend.getFormLineDashEffect() : entry.formLineDashEffect;
+          final double formLineWidth = Utils.convertDpToPixel(entry.formLineWidth.isNaN ? legend.formLineWidth : entry.formLineWidth);
+          final DashPathEffect formLineDashEffect = entry.formLineDashEffect == null ? legend.getFormLineDashEffect() : entry.formLineDashEffect;
           _legendFormPaint = Paint()
             ..isAntiAlias = true
             ..color = entry.formColor

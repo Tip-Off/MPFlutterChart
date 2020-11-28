@@ -34,8 +34,7 @@ class DataSetImageCache {
   /// @param set
   /// @param drawCircleHole
   /// @param drawTransparentCircleHole
-  void fill(ILineDataSet set, bool drawCircleHole, bool drawTransparentCircleHole, Paint paint, Paint circlePaint,
-      Function callback) {
+  void fill(ILineDataSet set, bool drawCircleHole, bool drawTransparentCircleHole, Paint paint, Paint circlePaint, Function callback) {
     final int colorCount = set.getCircleColorCount();
     double circleRadius = set.getCircleRadius();
     double circleHoleRadius = set.getCircleHoleRadius();
@@ -47,9 +46,7 @@ class DataSetImageCache {
 
       ui.PictureRecorder recorder = ui.PictureRecorder();
       Canvas canvas = Canvas(
-          recorder,
-          Rect.fromLTRB(0, 0, drawCircleHole ? circleHoleRadius * 2 : circleRadius * 2,
-              drawCircleHole ? circleHoleRadius * 2 : circleRadius * 2));
+          recorder, Rect.fromLTRB(0, 0, drawCircleHole ? circleHoleRadius * 2 : circleRadius * 2, drawCircleHole ? circleHoleRadius * 2 : circleRadius * 2));
 //      _circleBitmaps[i] = circleBitmap;
       paint.color = set.getCircleColor(i);
 

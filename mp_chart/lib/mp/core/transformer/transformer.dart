@@ -64,8 +64,7 @@ class Transformer {
     // offset.postTranslate(mOffsetLeft, getHeight() - mOffsetBottom);
 
     if (!copyInverseed)
-      Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(),
-          _viewPortHandler.getChartHeight() - _viewPortHandler.offsetBottom());
+      Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(), _viewPortHandler.getChartHeight() - _viewPortHandler.offsetBottom());
     else {
       Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(), -_viewPortHandler.offsetTop());
       Matrix4Utils.postScale(_matrixOffset, 1.0, -1.0);

@@ -325,8 +325,7 @@ abstract class AxisBase extends ComponentBase {
   /// @return
   ValueFormatter getValueFormatter() {
     if (_axisValueFormatter == null ||
-        (_axisValueFormatter is DefaultAxisValueFormatter &&
-            (_axisValueFormatter as DefaultAxisValueFormatter).digits != _decimals))
+        (_axisValueFormatter is DefaultAxisValueFormatter && (_axisValueFormatter as DefaultAxisValueFormatter).digits != _decimals))
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
 
     return _axisValueFormatter;

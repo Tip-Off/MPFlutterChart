@@ -189,15 +189,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
 
       // For isHighlightFullBarEnabled, remove stackIndex
       return Highlight(
-          x: h.x,
-          y: h.y,
-          xPx: h.xPx,
-          yPx: h.yPx,
-          freeX: h.freeX,
-          freeY: h.freeY,
-          dataSetIndex: h.dataSetIndex,
-          stackIndex: h.stackIndex,
-          axis: h.axis)
+          x: h.x, y: h.y, xPx: h.xPx, yPx: h.yPx, freeX: h.freeX, freeY: h.freeY, dataSetIndex: h.dataSetIndex, stackIndex: h.stackIndex, axis: h.axis)
         ..dataIndex = h.dataIndex;
     }
   }

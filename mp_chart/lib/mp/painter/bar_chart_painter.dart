@@ -183,8 +183,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
       if (h == null || !isHighlightFullBarEnabled()) return h;
 
       // For isHighlightFullBarEnabled, remove stackIndex
-      return Highlight(
-          x: h.x, y: h.y, xPx: h.xPx, yPx: h.yPx, dataSetIndex: h.dataSetIndex, stackIndex: -1, axis: h.axis);
+      return Highlight(x: h.x, y: h.y, xPx: h.xPx, yPx: h.yPx, dataSetIndex: h.dataSetIndex, stackIndex: -1, axis: h.axis);
     }
   }
 

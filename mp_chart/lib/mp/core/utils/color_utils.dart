@@ -87,11 +87,7 @@ abstract class ColorUtils {
     ..add(Color.fromARGB(255, 53, 194, 209));
 
 // ignore: non_constant_identifier_names
-  static final List<Color> MATERIAL_COLORS = List()
-    ..add(Color(0xFF2ecc71))
-    ..add(Color(0xFFf1c40f))
-    ..add(Color(0xFFe74c3c))
-    ..add(Color(0xFF3498db));
+  static final List<Color> MATERIAL_COLORS = List()..add(Color(0xFF2ecc71))..add(Color(0xFFf1c40f))..add(Color(0xFFe74c3c))..add(Color(0xFF3498db));
 
 // ignore: non_constant_identifier_names
   static final List<Color> COLORFUL_COLORS = List()

@@ -12,8 +12,7 @@ abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
   XBounds _xBounds;
   Path _highlightLinePath = Path();
 
-  BarLineScatterCandleBubbleRenderer(Animator animator, ViewPortHandler viewPortHandler)
-      : super(animator, viewPortHandler) {
+  BarLineScatterCandleBubbleRenderer(Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
     _xBounds = XBounds(this.animator);
   }
 

@@ -18,8 +18,7 @@ class CombinedChartRenderer extends DataRenderer {
   ChartPainter _painter;
   List<Highlight> mHighlightBuffer = List<Highlight>();
 
-  CombinedChartRenderer(CombinedChartPainter chart, Animator animator, ViewPortHandler viewPortHandler)
-      : super(animator, viewPortHandler) {
+  CombinedChartRenderer(CombinedChartPainter chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
     _painter = chart;
     createRenderers();
   }

@@ -19,8 +19,7 @@ abstract class Utils {
   // ignore: non_constant_identifier_names
   static double FLOAT_EPSILON = 1.4E-45;
 
-  static void drawXAxisValue(Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor,
-      double angleDegrees, XAxisPosition position) {
+  static void drawXAxisValue(Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor, double angleDegrees, XAxisPosition position) {
     double drawOffsetX = 0;
     double drawOffsetY = 0;
 
@@ -82,8 +81,7 @@ abstract class Utils {
     paint.textAlign = originalTextAlign;
   }
 
-  static void drawRadarXAxisValue(Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor,
-      double angleDegrees, XAxisPosition position) {
+  static void drawRadarXAxisValue(Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor, double angleDegrees, XAxisPosition position) {
     var originalTextAlign = paint.textAlign;
     paint.textAlign = TextAlign.left;
     double drawOffsetX = 0;
@@ -127,8 +125,8 @@ abstract class Utils {
     paint.textAlign = originalTextAlign;
   }
 
-  static void drawXAxisValueHorizontal(Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor,
-      double angleDegrees, XAxisPosition position) {
+  static void drawXAxisValueHorizontal(
+      Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor, double angleDegrees, XAxisPosition position) {
     double drawOffsetX = 0;
     double drawOffsetY = 0;
 

@@ -92,8 +92,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
 
   bool _inverted() {
     var res = (_closestDataSetToTouch == null && widget.controller.painter.isAnyAxisInverted()) ||
-        (_closestDataSetToTouch != null &&
-            widget.controller.painter.isInverted(_closestDataSetToTouch.getAxisDependency()));
+        (_closestDataSetToTouch != null && widget.controller.painter.isInverted(_closestDataSetToTouch.getAxisDependency()));
     return res;
   }
 
@@ -102,11 +101,10 @@ class CombinedChartState extends ChartState<CombinedChart> {
     widget.controller.stopDeceleration();
     _curX = details.localPosition.dx;
     _curY = details.localPosition.dy;
-    _closestDataSetToTouch =
-        widget.controller.painter.getDataSetByTouchPoint(details.localPosition.dx, details.localPosition.dy);
+    _closestDataSetToTouch = widget.controller.painter.getDataSetByTouchPoint(details.localPosition.dx, details.localPosition.dy);
     if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx,
-          details.globalPosition.dy, details.localPosition.dx, details.localPosition.dy);
+      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
+          details.localPosition.dx, details.localPosition.dy);
       widget.controller.touchEventListener.onTapDown(point.x, point.y);
     }
   }
@@ -117,8 +115,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
 
     if (widget.controller.painter.highLightPerTapEnabled) {
-      Highlight h =
-          widget.controller.painter.getHighlightByTouchPoint(details.localPosition.dx, details.localPosition.dy);
+      Highlight h = widget.controller.painter.getHighlightByTouchPoint(details.localPosition.dx, details.localPosition.dy);
       lastHighlighted = HighlightUtils.performHighlight(widget.controller.painter, h, lastHighlighted);
       setStateIfNotDispose();
 
@@ -135,8 +132,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
     _specialSingleTapUp(details);
 
     if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx,
-          details.globalPosition.dy, details.localPosition.dx, details.localPosition.dy);
+      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
+          details.localPosition.dx, details.localPosition.dy);
       widget.controller.touchEventListener.onSingleTapUp(point.x, point.y);
     }
   }
@@ -171,8 +168,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
 
     if (widget.controller.painter.doubleTapToZoomEnabled && widget.controller.painter.getData().getEntryCount() > 0) {
       MPPointF trans = _getTrans(localPosition.dx, localPosition.dy);
-      widget.controller.painter.zoom(widget.controller.painter.scaleXEnabled ? 1.2 : 1,
-          widget.controller.painter.scaleYEnabled ? 1.2 : 1, trans.x, trans.y);
+      widget.controller.painter.zoom(widget.controller.painter.scaleXEnabled ? 1.2 : 1, widget.controller.painter.scaleYEnabled ? 1.2 : 1, trans.x, trans.y);
       setStateIfNotDispose();
       MPPointF.recycleInstance(trans);
     }
@@ -180,10 +176,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
       Highlight h = widget.controller.painter.getHighlightByTouchPoint(localPosition.dx, localPosition.dy);
 
       if (h != null) {
-        h.highlightX =
-            widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).x;
-        h.highlightY =
-            widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).y;
+        h.highlightX = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).x;
+        h.highlightY = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).y;
       }
 
       lastHighlighted = HighlightUtils.performHighlight(widget.controller.painter, h, lastHighlighted);
@@ -203,8 +197,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
     widget.controller.stopDeceleration();
 
     if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx,
-          details.globalPosition.dy, details.localPosition.dx, details.localPosition.dy);
+      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
+          details.localPosition.dx, details.localPosition.dy);
       widget.controller.touchEventListener.onDoubleTapUp(point.x, point.y);
     }
   }
@@ -223,8 +217,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
 
     if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
-          details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
+      var point = _getTouchValue(
+          widget.controller.touchEventListener.valueType(), details.globalPoint.dx, details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
       widget.controller.touchEventListener.onMoveStart(point.x, point.y);
     }
   }
@@ -266,9 +260,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
   }
 
   bool _canMove() {
-    return (widget.controller.specialMoveEnabled &&
-            widget.controller.painter.highlightPerDragEnabled &&
-            lastHighlighted != null) ||
+    return (widget.controller.specialMoveEnabled && widget.controller.painter.highlightPerDragEnabled && lastHighlighted != null) ||
         (!widget.controller.specialMoveEnabled && widget.controller.painter.highlightPerDragEnabled);
   }
 
@@ -285,12 +277,10 @@ class CombinedChartState extends ChartState<CombinedChart> {
       highlighted.highlightY = lastHighlighted.highlightY;
 
       if (highlighted?.x != lastHighlighted.x) {
-        highlighted.highlightX =
-            widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).x;
+        highlighted.highlightX = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).x;
       }
 
-      highlighted.highlightY =
-          widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).y;
+      highlighted.highlightY = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).y;
 
       if (highlighted?.equalTo(lastHighlighted) == false) {
         lastHighlighted = HighlightUtils.performHighlight(widget.controller.painter, highlighted, lastHighlighted);
@@ -320,8 +310,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
 
       widget.controller.painter.translate(dx, dy);
       if (widget.controller.touchEventListener != null) {
-        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
-            details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
+        var point = _getTouchValue(
+            widget.controller.touchEventListener.valueType(), details.globalPoint.dx, details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
         widget.controller.touchEventListener.onMoveUpdate(point.x, point.y);
       }
       setStateIfNotDispose();
@@ -333,8 +323,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
 
         widget.controller.painter.translate(dx, 0.0);
         if (widget.controller.touchEventListener != null) {
-          var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
-              details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
+          var point = _getTouchValue(
+              widget.controller.touchEventListener.valueType(), details.globalPoint.dx, details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
           widget.controller.touchEventListener.onMoveUpdate(point.x, point.y);
         }
         setStateIfNotDispose();
@@ -345,8 +335,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
 
         widget.controller.painter.translate(0.0, dy);
         if (widget.controller.touchEventListener != null) {
-          var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
-              details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
+          var point = _getTouchValue(
+              widget.controller.touchEventListener.valueType(), details.globalPoint.dx, details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
           widget.controller.touchEventListener.onMoveUpdate(point.x, point.y);
         }
         setStateIfNotDispose();
@@ -372,8 +362,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
 
     if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
-          details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
+      var point = _getTouchValue(
+          widget.controller.touchEventListener.valueType(), details.globalPoint.dx, details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
       widget.controller.touchEventListener.onMoveEnd(point.x, point.y);
     }
   }
@@ -385,8 +375,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
     _curY = details.localPoint.dy;
     _isScaleDirectionConfirm = false;
     if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
-          details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
+      var point = _getTouchValue(
+          widget.controller.touchEventListener.valueType(), details.globalPoint.dx, details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
       widget.controller.touchEventListener.onScaleStart(point.x, point.y);
     }
   }
@@ -421,8 +411,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
       bool canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
       widget.controller.painter.zoom(canZoomMoreX ? scale : 1, canZoomMoreY ? scale : 1, trans.x, trans.y);
       if (widget.controller.touchEventListener != null) {
-        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx,
-            details.globalFocalPoint.dy, details.localFocalPoint.dx, details.localFocalPoint.dy);
+        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
+            details.localFocalPoint.dx, details.localFocalPoint.dy);
         widget.controller.touchEventListener.onScaleUpdate(point.x, point.y);
       }
       setStateIfNotDispose();
@@ -432,8 +422,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
           bool canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
           widget.controller.painter.zoom(1, canZoomMoreY ? scale : 1, trans.x, trans.y);
           if (widget.controller.touchEventListener != null) {
-            var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx,
-                details.globalFocalPoint.dy, details.localFocalPoint.dx, details.localFocalPoint.dy);
+            var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
+                details.localFocalPoint.dx, details.localFocalPoint.dy);
             widget.controller.touchEventListener.onScaleUpdate(point.x, point.y);
           }
           setStateIfNotDispose();
@@ -443,8 +433,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
           bool canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
           widget.controller.painter.zoom(canZoomMoreX ? scale : 1, 1, trans.x, trans.y);
           if (widget.controller.touchEventListener != null) {
-            var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx,
-                details.globalFocalPoint.dy, details.localFocalPoint.dx, details.localFocalPoint.dy);
+            var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
+                details.localFocalPoint.dx, details.localFocalPoint.dy);
             widget.controller.touchEventListener.onScaleUpdate(point.x, point.y);
           }
           setStateIfNotDispose();
@@ -464,8 +454,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
   void onScaleEnd(OpsScaleEndDetails details) {
     _scale = -1.0;
     if (widget.controller.touchEventListener != null) {
-      var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPoint.dx,
-          details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
+      var point = _getTouchValue(
+          widget.controller.touchEventListener.valueType(), details.globalPoint.dx, details.globalPoint.dy, details.localPoint.dx, details.localPoint.dy);
       widget.controller.touchEventListener.onScaleEnd(point.x, point.y);
     }
   }
@@ -474,8 +464,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
     var specialDoubleTapUp = _specialDragHighlight(details.localPosition);
     if (specialDoubleTapUp) {
       if (widget.controller.touchEventListener != null) {
-        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx,
-            details.globalPosition.dy, details.localPosition.dx, details.localPosition.dy);
+        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
+            details.localPosition.dx, details.localPosition.dy);
         widget.controller.touchEventListener.onDragStart(point.x, point.y);
       }
     }
@@ -485,8 +475,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
     var specialMoved = _specialMove(details.localPosition);
     if (specialMoved) {
       if (widget.controller.touchEventListener != null) {
-        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx,
-            details.globalPosition.dy, details.localPosition.dx, details.localPosition.dy);
+        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
+            details.localPosition.dx, details.localPosition.dy);
         widget.controller.touchEventListener.onDragUpdate(point.x, point.y);
       }
     }
@@ -496,8 +486,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
     var specialDoubleTapUp = _specialDragHighlight(details.localPosition);
     if (specialDoubleTapUp) {
       if (widget.controller.touchEventListener != null) {
-        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx,
-            details.globalPosition.dy, details.localPosition.dx, details.localPosition.dy);
+        var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
+            details.localPosition.dx, details.localPosition.dy);
         widget.controller.touchEventListener.onDragEnd(point.x, point.y);
       }
     }

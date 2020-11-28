@@ -8,8 +8,7 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 
 class SquareShapeRenderer implements IShapeRenderer {
   @override
-  void renderShape(
-      Canvas c, IScatterDataSet dataSet, ViewPortHandler viewPortHandler, double posX, double posY, Paint renderPaint) {
+  void renderShape(Canvas c, IScatterDataSet dataSet, ViewPortHandler viewPortHandler, double posX, double posY, Paint renderPaint) {
     final double shapeSize = dataSet.getScatterShapeSize();
     final double shapeHalf = shapeSize / 2;
     final double shapeHoleSizeHalf = Utils.convertDpToPixel(dataSet.getScatterShapeHoleRadius());
@@ -34,10 +33,7 @@ class SquareShapeRenderer implements IShapeRenderer {
           ..style = PaintingStyle.fill
           ..color = shapeHoleColor;
 
-        c.drawRect(
-            Rect.fromLTRB(
-                posX - shapeHoleSizeHalf, posY - shapeHoleSizeHalf, posX + shapeHoleSizeHalf, posY + shapeHoleSizeHalf),
-            renderPaint);
+        c.drawRect(Rect.fromLTRB(posX - shapeHoleSizeHalf, posY - shapeHoleSizeHalf, posX + shapeHoleSizeHalf, posY + shapeHoleSizeHalf), renderPaint);
       }
     } else {
       renderPaint.style = PaintingStyle.fill;

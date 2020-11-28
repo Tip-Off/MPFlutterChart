@@ -21,8 +21,7 @@ class YAxisRenderer extends AxisRenderer {
 
   Paint _zeroLinePaint;
 
-  YAxisRenderer(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans)
-      : super(viewPortHandler, trans, yAxis) {
+  YAxisRenderer(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans) : super(viewPortHandler, trans, yAxis) {
     this._yAxis = yAxis;
 
     if (viewPortHandler != null) {
@@ -125,8 +124,7 @@ class YAxisRenderer extends AxisRenderer {
       axisLabelPaint.layout();
       if (axisDependency == AxisDependency.LEFT) {
         if (position == YAxisLabelPosition.OUTSIDE_CHART) {
-          axisLabelPaint.paint(
-              c, Offset(fixedPosition - axisLabelPaint.width, positions[i * 2 + 1] - axisLabelPaint.height / 2));
+          axisLabelPaint.paint(c, Offset(fixedPosition - axisLabelPaint.width, positions[i * 2 + 1] - axisLabelPaint.height / 2));
         } else {
           axisLabelPaint.paint(c, Offset(fixedPosition, positions[i * 2 + 1] - axisLabelPaint.height / 2));
         }
@@ -134,8 +132,7 @@ class YAxisRenderer extends AxisRenderer {
         if (position == YAxisLabelPosition.OUTSIDE_CHART) {
           axisLabelPaint.paint(c, Offset(fixedPosition, positions[i * 2 + 1] - axisLabelPaint.height / 2));
         } else {
-          axisLabelPaint.paint(
-              c, Offset(fixedPosition - axisLabelPaint.width, positions[i * 2 + 1] - axisLabelPaint.height / 2));
+          axisLabelPaint.paint(c, Offset(fixedPosition - axisLabelPaint.width, positions[i * 2 + 1] - axisLabelPaint.height / 2));
         }
       }
     }
@@ -183,11 +180,8 @@ class YAxisRenderer extends AxisRenderer {
   Rect _gridClippingRect = Rect.zero;
 
   Rect getGridClippingRect() {
-    _gridClippingRect = Rect.fromLTRB(
-        viewPortHandler.getContentRect().left,
-        viewPortHandler.getContentRect().top,
-        viewPortHandler.getContentRect().right + axis.gridLineWidth,
-        viewPortHandler.getContentRect().bottom + axis.gridLineWidth);
+    _gridClippingRect = Rect.fromLTRB(viewPortHandler.getContentRect().left, viewPortHandler.getContentRect().top,
+        viewPortHandler.getContentRect().right + axis.gridLineWidth, viewPortHandler.getContentRect().bottom + axis.gridLineWidth);
     return _gridClippingRect;
   }
 
@@ -232,11 +226,8 @@ class YAxisRenderer extends AxisRenderer {
   /// Draws the zero line.
   void drawZeroLine(Canvas c) {
     c.save();
-    _zeroLineClippingRect = Rect.fromLTRB(
-        viewPortHandler.getContentRect().left,
-        viewPortHandler.getContentRect().top,
-        viewPortHandler.getContentRect().right + _yAxis.zeroLineWidth,
-        viewPortHandler.getContentRect().bottom + _yAxis.zeroLineWidth);
+    _zeroLineClippingRect = Rect.fromLTRB(viewPortHandler.getContentRect().left, viewPortHandler.getContentRect().top,
+        viewPortHandler.getContentRect().right + _yAxis.zeroLineWidth, viewPortHandler.getContentRect().bottom + _yAxis.zeroLineWidth);
     c.clipRect(_zeroLineClippingRect);
 
     // draw zero line
@@ -292,11 +283,8 @@ class YAxisRenderer extends AxisRenderer {
       if (!l.enabled) continue;
 
       c.save();
-      _limitLineClippingRect = Rect.fromLTRB(
-          viewPortHandler.getContentRect().left,
-          viewPortHandler.getContentRect().top,
-          viewPortHandler.getContentRect().right + l.lineWidth,
-          viewPortHandler.getContentRect().bottom + l.lineWidth);
+      _limitLineClippingRect = Rect.fromLTRB(viewPortHandler.getContentRect().left, viewPortHandler.getContentRect().top,
+          viewPortHandler.getContentRect().right + l.lineWidth, viewPortHandler.getContentRect().bottom + l.lineWidth);
       c.clipRect(_limitLineClippingRect);
 
       limitLinePaint
@@ -321,26 +309,22 @@ class YAxisRenderer extends AxisRenderer {
 
       // if drawing the limit-value label is enabled
       if (label != null && label.isNotEmpty) {
-        TextPainter painter = PainterUtils.create(null, label, l.textColor, l.textSize,
-            fontWeight: l.typeface?.fontWeight, fontFamily: l.typeface?.fontFamily);
+        TextPainter painter = PainterUtils.create(null, label, l.textColor, l.textSize, fontWeight: l.typeface?.fontWeight, fontFamily: l.typeface?.fontFamily);
         final double labelLineHeight = Utils.calcTextHeight(painter, label).toDouble();
         double xOffset = Utils.convertDpToPixel(4) + l.xOffset;
         double yOffset = l.lineWidth + labelLineHeight + l.yOffset;
         painter.layout();
         final LimitLabelPosition position = l.labelPosition;
         if (position == LimitLabelPosition.RIGHT_TOP) {
-          var offset = Offset(viewPortHandler.contentRight() - xOffset - painter.width,
-              pts[1] - yOffset + labelLineHeight - painter.height);
+          var offset = Offset(viewPortHandler.contentRight() - xOffset - painter.width, pts[1] - yOffset + labelLineHeight - painter.height);
           CanvasUtils.renderLimitLabelBackground(c, painter, offset, l);
           painter.paint(c, offset);
         } else if (position == LimitLabelPosition.RIGHT_BOTTOM) {
-          var offset =
-              Offset(viewPortHandler.contentRight() - xOffset - painter.width, pts[1] + yOffset - painter.height);
+          var offset = Offset(viewPortHandler.contentRight() - xOffset - painter.width, pts[1] + yOffset - painter.height);
           CanvasUtils.renderLimitLabelBackground(c, painter, offset, l);
           painter.paint(c, offset);
         } else if (position == LimitLabelPosition.RIGHT_CENTER) {
-          var offset = Offset(
-              viewPortHandler.contentRight() - xOffset - painter.width, pts[1] - (l.lineWidth + labelLineHeight) / 2);
+          var offset = Offset(viewPortHandler.contentRight() - xOffset - painter.width, pts[1] - (l.lineWidth + labelLineHeight) / 2);
           CanvasUtils.renderLimitLabelBackground(c, painter, offset, l);
           painter.paint(c, offset);
         } else if (position == LimitLabelPosition.LEFT_CENTER) {
@@ -348,8 +332,7 @@ class YAxisRenderer extends AxisRenderer {
           CanvasUtils.renderLimitLabelBackground(c, painter, offset, l);
           painter.paint(c, offset);
         } else if (position == LimitLabelPosition.LEFT_TOP) {
-          var offset =
-              Offset(viewPortHandler.contentLeft() + xOffset, pts[1] - yOffset + labelLineHeight - painter.height);
+          var offset = Offset(viewPortHandler.contentLeft() + xOffset, pts[1] - yOffset + labelLineHeight - painter.height);
           CanvasUtils.renderLimitLabelBackground(c, painter, offset, l);
           painter.paint(c, offset);
         } else {
@@ -420,10 +403,7 @@ class YAxisRenderer extends AxisRenderer {
     if (viewPortHandler.getContentRect().contains(validPoint)) {
       var paint = Paint()..color = Colors.deepOrange;
 
-      c.drawRect(
-          Rect.fromLTWH(
-              labelPosition.dx - 1, labelPosition.dy - 1, axisLabelPaint.width + 2, axisLabelPaint.height + 2),
-          paint);
+      c.drawRect(Rect.fromLTWH(labelPosition.dx - 1, labelPosition.dy - 1, axisLabelPaint.width + 2, axisLabelPaint.height + 2), paint);
       axisLabelPaint.paint(c, labelPosition);
     }
   }

@@ -5,8 +5,7 @@ import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
-abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineScatterCandleBubbleDataSet<T>
-    implements ILineScatterCandleRadarDataSet<T> {
+abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineScatterCandleBubbleDataSet<T> implements ILineScatterCandleRadarDataSet<T> {
   bool _drawVerticalHighlightIndicator = true;
   bool _drawHorizontalHighlightIndicator = true;
 

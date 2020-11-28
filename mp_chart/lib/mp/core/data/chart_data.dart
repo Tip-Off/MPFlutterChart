@@ -215,8 +215,7 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @return
   int getDataSetIndexByLabel(List<T> dataSets, String label, bool ignorecase) {
     if (ignorecase) {
-      for (int i = 0; i < dataSets.length; i++)
-        if (DartAdapterUtils.equalsIgnoreCase(label, dataSets[i].getLabel())) return i;
+      for (int i = 0; i < dataSets.length; i++) if (DartAdapterUtils.equalsIgnoreCase(label, dataSets[i].getLabel())) return i;
     } else {
       for (int i = 0; i < dataSets.length; i++) if (label == dataSets[i].getLabel()) return i;
     }

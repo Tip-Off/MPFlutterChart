@@ -57,17 +57,10 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
       if (ranges.length > 0) {
         int stackIndex = getClosestStackIndex(ranges, yVal);
 
-        MPPointD pixels =
-            provider.getTransformer(set.getAxisDependency()).getPixelForValues(high.x, ranges[stackIndex].to);
+        MPPointD pixels = provider.getTransformer(set.getAxisDependency()).getPixelForValues(high.x, ranges[stackIndex].to);
 
-        Highlight stackedHigh = Highlight(
-            x: entry.x,
-            y: entry.y,
-            xPx: pixels.x,
-            yPx: pixels.y,
-            dataSetIndex: high.dataSetIndex,
-            stackIndex: stackIndex,
-            axis: high.axis);
+        Highlight stackedHigh =
+            Highlight(x: entry.x, y: entry.y, xPx: pixels.x, yPx: pixels.y, dataSetIndex: high.dataSetIndex, stackIndex: stackIndex, axis: high.axis);
 
         MPPointD.recycleInstance2(pixels);
 

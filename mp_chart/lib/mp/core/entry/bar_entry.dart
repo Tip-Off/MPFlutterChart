@@ -18,8 +18,7 @@ class BarEntry extends Entry {
 
   BarEntry({double x, double y, ui.Image icon, Object data}) : super(x: x, y: y, icon: icon, data: data);
 
-  BarEntry.fromListYVals({double x, List<double> vals, ui.Image icon, Object data})
-      : super(x: x, y: calcSum(vals), icon: icon, data: data) {
+  BarEntry.fromListYVals({double x, List<double> vals, ui.Image icon, Object data}) : super(x: x, y: calcSum(vals), icon: icon, data: data) {
     this._yVals = vals;
     calcPosNegSum();
     calcRanges();
