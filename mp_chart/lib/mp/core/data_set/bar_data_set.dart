@@ -43,11 +43,11 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
 
   @override
   DataSet<BarEntry> copy1() {
-    List<BarEntry> entries = List();
-    for (int i = 0; i < values.length; i++) {
+    var entries = List<BarEntry>();
+    for (var i = 0; i < values.length; i++) {
       entries.add(values[i].copy());
     }
-    BarDataSet copied = BarDataSet(entries, getLabel());
+    var copied = BarDataSet(entries, getLabel());
     copy(copied);
     return copied;
   }
@@ -69,8 +69,8 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
   void calcEntryCountIncludingStacks(List<BarEntry> yVals) {
     _entryCountStacks = 0;
 
-    for (int i = 0; i < yVals.length; i++) {
-      List<double> vals = yVals[i].yVals;
+    for (var i = 0; i < yVals.length; i++) {
+      var vals = yVals[i].yVals;
 
       if (vals == null)
         _entryCountStacks++;
@@ -82,8 +82,8 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
   /// calculates the maximum stacksize that occurs in the Entries array of this
   /// DataSet
   void calcStackSize(List<BarEntry> yVals) {
-    for (int i = 0; i < yVals.length; i++) {
-      List<double> vals = yVals[i].yVals;
+    for (var i = 0; i < yVals.length; i++) {
+      var vals = yVals[i].yVals;
 
       if (vals != null && vals.length > _stackSize) _stackSize = vals.length;
     }

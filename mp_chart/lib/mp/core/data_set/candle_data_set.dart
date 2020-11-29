@@ -50,11 +50,11 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
 
   @override
   DataSet<CandleEntry> copy1() {
-    List<CandleEntry> entries = List<CandleEntry>();
-    for (int i = 0; i < values.length; i++) {
+    var entries = List<CandleEntry>();
+    for (var i = 0; i < values.length; i++) {
       entries.add(values[i].copy());
     }
-    CandleDataSet copied = CandleDataSet(entries, getLabel());
+    var copied = CandleDataSet(entries, getLabel());
     copy(copied);
     return copied;
   }

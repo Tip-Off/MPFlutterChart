@@ -57,21 +57,21 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
   @override
   void initBuffers() {
-    BarData barData = _provider.getBarData();
+    var barData = _provider.getBarData();
     _barBuffers = List(barData.getDataSetCount());
 
-    for (int i = 0; i < _barBuffers.length; i++) {
-      IBarDataSet set = barData.getDataSetByIndex(i);
+    for (var i = 0; i < _barBuffers.length; i++) {
+      var set = barData.getDataSetByIndex(i);
       _barBuffers[i] = BarBuffer(set.getEntryCount() * 4 * (set.isStacked() ? set.getStackSize() : 1), barData.getDataSetCount(), set.isStacked());
     }
   }
 
   @override
   void drawData(Canvas c) {
-    BarData barData = _provider.getBarData();
+    var barData = _provider.getBarData();
 
-    for (int i = 0; i < barData.getDataSetCount(); i++) {
-      IBarDataSet set = barData.getDataSetByIndex(i);
+    for (var i = 0; i < barData.getDataSetCount(); i++) {
+      var set = barData.getDataSetByIndex(i);
 
       if (set.isVisible()) {
         drawDataSet(c, set, i);
@@ -80,28 +80,28 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
   }
 
   void drawDataSet(Canvas c, IBarDataSet dataSet, int index) {
-    Transformer trans = _provider.getTransformer(dataSet.getAxisDependency());
+    var trans = _provider.getTransformer(dataSet.getAxisDependency());
 
     _barBorderPaint.color = dataSet.getBarBorderColor();
     _barBorderPaint.strokeWidth = Utils.convertDpToPixel(dataSet.getBarBorderWidth());
 
-    final bool drawBorder = dataSet.getBarBorderWidth() > 0.0;
+    final drawBorder = dataSet.getBarBorderWidth() > 0.0;
 
-    double phaseX = animator.getPhaseX();
-    double phaseY = animator.getPhaseY();
+    var phaseX = animator.getPhaseX();
+    var phaseY = animator.getPhaseY();
 
     // draw the bar shadow before the values
     if (_provider.isDrawBarShadowEnabled()) {
       _shadowPaint.color = dataSet.getBarShadowColor();
 
-      BarData barData = _provider.getBarData();
+      var barData = _provider.getBarData();
 
-      final double barWidth = barData.barWidth;
-      final double barWidthHalf = barWidth / 2.0;
+      final barWidth = barData.barWidth;
+      final barWidthHalf = barWidth / 2.0;
       double x;
 
-      for (int i = 0, count = min((((dataSet.getEntryCount()) * phaseX).ceil()), dataSet.getEntryCount()); i < count; i++) {
-        BarEntry e = dataSet.getEntryForIndex(i);
+      for (var i = 0, count = min((((dataSet.getEntryCount()) * phaseX).ceil()), dataSet.getEntryCount()); i < count; i++) {
+        var e = dataSet.getEntryForIndex(i);
 
         x = e.x;
 
@@ -121,7 +121,7 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
     }
 
     // initialize the buffer
-    BarBuffer buffer = _barBuffers[index];
+    var buffer = _barBuffers[index];
     buffer.setPhases(phaseX, phaseY);
     buffer.dataSetIndex = (index);
     buffer.inverted = (_provider.isInverted(dataSet.getAxisDependency()));
@@ -131,13 +131,13 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
     trans.pointValuesToPixel(buffer.buffer);
 
-    final bool isSingleColor = dataSet.getColors().length == 1;
+    final isSingleColor = dataSet.getColors().length == 1;
 
     if (isSingleColor) {
       renderPaint.color = dataSet.getColor1();
     }
 
-    for (int j = 0; j < buffer.size(); j += 4) {
+    for (var j = 0; j < buffer.size(); j += 4) {
       if (!viewPortHandler.isInBoundsLeft(buffer.buffer[j + 2])) continue;
 
       if (!viewPortHandler.isInBoundsRight(buffer.buffer[j])) break;
@@ -149,7 +149,7 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
       }
 
       if (dataSet.getGradientColor1() != null) {
-        GradientColor gradientColor = dataSet.getGradientColor1();
+        var gradientColor = dataSet.getGradientColor1();
 
         final colors = [gradientColor.startColor, gradientColor.endColor];
 
@@ -175,10 +175,10 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
   Rect _barShadowRectBuffer = Rect.zero;
 
   void prepareBarHighlight(double x, double y1, double y2, double barWidthHalf, Transformer trans) {
-    double left = x - barWidthHalf;
-    double right = x + barWidthHalf;
-    double top = y1;
-    double bottom = y2;
+    var left = x - barWidthHalf;
+    var right = x + barWidthHalf;
+    var top = y1;
+    var bottom = y2;
 
     _barRect = trans.rectToPixelPhase(Rect.fromLTRB(left, top, right, bottom), animator.getPhaseY());
   }
@@ -195,11 +195,11 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
-    BarData barData = _provider.getBarData();
+    var barData = _provider.getBarData();
 
     var pix = MPPointD(0, 0);
 
-    for (Highlight high in indices) {
+    for (var high in indices) {
       IBarDataSet dataSet;
       if (high.dataSetIndex >= 0) {
         dataSet = barData.getDataSetByIndex(high.dataSetIndex);
@@ -209,16 +209,16 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
       if (dataSet == null || !dataSet.isHighlightEnabled()) continue;
 
-      BarEntry e = dataSet.getEntryForXValue2(high.x, high.y);
+      var e = dataSet.getEntryForXValue2(high.x, high.y);
 
       if (!isInBoundsX(e, dataSet)) continue;
 
-      Transformer trans = _provider.getTransformer(dataSet.getAxisDependency());
+      var trans = _provider.getTransformer(dataSet.getAxisDependency());
 
       var color = dataSet.getHighLightColor();
       highlightPaint.color = Color.fromARGB(dataSet.getHighLightAlpha(), color.red, color.green, color.blue);
 
-      bool isStack = (high.stackIndex >= 0 && e.isStacked()) ? true : false;
+      var isStack = (high.stackIndex >= 0 && e.isStacked()) ? true : false;
 
       double y1;
       double y2;
@@ -228,7 +228,7 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
           y1 = e.positiveSum;
           y2 = -e.negativeSum;
         } else {
-          Range range = e.ranges[high.stackIndex];
+          var range = e.ranges[high.stackIndex];
 
           y1 = range.from;
           y2 = range.to;

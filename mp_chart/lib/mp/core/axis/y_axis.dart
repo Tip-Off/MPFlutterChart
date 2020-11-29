@@ -176,8 +176,8 @@ class YAxis extends AxisBase {
   /// @return
   double getRequiredWidthSpace(TextPainter p) {
     p = PainterUtils.create(p, null, null, textSize);
-    String label = getLongestLabel();
-    double width = Utils.calcTextWidth(p, label) + xOffset * 2;
+    var label = getLongestLabel();
+    var width = Utils.calcTextWidth(p, label) + xOffset * 2.0;
     if (minWidth > 0) minWidth = Utils.convertDpToPixel(minWidth);
     if (maxWidth > 0 && maxWidth != double.infinity) maxWidth = Utils.convertDpToPixel(maxWidth);
     width = max(minWidth, min(width, maxWidth > 0.0 ? maxWidth : width));
@@ -191,7 +191,7 @@ class YAxis extends AxisBase {
   double getRequiredHeightSpace(TextPainter p) {
     p = PainterUtils.create(p, null, null, textSize);
 
-    String label = getLongestLabel();
+    var label = getLongestLabel();
     return Utils.calcTextHeight(p, label) + yOffset * 2;
   }
 
@@ -223,10 +223,10 @@ class YAxis extends AxisBase {
 
   @override
   void calculate(double dataMin, double dataMax) {
-    double min = dataMin;
-    double max = dataMax;
+    var min = dataMin;
+    var max = dataMax;
 
-    double range = (max - min).abs();
+    var range = (max - min).abs();
 
     // in case all values are equal
     if (range == 0) {

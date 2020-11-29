@@ -327,8 +327,8 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
 
   /// Performs auto scaling of the axis by recalculating the minimum and maximum y-values based on the entries currently in view.
   void autoScale() {
-    final double fromX = getLowestVisibleX();
-    final double toX = getHighestVisibleX();
+    final fromX = getLowestVisibleX();
+    final toX = getHighestVisibleX();
 
     getData().calcMinMaxY(fromX, toX);
 
@@ -430,7 +430,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
     calcMinMax();
 
     if (!_customViewPortEnabled) {
-      double offsetLeft = 0, offsetRight = 0, offsetTop = 0, offsetBottom = 0;
+      var offsetLeft = 0.0, offsetRight = 0.0, offsetTop = 0.0, offsetBottom = 0.0;
 
       _offsetsBuffer = calculateLegendOffsets(_offsetsBuffer);
 
@@ -449,7 +449,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
       }
 
       if (xAxis.enabled && xAxis.drawLabels) {
-        double xLabelHeight = xAxis.labelRotatedHeight + xAxis.yOffset + xAxis.getRequiredHeightSpace(_xAxisRenderer.axisLabelPaint);
+        var xLabelHeight = xAxis.labelRotatedHeight + xAxis.yOffset + xAxis.getRequiredHeightSpace(_xAxisRenderer.axisLabelPaint);
 
         // offsets for x-labels
         if (xAxis.position == XAxisPosition.BOTTOM) {
@@ -467,7 +467,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
       offsetBottom += extraBottomOffset;
       offsetLeft += extraLeftOffset;
 
-      double minOffset = Utils.convertDpToPixel(_minOffset);
+      var minOffset = Utils.convertDpToPixel(_minOffset);
 
       viewPortHandler.restrainViewPort(max(minOffset, offsetLeft), max(minOffset, offsetTop), max(minOffset, offsetRight), max(minOffset, offsetBottom));
     }
@@ -533,7 +533,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// @param maxYRange the maximum visible range on the y-axis
   /// @param axis      the axis for which this limit should apply
   void setVisibleYRangeMaximum(double maxYRange, AxisDependency axis) {
-    double yScale = getAxisRange(axis) / maxYRange;
+    var yScale = getAxisRange(axis) / maxYRange;
     viewPortHandler.setMinimumScaleY(yScale);
   }
 
@@ -542,7 +542,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// @param minYRange
   /// @param axis      the axis for which this limit should apply
   void setVisibleYRangeMinimum(double minYRange, AxisDependency axis) {
-    double yScale = getAxisRange(axis) / minYRange;
+    var yScale = getAxisRange(axis) / minYRange;
     viewPortHandler.setMaximumScaleY(yScale);
   }
 
@@ -552,8 +552,8 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// @param maxYRange
   /// @param axis
   void setVisibleYRange(double minYRange, double maxYRange, AxisDependency axis) {
-    double minScale = getAxisRange(axis) / minYRange;
-    double maxScale = getAxisRange(axis) / maxYRange;
+    var minScale = getAxisRange(axis) / minYRange;
+    var maxScale = getAxisRange(axis) / maxYRange;
     viewPortHandler.setMinMaxScaleY(minScale, maxScale);
   }
 
@@ -622,7 +622,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// @param y
   /// @return
   MPPointD getValuesByTouchPoint1(double x, double y, AxisDependency axis) {
-    MPPointD result = MPPointD.getInstance1(0, 0);
+    var result = MPPointD.getInstance1(0, 0);
     getValuesByTouchPoint2(x, y, axis, result);
     return result;
   }
@@ -648,7 +648,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// @param y
   /// @return
   Entry getEntryByTouchPoint(double x, double y) {
-    Highlight h = getHighlightByTouchPoint(x, y);
+    var h = getHighlightByTouchPoint(x, y);
     if (h != null) {
       return getData().getEntryForHighlight(h);
     }
@@ -661,7 +661,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// @param y
   /// @return
   IBarLineScatterCandleBubbleDataSet getDataSetByTouchPoint(double x, double y) {
-    Highlight h = getHighlightByTouchPoint(x, y);
+    var h = getHighlightByTouchPoint(x, y);
     if (h != null) {
       return getData().getDataSetByIndex(h.dataSetIndex);
     }
@@ -678,7 +678,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   @override
   double getLowestVisibleX() {
     getTransformer(AxisDependency.LEFT).getValuesByTouchPoint2(viewPortHandler.contentLeft(), viewPortHandler.contentBottom(), posForGetLowestVisibleX);
-    double result = max(xAxis.axisMinimum, posForGetLowestVisibleX.x);
+    var result = max(xAxis.axisMinimum, posForGetLowestVisibleX.x);
     return result;
   }
 
@@ -692,7 +692,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   @override
   double getHighestVisibleX() {
     getTransformer(AxisDependency.LEFT).getValuesByTouchPoint2(viewPortHandler.contentRight(), viewPortHandler.contentBottom(), posForGetHighestVisibleX);
-    double result = min(xAxis.axisMaximum, posForGetHighestVisibleX.x);
+    var result = min(xAxis.axisMaximum, posForGetHighestVisibleX.x);
     return result;
   }
 

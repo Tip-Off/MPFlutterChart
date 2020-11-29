@@ -39,8 +39,8 @@ class Transformer {
   /// @param deltaY
   /// @param yChartMin
   void prepareMatrixValuePx(double xChartMin, double deltaX, double deltaY, double yChartMin) {
-    double scaleX = ((_viewPortHandler.contentWidth()) / deltaX);
-    double scaleY = ((_viewPortHandler.contentHeight()) / deltaY);
+    var scaleX = ((_viewPortHandler.contentWidth()) / deltaX);
+    var scaleY = ((_viewPortHandler.contentHeight()) / deltaY);
 
     if (scaleX.isInfinite) {
       scaleX = 0;
@@ -79,16 +79,16 @@ class Transformer {
   /// @param data
   /// @return
   List<double> generateTransformedValuesScatter(IScatterDataSet data, double phaseX, double phaseY, int from, int to) {
-    int count = (((to - from) * phaseX + 1) * 2).toInt();
+    var count = (((to - from) * phaseX + 1) * 2).toInt();
     count = count % 2 == 0 ? count : count - 1;
 
     if (_valuePointsForGenerateTransformedValuesScatter.length != count) {
       _valuePointsForGenerateTransformedValuesScatter = List(count);
     }
-    List<double> valuePoints = _valuePointsForGenerateTransformedValuesScatter;
+    var valuePoints = _valuePointsForGenerateTransformedValuesScatter;
 
-    for (int j = 0; j < count; j += 2) {
-      Entry e = data.getEntryForIndex(j ~/ 2 + from);
+    for (var j = 0; j < count; j += 2) {
+      var e = data.getEntryForIndex(j ~/ 2 + from);
 
       if (e != null) {
         valuePoints[j] = e.x;
@@ -112,15 +112,15 @@ class Transformer {
   /// @param data
   /// @return
   List<double> generateTransformedValuesLine(ILineDataSet data, double phaseX, double phaseY, int min, int max) {
-    final int count = ((((max - min) * phaseX) + 1).toInt() * 2);
+    final count = ((((max - min) * phaseX) + 1).toInt() * 2);
 
     if (_valuePointsForGenerateTransformedValuesLine.length != count) {
       _valuePointsForGenerateTransformedValuesLine = List(count);
     }
-    List<double> valuePoints = _valuePointsForGenerateTransformedValuesLine;
+    var valuePoints = _valuePointsForGenerateTransformedValuesLine;
 
-    for (int j = 0; j < count; j += 2) {
-      Entry e = data.getEntryForIndex(j ~/ 2 + min);
+    for (var j = 0; j < count; j += 2) {
+      var e = data.getEntryForIndex(j ~/ 2 + min);
 
       if (e != null) {
         valuePoints[j] = e.x;
@@ -144,16 +144,16 @@ class Transformer {
   /// @param data
   /// @return
   List<double> generateTransformedValuesCandle(ICandleDataSet data, double phaseX, double phaseY, int from, int to) {
-    int count = (((to - from) * phaseX + 1) * 2).toInt();
+    var count = (((to - from) * phaseX + 1) * 2).toInt();
     count = count % 2 == 0 ? count : count - 1;
 
     if (_valuePointsForGenerateTransformedValuesCandle.length != count) {
       _valuePointsForGenerateTransformedValuesCandle = List(count);
     }
-    List<double> valuePoints = _valuePointsForGenerateTransformedValuesCandle;
+    var valuePoints = _valuePointsForGenerateTransformedValuesCandle;
 
-    for (int j = 0; j < count; j += 2) {
-      CandleEntry e = data.getEntryForIndex(j ~/ 2 + from);
+    for (var j = 0; j < count; j += 2) {
+      var e = data.getEntryForIndex(j ~/ 2 + from);
 
       if (e != null) {
         valuePoints[j] = e.x;
@@ -241,9 +241,11 @@ class Transformer {
   ///
   /// @param rects
   void rectValuesToPixel(List<Rect> rects) {
-    Matrix4 m = getValueToPixelMatrix();
+    var m = getValueToPixelMatrix();
 
-    for (int i = 0; i < rects.length; i++) rects[i] = Matrix4Utils.mapRect(m, rects[i]);
+    for (var i = 0; i < rects.length; i++) {
+      rects[i] = Matrix4Utils.mapRect(m, rects[i]);
+    }
   }
 
   Matrix4 _pixelToValueMatrixBuffer = Matrix4.identity();
@@ -254,7 +256,7 @@ class Transformer {
   /// @param pixels
   void pixelsToValue(List<double> pixels) {
     _pixelToValueMatrixBuffer = Matrix4.identity();
-    Matrix4 tmp = _pixelToValueMatrixBuffer;
+    var tmp = _pixelToValueMatrixBuffer;
     // copyInverse all matrixes to convert back to the original value
     tmp.copyInverse(_matrixOffset);
     Matrix4Utils.mapPoints(tmp, pixels);
@@ -279,7 +281,7 @@ class Transformer {
   /// @param y
   /// @return
   MPPointD getValuesByTouchPoint1(double x, double y) {
-    MPPointD result = MPPointD.getInstance1(0, 0);
+    var result = MPPointD.getInstance1(0, 0);
     getValuesByTouchPoint2(x, y, result);
     return result;
   }
@@ -306,8 +308,8 @@ class Transformer {
 
     pointValuesToPixel(_ptsBuffer);
 
-    double xPx = _ptsBuffer[0];
-    double yPx = _ptsBuffer[1];
+    var xPx = _ptsBuffer[0];
+    var yPx = _ptsBuffer[1];
 
     return MPPointD.getInstance1(xPx, yPx);
   }

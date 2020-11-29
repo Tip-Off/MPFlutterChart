@@ -15,8 +15,8 @@ class DataSetImageCache {
   /// @param set
   /// @return
   bool init(ILineDataSet set) {
-    int size = set.getCircleColorCount();
-    bool changeRequired = false;
+    var size = set.getCircleColorCount();
+    var changeRequired = false;
 
     if (_circleBitmaps == null) {
       _circleBitmaps = List(size);
@@ -35,17 +35,17 @@ class DataSetImageCache {
   /// @param drawCircleHole
   /// @param drawTransparentCircleHole
   void fill(ILineDataSet set, bool drawCircleHole, bool drawTransparentCircleHole, Paint paint, Paint circlePaint, Function callback) {
-    final int colorCount = set.getCircleColorCount();
-    double circleRadius = set.getCircleRadius();
-    double circleHoleRadius = set.getCircleHoleRadius();
+    final colorCount = set.getCircleColorCount();
+    var circleRadius = set.getCircleRadius();
+    var circleHoleRadius = set.getCircleHoleRadius();
 
-    int finishCount = 0;
-    for (int i = 0; i < colorCount; i++) {
+    var finishCount = 0;
+    for (var i = 0; i < colorCount; i++) {
 //      Bitmap.Config conf = Bitmap.Config.ARGB_4444;
 //      Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1), (int) (circleRadius * 2.1), conf);
 
-      ui.PictureRecorder recorder = ui.PictureRecorder();
-      Canvas canvas = Canvas(
+      var recorder = ui.PictureRecorder();
+      var canvas = Canvas(
           recorder, Rect.fromLTRB(0, 0, drawCircleHole ? circleHoleRadius * 2 : circleRadius * 2, drawCircleHole ? circleHoleRadius * 2 : circleRadius * 2));
 //      _circleBitmaps[i] = circleBitmap;
       paint.color = set.getCircleColor(i);

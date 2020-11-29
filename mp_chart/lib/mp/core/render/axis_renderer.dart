@@ -110,8 +110,8 @@ abstract class AxisRenderer extends Renderer {
     // calculate the starting and entry point of the y-labels (depending on
     // zoom / contentrect bounds)
     if (viewPortHandler != null && viewPortHandler.contentWidth() > 10 && !viewPortHandler.isFullyZoomedOutY()) {
-      MPPointD p1 = _trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
-      MPPointD p2 = _trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
+      var p1 = _trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
+      var p2 = _trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
 
       if (!inverted) {
         min = p2.y;
@@ -132,11 +132,11 @@ abstract class AxisRenderer extends Renderer {
   ///
   /// @return
   void computeAxisValues(double min, double max) {
-    double yMin = min;
-    double yMax = max;
+    var yMin = min;
+    var yMax = max;
 
-    int labelCount = _axis.labelCount;
-    double range = (yMax - yMin).abs();
+    var labelCount = _axis.labelCount;
+    var range = (yMax - yMin).abs();
 
     if (labelCount == 0 || range <= 0 || range.isInfinite) {
       _axis.entries = List<double>();
@@ -146,8 +146,8 @@ abstract class AxisRenderer extends Renderer {
     }
 
     // Find out how much spacing (in y value space) between axis values
-    double rawInterval = range / labelCount;
-    double interval = Utils.roundToNextSignificant(rawInterval);
+    var rawInterval = range / labelCount;
+    var interval = Utils.roundToNextSignificant(rawInterval);
 
     // If granularity is enabled, then do not allow the interval to go below specified granularity.
     // This is used to avoid repeated values when rounding values for display.
@@ -155,8 +155,8 @@ abstract class AxisRenderer extends Renderer {
 
     // Normalize interval
     try {
-      double intervalMagnitude = Utils.roundToNextSignificant(pow(10.0, log(interval) ~/ ln10));
-      int intervalSigDigit = interval ~/ intervalMagnitude;
+      var intervalMagnitude = Utils.roundToNextSignificant(pow(10.0, log(interval) ~/ ln10));
+      var intervalSigDigit = interval ~/ intervalMagnitude;
       if (intervalSigDigit > 5) {
         // Use one order of magnitude higher, to avoid intervals like 0.9 or
         // 90
@@ -166,7 +166,7 @@ abstract class AxisRenderer extends Renderer {
       return;
     }
 
-    int num = _axis.isCenterAxisLabelsEnabled() ? 1 : 0;
+    var num = _axis.isCenterAxisLabelsEnabled() ? 1 : 0;
 
     // force label count
     if (_axis.forceLabels) {
@@ -178,9 +178,9 @@ abstract class AxisRenderer extends Renderer {
         _axis.entries = List(labelCount);
       }
 
-      double v = min;
+      var v = min;
 
-      for (int i = 0; i < labelCount; i++) {
+      for (var i = 0; i < labelCount; i++) {
         _axis.entries[i] = v;
         v += interval;
       }
@@ -189,12 +189,12 @@ abstract class AxisRenderer extends Renderer {
 
       // no forced count
     } else {
-      double first = interval == 0.0 ? 0.0 : (yMin / interval).ceil() * interval;
+      var first = interval == 0.0 ? 0.0 : (yMin / interval).ceil() * interval;
       if (_axis.isCenterAxisLabelsEnabled()) {
         first -= interval;
       }
 
-      double last = interval == 0.0 ? 0.0 : Utils.nextUp((yMax / interval).floor() * interval);
+      var last = interval == 0.0 ? 0.0 : Utils.nextUp((yMax / interval).floor() * interval);
 
       double f;
       int i;
@@ -233,9 +233,9 @@ abstract class AxisRenderer extends Renderer {
         _axis.centeredEntries = List(num);
       }
 
-      int offset = interval ~/ 2;
+      var offset = interval ~/ 2;
 
-      for (int i = 0; i < num; i++) {
+      for (var i = 0; i < num; i++) {
         _axis.centeredEntries[i] = _axis.entries[i] + offset;
       }
     }

@@ -305,10 +305,10 @@ abstract class AxisBase extends ComponentBase {
   ///
   /// @return
   String getLongestLabel() {
-    String longest = "";
+    var longest = "";
 
-    for (int i = 0; i < _entries.length; i++) {
-      String text = getFormattedLabel(i);
+    for (var i = 0; i < _entries.length; i++) {
+      var text = getFormattedLabel(i);
 
       if (text != null && longest.length < text.length) longest = text;
     }
@@ -395,7 +395,7 @@ abstract class AxisBase extends ComponentBase {
   void setAxisMinimum(double min) {
     _customAxisMin = true;
     _axisMinimum = min;
-    print('setAxisMinimummdaf $_axisMinimum');
+
     this._axisRange = (_axisMaximum - min).abs();
   }
 
@@ -432,11 +432,11 @@ abstract class AxisBase extends ComponentBase {
   void calculate(double dataMin, double dataMax) {
     // if custom, use value as is, else use data value
 //    double min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
-    double min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
-    double max = _customAxisMax ? _axisMaximum : (dataMax + _spaceMax);
+    var min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
+    var max = _customAxisMax ? _axisMaximum : (dataMax + _spaceMax);
 
     // temporary range (before calculations)
-    double range = (max - min).abs();
+    var range = (max - min).abs();
 
     // in case all values are equal
     if (range == 0) {

@@ -58,7 +58,7 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
     AxisRightSettingFunction axisRightSettingFunction,
     OnTouchEventListener touchEventListener,
     ChartTransListener chartTransListener,
-    String noDataText = "No chart data available.",
+    String noDataText = 'No chart data available.',
     XAxisSettingFunction xAxisSettingFunction,
     LegendSettingFunction legendSettingFunction,
     DataRendererSettingFunction rendererSettingFunction,
@@ -179,15 +179,18 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
         chartTransListener);
   }
 
+  @override
   BarChartPainter get painter => super.painter;
 
+  @override
   BarChartState get state => super.state;
 
+  @override
   BarData get data => super.data;
 
   void groupBars(double fromX, double groupSpace, double barSpace) {
     if (data == null) {
-      throw Exception("You need to set data for the chart before grouping bars.");
+      throw Exception('You need to set data for the chart before grouping bars.');
     } else {
       data.groupBars(fromX, groupSpace, barSpace);
     }

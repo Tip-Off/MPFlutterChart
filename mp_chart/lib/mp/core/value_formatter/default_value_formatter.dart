@@ -25,9 +25,9 @@ class DefaultValueFormatter extends ValueFormatter {
       digits = 1;
     }
 
-    StringBuffer b = StringBuffer();
+    var b = StringBuffer();
     b.write(".");
-    for (int i = 0; i < digits; i++) {
+    for (var i = 0; i < digits; i++) {
       b.write("0");
     }
     _format = NumberFormat("###,###,###,##0" + b.toString());

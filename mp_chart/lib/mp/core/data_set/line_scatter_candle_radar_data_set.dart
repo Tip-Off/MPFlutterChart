@@ -103,7 +103,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
       return false;
     }
 
-    List<T> valueDatas = values;
+    var valueDatas = values;
     if (getEntryCount() == 0) {
       return addEntry(e);
     }

@@ -44,7 +44,7 @@ class ScreenUtils {
   }
 
   _init() {
-    MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
+    var mediaQuery = MediaQueryData.fromWindow(ui.window);
     if (_mediaQueryData != mediaQuery) {
       _mediaQueryData = mediaQuery;
       _screenWidth = mediaQuery.size.width;
@@ -85,41 +85,41 @@ class ScreenUtils {
   /// screen width
   /// 当前屏幕 宽
   static double getScreenW(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.size.width;
   }
 
   /// screen height
   /// 当前屏幕 高
   static double getScreenH(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.size.height;
   }
 
   /// screen density
   /// 当前屏幕 像素密度
   static double getScreenDensity(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.devicePixelRatio;
   }
 
   /// status bar Height
   /// 当前状态栏高度
   static double getStatusBarH(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.padding.top;
   }
 
   /// status bar Height
   /// 当前BottomBar高度
   static double getBottomBarH(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.padding.bottom;
   }
 
   /// 当前MediaQueryData
   static MediaQueryData getMediaQueryData(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery;
   }
 
@@ -150,7 +150,7 @@ class ScreenUtils {
   /// Orientation
   /// 设备方向(portrait, landscape)
   static Orientation getOrientation(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.orientation;
   }
 

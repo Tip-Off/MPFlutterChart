@@ -125,7 +125,7 @@ class ObjectPool<T extends Poolable> {
   /// @param object An instance of the object that the pool should recycle.
   /// @return
   static ObjectPool create(int withCapacity, Poolable object) {
-    ObjectPool result = ObjectPool(withCapacity, object);
+    var result = ObjectPool(withCapacity, object);
     result.poolId = ids;
     ids++;
 
@@ -149,7 +149,7 @@ class ObjectPool<T extends Poolable> {
   ///
   /// @param percentage a value between 0 and 1, representing the percentage of the pool to replenish.
   void setReplenishPercentage(double percentage) {
-    double p = percentage;
+    var p = percentage;
     if (p > 1) {
       p = 1;
     } else if (p < 0) {
@@ -167,7 +167,7 @@ class ObjectPool<T extends Poolable> {
   }
 
   void refillPool2(double percentage) {
-    int portionOfCapacity = (desiredCapacity * percentage).toInt();
+    var portionOfCapacity = (desiredCapacity * percentage).toInt();
 
     if (portionOfCapacity < 1) {
       portionOfCapacity = 1;
@@ -175,7 +175,7 @@ class ObjectPool<T extends Poolable> {
       portionOfCapacity = desiredCapacity;
     }
 
-    for (int i = 0; i < portionOfCapacity; i++) {
+    for (var i = 0; i < portionOfCapacity; i++) {
       this.objects[i] = modelObject.instantiate();
     }
     objectsPointer = portionOfCapacity - 1;
@@ -229,11 +229,11 @@ class ObjectPool<T extends Poolable> {
     while (objects.length + this.objectsPointer + 1 > this.desiredCapacity) {
       this.resizePool();
     }
-    final int objectsListSize = objects.length;
+    final objectsListSize = objects.length;
 
     // Not relying on recycle(T object) because this is more performant.
-    for (int i = 0; i < objectsListSize; i++) {
-      T object = objects[i];
+    for (var i = 0; i < objectsListSize; i++) {
+      var object = objects[i];
       if (object.currentOwnerId != Poolable.NO_OWNER) {
         if (object.currentOwnerId == this.poolId) {
           throw Exception("The object passed is already stored in this pool!");
@@ -249,10 +249,10 @@ class ObjectPool<T extends Poolable> {
   }
 
   void resizePool() {
-    final int oldCapacity = this.desiredCapacity;
+    final oldCapacity = this.desiredCapacity;
     this.desiredCapacity *= 2;
-    List<Object> temp = List(this.desiredCapacity);
-    for (int i = 0; i < oldCapacity; i++) {
+    var temp = List<Object>(desiredCapacity);
+    for (var i = 0; i < oldCapacity; i++) {
       temp[i] = this.objects[i];
     }
     this.objects = temp;

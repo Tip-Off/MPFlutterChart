@@ -9,7 +9,7 @@ class Entry extends BaseEntry {
         super(y: y, icon: icon, data: data);
 
   Entry copy() {
-    Entry e = Entry(x: _x, y: y, data: mData);
+    var e = Entry(x: _x, y: y, data: mData);
     return e;
   }
 

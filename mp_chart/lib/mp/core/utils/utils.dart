@@ -20,15 +20,15 @@ abstract class Utils {
   static double FLOAT_EPSILON = 1.4E-45;
 
   static void drawXAxisValue(Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor, double angleDegrees, XAxisPosition position) {
-    double drawOffsetX = 0;
-    double drawOffsetY = 0;
+    var drawOffsetX = 0.0;
+    var drawOffsetY = 0.0;
 
     var originalTextAlign = paint.textAlign;
     paint.textAlign = TextAlign.left;
 
     if (angleDegrees != 0) {
-      double translateX = x;
-      double translateY = y;
+      var translateX = x;
+      var translateY = y;
 
       c.save();
       c.translate(translateX, translateY);
@@ -84,11 +84,11 @@ abstract class Utils {
   static void drawRadarXAxisValue(Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor, double angleDegrees, XAxisPosition position) {
     var originalTextAlign = paint.textAlign;
     paint.textAlign = TextAlign.left;
-    double drawOffsetX = 0;
-    double drawOffsetY = 0;
+    var drawOffsetX = 0.0;
+    var drawOffsetY = 0.0;
     if (angleDegrees != 0) {
-      double translateX = x;
-      double translateY = y;
+      var translateX = x;
+      var translateY = y;
 
       c.save();
       c.translate(translateX, translateY);
@@ -127,15 +127,15 @@ abstract class Utils {
 
   static void drawXAxisValueHorizontal(
       Canvas c, String text, double x, double y, TextPainter paint, MPPointF anchor, double angleDegrees, XAxisPosition position) {
-    double drawOffsetX = 0;
-    double drawOffsetY = 0;
+    var drawOffsetX = 0.0;
+    var drawOffsetY = 0.0;
 
     var originalTextAlign = paint.textAlign;
     paint.textAlign = TextAlign.left;
 
     if (angleDegrees != 0) {
-      double translateX = x;
-      double translateY = y;
+      var translateX = x;
+      var translateY = y;
 
       c.save();
       c.translate(translateX, translateY);
@@ -192,7 +192,7 @@ abstract class Utils {
   static double FDEG2RAD = (pi / 180);
 
   static FSize getSizeOfRotatedRectangleByDegrees(double rectangleWidth, double rectangleHeight, double degrees) {
-    final double radians = degrees * FDEG2RAD;
+    final radians = degrees * FDEG2RAD;
     return getSizeOfRotatedRectangleByRadians2(rectangleWidth, rectangleHeight, radians);
   }
 
@@ -206,7 +206,7 @@ abstract class Utils {
   }
 
   static FSize calcTextSize3(TextPainter paint, String demoText) {
-    FSize result = FSize.getInstance(0, 0);
+    var result = FSize.getInstance(0, 0);
     calcTextSize4(paint, demoText, result);
     return result;
   }
@@ -263,25 +263,25 @@ abstract class Utils {
   }
 
   static int calcTextWidth(TextPainter p, String demoText) {
-    TextPainter painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
+    var painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
     painter.layout();
     return painter.width.toInt();
   }
 
   static int calcTextHeight(TextPainter p, String demoText) {
-    TextPainter painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
+    var painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
     painter.layout();
     return painter.height.toInt();
   }
 
   static FSize calcTextSize1(TextPainter p, String demoText) {
-    FSize result = FSize.getInstance(0, 0);
+    var result = FSize.getInstance(0, 0);
     calcTextSize2(p, demoText, result);
     return result;
   }
 
   static void calcTextSize2(TextPainter p, String demoText, FSize outputFSize) {
-    TextPainter painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
+    var painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
     painter.layout();
     outputFSize.width = painter.width;
     outputFSize.height = painter.height;
@@ -307,7 +307,7 @@ abstract class Utils {
   }
 
   static int getDecimals(double number) {
-    double i = roundToNextSignificant(number);
+    var i = roundToNextSignificant(number);
     if (i.isInfinite || i == 0.0) return 0;
 
     return (-log(i) / ln10).ceil().toInt() + 2;
@@ -316,10 +316,10 @@ abstract class Utils {
   static double roundToNextSignificant(double number) {
     if (number.isInfinite || number.isNaN || number == 0.0) return 0;
 
-    final double d = (log(number < 0 ? -number : number) / ln10).ceil().toDouble();
-    final int pw = 1 - d.toInt();
+    final d = (log(number < 0 ? -number : number) / ln10).ceil().toDouble();
+    final pw = 1 - d.toInt();
     final double magnitude = pow(10.0, pw);
-    final int shifted = (number * magnitude).round();
+    final shifted = (number * magnitude).round();
     return shifted / magnitude;
   }
 
@@ -340,10 +340,10 @@ abstract class Utils {
   }
 
   static MPPointF local2Chart(Controller controller, double x, double y, {bool inverted = false}) {
-    ViewPortHandler vph = controller.painter.viewPortHandler;
+    var vph = controller.painter.viewPortHandler;
 
-    double xTrans = x - vph.offsetLeft();
-    double yTrans = 0.0;
+    var xTrans = x - vph.offsetLeft();
+    var yTrans = 0.0;
 
     /// check if axis is inverted
     if (inverted) {

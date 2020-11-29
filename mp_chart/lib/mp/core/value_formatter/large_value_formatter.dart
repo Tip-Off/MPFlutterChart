@@ -42,10 +42,10 @@ class LargeValueFormatter extends ValueFormatter {
   /// Formats each number properly. Special thanks to Roman Gromov
   /// (https://github.com/romangromov) for this piece of code.
   String makePretty(double number) {
-    String r = _format.format(number);
-    int numericValue1 = int.tryParse(r[r.length - 1]);
-    int numericValue2 = int.tryParse(r[r.length - 2]);
-    int combined = int.parse("$numericValue2$numericValue1");
+    var r = _format.format(number);
+    var numericValue1 = int.tryParse(r[r.length - 1]);
+    var numericValue2 = int.tryParse(r[r.length - 2]);
+    var combined = int.parse("$numericValue2$numericValue1");
 
     r = r.replaceAllMapped(
         RegExp(

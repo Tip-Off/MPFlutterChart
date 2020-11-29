@@ -114,11 +114,11 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     }
 
     if (widget.controller.painter.highLightPerTapEnabled) {
-      Highlight h = widget.controller.painter.getHighlightByTouchPoint(details.localPosition.dx, details.localPosition.dy);
+      var h = widget.controller.painter.getHighlightByTouchPoint(details.localPosition.dx, details.localPosition.dy);
       lastHighlighted = HighlightUtils.performHighlight(widget.controller.painter, h, lastHighlighted);
       setStateIfNotDispose();
     } else {
-      Highlight high = widget.controller.painter.getHighlightByTouchPoint(
+      var high = widget.controller.painter.getHighlightByTouchPoint(
         details.localPosition.dx,
         details.localPosition.dy,
       );
@@ -166,13 +166,13 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     }
 
     if (widget.controller.painter.doubleTapToZoomEnabled && widget.controller.painter.getData().getEntryCount() > 0) {
-      MPPointF trans = _getTrans(details.localPosition.dx, details.localPosition.dy);
+      var trans = _getTrans(details.localPosition.dx, details.localPosition.dy);
       widget.controller.painter.zoom(widget.controller.painter.scaleXEnabled ? 1.2 : 1, widget.controller.painter.scaleYEnabled ? 1.2 : 1, trans.x, trans.y);
       setStateIfNotDispose();
       MPPointF.recycleInstance(trans);
     }
     if (widget.controller.painter.highLightPerTapEnabled) {
-      Highlight h = widget.controller.painter.getHighlightByTouchPoint(details.localPosition.dx, details.localPosition.dy);
+      var h = widget.controller.painter.getHighlightByTouchPoint(details.localPosition.dx, details.localPosition.dy);
 
       h.highlightX = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).x;
       h.highlightY = widget.controller.getValuesByTouchPoint(details.localPosition.dx, details.localPosition.dy, AxisDependency.LEFT).y;
@@ -244,7 +244,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
       var trans = _getTrans(_curX, _curY);
       var h = widget.controller.painter.viewPortHandler;
 
-      bool canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
+      var canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
       widget.controller.painter.zoom(canZoomMoreX ? scale : 1, 1, trans.x, trans.y);
 
       setStateIfNotDispose();
@@ -403,12 +403,12 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     } else {
       scale = _isYDirection ? details.verticalScale / _scale : details.horizontalScale / _scale;
     }
-    MPPointF trans = _getTrans(_curX, _curY);
+    var trans = _getTrans(_curX, _curY);
     var h = widget.controller.painter.viewPortHandler;
     scale = Utils.optimizeScale(scale);
     if (pinchZoomEnabled) {
-      bool canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
-      bool canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
+      var canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
+      var canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
       widget.controller.painter.zoom(canZoomMoreX ? scale : 1, canZoomMoreY ? scale : 1, trans.x, trans.y);
       if (widget.controller.touchEventListener != null) {
         var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
@@ -419,7 +419,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     } else {
       if (_isYDirection) {
         if (widget.controller.painter.scaleYEnabled) {
-          bool canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
+          var canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
           widget.controller.painter.zoom(1, canZoomMoreY ? scale : 1, trans.x, trans.y);
           if (widget.controller.touchEventListener != null) {
             var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
@@ -430,7 +430,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
         }
       } else {
         if (widget.controller.painter.scaleXEnabled) {
-          bool canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
+          var canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
           widget.controller.painter.zoom(canZoomMoreX ? scale : 1, 1, trans.x, trans.y);
           if (widget.controller.touchEventListener != null) {
             var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
@@ -460,6 +460,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     }
   }
 
+  @override
   void onDragStart(LongPressStartDetails details) {
     if (widget.controller.touchEventListener != null) {
       var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
@@ -468,6 +469,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     }
   }
 
+  @override
   void onDragUpdate(LongPressMoveUpdateDetails details) {
     if (widget.controller.touchEventListener != null) {
       var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
@@ -476,6 +478,7 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
     }
   }
 
+  @override
   void onDragEnd(LongPressEndDetails details) {
     if (widget.controller.touchEventListener != null) {
       var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalPosition.dx, details.globalPosition.dy,
@@ -488,6 +491,6 @@ class BarLineScatterCandleBubbleState<T extends BarLineScatterCandleBubbleChart>
   void updatePainter() {
     if (widget.controller.painter.getData() != null &&
         widget.controller.painter.getData().dataSets != null &&
-        widget.controller.painter.getData().dataSets.length > 0) widget.controller.painter.highlightValue6(lastHighlighted, false);
+        widget.controller.painter.getData().dataSets.isNotEmpty) widget.controller.painter.highlightValue6(lastHighlighted, false);
   }
 }

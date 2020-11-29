@@ -53,7 +53,7 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
     rightAxisMax = -double.infinity;
     rightAxisMin = double.infinity;
 
-    List<BarLineScatterCandleBubbleData> allData = getAllData();
+    var allData = getAllData();
 
     for (ChartData data in allData) {
       data.calcMinMax1();
@@ -99,7 +99,7 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
   ///
   /// @return
   List<BarLineScatterCandleBubbleData> getAllData() {
-    List<BarLineScatterCandleBubbleData> data = List<BarLineScatterCandleBubbleData>();
+    var data = List<BarLineScatterCandleBubbleData>();
     if (_candleData != null) data.add(_candleData);
     if (_lineData != null) data.add(_lineData);
     if (_barData != null) data.add(_barData);
@@ -140,7 +140,7 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
     if (highlight.dataSetIndex < 0) {
       for (var element in data.dataSets) {
         final entries = element.getEntriesForXValue(highlight.x);
-        for (Entry entry in entries) {
+        for (var entry in entries) {
           if (entry.y == highlight.y || highlight.y.isNaN) {
             return entry;
           }
@@ -149,8 +149,8 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
       return null;
     }
 
-    List<Entry> entries = data.getDataSetByIndex(highlight.dataSetIndex).getEntriesForXValue(highlight.x);
-    for (Entry entry in entries) if (entry.y == highlight.y || highlight.y.isNaN) return entry;
+    var entries = data.getDataSetByIndex(highlight.dataSetIndex).getEntriesForXValue(highlight.x);
+    for (var entry in entries) if (entry.y == highlight.y || highlight.y.isNaN) return entry;
 
     return null;
   }
@@ -162,7 +162,7 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
   IBarLineScatterCandleBubbleDataSet<Entry> getDataSetByHighlight(Highlight highlight) {
     if (highlight.dataIndex >= getAllData().length || highlight.dataIndex < 0) return null;
 
-    BarLineScatterCandleBubbleData data = getDataByIndex(highlight.dataIndex);
+    var data = getDataByIndex(highlight.dataIndex);
 
     if (highlight.dataSetIndex >= data.getDataSetCount()) return null;
 
@@ -175,8 +175,8 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
 
   @override
   bool removeDataSet1(IBarLineScatterCandleBubbleDataSet<Entry> d) {
-    List<BarLineScatterCandleBubbleData> datas = getAllData();
-    bool success = false;
+    var datas = getAllData();
+    var success = false;
     for (ChartData data in datas) {
       if (data.dataSets == null || data.dataSets.length == 0) {
         continue;

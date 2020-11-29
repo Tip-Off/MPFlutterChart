@@ -52,7 +52,7 @@ class FSize extends Poolable {
       return true;
     }
     if (obj is FSize) {
-      final FSize other = obj;
+      final other = obj;
       return _width == other._width && _height == other._height;
     }
     return false;

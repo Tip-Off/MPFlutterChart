@@ -50,12 +50,12 @@ class YAxisRenderer extends AxisRenderer {
   void renderAxisLabels(Canvas c) {
     if (!_yAxis.enabled || !_yAxis.drawLabels) return;
 
-    List<double> positions = getTransformedPositions();
+    var positions = getTransformedPositions();
 
-    AxisDependency dependency = _yAxis.axisDependency;
-    YAxisLabelPosition labelPosition = _yAxis.position;
+    var dependency = _yAxis.axisDependency;
+    var labelPosition = _yAxis.position;
 
-    double xPos = 0;
+    var xPos = 0.0;
 
     axisLabelPaint = PainterUtils.create(axisLabelPaint, null, _yAxis.textColor, _yAxis.textSize,
         fontFamily: _yAxis.typeface?.fontFamily, fontWeight: _yAxis.typeface?.fontWeight);
@@ -115,12 +115,12 @@ class YAxisRenderer extends AxisRenderer {
     AxisDependency axisDependency,
     YAxisLabelPosition position,
   ) {
-    final int from = _yAxis.drawBottomYLabelEntry ? 0 : 1;
-    final int to = _yAxis.drawTopYLabelEntry ? _yAxis.entryCount : (_yAxis.entryCount - 1);
+    final from = _yAxis.drawBottomYLabelEntry ? 0 : 1;
+    final to = _yAxis.drawTopYLabelEntry ? _yAxis.entryCount : (_yAxis.entryCount - 1);
 
     // draw
-    for (int i = from; i < to; i++) {
-      String text = _yAxis.getFormattedLabel(i);
+    for (var i = from; i < to; i++) {
+      var text = _yAxis.getFormattedLabel(i);
 
       axisLabelPaint.text = TextSpan(text: text, style: axisLabelPaint.text.style);
       axisLabelPaint.layout();
@@ -150,7 +150,7 @@ class YAxisRenderer extends AxisRenderer {
       c.save();
       c.clipRect(getGridClippingRect());
 
-      List<double> positions = getTransformedPositions();
+      var positions = getTransformedPositions();
 
       gridPaint
         ..style = PaintingStyle.stroke
@@ -161,11 +161,11 @@ class YAxisRenderer extends AxisRenderer {
         gridPaint = Painter.get(ImageStore.getHorizontalDashed(), strokeWidth: _yAxis.gridLineWidth, color: _yAxis.gridColor);
       }
 
-      Path gridLinePath = _renderGridLinesPath;
+      var gridLinePath = _renderGridLinesPath;
       gridLinePath.reset();
 
       // draw the grid
-      for (int i = 0; i < positions.length; i += 2) {
+      for (var i = 0; i < positions.length; i += 2) {
         c.drawPath(linePath(gridLinePath, i, positions), gridPaint);
 
         gridLinePath.reset();
@@ -206,9 +206,9 @@ class YAxisRenderer extends AxisRenderer {
     if (mGetTransformedPositionsBuffer.length != _yAxis.entryCount * 2) {
       mGetTransformedPositionsBuffer = List(_yAxis.entryCount * 2);
     }
-    List<double> positions = mGetTransformedPositionsBuffer;
+    var positions = mGetTransformedPositionsBuffer;
 
-    for (int i = 0; i < positions.length; i += 2) {
+    for (var i = 0; i < positions.length; i += 2) {
       // only fill y values, x values are not needed for y-labels
       positions[i] = 0.0;
       positions[i + 1] = _yAxis.entries[i ~/ 2];
@@ -235,18 +235,18 @@ class YAxisRenderer extends AxisRenderer {
   /// @param c
   @override
   void renderLimitLines(Canvas c) {
-    List<LimitLine> limitLines = _yAxis.getLimitLines();
+    var limitLines = _yAxis.getLimitLines();
 
     if (limitLines == null || limitLines.length <= 0) return;
 
-    List<double> pts = _renderLimitLinesBuffer;
+    var pts = _renderLimitLinesBuffer;
     pts[0] = 0;
     pts[1] = 0;
-    Path limitLinePath = _renderLimitLines;
+    var limitLinePath = _renderLimitLines;
     limitLinePath.reset();
 
-    for (int i = 0; i < limitLines.length; i++) {
-      LimitLine l = limitLines[i];
+    for (var i = 0; i < limitLines.length; i++) {
+      var l = limitLines[i];
 
       if (!l.enabled) continue;
 
@@ -275,16 +275,16 @@ class YAxisRenderer extends AxisRenderer {
 
       limitLinePath.reset();
 
-      String label = l.label;
+      var label = l.label;
 
       // if drawing the limit-value label is enabled
       if (label != null && label.isNotEmpty) {
-        TextPainter painter = PainterUtils.create(null, label, l.textColor, l.textSize, fontWeight: l.typeface?.fontWeight, fontFamily: l.typeface?.fontFamily);
-        final double labelLineHeight = Utils.calcTextHeight(painter, label).toDouble();
-        double xOffset = Utils.convertDpToPixel(4) + l.xOffset;
-        double yOffset = l.lineWidth + labelLineHeight + l.yOffset;
+        var painter = PainterUtils.create(null, label, l.textColor, l.textSize, fontWeight: l.typeface?.fontWeight, fontFamily: l.typeface?.fontFamily);
+        final labelLineHeight = Utils.calcTextHeight(painter, label).toDouble();
+        var xOffset = Utils.convertDpToPixel(4) + l.xOffset;
+        var yOffset = l.lineWidth + labelLineHeight + l.yOffset;
         painter.layout();
-        final LimitLabelPosition position = l.labelPosition;
+        final position = l.labelPosition;
         if (position == LimitLabelPosition.RIGHT_TOP) {
           var offset = Offset(viewPortHandler.contentRight() - xOffset - painter.width, pts[1] - yOffset + labelLineHeight - painter.height);
           CanvasUtils.renderLimitLabelBackground(c, painter, offset, l);
@@ -318,10 +318,10 @@ class YAxisRenderer extends AxisRenderer {
 
   @override
   void renderHighlight(Canvas c, AxisHighlightRenderOpt opt) {
-    AxisDependency dependency = _yAxis.axisDependency;
-    YAxisLabelPosition labelPosition = _yAxis.position;
+    var dependency = _yAxis.axisDependency;
+    var labelPosition = _yAxis.position;
 
-    double xPos = 0;
+    var xPos = 0.0;
     if (dependency == AxisDependency.LEFT) {
       if (labelPosition == YAxisLabelPosition.OUTSIDE_CHART) {
         xPos = viewPortHandler.offsetLeft() - axisLabelPaint.width;

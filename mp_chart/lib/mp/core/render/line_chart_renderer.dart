@@ -39,9 +39,9 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   void drawData(Canvas c) {
-    LineData lineData = _provider.getLineData();
+    var lineData = _provider.getLineData();
 
-    for (ILineDataSet set in lineData.dataSets) {
+    for (var set in lineData.dataSets) {
       if (set.isVisible()) drawDataSet(c, set);
     }
   }
@@ -57,14 +57,14 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
   List<double> mLineBuffer = List(4);
 
   void drawLinear(Canvas canvas, ILineDataSet dataSet) {
-    int entryCount = dataSet.getEntryCount();
+    var entryCount = dataSet.getEntryCount();
 
-    final bool isDrawSteppedEnabled = dataSet.getMode() == Mode.STEPPED;
-    final int pointsPerEntryPair = isDrawSteppedEnabled ? 4 : 2;
+    final isDrawSteppedEnabled = dataSet.getMode() == Mode.STEPPED;
+    final pointsPerEntryPair = isDrawSteppedEnabled ? 4 : 2;
 
-    Transformer trans = _provider.getTransformer(dataSet.getAxisDependency());
+    var trans = _provider.getTransformer(dataSet.getAxisDependency());
 
-    double phaseY = animator.getPhaseY();
+    var phaseY = animator.getPhaseY();
 
     renderPaint.style = PaintingStyle.stroke;
 
@@ -74,8 +74,8 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
     if (dataSet.getColors().length > 1) {
       if (mLineBuffer.length <= pointsPerEntryPair * 2) mLineBuffer = List(pointsPerEntryPair * 4);
 
-      for (int j = xBounds.min; j <= xBounds.range + xBounds.min; j++) {
-        Entry e = dataSet.getEntryForIndex(j);
+      for (var j = xBounds.min; j <= xBounds.range + xBounds.min; j++) {
+        var e = dataSet.getEntryForIndex(j);
         if (e == null) continue;
 
         mLineBuffer[0] = e.x;
@@ -126,8 +126,8 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
       e1 = dataSet.getEntryForIndex(xBounds.min);
 
       if (e1 != null) {
-        int j = 0;
-        for (int x = xBounds.min; x <= xBounds.range + xBounds.min; x++) {
+        var j = 0;
+        for (var x = xBounds.min; x <= xBounds.range + xBounds.min; x++) {
           e1 = dataSet.getEntryForIndex(x == 0 ? 0 : (x - 1));
           e2 = dataSet.getEntryForIndex(x);
 
@@ -152,7 +152,7 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
         if (j > 0) {
           trans.pointValuesToPixel(mLineBuffer);
 
-          final int size = max((xBounds.range + 1) * pointsPerEntryPair, pointsPerEntryPair) * 2;
+          final size = max((xBounds.range + 1) * pointsPerEntryPair, pointsPerEntryPair) * 2;
 
           renderPaint.color = dataSet.getColor1();
 
@@ -173,11 +173,11 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
-    LineData lineData = _provider.getLineData();
+    var lineData = _provider.getLineData();
 
     var pix = MPPointD(0, 0);
 
-    for (Highlight high in indices) {
+    for (var high in indices) {
       ILineDataSet dataSet;
       if (high.dataSetIndex >= 0) {
         dataSet = lineData.getDataSetByIndex(high.dataSetIndex);
@@ -187,7 +187,7 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
       if (dataSet == null || !dataSet.isHighlightEnabled()) continue;
 
-      Entry e = dataSet.getEntryForXValue2(high.x, high.y);
+      var e = dataSet.getEntryForXValue2(high.x, high.y);
 
       if (!isInBoundsX(e, dataSet)) continue;
 

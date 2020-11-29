@@ -38,7 +38,7 @@ abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
   bool isInBoundsX(Entry e, IBarLineScatterCandleBubbleDataSet set) {
     if (e == null) return false;
 
-    double entryIndex = set.getEntryIndex2(e).toDouble();
+    var entryIndex = set.getEntryIndex2(e).toDouble();
 
     if (e == null || entryIndex >= set.getEntryCount() * animator.getPhaseX()) {
       return false;

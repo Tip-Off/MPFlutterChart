@@ -15,8 +15,8 @@ class DefaultAxisValueFormatter extends ValueFormatter {
   DefaultAxisValueFormatter(int digits) {
     this._digits = digits;
 
-    StringBuffer b = StringBuffer();
-    for (int i = 0; i < digits; i++) {
+    var b = StringBuffer();
+    for (var i = 0; i < digits; i++) {
       if (i == 0) b.write(".");
       b.write("0");
     }

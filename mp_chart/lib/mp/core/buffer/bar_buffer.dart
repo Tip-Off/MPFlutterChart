@@ -37,21 +37,21 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
 
   @override
   void feed(IBarDataSet data) {
-    double size = data.getEntryCount() * phaseX;
-    double barWidthHalf = _barWidth / 2.0;
+    var size = data.getEntryCount() * phaseX;
+    var barWidthHalf = _barWidth / 2.0;
 
-    for (int i = 0; i < size; i++) {
-      BarEntry e = data.getEntryForIndex(i);
+    for (var i = 0; i < size; i++) {
+      var e = data.getEntryForIndex(i);
 
       if (e == null) continue;
 
-      double x = e.x;
-      double y = e.y;
-      List<double> vals = e.yVals;
+      var x = e.x;
+      var y = e.y;
+      var vals = e.yVals;
 
       if (!_containsStacks || vals == null) {
-        double left = x - barWidthHalf;
-        double right = x + barWidthHalf;
+        var left = x - barWidthHalf;
+        var right = x + barWidthHalf;
         double bottom, top;
 
         if (_inverted) {
@@ -70,13 +70,13 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
 
         addBar(left, top, right, bottom);
       } else {
-        double posY = 0.0;
-        double negY = -e.negativeSum;
-        double yStart = 0.0;
+        var posY = 0.0;
+        var negY = -e.negativeSum;
+        var yStart = 0.0;
 
         // fill the stack
-        for (int k = 0; k < vals.length; k++) {
-          double value = vals[k];
+        for (var k = 0; k < vals.length; k++) {
+          var value = vals[k];
 
           if (value == 0.0 && (posY == 0.0 || negY == 0.0)) {
             // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
@@ -92,8 +92,8 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
             negY += value.abs();
           }
 
-          double left = x - barWidthHalf;
-          double right = x + barWidthHalf;
+          var left = x - barWidthHalf;
+          var right = x + barWidthHalf;
           double bottom, top;
 
           if (_inverted) {

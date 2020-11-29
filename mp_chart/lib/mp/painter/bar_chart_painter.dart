@@ -166,7 +166,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
     if (getBarData() == null) {
       return null;
     } else {
-      Highlight h = highlighter.getHighlight(x, y);
+      var h = highlighter.getHighlight(x, y);
       if (h == null || !isHighlightFullBarEnabled()) return h;
 
       // For isHighlightFullBarEnabled, remove stackIndex
@@ -180,24 +180,24 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
   /// @param e
   /// @return
   Rect getBarBounds(BarEntry e) {
-    Rect bounds = Rect.zero;
+    var bounds = Rect.zero;
 
-    IBarDataSet set = getBarData().getDataSetForEntry(e);
+    var set = getBarData().getDataSetForEntry(e);
 
     if (set == null) {
       bounds = Rect.fromLTRB(double.minPositive, double.minPositive, double.minPositive, double.minPositive);
       return bounds;
     }
 
-    double y = e.y;
-    double x = e.x;
+    var y = e.y;
+    var x = e.x;
 
-    double barWidth = getBarData().barWidth;
+    var barWidth = getBarData().barWidth;
 
-    double left = x - barWidth / 2.0;
-    double right = x + barWidth / 2.0;
-    double top = y >= 0 ? y : 0;
-    double bottom = y <= 0 ? y : 0;
+    var left = x - barWidth / 2.0;
+    var right = x + barWidth / 2.0;
+    var top = y >= 0 ? y : 0.0;
+    var bottom = y <= 0 ? y : 0.0;
 
     bounds = Rect.fromLTRB(left, top, right, bottom);
 

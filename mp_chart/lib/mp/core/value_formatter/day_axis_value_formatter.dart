@@ -26,20 +26,20 @@ class DayAxisValueFormatter extends ValueFormatter {
 
   @override
   String getFormattedValue1(double value) {
-    int days = value.toInt();
+    var days = value.toInt();
 
-    int year = determineYear(days);
+    var year = determineYear(days);
 
-    int month = determineMonth(days);
-    String monthName = _months[month % _months.length];
-    String yearName = year.toString();
+    var month = determineMonth(days);
+    var monthName = _months[month % _months.length];
+    var yearName = year.toString();
 
     if (_controller.painter.getVisibleXRange() > 30 * 6) {
       return monthName + " " + yearName;
     } else {
-      int dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2016));
+      var dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2016));
 
-      String appendix = "th";
+      var appendix = "th";
 
       switch (dayOfMonth) {
         case 1:
@@ -73,7 +73,7 @@ class DayAxisValueFormatter extends ValueFormatter {
     // month is 0-based
 
     if (month == 1) {
-      bool is29Feb = false;
+      var is29Feb = false;
 
       if (year < 1582)
         is29Feb = (year < 1 ? year + 1 : year) % 4 == 0;
@@ -89,15 +89,15 @@ class DayAxisValueFormatter extends ValueFormatter {
   }
 
   int determineMonth(int dayOfYear) {
-    int month = -1;
-    int days = 0;
+    var month = -1;
+    var days = 0;
 
     while (days < dayOfYear) {
       month = month + 1;
 
       if (month >= 12) month = 0;
 
-      int year = determineYear(days);
+      var year = determineYear(days);
       days += getDaysForMonth(month, year);
     }
 
@@ -105,11 +105,11 @@ class DayAxisValueFormatter extends ValueFormatter {
   }
 
   int determineDayOfMonth(int days, int month) {
-    int count = 0;
-    int daysForMonths = 0;
+    var count = 0;
+    var daysForMonths = 0;
 
     while (count < month) {
-      int year = determineYear(daysForMonths);
+      var year = determineYear(daysForMonths);
       daysForMonths += getDaysForMonth(count % 12, year);
       count++;
     }

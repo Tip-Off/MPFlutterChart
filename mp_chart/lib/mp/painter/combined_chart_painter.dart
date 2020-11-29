@@ -169,7 +169,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
     if (getCombinedData() == null) {
       return null;
     } else {
-      Highlight h = highlighter.getHighlight(x, y);
+      var h = highlighter.getHighlight(x, y);
       if (h == null || !isHighlightFullBarEnabled()) return h;
 
       // For isHighlightFullBarEnabled, remove stackIndex

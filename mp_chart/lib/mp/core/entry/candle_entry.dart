@@ -64,7 +64,7 @@ class CandleEntry extends Entry {
   }
 
   CandleEntry copy() {
-    CandleEntry c = CandleEntry(
+    var c = CandleEntry(
       x: x,
       shadowH: _shadowHigh,
       shadowL: _shadowLow,

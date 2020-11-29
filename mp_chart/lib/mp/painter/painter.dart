@@ -149,7 +149,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
     // calculate how many digits are needed
     _setupDefaultFormatter(_data.getYMin1(), _data.getYMax1());
 
-    for (IDataSet set in _data.dataSets) {
+    for (var set in _data.dataSets) {
       if (set.needsFormatter() || set.getValueFormatter() == _defaultValueFormatter) set.setValueFormatter(_defaultValueFormatter);
     }
   }
@@ -169,7 +169,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   /// Calculates the required number of digits for the values that might be
   /// drawn in the chart (if enabled), and creates the default-value-formatter
   void _setupDefaultFormatter(double min1, double max1) {
-    double reference = 0;
+    var reference = 0.0;
 
     if (_data == null || _data.getEntryCount() < 2) {
       reference = max(min1.abs(), max1.abs());
@@ -177,7 +177,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
       reference = (max1 - min1).abs();
     }
 
-    int digits = Utils.getDecimals(reference);
+    var digits = Utils.getDecimals(reference);
 
     // setup the formatter with a new number of digits
     _defaultValueFormatter.setup(digits);
@@ -197,7 +197,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
     if (!_isInit) {
       canvas.drawRect(Rect.fromLTRB(0, 0, size.width, size.height), Paint()..color = _infoBackgroundColor);
-      MPPointF c = getCenter(size);
+      var c = getCenter(size);
       _infoPaint.layout();
       _infoPaint.paint(canvas, Offset(c.x - _infoPaint.width / 2, c.y - _infoPaint.height / 2));
       return;
@@ -344,7 +344,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 //      }
 //    }
   void selectedValue(Highlight high) {
-    Entry e = _data.getEntryForHighlight(high);
+    var e = _data.getEntryForHighlight(high);
     _selectionListener?.onValueSelected(e, null);
   }
 

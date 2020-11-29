@@ -25,30 +25,30 @@ class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
   /// @param groupSpace the space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
   /// @param barSpace   the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
   void groupBars(double fromX, double groupSpace, double barSpace) {
-    int setCount = dataSets.length;
+    var setCount = dataSets.length;
     if (setCount <= 1) {
       throw Exception("BarData needs to hold at least 2 BarDataSets to allow grouping.");
     }
 
-    IBarDataSet max = getMaxEntryCountSet();
-    int maxEntryCount = max.getEntryCount();
+    var max = getMaxEntryCountSet();
+    var maxEntryCount = max.getEntryCount();
 
-    double groupSpaceWidthHalf = groupSpace / 2.0;
-    double barSpaceHalf = barSpace / 2.0;
-    double barWidthHalf = _barWidth / 2.0;
+    var groupSpaceWidthHalf = groupSpace / 2.0;
+    var barSpaceHalf = barSpace / 2.0;
+    var barWidthHalf = _barWidth / 2.0;
 
-    double interval = getGroupWidth(groupSpace, barSpace);
+    var interval = getGroupWidth(groupSpace, barSpace);
 
-    for (int i = 0; i < maxEntryCount; i++) {
-      double start = fromX;
+    for (var i = 0; i < maxEntryCount; i++) {
+      var start = fromX;
       fromX += groupSpaceWidthHalf;
 
-      for (IBarDataSet set in dataSets) {
+      for (var set in dataSets) {
         fromX += barSpaceHalf;
         fromX += barWidthHalf;
 
         if (i < set.getEntryCount()) {
-          BarEntry entry = set.getEntryForIndex(i);
+          var entry = set.getEntryForIndex(i);
 
           if (entry != null) {
             entry.x = fromX;
@@ -60,9 +60,9 @@ class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
       }
 
       fromX += groupSpaceWidthHalf;
-      double end = fromX;
-      double innerInterval = end - start;
-      double diff = interval - innerInterval;
+      var end = fromX;
+      var innerInterval = end - start;
+      var diff = interval - innerInterval;
 
       // correct rounding errors
       if (diff > 0 || diff < 0) {

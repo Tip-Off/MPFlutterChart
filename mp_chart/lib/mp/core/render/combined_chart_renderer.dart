@@ -27,12 +27,12 @@ class CombinedChartRenderer extends DataRenderer {
   void createRenderers() {
     _renderers.clear();
 
-    CombinedChartPainter chart = (_painter as CombinedChartPainter);
+    var chart = (_painter as CombinedChartPainter);
     if (chart == null) return;
 
-    List<DrawOrder> orders = chart.getDrawOrder();
+    var orders = chart.getDrawOrder();
 
-    for (DrawOrder order in orders) {
+    for (var order in orders) {
       switch (order) {
         case DrawOrder.BAR:
           if (chart.getBarData() != null) _renderers.add(BarChartRenderer(chart, animator, viewPortHandler));
@@ -49,12 +49,16 @@ class CombinedChartRenderer extends DataRenderer {
 
   @override
   void initBuffers() {
-    for (DataRenderer renderer in _renderers) renderer.initBuffers();
+    for (var renderer in _renderers) {
+      renderer.initBuffers();
+    }
   }
 
   @override
   void drawData(Canvas c) {
-    for (DataRenderer renderer in _renderers) renderer.drawData(c);
+    for (var renderer in _renderers) {
+      renderer.drawData(c);
+    }
   }
 
   @override
@@ -62,17 +66,21 @@ class CombinedChartRenderer extends DataRenderer {
 
   @override
   void drawValues(Canvas c) {
-    for (DataRenderer renderer in _renderers) renderer.drawValues(c);
+    for (var renderer in _renderers) {
+      renderer.drawValues(c);
+    }
   }
 
   @override
   void drawExtras(Canvas c) {
-    for (DataRenderer renderer in _renderers) renderer.drawExtras(c);
+    for (var renderer in _renderers) {
+      renderer.drawExtras(c);
+    }
   }
 
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
-    ChartPainter chart = _painter;
+    var chart = _painter;
     if (chart == null) return MPPointD(0, 0);
 
     var pix = MPPointD(-1, -1);
@@ -80,7 +88,7 @@ class CombinedChartRenderer extends DataRenderer {
     _renderers.forEach((renderer) {
       mHighlightBuffer.clear();
 
-      for (Highlight h in indices) {
+      for (var h in indices) {
         mHighlightBuffer.add(h);
       }
 

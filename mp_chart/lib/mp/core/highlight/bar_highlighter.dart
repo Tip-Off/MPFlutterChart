@@ -15,17 +15,17 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
   @override
   Highlight getHighlight(double x, double y) {
-    Highlight high = super.getHighlight(x, y);
+    var high = super.getHighlight(x, y);
 
     if (high == null) {
       return null;
     }
 
-    MPPointD pos = getValsForTouch(x, y);
+    var pos = getValsForTouch(x, y);
 
-    BarData barData = provider.getBarData();
+    var barData = provider.getBarData();
 
-    IBarDataSet set = barData.getDataSetByIndex(high.dataSetIndex);
+    var set = barData.getDataSetByIndex(high.dataSetIndex);
     if (set.isStacked()) {
       return getStackedHighlight(high, set, pos.x, pos.y);
     }
@@ -44,7 +44,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @param yVal
   /// @return
   Highlight getStackedHighlight(Highlight high, IBarDataSet set, double xVal, double yVal) {
-    BarEntry entry = set.getEntryForXValue2(xVal, yVal);
+    var entry = set.getEntryForXValue2(xVal, yVal);
 
     if (entry == null) return null;
 
@@ -52,14 +52,14 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
     if (entry.yVals == null) {
       return high;
     } else {
-      List<Range> ranges = entry.ranges;
+      var ranges = entry.ranges;
 
       if (ranges.length > 0) {
-        int stackIndex = getClosestStackIndex(ranges, yVal);
+        var stackIndex = getClosestStackIndex(ranges, yVal);
 
-        MPPointD pixels = provider.getTransformer(set.getAxisDependency()).getPixelForValues(high.x, ranges[stackIndex].to);
+        var pixels = provider.getTransformer(set.getAxisDependency()).getPixelForValues(high.x, ranges[stackIndex].to);
 
-        Highlight stackedHigh =
+        var stackedHigh =
             Highlight(x: entry.x, y: entry.y, xPx: pixels.x, yPx: pixels.y, dataSetIndex: high.dataSetIndex, stackIndex: stackIndex, axis: high.axis);
 
         MPPointD.recycleInstance2(pixels);
@@ -79,14 +79,14 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @return
   int getClosestStackIndex(List<Range> ranges, double value) {
     if (ranges == null || ranges.length == 0) return 0;
-    int stackIndex = 0;
-    for (Range range in ranges) {
+    var stackIndex = 0;
+    for (var range in ranges) {
       if (range.contains(value))
         return stackIndex;
       else
         stackIndex++;
     }
-    int length = max(ranges.length - 1, 0);
+    var length = max(ranges.length - 1, 0);
     return (value > ranges[length].to) ? length : 0;
   }
 

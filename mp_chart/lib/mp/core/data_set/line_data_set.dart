@@ -275,11 +275,11 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
 
   @override
   DataSet<Entry> copy1() {
-    List<Entry> entries = List();
-    for (int i = 0; i < values.length; i++) {
+    var entries = List<Entry>();
+    for (var i = 0; i < values.length; i++) {
       entries.add(Entry(x: values[i].x, y: values[i].y, icon: values[i].mIcon, data: values[i].mData));
     }
-    LineDataSet copied = LineDataSet(entries, getLabel());
+    var copied = LineDataSet(entries, getLabel());
     copy(copied);
     return copied;
   }

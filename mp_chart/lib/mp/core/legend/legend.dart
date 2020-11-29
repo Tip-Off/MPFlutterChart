@@ -113,17 +113,17 @@ class Legend extends ComponentBase {
   /// @param p the paint object used for rendering the text
   /// @return
   double getMaximumEntryWidth(TextPainter p) {
-    double max = 0;
-    double maxFormSize = 0;
-    double formToTextSpace = Utils.convertDpToPixel(_formToTextSpace);
-    for (LegendEntry entry in _entries) {
-      final double formSize = Utils.convertDpToPixel(double.nan == entry.formSize ? _formSize : entry.formSize);
+    var max = 0.0;
+    var maxFormSize = 0.0;
+    var formToTextSpace = Utils.convertDpToPixel(_formToTextSpace);
+    for (var entry in _entries) {
+      final formSize = Utils.convertDpToPixel(double.nan == entry.formSize ? _formSize : entry.formSize);
       if (formSize > maxFormSize) maxFormSize = formSize;
 
-      String label = entry.label;
+      var label = entry.label;
       if (label == null) continue;
 
-      double length = Utils.calcTextWidth(p, label).toDouble();
+      var length = Utils.calcTextWidth(p, label).toDouble();
 
       if (length > max) max = length;
     }
@@ -136,12 +136,12 @@ class Legend extends ComponentBase {
   /// @param p the paint object used for rendering the text
   /// @return
   double getMaximumEntryHeight(TextPainter p) {
-    double max = 0;
-    for (LegendEntry entry in _entries) {
-      String label = entry.label;
+    var max = 0.0;
+    for (var entry in _entries) {
+      var label = entry.label;
       if (label == null) continue;
 
-      double length = Utils.calcTextHeight(p, label).toDouble();
+      var length = Utils.calcTextHeight(p, label).toDouble();
 
       if (length > max) max = length;
     }
@@ -160,9 +160,9 @@ class Legend extends ComponentBase {
   /// (if the legend has already been calculated, you will need to call notifyDataSetChanged()
   ///   to let the changes take effect)
   void setExtra2(List<Color> colors, List<String> labels) {
-    List<LegendEntry> entries = List();
-    for (int i = 0; i < min(colors.length, labels.length); i++) {
-      final LegendEntry entry = LegendEntry.empty();
+    var entries = List<LegendEntry>();
+    for (var i = 0; i < min(colors.length, labels.length); i++) {
+      final entry = LegendEntry.empty();
       entry.formColor = colors[i];
       entry.label = labels[i];
 
@@ -340,14 +340,14 @@ class Legend extends ComponentBase {
   ///
   /// @param labelpaint
   void calculateDimensions(TextPainter labelpainter, ViewPortHandler viewPortHandler) {
-    double defaultFormSize = Utils.convertDpToPixel(_formSize);
-    double stackSpace = Utils.convertDpToPixel(_stackSpace);
-    double formToTextSpace = Utils.convertDpToPixel(_formToTextSpace);
-    double xEntrySpace = Utils.convertDpToPixel(_xEntrySpace);
-    double yEntrySpace = Utils.convertDpToPixel(_yEntrySpace);
-    bool wordWrapEnabled = _wordWrapEnabled;
-    List<LegendEntry> entries = _entries;
-    int entryCount = entries.length;
+    var defaultFormSize = Utils.convertDpToPixel(_formSize);
+    var stackSpace = Utils.convertDpToPixel(_stackSpace);
+    var formToTextSpace = Utils.convertDpToPixel(_formToTextSpace);
+    var xEntrySpace = Utils.convertDpToPixel(_xEntrySpace);
+    var yEntrySpace = Utils.convertDpToPixel(_yEntrySpace);
+    var wordWrapEnabled = _wordWrapEnabled;
+    var entries = _entries;
+    var entryCount = entries.length;
 
     _textWidthMax = getMaximumEntryWidth(labelpainter);
     _textHeightMax = getMaximumEntryHeight(labelpainter);
@@ -355,15 +355,15 @@ class Legend extends ComponentBase {
     switch (_orientation) {
       case LegendOrientation.VERTICAL:
         {
-          double maxWidth = 0, maxHeight = 0, width = 0;
-          double labelLineHeight = Utils.getLineHeight1(labelpainter);
-          bool wasStacked = false;
+          var maxWidth = 0.0, maxHeight = 0.0, width = 0.0;
+          var labelLineHeight = Utils.getLineHeight1(labelpainter);
+          var wasStacked = false;
 
-          for (int i = 0; i < entryCount; i++) {
-            LegendEntry e = entries[i];
-            bool drawingForm = e.form != LegendForm.NONE;
-            double formSize = e.formSize.isNaN ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
-            String label = e.label;
+          for (var i = 0; i < entryCount; i++) {
+            var e = entries[i];
+            var drawingForm = e.form != LegendForm.NONE;
+            var formSize = e.formSize.isNaN ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
+            var label = e.label;
 
             if (!wasStacked) width = 0;
 
@@ -403,25 +403,25 @@ class Legend extends ComponentBase {
         }
       case LegendOrientation.HORIZONTAL:
         {
-          double labelLineHeight = Utils.getLineHeight1(labelpainter);
-          double labelLineSpacing = Utils.getLineSpacing1(labelpainter) + yEntrySpace;
-          double contentWidth = viewPortHandler.chartWidth() * _maxSizePercent;
+          var labelLineHeight = Utils.getLineHeight1(labelpainter);
+          var labelLineSpacing = Utils.getLineSpacing1(labelpainter) + yEntrySpace;
+          var contentWidth = viewPortHandler.chartWidth() * _maxSizePercent;
 
           // Start calculating layout
-          double maxLineWidth = 0;
-          double currentLineWidth = 0;
-          double requiredWidth = 0;
-          int stackedStartIndex = -1;
+          var maxLineWidth = 0.0;
+          var currentLineWidth = 0.0;
+          var requiredWidth = 0.0;
+          var stackedStartIndex = -1;
 
           _calculatedLabelBreakPoints = List();
           _calculatedLabelSizes = List();
           _calculatedLineSizes = List();
 
-          for (int i = 0; i < entryCount; i++) {
-            LegendEntry e = entries[i];
-            bool drawingForm = e.form != LegendForm.NONE;
-            double formSize = e.formSize.isNaN ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
-            String label = e.label;
+          for (var i = 0; i < entryCount; i++) {
+            var e = entries[i];
+            var drawingForm = e.form != LegendForm.NONE;
+            var formSize = e.formSize.isNaN ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
+            var label = e.label;
 
             _calculatedLabelBreakPoints.add(false);
 
@@ -450,7 +450,7 @@ class Legend extends ComponentBase {
             }
 
             if (label != null || i == entryCount - 1) {
-              double requiredSpacing = currentLineWidth == 0 ? 0 : xEntrySpace;
+              var requiredSpacing = currentLineWidth == 0 ? 0.0 : xEntrySpace;
 
               if (!wordWrapEnabled // No word wrapping, it must fit.
                   // The line is empty, it must fit

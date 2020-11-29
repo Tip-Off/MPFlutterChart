@@ -94,7 +94,7 @@ class XAxis extends AxisBase {
   int getRequiredHeightSpace(TextPainter p) {
     p = PainterUtils.create(p, null, null, textSize);
 
-    int height = Utils.calcTextHeight(p, "A");
+    var height = Utils.calcTextHeight(p, "A");
 
     return height;
   }

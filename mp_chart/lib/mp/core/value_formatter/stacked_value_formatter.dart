@@ -20,8 +20,8 @@ class StackedValueFormatter extends ValueFormatter {
     this._drawWholeStack = drawWholeStack;
     this._suffix = suffix;
 
-    StringBuffer b = StringBuffer();
-    for (int i = 0; i < decimals; i++) {
+    var b = StringBuffer();
+    for (var i = 0; i < decimals; i++) {
       if (i == 0) b.write(".");
       b.write("0");
     }
@@ -32,7 +32,7 @@ class StackedValueFormatter extends ValueFormatter {
   @override
   String getBarStackedLabel(double value, BarEntry entry) {
     if (!_drawWholeStack) {
-      List<double> vals = entry.yVals;
+      var vals = entry.yVals;
 
       if (vals != null) {
         // find out if we are on top of the stack

@@ -186,7 +186,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   /// @param alpha
   void setColors2(List<ui.Color> colors, int alpha) {
     resetColors();
-    for (ui.Color color in colors) {
+    for (var color in colors) {
       addColor(ui.Color.fromARGB(alpha, color.red, color.green, color.blue));
     }
   }
@@ -372,7 +372,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
   @override
   int getIndexInEntries(int xIndex) {
-    for (int i = 0; i < getEntryCount(); i++) {
+    for (var i = 0; i < getEntryCount(); i++) {
       if (xIndex == getEntryForIndex(i).x) return i;
     }
 
@@ -382,7 +382,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   @override
   bool removeFirst() {
     if (getEntryCount() > 0) {
-      T entry = getEntryForIndex(0);
+      var entry = getEntryForIndex(0);
       return removeEntry1(entry);
     } else
       return false;
@@ -391,7 +391,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   @override
   bool removeLast() {
     if (getEntryCount() > 0) {
-      T e = getEntryForIndex(getEntryCount() - 1);
+      var e = getEntryForIndex(getEntryCount() - 1);
       return removeEntry1(e);
     } else
       return false;
@@ -399,19 +399,19 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
   @override
   bool removeEntryByXValue(double xValue) {
-    T e = getEntryForXValue2(xValue, double.nan);
+    var e = getEntryForXValue2(xValue, double.nan);
     return removeEntry1(e);
   }
 
   @override
   bool removeEntry2(int index) {
-    T e = getEntryForIndex(index);
+    var e = getEntryForIndex(index);
     return removeEntry1(e);
   }
 
   @override
   bool contains(T e) {
-    for (int i = 0; i < getEntryCount(); i++) {
+    for (var i = 0; i < getEntryCount(); i++) {
       if (getEntryForIndex(i) == e) return true;
     }
 

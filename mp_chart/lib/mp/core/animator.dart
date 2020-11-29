@@ -135,7 +135,7 @@ class ChartAnimator extends Animator {
     }
     reset();
     _isShowed = true;
-    final double totalTime = durationMillis.toDouble();
+    final totalTime = durationMillis.toDouble();
     angle = fromAngle;
     _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
       if (durationMillis < 0) {
@@ -159,7 +159,7 @@ class ChartAnimator extends Animator {
     }
     reset();
     _isShowed = true;
-    final double totalTime = durationMillis.toDouble();
+    final totalTime = durationMillis.toDouble();
     phaseX = MIN;
     _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
       if (durationMillis < 0) {
@@ -183,8 +183,8 @@ class ChartAnimator extends Animator {
     }
     reset();
     _isShowed = true;
-    final double totalTimeX = durationMillisX.toDouble();
-    final double totalTimeY = durationMillisY.toDouble();
+    final totalTimeX = durationMillisX.toDouble();
+    final totalTimeY = durationMillisY.toDouble();
     phaseX = MIN;
     phaseY = MIN;
     _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
@@ -217,8 +217,8 @@ class ChartAnimator extends Animator {
     }
     reset();
     _isShowed = true;
-    final double totalTimeX = durationMillisX.toDouble();
-    final double totalTimeY = durationMillisY.toDouble();
+    final totalTimeX = durationMillisX.toDouble();
+    final totalTimeY = durationMillisY.toDouble();
     phaseX = MIN;
     phaseY = MIN;
     _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
@@ -251,7 +251,7 @@ class ChartAnimator extends Animator {
     }
     reset();
     _isShowed = true;
-    final double totalTime = durationMillis.toDouble();
+    final totalTime = durationMillis.toDouble();
     phaseY = MIN;
     _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
       if (durationMillis < 0) {
@@ -296,7 +296,7 @@ class ChartAnimatorBySys extends Animator {
     _controller = AnimationController(vsync: _provider);
 
     _controller.addListener(() {
-      double percent = _controller.value;
+      var percent = _controller.value;
       switch (which) {
         case ANIMATE_X:
           {
@@ -527,7 +527,7 @@ class EaseOutBounceEasingFunction implements EasingFunction {
 
   @override
   double getInterpolation(double input) {
-    double s = 7.5625;
+    var s = 7.5625;
     if (input < (1 / 2.75)) {
       return s * input * input;
     } else if (input < (2 / 2.75)) {
@@ -553,7 +553,7 @@ class EaseInOutBackEasingFunction implements EasingFunction {
 
   @override
   double getInterpolation(double input) {
-    double s = 1.70158;
+    var s = 1.70158;
     input *= 2;
     if (input < 1) {
       return 0.5 * (input * input * (((s *= (1.525)) + 1) * input - s));
@@ -567,7 +567,7 @@ class EaseOutBackEasingFunction implements EasingFunction {
 
   @override
   double getInterpolation(double input) {
-    final double s = 1.70158;
+    final s = 1.70158;
     input--;
     return (input * input * ((s + 1) * input + s) + 1);
   }
@@ -578,7 +578,7 @@ class EaseInBackEasingFunction implements EasingFunction {
 
   @override
   double getInterpolation(double input) {
-    final double s = 1.70158;
+    final s = 1.70158;
     return input * input * ((s + 1) * input - s);
   }
 }
@@ -597,8 +597,8 @@ class EaseInOutElasticEasingFunction implements EasingFunction {
       return 1;
     }
 
-    double p = 1 / 0.45;
-    double s = 0.45 / DOUBLE_PI * asin(1);
+    var p = 1 / 0.45;
+    var s = 0.45 / DOUBLE_PI * asin(1);
     if (input < 1) {
       return -0.5 * (pow(2, 10 * (input -= 1)) * sin((input * 1 - s) * DOUBLE_PI * p));
     }
@@ -617,8 +617,8 @@ class EaseOutElasticEasingFunction implements EasingFunction {
       return 1;
     }
 
-    double p = 0.3;
-    double s = p / DOUBLE_PI * asin(1);
+    var p = 0.3;
+    var s = p / DOUBLE_PI * asin(1);
     return 1 + pow(2, -10 * input) * sin((input - s) * DOUBLE_PI / p);
   }
 }
@@ -634,8 +634,8 @@ class EaseInElasticEasingFunction implements EasingFunction {
       return 1;
     }
 
-    double p = 0.3;
-    double s = p / DOUBLE_PI * asin(1);
+    var p = 0.3;
+    var s = p / DOUBLE_PI * asin(1);
     return -(pow(2, 10 * (input -= 1)) * sin((input - s) * DOUBLE_PI / p));
   }
 }

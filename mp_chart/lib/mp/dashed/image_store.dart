@@ -17,10 +17,10 @@ class ImageStore {
   }
 
   Future<ui.Image> _generateDashed(int size, Orientation orientation) async {
-    int length = size * 2;
+    var length = size * 2;
     var completer = Completer<ui.Image>();
 
-    Int32List pixels = Int32List(length);
+    var pixels = Int32List(length);
 
     for (var i = 0; i < length; i++) {
       pixels[i] = _generatePixel(i, size);
