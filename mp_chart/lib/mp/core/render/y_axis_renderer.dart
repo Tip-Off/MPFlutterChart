@@ -6,7 +6,6 @@ import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/enums/limit_label_postion.dart';
 import 'package:mp_chart/mp/core/enums/y_axis_label_position.dart';
 import 'package:mp_chart/mp/core/limit_line.dart';
-import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/render/axis_renderer.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
@@ -174,10 +173,6 @@ class YAxisRenderer extends AxisRenderer {
 
       c.restore();
     }
-
-    if (_yAxis.drawZeroLine) {
-      drawZeroLine(c);
-    }
   }
 
   Rect _gridClippingRect = Rect.zero;
@@ -221,36 +216,6 @@ class YAxisRenderer extends AxisRenderer {
 
     trans.pointValuesToPixel(positions);
     return positions;
-  }
-
-  Path _drawZeroLinePath = Path();
-  Rect _zeroLineClippingRect = Rect.zero;
-
-  /// Draws the zero line.
-  void drawZeroLine(Canvas c) {
-    c.save();
-    _zeroLineClippingRect = Rect.fromLTRB(viewPortHandler.getContentRect().left, viewPortHandler.getContentRect().top,
-        viewPortHandler.getContentRect().right + _yAxis.zeroLineWidth, viewPortHandler.getContentRect().bottom + _yAxis.zeroLineWidth);
-    c.clipRect(_zeroLineClippingRect);
-
-    // draw zero line
-    MPPointD pos = trans.getPixelForValues(0, 0);
-
-    _zeroLinePaint
-      ..style = PaintingStyle.stroke
-      ..color = _yAxis.zeroLineColor
-      ..strokeWidth = _yAxis.zeroLineWidth;
-
-    Path zeroLinePath = _drawZeroLinePath;
-    zeroLinePath.reset();
-
-    zeroLinePath.moveTo(viewPortHandler.contentLeft(), pos.y);
-    zeroLinePath.lineTo(viewPortHandler.contentRight(), pos.y);
-
-    // draw a path because lines don't support dashing on lower android versions
-    c.drawPath(zeroLinePath, _zeroLinePaint);
-
-    c.restore();
   }
 
   Path _renderLimitLines = Path();
@@ -421,13 +386,5 @@ class YAxisRenderer extends AxisRenderer {
   // ignore: unnecessary_getters_setters
   set gridClippingRect(Rect value) {
     _gridClippingRect = value;
-  }
-
-  // ignore: unnecessary_getters_setters
-  Rect get zeroLineClippingRect => _zeroLineClippingRect;
-
-  // ignore: unnecessary_getters_setters
-  set zeroLineClippingRect(Rect value) {
-    _zeroLineClippingRect = value;
   }
 }
