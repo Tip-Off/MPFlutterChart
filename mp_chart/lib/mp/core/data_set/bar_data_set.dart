@@ -25,6 +25,9 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
   /// the overall entry count, including counting each stack-value individually
   int _entryCountStacks = 0;
 
+  /// the path effect for dashed highlight-lines
+  bool _isHighlightLineDashed = false;
+
   /// array of labels used to describe the different values of the stacked bars
   List<String> _stackLabels = List()..add("Stack");
 
@@ -186,5 +189,21 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
   @override
   List<String> getStackLabels() {
     return _stackLabels;
+  }
+  void enableHighlightLineDashed() {
+    _isHighlightLineDashed = true;
+  }
+
+  void disableHighlightLineDashed() {
+    _isHighlightLineDashed = false;
+  }
+
+  @override
+  bool isHighlightLineDashed() {
+    return _isHighlightLineDashed;
+  }
+
+  set highlightDashPathEffect(bool value) {
+    _isHighlightLineDashed = value;
   }
 }

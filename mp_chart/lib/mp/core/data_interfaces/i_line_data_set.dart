@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_radar_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/mode.dart';
@@ -55,16 +54,7 @@ mixin ILineDataSet implements ILineRadarDataSet<Entry> {
   /// @return
   bool isDrawCircleHoleEnabled();
 
-  /// Returns the DashPathEffect that is used for drawing the lines.
-  ///
-  /// @return
-  DashPathEffect getDashPathEffect();
-
-  /// Returns true if the dashed-line effect is enabled, false if not.
-  /// If the DashPathEffect object is null, also return false here.
-  ///
-  /// @return
-  bool isDashedLineEnabled();
+  bool isDashed();
 
   /// Returns the IFillFormatter that is set for this DataSet.
   ///

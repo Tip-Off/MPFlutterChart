@@ -23,6 +23,8 @@ import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
+import 'package:mp_chart/mp/dashed/image_store.dart';
+import 'package:mp_chart/mp/dashed/painter.dart';
 
 class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
   BarDataProvider _provider;

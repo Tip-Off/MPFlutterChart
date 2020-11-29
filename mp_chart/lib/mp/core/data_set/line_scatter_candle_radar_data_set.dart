@@ -1,4 +1,3 @@
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_scatter_candle_radar_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/bar_line_scatter_candle_bubble_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
@@ -13,10 +12,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
   double _highlightLineWidth = 0.5;
 
   /// the path effect for dashed highlight-lines
-  DashPathEffect _highlightDashPathEffect;
-
-  /// the path effect for dashed highlight-lines
-//   DashPathEffect mHighlightDashPathEffect = null;
+  bool _isHighlightLineDashed = false;
 
   LineScatterCandleRadarDataSet(List<T> yVals, String label) : super(yVals, label) {
     _highlightLineWidth = Utils.convertDpToPixel(0.5);
@@ -67,30 +63,25 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
   /// @param lineLength the length of the line pieces
   /// @param spaceLength the length of space inbetween the line-pieces
   /// @param phase offset, in degrees (normally, use 0)
-  void enableDashedHighlightLine(double lineLength, double spaceLength, double phase) {
-    _highlightDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
+  void enableHighlightLineDashed() {
+    _isHighlightLineDashed = true;
   }
 
   /// Disables the highlight-line to be drawn in dashed mode.
-  void disableDashedHighlightLine() {
-    _highlightDashPathEffect = null;
+  void disableHighlightLineDashed() {
+    _isHighlightLineDashed = false;
   }
 
   /// Returns true if the dashed-line effect is enabled for highlight lines, false if not.
   /// Default: disabled
   ///
   /// @return
-  bool isDashedHighlightLineEnabled() {
-    return _highlightDashPathEffect == null ? false : true;
+  bool isHighlightLineDashed() {
+    return _isHighlightLineDashed;
   }
 
-  @override
-  DashPathEffect getDashPathEffectHighlight() {
-    return _highlightDashPathEffect;
-  }
-
-  set highlightDashPathEffect(DashPathEffect value) {
-    _highlightDashPathEffect = value;
+  set highlightDashPathEffect(bool value) {
+    _isHighlightLineDashed = value;
   }
 
   void copy(BaseDataSet baseDataSet) {
@@ -100,7 +91,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
       lineScatterCandleRadarDataSet._drawHorizontalHighlightIndicator = _drawHorizontalHighlightIndicator;
       lineScatterCandleRadarDataSet._drawVerticalHighlightIndicator = _drawVerticalHighlightIndicator;
       lineScatterCandleRadarDataSet._highlightLineWidth = _highlightLineWidth;
-      lineScatterCandleRadarDataSet._highlightDashPathEffect = _highlightDashPathEffect;
+      lineScatterCandleRadarDataSet._isHighlightLineDashed = _isHighlightLineDashed;
     }
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/painting.dart';
 import 'package:mp_chart/mp/core/component.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/enums/limit_label_postion.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 
@@ -24,8 +23,7 @@ class LimitLine extends ComponentBase {
   /// label string that is drawn next to the limit line
   String _label = "";
 
-  /// the path effect of this LimitLine that makes dashed lines possible
-  DashPathEffect _dashPathEffect;
+  bool _isDashed = false;
 
   /// indicates the position of the LimitLine label
   LimitLabelPosition _labelPosition = LimitLabelPosition.RIGHT_TOP;
@@ -59,13 +57,13 @@ class LimitLine extends ComponentBase {
   /// @param lineLength the length of the line pieces
   /// @param spaceLength the length of space inbetween the pieces
   /// @param phase offset, in degrees (normally, use 0)
-  void enableDashedLine(double lineLength, double spaceLength, double phase) {
-    _dashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
+  void enableDashedLine() {
+    _isDashed = true;
   }
 
   /// Disables the line to be drawn in dashed mode.
   void disableDashedLine() {
-    _dashPathEffect = null;
+    _isDashed = false;
   }
 
   /// Returns true if the dashed-line effect is enabled, false if not. Default:
@@ -73,15 +71,7 @@ class LimitLine extends ComponentBase {
   ///
   /// @return
   bool isDashedLineEnabled() {
-    return _dashPathEffect == null ? false : true;
-  }
-
-  // ignore: unnecessary_getters_setters
-  DashPathEffect get dashPathEffect => _dashPathEffect;
-
-  // ignore: unnecessary_getters_setters
-  set dashPathEffect(DashPathEffect value) {
-    _dashPathEffect = value;
+    return _isDashed;
   }
 
   // ignore: unnecessary_getters_setters

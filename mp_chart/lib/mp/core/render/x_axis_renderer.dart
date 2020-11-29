@@ -13,6 +13,8 @@ import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/poolable/size.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:mp_chart/mp/dashed/image_store.dart';
+import 'package:mp_chart/mp/dashed/painter.dart';
 
 class XAxisRenderer extends AxisRenderer {
   XAxis _xAxis;
@@ -130,13 +132,15 @@ class XAxisRenderer extends AxisRenderer {
       ..color = _xAxis.axisLineColor
       ..strokeWidth = _xAxis.axisLineWidth;
 
+    if (xAxis.isAxisLineDashedEnabled()) {
+      axisLinePaint = Painter.get(ImageStore.getHorizontalDashed(), strokeWidth: _xAxis.axisLineWidth, color: _xAxis.axisLineColor);
+    }
+
     if (_xAxis.position == XAxisPosition.TOP || _xAxis.position == XAxisPosition.TOP_INSIDE || _xAxis.position == XAxisPosition.BOTH_SIDED) {
       _axisLinePath.reset();
       _axisLinePath.moveTo(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
       _axisLinePath.lineTo(viewPortHandler.contentRight(), viewPortHandler.contentTop());
-      if (xAxis.axisLineDashPathEffect != null) {
-        _axisLinePath = xAxis.axisLineDashPathEffect.convert2DashPath(_axisLinePath);
-      }
+
       c.drawPath(_axisLinePath, axisLinePaint);
     }
 
@@ -144,9 +148,7 @@ class XAxisRenderer extends AxisRenderer {
       _axisLinePath.reset();
       _axisLinePath.moveTo(viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
       _axisLinePath.lineTo(viewPortHandler.contentRight(), viewPortHandler.contentBottom());
-      if (xAxis.axisLineDashPathEffect != null) {
-        _axisLinePath = xAxis.axisLineDashPathEffect.convert2DashPath(_axisLinePath);
-      }
+
       c.drawPath(_axisLinePath, axisLinePaint);
     }
   }
@@ -252,12 +254,13 @@ class XAxisRenderer extends AxisRenderer {
     path.moveTo(x, viewPortHandler.contentBottom());
     path.lineTo(x, viewPortHandler.contentTop());
 
-    // draw a path because lines don't support dashing on lower android versions
-    if (xAxis.gridDashPathEffect != null) {
-      path = xAxis.gridDashPathEffect.convert2DashPath(path);
+    var paint = gridPaint;
+
+    if (xAxis.isGridDashedEnabled()) {
+      paint = Painter.get(ImageStore.getVerticalDashed(), strokeWidth: _xAxis.gridLineWidth, color: xAxis.gridColor);
     }
 
-    c.drawPath(path, gridPaint);
+    c.drawPath(path, paint);
 
     path.reset();
   }
@@ -318,9 +321,10 @@ class XAxisRenderer extends AxisRenderer {
       ..color = limitLine.lineColor
       ..strokeWidth = limitLine.lineWidth;
 
-    if (limitLine.dashPathEffect != null) {
-      _limitLinePath = limitLine.dashPathEffect.convert2DashPath(_limitLinePath);
+    if (limitLine.isDashedLineEnabled()) {
+      limitLinePaint = Painter.get(ImageStore.getVerticalDashed(), strokeWidth: limitLine.lineWidth, color: limitLine.lineColor);
     }
+
     c.drawPath(_limitLinePath, limitLinePaint);
   }
 

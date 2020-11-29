@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/data_set.dart';
@@ -228,11 +227,6 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   /// @param shadowColorSameAsCandle
   void setShadowColorSameAsCandle(bool shadowColorSameAsCandle) {
     this._shadowColorSameAsCandle = shadowColorSameAsCandle;
-  }
-
-  @override
-  DashPathEffect getDashPathEffectHighlight() {
-    return null;
   }
 
   @override

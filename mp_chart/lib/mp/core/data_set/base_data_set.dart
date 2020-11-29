@@ -41,7 +41,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   LegendForm _form = LegendForm.DEFAULT;
   double _formSize = double.nan;
   double _formLineWidth = double.nan;
-  DashPathEffect _formLineDashEffect;
+  bool _isFormLineDashed;
 
   /// if true, y-values are drawn on the chart
   bool _drawValues = true;
@@ -308,13 +308,13 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     return _formLineWidth;
   }
 
-  void setFormLineDashEffect(DashPathEffect dashPathEffect) {
-    _formLineDashEffect = dashPathEffect;
+  void setFormLineDashed(bool value) {
+    _isFormLineDashed = value;
   }
 
   @override
-  DashPathEffect getFormLineDashEffect() {
-    return _formLineDashEffect;
+  bool isFormLineDashed() {
+    return _isFormLineDashed;
   }
 
   @override
@@ -424,7 +424,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     baseDataSet._drawIcons = _drawIcons;
     baseDataSet._drawValues = _drawValues;
     baseDataSet._form = _form;
-    baseDataSet._formLineDashEffect = _formLineDashEffect;
+    baseDataSet._isFormLineDashed = _isFormLineDashed;
     baseDataSet._formLineWidth = _formLineWidth;
     baseDataSet._formSize = _formSize;
     baseDataSet._gradientColor = _gradientColor;

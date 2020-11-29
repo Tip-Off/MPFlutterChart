@@ -1,24 +1,12 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/limit_line.dart';
 
 abstract class CanvasUtils {
-  static void drawLines(ui.Canvas canvas, List<double> pts, int offset, int count, ui.Paint paint, {DashPathEffect effect}) {
-    if (effect == null) {
-      for (int i = offset; i < count; i += 4) {
-        canvas.drawLine(ui.Offset(pts[i], pts[i + 1]), ui.Offset(pts[i + 2], pts[i + 3]), paint);
-      }
-    } else {
-      var path = Path();
-      for (int i = offset; i < count; i += 4) {
-        path.reset();
-        path.moveTo(pts[i], pts[i + 1]);
-        path.lineTo(pts[i + 2], pts[i + 3]);
-        path = effect.convert2DashPath(path);
-        canvas.drawPath(path, paint);
-      }
+  static void drawLines(ui.Canvas canvas, List<double> pts, int offset, int count, ui.Paint paint) {
+    for (int i = offset; i < count; i += 4) {
+      canvas.drawLine(ui.Offset(pts[i], pts[i + 1]), ui.Offset(pts[i + 2], pts[i + 3]), paint);
     }
   }
 

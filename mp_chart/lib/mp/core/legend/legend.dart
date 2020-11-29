@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/painting.dart';
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/component.dart';
 import 'package:mp_chart/mp/core/enums/legend_direction.dart';
 import 'package:mp_chart/mp/core/enums/legend_form.dart';
@@ -43,8 +42,7 @@ class Legend extends ComponentBase {
   /// the size of the legend forms/shapes
   double _formLineWidth = 3;
 
-  /// Line dash path effect used for shapes that consist of lines.
-  DashPathEffect _formLineDashEffect;
+  bool _isFormLineDashed = false;
 
   /// the space between the legend entries on a horizontal axis, default 6f
   double _xEntrySpace = 6;
@@ -269,13 +267,13 @@ class Legend extends ComponentBase {
   /// Sets the line dash path effect used for shapes that consist of lines.
   ///
   /// @param dashPathEffect
-  void setFormLineDashEffect(DashPathEffect dashPathEffect) {
-    _formLineDashEffect = dashPathEffect;
+  void setFormLineDashed(bool isFormLineDashed) {
+    _isFormLineDashed = isFormLineDashed;
   }
 
   /// @return The line dash path effect used for shapes that consist of lines.
-  DashPathEffect getFormLineDashEffect() {
-    return _formLineDashEffect;
+  bool isFormLineDashed() {
+    return _isFormLineDashed;
   }
 
   // ignore: unnecessary_getters_setters

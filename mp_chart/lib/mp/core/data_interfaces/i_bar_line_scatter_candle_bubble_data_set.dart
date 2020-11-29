@@ -8,4 +8,6 @@ mixin IBarLineScatterCandleBubbleDataSet<T extends Entry> implements IDataSet<T>
   ///
   /// @return
   Color getHighLightColor();
+
+  bool isHighlightLineDashed();
 }

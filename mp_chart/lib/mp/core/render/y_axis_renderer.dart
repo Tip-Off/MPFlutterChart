@@ -15,6 +15,8 @@ import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:flutter/material.dart';
+import 'package:mp_chart/mp/dashed/image_store.dart';
+import 'package:mp_chart/mp/dashed/painter.dart';
 
 class YAxisRenderer extends AxisRenderer {
   YAxis _yAxis;
@@ -84,20 +86,21 @@ class YAxisRenderer extends AxisRenderer {
       ..color = _yAxis.axisLineColor
       ..strokeWidth = _yAxis.axisLineWidth;
 
+    if (_yAxis.isAxisLineDashedEnabled()) {
+      axisLinePaint = Painter.get(ImageStore.getVerticalDashed(), strokeWidth: _yAxis.gridLineWidth, color: _yAxis.gridColor);
+    }
+
     _renderGridLinesPath.reset();
+
     if (_yAxis.axisDependency == AxisDependency.LEFT) {
       _renderGridLinesPath.moveTo(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
       _renderGridLinesPath.lineTo(viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
-      if (_yAxis.axisLineDashPathEffect != null) {
-        _renderGridLinesPath = _yAxis.axisLineDashPathEffect.convert2DashPath(_renderGridLinesPath);
-      }
+
       c.drawPath(_renderGridLinesPath, axisLinePaint);
     } else {
       _renderGridLinesPath.moveTo(viewPortHandler.contentRight(), viewPortHandler.contentTop());
       _renderGridLinesPath.lineTo(viewPortHandler.contentRight(), viewPortHandler.contentBottom());
-      if (_yAxis.axisLineDashPathEffect != null) {
-        _renderGridLinesPath = _yAxis.axisLineDashPathEffect.convert2DashPath(_renderGridLinesPath);
-      }
+
       c.drawPath(_renderGridLinesPath, axisLinePaint);
     }
   }
@@ -155,17 +158,17 @@ class YAxisRenderer extends AxisRenderer {
         ..color = _yAxis.gridColor
         ..strokeWidth = _yAxis.gridLineWidth;
 
+      if (_yAxis.isGridDashedEnabled()) {
+        gridPaint = Painter.get(ImageStore.getHorizontalDashed(), strokeWidth: _yAxis.gridLineWidth, color: _yAxis.gridColor);
+      }
+
       Path gridLinePath = _renderGridLinesPath;
       gridLinePath.reset();
 
       // draw the grid
       for (int i = 0; i < positions.length; i += 2) {
-        // draw a path because lines don't support dashing on lower android versions
-        if (yAxis.gridDashPathEffect != null) {
-          c.drawPath(yAxis.gridDashPathEffect.convert2DashPath(linePath(gridLinePath, i, positions)), gridPaint);
-        } else {
-          c.drawPath(linePath(gridLinePath, i, positions), gridPaint);
-        }
+        c.drawPath(linePath(gridLinePath, i, positions), gridPaint);
+
         gridLinePath.reset();
       }
 
@@ -299,10 +302,12 @@ class YAxisRenderer extends AxisRenderer {
       limitLinePath.moveTo(viewPortHandler.contentLeft(), pts[1]);
       limitLinePath.lineTo(viewPortHandler.contentRight(), pts[1]);
 
-      if (l.dashPathEffect != null) {
-        limitLinePath = l.dashPathEffect.convert2DashPath(limitLinePath);
+      if (l.isDashedLineEnabled()) {
+        limitLinePaint = Painter.get(ImageStore.getHorizontalDashed(), strokeWidth: l.lineWidth, color: l.lineColor);
       }
+
       c.drawPath(limitLinePath, limitLinePaint);
+
       limitLinePath.reset();
 
       String label = l.label;
