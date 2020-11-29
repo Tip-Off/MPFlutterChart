@@ -9,14 +9,12 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
   bool _drawHorizontalHighlightIndicator = true;
 
   /// the width of the highlight indicator lines
-  double _highlightLineWidth = 0.5;
+  double _highlightLineWidth = Utils.convertDpToPixel(0.5);
 
   /// the path effect for dashed highlight-lines
   bool _isHighlightLineDashed = false;
 
-  LineScatterCandleRadarDataSet(List<T> yVals, String label) : super(yVals, label) {
-    _highlightLineWidth = Utils.convertDpToPixel(0.5);
-  }
+  LineScatterCandleRadarDataSet(List<T> yVals, String label) : super(yVals, label);
 
   /// Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
   /// @param enabled
