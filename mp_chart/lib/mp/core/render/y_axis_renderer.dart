@@ -409,6 +409,8 @@ class YAxisRenderer extends AxisRenderer {
       var paint = Paint()..color = Colors.deepOrange;
 
       c.drawRect(Rect.fromLTWH(labelPosition.dx - 1, labelPosition.dy - 1, axisLabelPaint.width + 2, axisLabelPaint.height + 2), paint);
+
+      labelPosition = labelPosition.translate(-1, 0.5);
       axisLabelPaint.paint(c, labelPosition);
     }
   }

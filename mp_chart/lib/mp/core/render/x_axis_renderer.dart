@@ -413,12 +413,14 @@ class XAxisRenderer extends AxisRenderer {
 
     var labelPosition = Offset(opt.screenPoint.x, fixedPosition);
     if (opt.screenPoint.x > axisLabelPaint.width * 2) {
-      labelPosition = Offset(opt.screenPoint.x - axisLabelPaint.width, fixedPosition);
+      labelPosition = Offset(opt.screenPoint.x - axisLabelPaint.width - 2, fixedPosition);
     }
 
     var paint = Paint()..color = Colors.deepOrange;
 
-    c.drawRect(Rect.fromLTWH(labelPosition.dx - 2, labelPosition.dy - 1, axisLabelPaint.width + 3, axisLabelPaint.height + 2), paint);
+    c.drawRect(Rect.fromLTWH(labelPosition.dx, labelPosition.dy - 1, axisLabelPaint.width + 3, axisLabelPaint.height + 2), paint);
+
+    labelPosition = labelPosition.translate(1, 0.5);
     axisLabelPaint.paint(c, labelPosition);
   }
 }
