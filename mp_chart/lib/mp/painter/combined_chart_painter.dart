@@ -139,7 +139,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
             chartTransListener);
 
   List<DrawOrder> initDrawOrder() {
-    return List()..add(DrawOrder.CANDLE)..add(DrawOrder.BAR)..add(DrawOrder.LINE);
+    return [DrawOrder.CANDLE, DrawOrder.BAR, DrawOrder.LINE];
   }
 
   @override

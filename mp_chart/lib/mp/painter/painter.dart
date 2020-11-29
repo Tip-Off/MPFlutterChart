@@ -304,7 +304,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
         high = null;
       } else {
         // set the indices to highlight
-        _indicesToHighlight = List()..add(high);
+        _indicesToHighlight = [high];
       }
     }
 
