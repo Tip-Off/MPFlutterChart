@@ -24,6 +24,7 @@ class FloatLegendUtils {
     entryColors.keys.forEach((element) {
       final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + drawSize.height);
       final legendSize = _drawTextLegend(labelText, c, entryColors[element], element, position);
+
       drawSize = Size(drawSize.width + legendSize.width, drawSize.height + legendSize.height);
     });
 
@@ -34,7 +35,6 @@ class FloatLegendUtils {
   static Map<String, List<EntryColor>> _createEntries<T extends IDataSet>(BarLineScatterCandleBubbleData data, List<Highlight> indices) {
     final Map<String, List<EntryColor>> entryColors = {};
 
-    // dataSet = candleData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).length > 0, orElse: () => null);
     data.dataSets.where((element) => element is T && element.getEntriesForXValue(indices.first.x).length > 0).toList().asMap().forEach((i, element) {
       if (element.isVisible()) {
         final h = indices.first;
