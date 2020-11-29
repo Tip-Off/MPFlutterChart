@@ -5,7 +5,6 @@ import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/enums/limit_label_postion.dart';
 import 'package:mp_chart/mp/core/enums/y_axis_label_position.dart';
-import 'package:mp_chart/mp/core/limit_line.dart';
 import 'package:mp_chart/mp/core/render/axis_renderer.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
@@ -140,7 +139,7 @@ class YAxisRenderer extends AxisRenderer {
     }
   }
 
-  Path _renderGridLinesPath = Path();
+  final Path _renderGridLinesPath = Path();
 
   @override
   void renderGridLines(Canvas c) {
@@ -218,8 +217,8 @@ class YAxisRenderer extends AxisRenderer {
     return positions;
   }
 
-  Path _renderLimitLines = Path();
-  List<double> _renderLimitLinesBuffer = List(2);
+  final Path _renderLimitLines = Path();
+  final List<double> _renderLimitLinesBuffer = List(2);
   Rect _limitLineClippingRect = Rect.zero;
 
   // ignore: unnecessary_getters_setters
@@ -237,7 +236,7 @@ class YAxisRenderer extends AxisRenderer {
   void renderLimitLines(Canvas c) {
     var limitLines = _yAxis.getLimitLines();
 
-    if (limitLines == null || limitLines.length <= 0) return;
+    if (limitLines == null || limitLines.isEmpty) return;
 
     var pts = _renderLimitLinesBuffer;
     pts[0] = 0;

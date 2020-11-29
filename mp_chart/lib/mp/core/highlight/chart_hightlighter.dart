@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_line_scatter_candle_bubble_data_provider.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/enums/rounding.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
@@ -15,7 +14,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   T _provider;
 
   /// buffer for storing previously highlighted values
-  List<Highlight> _highlightBuffer = List<Highlight>();
+  final List<Highlight> _highlightBuffer = <Highlight>[];
 
   ChartHighlighter(T provider) {
     _provider = provider;
@@ -135,11 +134,11 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   /// @param rounding
   /// @return
   List<Highlight> buildHighlights(IDataSet set, int dataSetIndex, double xVal, Rounding rounding) {
-    var highlights = List<Highlight>();
+    var highlights = <Highlight>[];
 
     //noinspection unchecked
     var entries = set.getEntriesForXValue(xVal);
-    if (entries.length == 0) {
+    if (entries.isEmpty) {
       // Try to find closest x-value and take all entries for that x-value
       final closest = set.getEntryForXValue1(xVal, double.nan, rounding);
       if (closest != null) {
@@ -148,7 +147,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
       }
     }
 
-    if (entries.length == 0) return highlights;
+    if (entries.isEmpty) return highlights;
 
     for (var e in entries) {
       var pixels = _provider.getTransformer(set.getAxisDependency()).getPixelForValues(e.x, e.y);

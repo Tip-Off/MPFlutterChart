@@ -102,7 +102,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   final XAxisRenderer _xAxisRenderer;
 
   /// flag that indicates if a custom viewport offset has been set
-  bool _customViewPortEnabled;
+  final bool _customViewPortEnabled;
 
   /// CODE BELOW THIS RELATED TO SCALING AND GESTURES AND MODIFICATION OF THE
   /// VIEWPORT
@@ -287,7 +287,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
 
       var pointOnChartY = axisPointY;
       final dataSet = getData();
-      if (dataSet.dataSets.length > 0 && dataSet.dataSets.first is BarDataSet) {
+      if (dataSet.dataSets.isNotEmpty && dataSet.dataSets.first is BarDataSet) {
         pointOnChartY = indicesToHighlight.first.y;
       }
 

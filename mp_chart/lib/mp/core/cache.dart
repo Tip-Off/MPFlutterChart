@@ -6,7 +6,7 @@ import 'package:flutter/painting.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
 
 class DataSetImageCache {
-  Path _circlePathBuffer = Path();
+  final Path _circlePathBuffer = Path();
 
   List<ByteData> _circleBitmaps;
 

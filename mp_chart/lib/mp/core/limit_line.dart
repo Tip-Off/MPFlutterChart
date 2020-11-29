@@ -5,7 +5,7 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 
 class LimitLine extends ComponentBase {
   /// limit / maximum (the y-value or xIndex)
-  double _limit = 0;
+  final double _limit;
 
   /// the width of the limit line
   double _lineWidth = 2;

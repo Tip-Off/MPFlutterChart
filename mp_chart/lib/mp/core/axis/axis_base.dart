@@ -18,9 +18,9 @@ abstract class AxisBase extends ComponentBase {
 
   double _axisLineWidth = 1;
 
-  List<double> _entries = List();
+  List<double> _entries = [];
 
-  List<double> _centeredEntries = List();
+  List<double> _centeredEntries = [];
 
   bool _isAxisLineDashed = false;
 
@@ -92,7 +92,7 @@ abstract class AxisBase extends ComponentBase {
     textSize = 10;
     xOffset = 5;
     yOffset = 5;
-    _limitLines = List<LimitLine>();
+    _limitLines = <LimitLine>[];
   }
 
   void enabledGridDashed() {

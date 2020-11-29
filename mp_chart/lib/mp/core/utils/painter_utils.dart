@@ -11,11 +11,10 @@ abstract class PainterUtils {
     if (painter.text != null && (painter.text is TextSpan)) {
       var preText = (painter.text as TextSpan)?.text;
       var preColor = painter.text.style.color;
-      preColor = preColor == null ? ColorUtils.BLACK : preColor;
+      preColor = preColor ?? ColorUtils.BLACK;
       var preFontSize = painter.text.style.fontSize;
-      preFontSize = preFontSize == null ? Utils.convertDpToPixel(13) : preFontSize;
-      return _create(text == null ? preText : text, color == null ? preColor : color, fontSize == null ? preFontSize : fontSize,
-          fontFamily: fontFamily, fontWeight: fontWeight);
+      preFontSize = preFontSize ?? Utils.convertDpToPixel(13);
+      return _create(text ?? preText, color ?? preColor, fontSize ?? preFontSize, fontFamily: fontFamily, fontWeight: fontWeight);
     } else {
       return _create(text, color, fontSize, fontFamily: fontFamily, fontWeight: fontWeight);
     }

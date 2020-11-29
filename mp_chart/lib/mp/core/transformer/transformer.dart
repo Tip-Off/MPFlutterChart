@@ -2,8 +2,6 @@ import 'package:flutter/rendering.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_scatter_data_set.dart';
-import 'package:mp_chart/mp/core/entry/candle_entry.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/utils/matrix4_utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
@@ -269,7 +267,7 @@ class Transformer {
   }
 
   /// buffer for performance
-  List<double> _ptsBuffer = List(2);
+  final List<double> _ptsBuffer = List(2);
 
   /// Returns a recyclable MPPointD instance.
   /// returns the x and y values in the chart at the given touch point
@@ -322,7 +320,7 @@ class Transformer {
     return _matrixOffset;
   }
 
-  Matrix4 _mBuffer1 = Matrix4.identity();
+  final Matrix4 _mBuffer1 = Matrix4.identity();
 
   Matrix4 getValueToPixelMatrix() {
     _matrixValueToPx.copyInto(_mBuffer1);
@@ -331,7 +329,7 @@ class Transformer {
     return _mBuffer1;
   }
 
-  Matrix4 _mBuffer2 = Matrix4.identity();
+  final Matrix4 _mBuffer2 = Matrix4.identity();
 
   Matrix4 getPixelToValueMatrix() {
     _mBuffer2.copyInverse(getValueToPixelMatrix());

@@ -107,7 +107,7 @@ class BarEntry extends Entry {
   void calcRanges() {
     var values = yVals;
 
-    if (values == null || values.length == 0) return;
+    if (values == null || values.isEmpty) return;
 
     _ranges = List(values.length);
 

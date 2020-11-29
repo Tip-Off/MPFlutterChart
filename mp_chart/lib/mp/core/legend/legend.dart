@@ -15,7 +15,7 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 
 class Legend extends ComponentBase {
   /// The legend entries array
-  List<LegendEntry> _entries = List();
+  List<LegendEntry> _entries = [];
 
   /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
   /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
@@ -160,7 +160,7 @@ class Legend extends ComponentBase {
   /// (if the legend has already been calculated, you will need to call notifyDataSetChanged()
   ///   to let the changes take effect)
   void setExtra2(List<Color> colors, List<String> labels) {
-    var entries = List<LegendEntry>();
+    var entries = <LegendEntry>[];
     for (var i = 0; i < min(colors.length, labels.length); i++) {
       final entry = LegendEntry.empty();
       entry.formColor = colors[i];
@@ -413,9 +413,9 @@ class Legend extends ComponentBase {
           var requiredWidth = 0.0;
           var stackedStartIndex = -1;
 
-          _calculatedLabelBreakPoints = List();
-          _calculatedLabelSizes = List();
-          _calculatedLineSizes = List();
+          _calculatedLabelBreakPoints = [];
+          _calculatedLabelSizes = [];
+          _calculatedLineSizes = [];
 
           for (var i = 0; i < entryCount; i++) {
             var e = entries[i];
@@ -485,7 +485,7 @@ class Legend extends ComponentBase {
 
           _neededWidth = maxLineWidth;
           _neededHeight = labelLineHeight * (_calculatedLineSizes.length).toDouble() +
-              labelLineSpacing * (_calculatedLineSizes.length == 0 ? 0 : (_calculatedLineSizes.length - 1));
+              labelLineSpacing * (_calculatedLineSizes.isEmpty ? 0 : (_calculatedLineSizes.length - 1));
 
           break;
         }

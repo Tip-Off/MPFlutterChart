@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/animator.dart';
-import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/line_data_provider.dart';
 import 'package:mp_chart/mp/core/data_set/line_data_set.dart';
@@ -14,7 +13,6 @@ import 'package:mp_chart/mp/core/enums/mode.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/render/float_legend_utils.dart';
 import 'package:mp_chart/mp/core/render/line_scatter_candle_radar_renderer.dart';
-import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
@@ -183,7 +181,7 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
       if (high.dataSetIndex >= 0) {
         dataSet = lineData.getDataSetByIndex(high.dataSetIndex);
       } else {
-        dataSet = lineData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).length > 0, orElse: () => null);
+        dataSet = lineData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).isNotEmpty, orElse: () => null);
       }
 
       if (dataSet == null || !dataSet.isHighlightEnabled()) continue;

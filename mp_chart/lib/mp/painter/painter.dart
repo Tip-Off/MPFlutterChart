@@ -71,7 +71,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   bool _offsetsCalculated = false;
 
   /// default value-formatter, number of digits depends on provided chart-data
-  DefaultValueFormatter _defaultValueFormatter = DefaultValueFormatter(0);
+  final DefaultValueFormatter _defaultValueFormatter = DefaultValueFormatter(0);
 
   bool _isInit = false;
 
@@ -134,7 +134,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
         _highlightForced = highlightForced,
         super() {
     initDefaultNormal();
-    if (data == null || data.dataSets == null || data.dataSets.length == 0) {
+    if (data == null || data.dataSets == null || data.dataSets.isEmpty) {
       return;
     }
     initDefaultWithData();
@@ -221,7 +221,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   ///
   /// @return
   bool valuesToHighlight() {
-    var res = _indicesToHighlight == null || _indicesToHighlight.length <= 0 || _indicesToHighlight[0] == null ? false : true;
+    var res = _indicesToHighlight == null || _indicesToHighlight.isEmpty || _indicesToHighlight[0] == null ? false : true;
     return res;
   }
 

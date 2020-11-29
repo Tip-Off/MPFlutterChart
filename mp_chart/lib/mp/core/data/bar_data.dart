@@ -1,6 +1,5 @@
 import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 
 class BarData extends BarLineScatterCandleBubbleData<IBarDataSet> {
   /// the width of the bars on the x-axis, in values (not pixels)

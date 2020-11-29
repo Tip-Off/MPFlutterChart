@@ -43,7 +43,7 @@ class ScreenUtils {
     return _singleton;
   }
 
-  _init() {
+  void _init() {
     var mediaQuery = MediaQueryData.fromWindow(ui.window);
     if (_mediaQueryData != mediaQuery) {
       _mediaQueryData = mediaQuery;

@@ -100,8 +100,8 @@ abstract class Matrix4Utils {
     var x = 0.0;
     var y = 0.0;
     for (var i = 0; i < valuePoints.length; i += 2) {
-      x = valuePoints[i] == null ? 0 : valuePoints[i];
-      y = valuePoints[i + 1] == null ? 0 : valuePoints[i + 1];
+      x = valuePoints[i] ?? 0;
+      y = valuePoints[i + 1] ?? 0;
       final transformed = m.perspectiveTransform(Vector3(x, y, 0));
       valuePoints[i] = transformed.x;
       valuePoints[i + 1] = transformed.y;

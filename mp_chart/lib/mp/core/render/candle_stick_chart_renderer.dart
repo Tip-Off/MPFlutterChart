@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/animator.dart';
-import 'package:mp_chart/mp/core/data/candle_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/candle_data_provider.dart';
 import 'package:mp_chart/mp/core/entry/candle_entry.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/render/line_scatter_candle_radar_renderer.dart';
-import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
@@ -20,8 +18,8 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   CandleDataProvider _provider;
 
-  List<double> _shadowBuffer = List(4);
-  List<double> _bodyBuffers = List(4);
+  final List<double> _shadowBuffer = List(4);
+  final List<double> _bodyBuffers = List(4);
 
   TextPainter _labelText;
 
@@ -253,7 +251,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
       if (high.dataSetIndex >= 0) {
         dataSet = candleData.getDataSetByIndex(high.dataSetIndex);
       } else {
-        dataSet = candleData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).length > 0, orElse: () => null);
+        dataSet = candleData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).isNotEmpty, orElse: () => null);
       }
 
       if (dataSet == null || !dataSet.isHighlightEnabled()) continue;

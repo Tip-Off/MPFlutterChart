@@ -283,7 +283,7 @@ class ChartAnimatorBySys extends Animator {
   static const int ANIMATE_SPIN = 3;
 
   AnimationController _controller;
-  ChartTickerProvider _provider = ChartTickerProvider();
+  final ChartTickerProvider _provider = ChartTickerProvider();
 
   EasingFunction easingFunction_1;
   EasingFunction easingFunction_2;

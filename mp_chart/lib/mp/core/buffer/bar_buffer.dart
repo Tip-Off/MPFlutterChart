@@ -1,6 +1,5 @@
 import 'package:mp_chart/mp/core/buffer/abstract_buffer.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 
 class BarBuffer extends AbstractBuffer<IBarDataSet> {
   int _dataSetIndex = 0;

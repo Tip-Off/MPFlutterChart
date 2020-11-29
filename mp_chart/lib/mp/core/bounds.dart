@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_line_scatter_candle_bubble_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_line_scatter_candle_bubble_data_provider.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/rounding.dart';
 
 class XBounds {
@@ -16,7 +15,7 @@ class XBounds {
   /// range of visible entry indices
   int _range;
 
-  Animator _animator;
+  final Animator _animator;
 
   XBounds(this._animator);
 

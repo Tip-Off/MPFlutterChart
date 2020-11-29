@@ -24,7 +24,7 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> implements ISc
 
   @override
   DataSet<Entry> copy1() {
-    var entries = List<Entry>();
+    var entries = <Entry>[];
     for (var i = 0; i < values.length; i++) {
       entries.add(values[i].copy());
     }

@@ -5,15 +5,11 @@ import 'package:flutter/painting.dart';
 import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/buffer/bar_buffer.dart';
-import 'package:mp_chart/mp/core/color/gradient_color.dart';
-import 'package:mp_chart/mp/core/data/bar_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_data_provider.dart';
 import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/range.dart';
 import 'package:mp_chart/mp/core/render/bar_line_scatter_candle_bubble_renderer.dart';
 import 'package:mp_chart/mp/core/render/float_legend_utils.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
@@ -204,7 +200,7 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
       if (high.dataSetIndex >= 0) {
         dataSet = barData.getDataSetByIndex(high.dataSetIndex);
       } else {
-        dataSet = barData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).length > 0, orElse: () => null);
+        dataSet = barData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).isNotEmpty, orElse: () => null);
       }
 
       if (dataSet == null || !dataSet.isHighlightEnabled()) continue;

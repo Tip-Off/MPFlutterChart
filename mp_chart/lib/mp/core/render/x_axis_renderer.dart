@@ -121,7 +121,7 @@ class XAxisRenderer extends AxisRenderer {
     MPPointF.recycleInstance(pointF);
   }
 
-  Path _axisLinePath = Path();
+  final Path _axisLinePath = Path();
 
   @override
   void renderAxisLine(Canvas c) {
@@ -275,7 +275,7 @@ class XAxisRenderer extends AxisRenderer {
   void renderLimitLines(Canvas c) {
     var limitLines = _xAxis.getLimitLines();
 
-    if (limitLines == null || limitLines.length <= 0) return;
+    if (limitLines == null || limitLines.isEmpty) return;
 
     var position = mRenderLimitLinesBuffer;
     position[0] = 0;
@@ -303,8 +303,8 @@ class XAxisRenderer extends AxisRenderer {
     }
   }
 
-  List<double> _limitLineSegmentsBuffer = List(4);
-  Path _limitLinePath = Path();
+  final List<double> _limitLineSegmentsBuffer = List(4);
+  final Path _limitLinePath = Path();
 
   void renderLimitLineLine(Canvas c, LimitLine limitLine, List<double> position) {
     _limitLineSegmentsBuffer[0] = position[0];

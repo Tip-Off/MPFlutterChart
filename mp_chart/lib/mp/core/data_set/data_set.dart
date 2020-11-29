@@ -27,7 +27,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   DataSet(List<T> values, String label) : super.withLabel(label) {
     _values = values;
 
-    _values ??= List<T>();
+    _values ??= <T>[];
 
     calcMinMax();
   }
@@ -122,7 +122,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   /// @return
   String toSimpleString() {
     var buffer = StringBuffer();
-    buffer.write('DataSet, label: ' + (getLabel() == null ? '' : getLabel()) + ', entries:${_values.length}\n');
+    buffer.write('DataSet, label: ' + (getLabel() ?? '') + ', entries:${_values.length}\n');
     return buffer.toString();
   }
 
@@ -166,11 +166,11 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   void addEntryOrdered(T e) {
     if (e == null) return;
 
-    _values ??= List<T>();
+    _values ??= <T>[];
 
     calcMinMax1(e);
 
-    if (_values.length > 0 && _values[_values.length - 1].x > e.x) {
+    if (_values.isNotEmpty && _values[_values.length - 1].x > e.x) {
       var closestIndex = getEntryIndex1(e.x, e.y, Rounding.UP);
       _values.insert(closestIndex, e);
     } else {
@@ -189,7 +189,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
     if (e == null) return false;
 
     var valueDatas = values;
-    valueDatas ??= List<T>();
+    valueDatas ??= <T>[];
 
     calcMinMax1(e);
 
@@ -343,7 +343,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
   @override
   List<T> getEntriesForXValue(double xValue) {
-    var entries = List<T>();
+    var entries = <T>[];
 
     var low = 0;
     var high = _values.length - 1;

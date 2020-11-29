@@ -139,8 +139,8 @@ abstract class AxisRenderer extends Renderer {
     var range = (yMax - yMin).abs();
 
     if (labelCount == 0 || range <= 0 || range.isInfinite) {
-      _axis.entries = List<double>();
-      _axis.centeredEntries = List<double>();
+      _axis.entries = [];
+      _axis.centeredEntries = [];
       _axis.entryCount = 0;
       return;
     }

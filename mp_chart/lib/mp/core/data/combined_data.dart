@@ -38,7 +38,7 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
 
   @override
   void calcMinMax1() {
-    dataSets ??= List();
+    dataSets ??= [];
     dataSets.clear();
 
     yMax = -double.infinity;
@@ -97,7 +97,7 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
   ///
   /// @return
   List<BarLineScatterCandleBubbleData> getAllData() {
-    var data = List<BarLineScatterCandleBubbleData>();
+    var data = <BarLineScatterCandleBubbleData>[];
     if (_candleData != null) data.add(_candleData);
     if (_lineData != null) data.add(_lineData);
     if (_barData != null) data.add(_barData);
@@ -178,7 +178,7 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
     var datas = getAllData();
     var success = false;
     for (ChartData data in datas) {
-      if (data.dataSets == null || data.dataSets.length == 0) {
+      if (data.dataSets == null || data.dataSets.isEmpty) {
         continue;
       }
 

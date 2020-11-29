@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import 'package:mp_chart/mp/core/data/bar_data.dart';
 import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_data_provider.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/highlight/chart_hightlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
@@ -54,7 +52,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
     } else {
       var ranges = entry.ranges;
 
-      if (ranges.length > 0) {
+      if (ranges.isNotEmpty) {
         var stackIndex = getClosestStackIndex(ranges, yVal);
 
         var pixels = provider.getTransformer(set.getAxisDependency()).getPixelForValues(high.x, ranges[stackIndex].to);
@@ -78,7 +76,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @param value
   /// @return
   int getClosestStackIndex(List<Range> ranges, double value) {
-    if (ranges == null || ranges.length == 0) return 0;
+    if (ranges == null || ranges.isEmpty) return 0;
     var stackIndex = 0;
     for (var range in ranges) {
       if (range.contains(value)) {

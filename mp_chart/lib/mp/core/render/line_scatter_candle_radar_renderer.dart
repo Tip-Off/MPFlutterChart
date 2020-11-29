@@ -8,7 +8,7 @@ import 'package:mp_chart/mp/dashed/painter.dart';
 
 abstract class LineScatterCandleRadarRenderer extends BarLineScatterCandleBubbleRenderer {
   /// path that is used for drawing highlight-lines (drawLines(...) cannot be used because of dashes)
-  Path _highlightLinePath = Path();
+  final Path _highlightLinePath = Path();
 
   LineScatterCandleRadarRenderer(Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler);
 

@@ -35,7 +35,7 @@ class FloatLegendUtils {
   static Map<String, List<EntryColor>> _createEntries<T extends IDataSet>(BarLineScatterCandleBubbleData data, List<Highlight> indices) {
     final entryColors = <String, List<EntryColor>>{};
 
-    data.dataSets.where((element) => element is T && element.getEntriesForXValue(indices.first.x).length > 0).toList().asMap().forEach((i, element) {
+    data.dataSets.where((element) => element is T && element.getEntriesForXValue(indices.first.x).isNotEmpty).toList().asMap().forEach((i, element) {
       if (element.isVisible()) {
         final h = indices.first;
         final entry = element.getEntryForXValue2(h.x, 0);
