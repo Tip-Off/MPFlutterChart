@@ -1,1 +1,0 @@
-enum ScatterShape { SQUARE }

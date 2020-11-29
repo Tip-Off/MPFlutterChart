@@ -22,7 +22,7 @@ import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/bar_line_chart_painter.dart';
 
-enum DrawOrder { BAR, LINE, CANDLE, SCATTER }
+enum DrawOrder { BAR, LINE, CANDLE }
 
 class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> implements CombinedDataProvider {
   /// if set to true, all values are drawn above their bars, instead of below
@@ -139,7 +139,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
             chartTransListener);
 
   List<DrawOrder> initDrawOrder() {
-    return List()..add(DrawOrder.CANDLE)..add(DrawOrder.BAR)..add(DrawOrder.LINE)..add(DrawOrder.SCATTER);
+    return List()..add(DrawOrder.CANDLE)..add(DrawOrder.BAR)..add(DrawOrder.LINE);
   }
 
   @override
