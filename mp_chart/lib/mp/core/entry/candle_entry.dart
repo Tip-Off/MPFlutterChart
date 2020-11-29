@@ -18,7 +18,6 @@ class CandleEntry extends Entry {
 
   bool highlighted;
 
-  //TODO: refactory
   CandleEntry({
     this.volume = 0,
     this.highlighted = false,
