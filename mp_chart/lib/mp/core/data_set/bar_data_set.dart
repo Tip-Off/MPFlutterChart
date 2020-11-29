@@ -6,6 +6,7 @@ import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/data_set.dart';
 import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart/mp/core/utils/utils.dart';
 
 class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements IBarDataSet {
   /// the maximum number of bars that are stacked upon each other, this value
@@ -24,6 +25,9 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
 
   /// the overall entry count, including counting each stack-value individually
   int _entryCountStacks = 0;
+
+  /// the width of the highlight indicator lines
+  double _highlightLineWidth = Utils.convertDpToPixel(0.5);
 
   /// the path effect for dashed highlight-lines
   bool _isHighlightLineDashed = false;
@@ -190,6 +194,18 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
   List<String> getStackLabels() {
     return _stackLabels;
   }
+
+  /// Sets the width of the highlight line in dp.
+  /// @param width
+  void setHighlightLineWidth(double width) {
+    _highlightLineWidth = Utils.convertDpToPixel(width);
+  }
+
+  @override
+  double getHighlightLineWidth() {
+    return _highlightLineWidth;
+  }
+
   void enableHighlightLineDashed() {
     _isHighlightLineDashed = true;
   }
