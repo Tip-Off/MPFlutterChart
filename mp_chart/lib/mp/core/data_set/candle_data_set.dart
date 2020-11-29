@@ -36,9 +36,6 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   /// descreasing candlesticks are traditionally filled
   PaintingStyle _decreasingPaintStyle = PaintingStyle.fill;
 
-  /// color for open == close
-  Color _neutralColor = ColorUtils.COLOR_SKIP;
-
   /// color for open < close
   Color _increasingColor = ColorUtils.COLOR_SKIP;
 
@@ -73,7 +70,6 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
       candleDataSet.setHighLightColor(getHighLightColor());
       candleDataSet._increasingPaintStyle = _increasingPaintStyle;
       candleDataSet._decreasingPaintStyle = _decreasingPaintStyle;
-      candleDataSet._neutralColor = _neutralColor;
       candleDataSet._increasingColor = _increasingColor;
       candleDataSet._decreasingColor = _decreasingColor;
       candleDataSet._shadowColor = _shadowColor;
@@ -133,26 +129,6 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   /// @param showCandleBar
   void setShowCandleBar(bool showCandleBar) {
     _showCandleBar = showCandleBar;
-  }
-
-  @override
-  bool getShowCandleBar() {
-    return _showCandleBar;
-  }
-
-  /// BELOW THIS COLOR HANDLING
-
-  /// Sets the one and ONLY color that should be used for this DataSet when
-  /// open == close.
-  ///
-  /// @param color
-  void setNeutralColor(Color color) {
-    _neutralColor = color;
-  }
-
-  @override
-  Color getNeutralColor() {
-    return _neutralColor;
   }
 
   /// Sets the one and ONLY color that should be used for this DataSet when
