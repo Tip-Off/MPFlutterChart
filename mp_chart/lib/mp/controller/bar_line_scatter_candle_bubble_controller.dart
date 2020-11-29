@@ -184,12 +184,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
     backgroundPaint = Paint()..color = backgroundColor == null ? ColorUtils.WHITE : backgroundColor;
 
     drawListener ??= initDrawListener();
-//    if (axisLeft == null) {
-//      axisLeft = initAxisLeft();
-//    }
-//    if (axisRight == null) {
-//      axisRight = initAxisRight();
-//    }
+
     leftAxisTransformer ??= initLeftAxisTransformer();
     rightAxisTransformer ??= initRightAxisTransformer();
     zoomMatrixBuffer ??= initZoomMatrixBuffer();
