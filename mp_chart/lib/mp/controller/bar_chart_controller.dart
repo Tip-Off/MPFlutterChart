@@ -143,7 +143,6 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
         infoPaint,
         xAxis,
         legend,
-        legendRenderer,
         rendererSettingFunction,
         selectionListener,
         maxVisibleCount,

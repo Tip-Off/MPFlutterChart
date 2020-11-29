@@ -21,7 +21,6 @@ import 'package:mp_chart/mp/core/highlight/chart_hightlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
@@ -154,7 +153,6 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
       TextPainter infoPainter,
       XAxis xAxis,
       Legend legend,
-      LegendRenderer legendRenderer,
       DataRendererSettingFunction rendererSettingFunction,
       OnChartValueSelectedListener selectedListener,
       int maxVisibleCount,
@@ -214,7 +212,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
         _backgroundPaint = backgroundPaint,
         _chartTransListener = chartTransListener,
         super(data, highlighForced, animator, viewPortHandler, maxHighlightDistance, highLightPerTapEnabled, extraLeftOffset, extraTopOffset, extraRightOffset,
-            extraBottomOffset, infoBgColor, infoPainter, xAxis, legend, legendRenderer, rendererSettingFunction, selectedListener);
+            extraBottomOffset, infoBgColor, infoPainter, xAxis, legend, rendererSettingFunction, selectedListener);
 
   @override
   void initDefaultWithData() {
@@ -314,8 +312,6 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
     } else {
       renderer.drawValues(canvas);
     }
-
-    legendRenderer.renderLegend(canvas);
   }
 
   void prepareValuePxMatrix() {
@@ -430,7 +426,6 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
 
   @override
   void calculateOffsets() {
-    if (legend != null) legendRenderer.computeLegend(getData());
     renderer?.initBuffers();
     calcMinMax();
 

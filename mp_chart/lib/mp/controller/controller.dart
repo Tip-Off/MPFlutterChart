@@ -6,7 +6,6 @@ import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/chart_data.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
@@ -24,7 +23,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
   ViewPortHandler viewPortHandler;
   XAxis xAxis;
   Legend legend;
-  LegendRenderer legendRenderer;
   OnChartValueSelectedListener selectionListener;
 
   ////// option
@@ -47,7 +45,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
       {this.viewPortHandler,
       this.xAxis,
       this.legend,
-      this.legendRenderer,
       this.selectionListener,
       this.maxHighlightDistance = 100.0,
       this.highLightPerTapEnabled = true,
@@ -95,8 +92,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
   Legend initLegend() => Legend();
 
-  LegendRenderer initLegendRenderer() => LegendRenderer(viewPortHandler, legend);
-
   OnChartValueSelectedListener initSelectionListener() => null;
 
   ChartState createChartState() {
@@ -108,7 +103,6 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
   void doneBeforePainterInit() {
     legend = initLegend();
-    legendRenderer = initLegendRenderer();
     if (xAxis == null) {
       xAxis = initXAxis();
     }

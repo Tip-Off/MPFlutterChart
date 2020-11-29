@@ -14,7 +14,6 @@ import 'package:mp_chart/mp/core/highlight/bar_highlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/render/bar_chart_renderer.dart';
-import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
@@ -49,7 +48,6 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
       TextPainter infoPainter,
       XAxis xAxis,
       Legend legend,
-      LegendRenderer legendRenderer,
       DataRendererSettingFunction rendererSettingFunction,
       OnChartValueSelectedListener selectedListener,
       int maxVisibleCount,
@@ -103,7 +101,6 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
             infoPainter,
             xAxis,
             legend,
-            legendRenderer,
             rendererSettingFunction,
             selectedListener,
             maxVisibleCount,

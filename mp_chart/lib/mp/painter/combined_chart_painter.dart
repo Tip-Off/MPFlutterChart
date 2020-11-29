@@ -15,7 +15,6 @@ import 'package:mp_chart/mp/core/highlight/combined_highlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/render/combined_chart_renderer.dart';
-import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
@@ -54,7 +53,6 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
       TextPainter infoPainter,
       XAxis xAxis,
       Legend legend,
-      LegendRenderer legendRenderer,
       DataRendererSettingFunction rendererSettingFunction,
       OnChartValueSelectedListener selectedListener,
       int maxVisibleCount,
@@ -109,7 +107,6 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
             infoPainter,
             xAxis,
             legend,
-            legendRenderer,
             rendererSettingFunction,
             selectedListener,
             maxVisibleCount,

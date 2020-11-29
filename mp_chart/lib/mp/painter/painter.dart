@@ -14,7 +14,6 @@ import 'package:mp_chart/mp/core/highlight/i_highlighter.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/render/data_renderer.dart';
-import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/value_formatter/default_value_formatter.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
@@ -50,7 +49,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
   /// the legend object containing all data associated with the legend
   final Legend _legend;
-  final LegendRenderer _legendRenderer;
 
   final OnChartValueSelectedListener _selectionListener;
 
@@ -82,8 +80,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   Legend get legend => _legend;
 
   ViewPortHandler get viewPortHandler => _viewPortHandler;
-
-  LegendRenderer get legendRenderer => _legendRenderer;
 
   double get extraLeftOffset => _extraLeftOffset;
 
@@ -118,7 +114,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
       TextPainter infoPainter,
       XAxis xAxis,
       Legend legend,
-      LegendRenderer legendRenderer,
       DataRendererSettingFunction rendererSettingFunction,
       OnChartValueSelectedListener selectedListener)
       : _data = data,
@@ -134,7 +129,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
         _infoPaint = infoPainter,
         _xAxis = xAxis,
         _legend = legend,
-        _legendRenderer = legendRenderer,
         _rendererSettingFunction = rendererSettingFunction,
         _selectionListener = selectedListener,
         _highlightForced = highlightForced,

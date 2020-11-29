@@ -160,7 +160,6 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
         infoPaint,
         xAxis,
         legend,
-        legendRenderer,
         rendererSettingFunction,
         selectionListener,
         maxVisibleCount,

@@ -151,7 +151,6 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
         infoPaint,
         xAxis,
         legend,
-        legendRenderer,
         rendererSettingFunction,
         selectionListener,
         maxVisibleCount,
