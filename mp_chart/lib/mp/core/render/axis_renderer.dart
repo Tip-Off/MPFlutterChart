@@ -38,8 +38,8 @@ abstract class AxisRenderer extends Renderer {
   Paint _limitLinePaint;
 
   AxisRenderer(ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis) : super(viewPortHandler) {
-    this._trans = trans;
-    this._axis = axis;
+    _trans = trans;
+    _axis = axis;
     if (viewPortHandler != null) {
       _gridPaint = Paint()
         ..color = Color.fromARGB(90, 160, 160, 160)
@@ -214,8 +214,9 @@ abstract class AxisRenderer extends Renderer {
 
       i = 0;
       for (f = first; i < num; f += interval, ++i) {
-        if (f == 0.0) // Fix for negative zero case (Where value == -0.0, and 0.0 == -0.0)
+        if (f == 0.0) {
           f = 0.0;
+        }
 
         _axis.entries[i] = f;
       }

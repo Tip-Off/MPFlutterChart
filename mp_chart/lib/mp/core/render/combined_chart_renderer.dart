@@ -105,10 +105,11 @@ class CombinedChartRenderer extends DataRenderer {
   /// @param index
   /// @return
   DataRenderer getSubRenderer(int index) {
-    if (index >= _renderers.length || index < 0)
+    if (index >= _renderers.length || index < 0) {
       return null;
-    else
+    } else {
       return _renderers[index];
+    }
   }
 
   /// Returns all sub-renderers.
@@ -119,7 +120,7 @@ class CombinedChartRenderer extends DataRenderer {
   }
 
   void setSubRenderers(List<DataRenderer> renderers) {
-    this._renderers = renderers;
+    _renderers = renderers;
   }
 
   @override

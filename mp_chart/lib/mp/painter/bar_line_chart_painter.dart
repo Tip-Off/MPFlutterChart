@@ -493,11 +493,13 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// backwards.
   ///
   /// @return
+  @override
   Transformer getTransformer(AxisDependency which) {
-    if (which == AxisDependency.LEFT)
+    if (which == AxisDependency.LEFT) {
       return _leftAxisTransformer;
-    else
+    } else {
       return _rightAxisTransformer;
+    }
   }
 
   /// Zooms in or out by the given scale factor. x and y are the coordinates
@@ -565,10 +567,11 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// @param axis
   /// @return
   double getAxisRange(AxisDependency axis) {
-    if (axis == AxisDependency.LEFT)
+    if (axis == AxisDependency.LEFT) {
       return _axisLeft.axisRange;
-    else
+    } else {
       return _axisRight.axisRange;
+    }
   }
 
   List<double> mGetPositionBuffer = List(2);
@@ -705,18 +708,20 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
 
   /// returns the current x-scale factor
   double getScaleX() {
-    if (viewPortHandler == null)
+    if (viewPortHandler == null) {
       return 1;
-    else
+    } else {
       return viewPortHandler.getScaleX();
+    }
   }
 
   /// returns the current y-scale factor
   double getScaleY() {
-    if (viewPortHandler == null)
+    if (viewPortHandler == null) {
       return 1;
-    else
+    } else {
       return viewPortHandler.getScaleY();
+    }
   }
 
   /// if the chart is fully zoomed out, return true
@@ -732,10 +737,11 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
   /// @param axis
   /// @return
   YAxis getAxis(AxisDependency axis) {
-    if (axis == AxisDependency.LEFT)
+    if (axis == AxisDependency.LEFT) {
       return _axisLeft;
-    else
+    } else {
       return _axisRight;
+    }
   }
 
   @override

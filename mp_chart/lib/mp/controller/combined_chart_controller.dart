@@ -66,7 +66,7 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
       AxisLeftSettingFunction axisLeftSettingFunction,
       AxisRightSettingFunction axisRightSettingFunction,
       OnTouchEventListener touchEventListener,
-      String noDataText = "No chart data available.",
+      String noDataText = 'No chart data available.',
       XAxisSettingFunction xAxisSettingFunction,
       LegendSettingFunction legendSettingFunction,
       DataRendererSettingFunction rendererSettingFunction,
@@ -137,10 +137,13 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
             touchEventListener: touchEventListener,
             chartTransListener: chartTransListener);
 
+  @override
   CombinedData get data => super.data;
 
+  @override
   CombinedChartPainter get painter => super.painter;
 
+  @override
   CombinedChartState get state => super.state;
 
   @override

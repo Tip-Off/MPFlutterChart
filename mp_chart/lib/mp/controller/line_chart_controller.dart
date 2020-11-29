@@ -48,7 +48,7 @@ class LineChartController extends BarLineScatterCandleBubbleController<LineChart
       AxisLeftSettingFunction axisLeftSettingFunction,
       AxisRightSettingFunction axisRightSettingFunction,
       OnTouchEventListener touchEventListener,
-      String noDataText = "No chart data available.",
+      String noDataText = 'No chart data available.',
       XAxisSettingFunction xAxisSettingFunction,
       LegendSettingFunction legendSettingFunction,
       DataRendererSettingFunction rendererSettingFunction,
@@ -117,10 +117,13 @@ class LineChartController extends BarLineScatterCandleBubbleController<LineChart
             touchEventListener: touchEventListener,
             chartTransListener: chartTransListener);
 
+  @override
   LineData get data => super.data;
 
+  @override
   LineChartState get state => super.state;
 
+  @override
   LineChartPainter get painter => super.painter;
 
   @override

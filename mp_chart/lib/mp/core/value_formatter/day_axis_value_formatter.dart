@@ -5,23 +5,23 @@ import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
 
 class DayAxisValueFormatter extends ValueFormatter {
   final List<String> _months = List()
-    ..add("Jan")
-    ..add("Feb")
-    ..add("Mar")
-    ..add("Apr")
-    ..add("May")
-    ..add("Jun")
-    ..add("Jul")
-    ..add("Aug")
-    ..add("Sep")
-    ..add("Oct")
-    ..add("Nov")
-    ..add("Dec");
+    ..add('Jan')
+    ..add('Feb')
+    ..add('Mar')
+    ..add('Apr')
+    ..add('May')
+    ..add('Jun')
+    ..add('Jul')
+    ..add('Aug')
+    ..add('Sep')
+    ..add('Oct')
+    ..add('Nov')
+    ..add('Dec');
 
   BarLineScatterCandleBubbleController _controller;
 
   DayAxisValueFormatter(BarLineScatterCandleBubbleController controller) {
-    this._controller = controller;
+    _controller = controller;
   }
 
   @override
@@ -35,37 +35,37 @@ class DayAxisValueFormatter extends ValueFormatter {
     var yearName = year.toString();
 
     if (_controller.painter.getVisibleXRange() > 30 * 6) {
-      return monthName + " " + yearName;
+      return monthName + ' ' + yearName;
     } else {
       var dayOfMonth = determineDayOfMonth(days, month + 12 * (year - 2016));
 
-      var appendix = "th";
+      var appendix = 'th';
 
       switch (dayOfMonth) {
         case 1:
-          appendix = "st";
+          appendix = 'st';
           break;
         case 2:
-          appendix = "nd";
+          appendix = 'nd';
           break;
         case 3:
-          appendix = "rd";
+          appendix = 'rd';
           break;
         case 21:
-          appendix = "st";
+          appendix = 'st';
           break;
         case 22:
-          appendix = "nd";
+          appendix = 'nd';
           break;
         case 23:
-          appendix = "rd";
+          appendix = 'rd';
           break;
         case 31:
-          appendix = "st";
+          appendix = 'st';
           break;
       }
 
-      return dayOfMonth == 0 ? "" : "$dayOfMonth$appendix $monthName";
+      return dayOfMonth == 0 ? '' : '$dayOfMonth$appendix $monthName';
     }
   }
 
@@ -75,17 +75,18 @@ class DayAxisValueFormatter extends ValueFormatter {
     if (month == 1) {
       var is29Feb = false;
 
-      if (year < 1582)
+      if (year < 1582) {
         is29Feb = (year < 1 ? year + 1 : year) % 4 == 0;
-      else if (year > 1582) is29Feb = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+      } else if (year > 1582) is29Feb = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
 
       return is29Feb ? 29 : 28;
     }
 
-    if (month == 3 || month == 5 || month == 8 || month == 10)
+    if (month == 3 || month == 5 || month == 8 || month == 10) {
       return 30;
-    else
+    } else {
       return 31;
+    }
   }
 
   int determineMonth(int dayOfYear) {
@@ -118,15 +119,16 @@ class DayAxisValueFormatter extends ValueFormatter {
   }
 
   int determineYear(int days) {
-    if (days <= 366)
+    if (days <= 366) {
       return 2016;
-    else if (days <= 730)
+    } else if (days <= 730) {
       return 2017;
-    else if (days <= 1094)
+    } else if (days <= 1094) {
       return 2018;
-    else if (days <= 1458)
+    } else if (days <= 1458) {
       return 2019;
-    else
+    } else {
       return 2020;
+    }
   }
 }

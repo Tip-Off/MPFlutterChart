@@ -69,10 +69,11 @@ class ViewPortHandler {
   }
 
   bool hasChartDimens() {
-    if (_chartHeight > 0 && _chartWidth > 0)
+    if (_chartHeight > 0 && _chartWidth > 0) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   void restrainViewPort(double offsetLeft, double offsetTop, double offsetRight, double offsetBottom) {

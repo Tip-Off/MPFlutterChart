@@ -309,9 +309,9 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
     }
 
     if (callListener && _selectionListener != null) {
-      if (!valuesToHighlight())
+      if (!valuesToHighlight()) {
         _selectionListener?.onNothingSelected();
-      else {
+      } else {
         // notify the listener
         _selectionListener?.onValueSelected(e, high);
       }
@@ -382,6 +382,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   /// Returns the center point of the chart (the whole View) in pixels.
   ///
   /// @return
+  @override
   MPPointF getCenter(Size size) {
     return MPPointF.getInstance1(size.width / 2, size.height / 2);
   }

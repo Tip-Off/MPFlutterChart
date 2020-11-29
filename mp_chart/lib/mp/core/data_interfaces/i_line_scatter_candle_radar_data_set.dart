@@ -12,7 +12,9 @@ mixin ILineScatterCandleRadarDataSet<T extends Entry> implements IBarLineScatter
 
   /// Returns the line-width in which highlight lines are to be drawn.
   /// @return
+  @override
   double getHighlightLineWidth();
 
+  @override
   bool isHighlightLineDashed();
 }

@@ -81,10 +81,11 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
     if (ranges == null || ranges.length == 0) return 0;
     var stackIndex = 0;
     for (var range in ranges) {
-      if (range.contains(value))
+      if (range.contains(value)) {
         return stackIndex;
-      else
+      } else {
         stackIndex++;
+      }
     }
     var length = max(ranges.length - 1, 0);
     return (value > ranges[length].to) ? length : 0;

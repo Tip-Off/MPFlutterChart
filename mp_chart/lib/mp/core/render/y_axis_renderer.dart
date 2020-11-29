@@ -23,7 +23,7 @@ class YAxisRenderer extends AxisRenderer {
   Paint _zeroLinePaint;
 
   YAxisRenderer(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans) : super(viewPortHandler, trans, yAxis) {
-    this._yAxis = yAxis;
+    _yAxis = yAxis;
 
     if (viewPortHandler != null) {
       axisLabelPaint = PainterUtils.create(axisLabelPaint, null, ColorUtils.BLACK, Utils.convertDpToPixel(10));

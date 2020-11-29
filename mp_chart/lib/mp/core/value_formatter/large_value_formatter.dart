@@ -2,16 +2,16 @@ import 'package:intl/intl.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
 
 class LargeValueFormatter extends ValueFormatter {
-  List<String> _suffix = List()..add("")..add("k")..add("m")..add("b")..add("t");
+  List<String> _suffix = List()..add('')..add('k')..add('m')..add('b')..add('t');
   int _maxLength = 5;
   NumberFormat _format;
-  String _text = "";
+  String _text = '';
 
   /// Creates a formatter that appends a specified text to the result string
   ///
   /// @param appendix a text that will be appended
-  LargeValueFormatter({String appendix = ""}) {
-    _format = NumberFormat("###E00");
+  LargeValueFormatter({String appendix = ''}) {
+    _format = NumberFormat('###E00');
     _text = appendix;
   }
 
@@ -24,7 +24,7 @@ class LargeValueFormatter extends ValueFormatter {
   ///
   /// @param appendix
   void setAppendix(String appendix) {
-    this._text = appendix;
+    _text = appendix;
   }
 
   /// Set custom suffix to be appended after the values.
@@ -32,11 +32,11 @@ class LargeValueFormatter extends ValueFormatter {
   ///
   /// @param suffix new suffix
   void setSuffix(List<String> suffix) {
-    this._suffix = suffix;
+    _suffix = suffix;
   }
 
   void setMaxLength(int maxLength) {
-    this._maxLength = maxLength;
+    _maxLength = maxLength;
   }
 
   /// Formats each number properly. Special thanks to Roman Gromov
@@ -45,11 +45,11 @@ class LargeValueFormatter extends ValueFormatter {
     var r = _format.format(number);
     var numericValue1 = int.tryParse(r[r.length - 1]);
     var numericValue2 = int.tryParse(r[r.length - 2]);
-    var combined = int.parse("$numericValue2$numericValue1");
+    var combined = int.parse('$numericValue2$numericValue1');
 
     r = r.replaceAllMapped(
         RegExp(
-          r"E[0-9][0-9]",
+          r'E[0-9][0-9]',
           caseSensitive: false,
           multiLine: false,
         ),
@@ -57,7 +57,7 @@ class LargeValueFormatter extends ValueFormatter {
 
     while (r.length > _maxLength ||
         RegExp(
-          r"[0-9]+\\.[a-z]",
+          r'[0-9]+\\.[a-z]',
           caseSensitive: false,
           multiLine: false,
         ).hasMatch(r)) {

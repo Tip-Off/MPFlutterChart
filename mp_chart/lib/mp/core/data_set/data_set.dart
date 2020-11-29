@@ -25,9 +25,9 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   /// @param values
   /// @param label
   DataSet(List<T> values, String label) : super.withLabel(label) {
-    this._values = values;
+    _values = values;
 
-    if (_values == null) _values = List<T>();
+    _values ??= List<T>();
 
     calcMinMax();
   }
@@ -122,7 +122,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   /// @return
   String toSimpleString() {
     var buffer = StringBuffer();
-    buffer.write("DataSet, label: " + (getLabel() == null ? "" : getLabel()) + ", entries:${_values.length}\n");
+    buffer.write('DataSet, label: ' + (getLabel() == null ? '' : getLabel()) + ', entries:${_values.length}\n');
     return buffer.toString();
   }
 
@@ -166,9 +166,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   void addEntryOrdered(T e) {
     if (e == null) return;
 
-    if (_values == null) {
-      _values = List<T>();
-    }
+    _values ??= List<T>();
 
     calcMinMax1(e);
 
@@ -191,9 +189,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
     if (e == null) return false;
 
     var valueDatas = values;
-    if (valueDatas == null) {
-      valueDatas = List<T>();
-    }
+    valueDatas ??= List<T>();
 
     calcMinMax1(e);
 
@@ -317,7 +313,9 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
       // Search by closest to y-value
       if (!(closestToY.isNaN)) {
-        while (closest > 0 && _values[closest - 1].x == closestXValue) closest -= 1;
+        while (closest > 0 && _values[closest - 1].x == closestXValue) {
+          closest -= 1;
+        }
 
         var closestYValue = _values[closest].y;
         var closestYIndex = closest;
@@ -356,7 +354,9 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
       // if we have a match
       if (xValue == entry.x) {
-        while (m > 0 && _values[m - 1].x == xValue) m--;
+        while (m > 0 && _values[m - 1].x == xValue) {
+          m--;
+        }
 
         high = _values.length;
 
@@ -372,10 +372,11 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
         break;
       } else {
-        if (xValue > entry.x)
+        if (xValue > entry.x) {
           low = m + 1;
-        else
+        } else {
           high = m - 1;
+        }
       }
     }
 

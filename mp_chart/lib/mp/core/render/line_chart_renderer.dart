@@ -118,8 +118,9 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
     } else {
       // only one color per dataset
 
-      if (mLineBuffer.length < max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 2)
+      if (mLineBuffer.length < max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 2) {
         mLineBuffer = List(max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 4);
+      }
 
       Entry e1, e2;
 

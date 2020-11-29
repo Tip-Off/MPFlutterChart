@@ -80,23 +80,23 @@ class Legend extends ComponentBase {
 
   /// default constructor
   Legend() {
-    this.textSize = Utils.convertDpToPixel(10);
-    this.xOffset = Utils.convertDpToPixel(5);
-    this.yOffset = Utils.convertDpToPixel(3); // 2
+    textSize = Utils.convertDpToPixel(10);
+    xOffset = Utils.convertDpToPixel(5);
+    yOffset = Utils.convertDpToPixel(3); // 2
   }
 
   /// Constructor. Provide entries for the legend.
   ///
   /// @param entries
   Legend.fromList(List<LegendEntry> entries) {
-    this.textSize = Utils.convertDpToPixel(10);
-    this.xOffset = Utils.convertDpToPixel(5);
-    this.yOffset = Utils.convertDpToPixel(3);
+    textSize = Utils.convertDpToPixel(10);
+    xOffset = Utils.convertDpToPixel(5);
+    yOffset = Utils.convertDpToPixel(3);
     if (entries == null) {
-      throw Exception("entries array is NULL");
+      throw Exception('entries array is NULL');
     }
 
-    this._entries = entries;
+    _entries = entries;
   }
 
   // ignore: unnecessary_getters_setters
@@ -166,9 +166,9 @@ class Legend extends ComponentBase {
       entry.formColor = colors[i];
       entry.label = labels[i];
 
-      if (entry.formColor == ColorUtils.COLOR_SKIP)
+      if (entry.formColor == ColorUtils.COLOR_SKIP) {
         entry.form = LegendForm.NONE;
-      else if (entry.formColor == ColorUtils.COLOR_NONE) entry.form = LegendForm.EMPTY;
+      } else if (entry.formColor == ColorUtils.COLOR_NONE) entry.form = LegendForm.EMPTY;
 
       entries.add(entry);
     }
@@ -375,9 +375,9 @@ class Legend extends ComponentBase {
             // grouped forms have null labels
             if (label != null) {
               // make a step to the left
-              if (drawingForm && !wasStacked)
+              if (drawingForm && !wasStacked) {
                 width += formToTextSpace;
-              else if (wasStacked) {
+              } else if (wasStacked) {
                 maxWidth = max(maxWidth, width);
                 maxHeight += labelLineHeight + yEntrySpace;
                 width = 0;

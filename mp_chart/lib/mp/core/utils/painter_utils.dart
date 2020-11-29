@@ -29,9 +29,7 @@ abstract class PainterUtils {
   }
 
   static TextStyle createTextStyle(Color color, double fontSize, {String fontFamily, FontWeight fontWeight = FontWeight.w400}) {
-    if (fontWeight == null) {
-      fontWeight = FontWeight.w400;
-    }
+    fontWeight ??= FontWeight.w400;
     return TextStyle(color: color, fontSize: fontSize, fontFamily: fontFamily, fontWeight: fontWeight);
   }
 }

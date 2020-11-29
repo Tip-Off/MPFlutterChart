@@ -18,7 +18,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   List<Highlight> _highlightBuffer = List<Highlight>();
 
   ChartHighlighter(T provider) {
-    this._provider = provider;
+    _provider = provider;
   }
 
   T get provider => _provider;

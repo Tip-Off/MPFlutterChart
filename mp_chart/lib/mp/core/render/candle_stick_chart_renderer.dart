@@ -97,10 +97,11 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
       // draw the shadows
       if (dataSet.getShadowColorSameAsCandle()) {
-        if (open > close)
+        if (open > close) {
           renderPaint.color = dataSet.getDecreasingColor() == ColorUtils.COLOR_NONE ? dataSet.getColor2(j) : dataSet.getDecreasingColor();
-        else
+        } else {
           renderPaint.color = dataSet.getIncreasingColor() == ColorUtils.COLOR_NONE ? dataSet.getColor2(j) : dataSet.getIncreasingColor();
+        }
       } else {
         renderPaint.color = dataSet.getShadowColor() == ColorUtils.COLOR_NONE ? dataSet.getColor2(j) : dataSet.getShadowColor();
       }

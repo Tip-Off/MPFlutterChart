@@ -123,12 +123,14 @@ class ChartAnimator extends Animator {
 
   ChartAnimator(AnimatorUpdateListener listener) : super(listener);
 
+  @override
   void reset() {
     _isShowed = false;
   }
 
   bool get needReset => _isShowed;
 
+  @override
   void spin(int durationMillis, double fromAngle, double toAngle, EasingFunction easing) {
     if (_isShowed || _countdownTimer != null || durationMillis < 0 || fromAngle >= toAngle) {
       return;
@@ -153,6 +155,7 @@ class ChartAnimator extends Animator {
     });
   }
 
+  @override
   void animateX2(int durationMillis, EasingFunction easing) {
     if (_isShowed || _countdownTimer != null || durationMillis < 0) {
       return;
@@ -177,6 +180,7 @@ class ChartAnimator extends Animator {
     });
   }
 
+  @override
   void animateXY2(int durationMillisX, int durationMillisY, EasingFunction easing) {
     if (_isShowed || _countdownTimer != null || durationMillisX < 0 || durationMillisY < 0) {
       return;
@@ -211,6 +215,7 @@ class ChartAnimator extends Animator {
     });
   }
 
+  @override
   void animateXY3(int durationMillisX, int durationMillisY, EasingFunction easingX, EasingFunction easingY) {
     if (_isShowed || _countdownTimer != null || durationMillisX < 0 || durationMillisY < 0) {
       return;
@@ -245,6 +250,7 @@ class ChartAnimator extends Animator {
     });
   }
 
+  @override
   void animateY2(int durationMillis, EasingFunction easing) {
     if (_isShowed || _countdownTimer != null || durationMillis < 0) {
       return;
@@ -446,7 +452,7 @@ class ChartAnimatorBySys extends Animator {
     animating = true;
 
     this.fromAngle = fromAngle;
-    this.angle = fromAngle;
+    angle = fromAngle;
     this.toAngle = toAngle;
     _controller.duration = Duration(milliseconds: durationMillis);
     easingFunction_1 = easing;

@@ -38,9 +38,7 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
 
   @override
   void calcMinMax1() {
-    if (dataSets == null) {
-      dataSets = List();
-    }
+    dataSets ??= List();
     dataSets.clear();
 
     yMax = -double.infinity;
@@ -150,7 +148,9 @@ class CombinedData extends BarLineScatterCandleBubbleData<IBarLineScatterCandleB
     }
 
     var entries = data.getDataSetByIndex(highlight.dataSetIndex).getEntriesForXValue(highlight.x);
-    for (var entry in entries) if (entry.y == highlight.y || highlight.y.isNaN) return entry;
+    for (var entry in entries) {
+      if (entry.y == highlight.y || highlight.y.isNaN) return entry;
+    }
 
     return null;
   }

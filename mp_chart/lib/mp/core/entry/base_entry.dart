@@ -11,9 +11,9 @@ abstract class BaseEntry {
   ui.Image _icon;
 
   BaseEntry({double y, ui.Image icon, Object data}) {
-    this._y = y;
-    this._icon = icon;
-    this._data = data;
+    _y = y;
+    _icon = icon;
+    _data = data;
   }
 
   // ignore: unnecessary_getters_setters

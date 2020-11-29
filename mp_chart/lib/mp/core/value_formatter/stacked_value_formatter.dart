@@ -17,16 +17,16 @@ class StackedValueFormatter extends ValueFormatter {
   /// @param suffix         a string that should be appended behind the value
   /// @param decimals       the number of decimal digits to use
   StackedValueFormatter(bool drawWholeStack, String suffix, int decimals) {
-    this._drawWholeStack = drawWholeStack;
-    this._suffix = suffix;
+    _drawWholeStack = drawWholeStack;
+    _suffix = suffix;
 
     var b = StringBuffer();
     for (var i = 0; i < decimals; i++) {
-      if (i == 0) b.write(".");
-      b.write("0");
+      if (i == 0) b.write('.');
+      b.write('0');
     }
 
-    this._format = NumberFormat("###,###,###,##0" + b.toString());
+    _format = NumberFormat('###,###,###,##0' + b.toString());
   }
 
   @override
@@ -40,7 +40,7 @@ class StackedValueFormatter extends ValueFormatter {
           // return the "sum" across all stack values
           return _format.format(entry.y) + _suffix;
         } else {
-          return ""; // return empty
+          return ''; // return empty
         }
       }
     }

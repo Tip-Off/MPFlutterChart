@@ -17,14 +17,16 @@ class DefaultFillFormatter implements IFillFormatter {
     } else {
       double max, min;
 
-      if (data.getYMax1() > 0)
+      if (data.getYMax1() > 0) {
         max = 0;
-      else
+      } else {
         max = chartMaxY;
-      if (data.getYMin1() < 0)
+      }
+      if (data.getYMin1() < 0) {
         min = 0;
-      else
+      } else {
         min = chartMinY;
+      }
 
       fillMin = dataSet.getYMin() >= 0 ? min : max;
     }

@@ -8,8 +8,8 @@ class MyValueFormatter extends ValueFormatter {
   String _suffix;
 
   MyValueFormatter(String suffix) {
-    _format = NumberFormat("###,###,###,##0.0");
-    this._suffix = suffix;
+    _format = NumberFormat('###,###,###,##0.0');
+    _suffix = suffix;
   }
 
   @override

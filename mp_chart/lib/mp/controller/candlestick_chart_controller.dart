@@ -57,7 +57,7 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
       AxisLeftSettingFunction axisLeftSettingFunction,
       AxisRightSettingFunction axisRightSettingFunction,
       OnTouchEventListener touchEventListener,
-      String noDataText = "No chart data available.",
+      String noDataText = 'No chart data available.',
       XAxisSettingFunction xAxisSettingFunction,
       LegendSettingFunction legendSettingFunction,
       DataRendererSettingFunction rendererSettingFunction,
@@ -128,10 +128,13 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
             touchEventListener: touchEventListener,
             chartTransListener: chartTransListener);
 
+  @override
   CandleData get data => super.data;
 
+  @override
   CandlestickChartState get state => super.state;
 
+  @override
   CandlestickChartPainter get painter => super.painter;
 
   @override

@@ -59,6 +59,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
     return copied;
   }
 
+  @override
   void copy(BaseDataSet baseDataSet) {
     super.copy(baseDataSet);
     if (baseDataSet is CandleDataSet) {
@@ -166,7 +167,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   ///
   /// @param paintStyle
   void setIncreasingPaintStyle(PaintingStyle paintStyle) {
-    this._increasingPaintStyle = paintStyle;
+    _increasingPaintStyle = paintStyle;
   }
 
   @override
@@ -178,7 +179,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   ///
   /// @param decreasingPaintStyle
   void setDecreasingPaintStyle(PaintingStyle decreasingPaintStyle) {
-    this._decreasingPaintStyle = decreasingPaintStyle;
+    _decreasingPaintStyle = decreasingPaintStyle;
   }
 
   @override
@@ -190,7 +191,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   ///
   /// @param shadowColor
   void setShadowColor(Color shadowColor) {
-    this._shadowColor = shadowColor;
+    _shadowColor = shadowColor;
   }
 
   @override
@@ -202,7 +203,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   ///
   /// @param shadowColorSameAsCandle
   void setShadowColorSameAsCandle(bool shadowColorSameAsCandle) {
-    this._shadowColorSameAsCandle = shadowColorSameAsCandle;
+    _shadowColorSameAsCandle = shadowColorSameAsCandle;
   }
 
   @override

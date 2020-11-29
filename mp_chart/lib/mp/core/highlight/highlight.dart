@@ -64,12 +64,12 @@ class Highlight {
   }) {
     this.x = x;
     this.y = y;
-    this._xPx = xPx;
-    this._yPx = yPx;
-    this._dataIndex = dataIndex;
-    this._dataSetIndex = dataSetIndex;
-    this._axis = axis;
-    this._stackIndex = stackIndex;
+    _xPx = xPx;
+    _yPx = yPx;
+    _dataIndex = dataIndex;
+    _dataSetIndex = dataSetIndex;
+    _axis = axis;
+    _stackIndex = stackIndex;
   }
 
   Highlight copyWith({
@@ -128,8 +128,8 @@ class Highlight {
   /// @param x
   /// @param y
   void setDraw(double x, double y) {
-    this._drawX = x;
-    this._drawY = y;
+    _drawX = x;
+    _drawY = y;
   }
 
   double get drawX => _drawX;
@@ -142,24 +142,25 @@ class Highlight {
   /// @param h
   /// @return
   bool equalTo(Highlight h) {
-    if (h == null)
+    if (h == null) {
       return false;
-    else {
-      if (this._dataSetIndex == h._dataSetIndex &&
-          this.x == h.x &&
-          this.y == h.y &&
-          this.freeX == h.freeX &&
-          this.freeY == h.freeY &&
-          this._stackIndex == h._stackIndex &&
-          this._dataIndex == h._dataIndex)
+    } else {
+      if (_dataSetIndex == h._dataSetIndex &&
+          x == h.x &&
+          y == h.y &&
+          freeX == h.freeX &&
+          freeY == h.freeY &&
+          _stackIndex == h._stackIndex &&
+          _dataIndex == h._dataIndex) {
         return true;
-      else
+      } else {
         return false;
+      }
     }
   }
 
   @override
   String toString() {
-    return "Highlight, x: $x, y: $y, dataSetIndex: $_dataSetIndex, stackIndex (only stacked barentry): $_stackIndex";
+    return 'Highlight, x: $x, y: $y, dataSetIndex: $_dataSetIndex, stackIndex (only stacked barentry): $_stackIndex';
   }
 }

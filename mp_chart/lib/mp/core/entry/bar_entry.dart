@@ -19,11 +19,12 @@ class BarEntry extends Entry {
   BarEntry({double x, double y, ui.Image icon, Object data}) : super(x: x, y: y, icon: icon, data: data);
 
   BarEntry.fromListYVals({double x, List<double> vals, ui.Image icon, Object data}) : super(x: x, y: calcSum(vals), icon: icon, data: data) {
-    this._yVals = vals;
+    _yVals = vals;
     calcPosNegSum();
     calcRanges();
   }
 
+  @override
   BarEntry copy() {
     var copied = BarEntry(x: x, y: y, data: mData);
     copied.setVals(_yVals);
@@ -79,10 +80,11 @@ class BarEntry extends Entry {
     var sumPos = 0.0;
 
     for (var f in _yVals) {
-      if (f <= 0.0)
+      if (f <= 0.0) {
         sumNeg += f.abs();
-      else
+      } else {
         sumPos += f;
+      }
     }
 
     _negativeSum = sumNeg;

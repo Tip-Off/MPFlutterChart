@@ -5,7 +5,7 @@ class Entry extends BaseEntry {
   double _x = 0;
 
   Entry({double x, double y, ui.Image icon, Object data})
-      : this._x = x,
+      : _x = x,
         super(y: y, icon: icon, data: data);
 
   Entry copy() {

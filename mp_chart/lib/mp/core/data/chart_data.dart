@@ -142,13 +142,15 @@ class ChartData<T extends IDataSet<Entry>> {
     if (axis == AxisDependency.LEFT) {
       if (_leftAxisMin.isInfinite) {
         return _rightAxisMin;
-      } else
+      } else {
         return _leftAxisMin;
+      }
     } else {
       if (_rightAxisMin.isInfinite) {
         return _leftAxisMin;
-      } else
+      } else {
         return _rightAxisMin;
+      }
     }
   }
 
@@ -167,13 +169,15 @@ class ChartData<T extends IDataSet<Entry>> {
     if (axis == AxisDependency.LEFT) {
       if (_leftAxisMax == -double.infinity) {
         return _rightAxisMax;
-      } else
+      } else {
         return _leftAxisMax;
+      }
     } else {
       if (_rightAxisMax == -double.infinity) {
         return _leftAxisMax;
-      } else
+      } else {
         return _rightAxisMax;
+      }
     }
   }
 
@@ -215,9 +219,13 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @return
   int getDataSetIndexByLabel(List<T> dataSets, String label, bool ignorecase) {
     if (ignorecase) {
-      for (var i = 0; i < dataSets.length; i++) if (DartAdapterUtils.equalsIgnoreCase(label, dataSets[i].getLabel())) return i;
+      for (var i = 0; i < dataSets.length; i++) {
+        if (DartAdapterUtils.equalsIgnoreCase(label, dataSets[i].getLabel())) return i;
+      }
     } else {
-      for (var i = 0; i < dataSets.length; i++) if (label == dataSets[i].getLabel()) return i;
+      for (var i = 0; i < dataSets.length; i++) {
+        if (label == dataSets[i].getLabel()) return i;
+      }
     }
 
     return -1;
@@ -241,9 +249,9 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @param highlight
   /// @return the entry that is highlighted
   Entry getEntryForHighlight(Highlight highlight) {
-    if (highlight.dataSetIndex >= _dataSets.length)
+    if (highlight.dataSetIndex >= _dataSets.length) {
       return null;
-    else {
+    } else {
       return _dataSets[highlight.dataSetIndex].getEntryForXValue2(highlight.x, highlight.y);
     }
   }
@@ -258,10 +266,11 @@ class ChartData<T extends IDataSet<Entry>> {
   T getDataSetByLabel(String label, bool ignorecase) {
     var index = getDataSetIndexByLabel(_dataSets, label, ignorecase);
 
-    if (index < 0 || index >= _dataSets.length)
+    if (index < 0 || index >= _dataSets.length) {
       return null;
-    else
+    } else {
       return _dataSets[index];
+    }
   }
 
   T getDataSetByIndex(int index) {
@@ -404,8 +413,9 @@ class ChartData<T extends IDataSet<Entry>> {
       }
 
       return removed;
-    } else
+    } else {
       return false;
+    }
   }
 
   /// Removes the Entry object closest to the given DataSet at the
@@ -507,9 +517,9 @@ class ChartData<T extends IDataSet<Entry>> {
   ///
   /// @param f
   void setValueFormatter(ValueFormatter f) {
-    if (f == null)
+    if (f == null) {
       return;
-    else {
+    } else {
       for (IDataSet set in _dataSets) {
         set.setValueFormatter(f);
       }

@@ -33,7 +33,7 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
   bool _isHighlightLineDashed = false;
 
   /// array of labels used to describe the different values of the stacked bars
-  List<String> _stackLabels = List()..add("Stack");
+  List<String> _stackLabels = List()..add('Stack');
 
   BarDataSet(List<BarEntry> yVals, String label) : super(yVals, label) {
     setHighLightColor(Color.fromARGB(255, 0, 0, 0));
@@ -52,6 +52,7 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
     return copied;
   }
 
+  @override
   void copy(BaseDataSet baseDataSet) {
     super.copy(baseDataSet);
     if (baseDataSet is BarDataSet) {
@@ -72,10 +73,11 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
     for (var i = 0; i < yVals.length; i++) {
       var vals = yVals[i].yVals;
 
-      if (vals == null)
+      if (vals == null) {
         _entryCountStacks++;
-      else
+      } else {
         _entryCountStacks += vals.length;
+      }
     }
   }
 

@@ -43,6 +43,7 @@ abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandleRadarD
     }
   }
 
+  @override
   void setGradientColor(Color start, Color end) {
     if (start != null && end != null) {
       super.setGradientColor(start, end);

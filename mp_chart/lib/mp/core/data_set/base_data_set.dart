@@ -24,7 +24,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   List<ui.Color> _valueColors;
 
   /// label that describes the DataSet or the data the DataSet represents
-  String _label = "DataSet";
+  String _label = 'DataSet';
 
   /// this specifies which axis this DataSet should be plotted against
   AxisDependency _axisDependency = AxisDependency.LEFT;
@@ -77,7 +77,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     // default color
     _colors.add(ui.Color.fromARGB(255, 140, 234, 255));
     _valueColors.add(ColorUtils.BLACK);
-    this._label = label;
+    _label = label;
   }
 
   /// Use this method to tell the data set that the underlying data has changed.
@@ -131,14 +131,14 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   ///
   /// @param colors
   void setColors1(List<ui.Color> colors) {
-    this._colors = colors;
+    _colors = colors;
   }
 
   /// Adds a  color to the colors array of the DataSet.
   ///
   /// @param color
   void addColor(ui.Color color) {
-    if (_colors == null) _colors = List();
+    _colors ??= List();
     _colors.add(color);
   }
 
@@ -169,7 +169,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   ///
   /// @param gradientColors
   void setGradientColors(List<GradientColor> gradientColors) {
-    this._gradientColors = gradientColors;
+    _gradientColors = gradientColors;
   }
 
   /// Sets a color with a specific alpha value.
@@ -193,9 +193,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
   /// Resets all colors of this DataSet and recreates the colors array.
   void resetColors() {
-    if (_colors == null) {
-      _colors = List();
-    }
+    _colors ??= List();
     _colors.clear();
   }
 
@@ -223,10 +221,11 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
   @override
   void setValueFormatter(ValueFormatter f) {
-    if (f == null)
+    if (f == null) {
       return;
-    else
+    } else {
       _valueFormatter = f;
+    }
   }
 
   @override
@@ -319,7 +318,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
   @override
   void setDrawValues(bool enabled) {
-    this._drawValues = enabled;
+    _drawValues = enabled;
   }
 
   @override
@@ -384,8 +383,9 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     if (getEntryCount() > 0) {
       var entry = getEntryForIndex(0);
       return removeEntry1(entry);
-    } else
+    } else {
       return false;
+    }
   }
 
   @override
@@ -393,8 +393,9 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     if (getEntryCount() > 0) {
       var e = getEntryForIndex(getEntryCount() - 1);
       return removeEntry1(e);
-    } else
+    } else {
       return false;
+    }
   }
 
   @override

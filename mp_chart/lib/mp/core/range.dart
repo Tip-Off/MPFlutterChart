@@ -9,10 +9,11 @@ class Range {
   /// @param value
   /// @return
   bool contains(double value) {
-    if (value > _from && value <= _to)
+    if (value > _from && value <= _to) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   bool isLarger(double value) {

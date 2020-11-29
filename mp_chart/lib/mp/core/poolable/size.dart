@@ -60,7 +60,7 @@ class FSize extends Poolable {
 
   @override
   String toString() {
-    return "${_width}x$_height";
+    return '${_width}x$_height';
   }
 
   @override

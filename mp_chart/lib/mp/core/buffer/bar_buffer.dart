@@ -12,8 +12,8 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
   double _barWidth = 1.0;
 
   BarBuffer(int size, int dataSetCount, bool containsStacks) : super(size) {
-    this._dataSetCount = dataSetCount;
-    this._containsStacks = containsStacks;
+    _dataSetCount = dataSetCount;
+    _containsStacks = containsStacks;
   }
 
   // ignore: unnecessary_getters_setters
@@ -63,10 +63,11 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
         }
 
         // multiply the height of the rect with the phase
-        if (top > 0)
+        if (top > 0) {
           top *= phaseY;
-        else
+        } else {
           bottom *= phaseY;
+        }
 
         addBar(left, top, right, bottom);
       } else {

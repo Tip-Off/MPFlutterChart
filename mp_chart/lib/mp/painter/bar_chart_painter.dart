@@ -207,6 +207,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
   /// returns true if drawing values above bars is enabled, false if not
   ///
   /// @return
+  @override
   bool isDrawValueAboveBarEnabled() {
     return _drawValueAboveBar;
   }
@@ -214,6 +215,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
   /// returns true if drawing shadows (maxvalue) for each bar is enabled, false if not
   ///
   /// @return
+  @override
   bool isDrawBarShadowEnabled() {
     return _drawBarShadow;
   }
@@ -244,7 +246,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
   /// @param barSpace   the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
   void groupBars(double fromX, double groupSpace, double barSpace) {
     if (getBarData() == null) {
-      throw Exception("You need to set data for the chart before grouping bars.");
+      throw Exception('You need to set data for the chart before grouping bars.');
     } else {
       getBarData().groupBars(fromX, groupSpace, barSpace);
     }

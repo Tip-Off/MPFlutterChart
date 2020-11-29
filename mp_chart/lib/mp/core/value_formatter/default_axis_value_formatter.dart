@@ -13,15 +13,15 @@ class DefaultAxisValueFormatter extends ValueFormatter {
   ///
   /// @param digits
   DefaultAxisValueFormatter(int digits) {
-    this._digits = digits;
+    _digits = digits;
 
     var b = StringBuffer();
     for (var i = 0; i < digits; i++) {
-      if (i == 0) b.write(".");
-      b.write("0");
+      if (i == 0) b.write('.');
+      b.write('0');
     }
 
-    _format = NumberFormat("###,###,###,##0" + b.toString());
+    _format = NumberFormat('###,###,###,##0' + b.toString());
   }
 
   @override

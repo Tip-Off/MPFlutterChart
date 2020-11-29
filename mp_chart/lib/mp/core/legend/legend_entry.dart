@@ -7,12 +7,12 @@ class LegendEntry {
   LegendEntry.empty();
 
   LegendEntry(String label, LegendForm form, double formSize, double formLineWidth, bool isFormLineDashed, Color formColor) {
-    this._label = label;
-    this._form = form;
-    this._formSize = formSize;
-    this._formLineWidth = formLineWidth;
+    _label = label;
+    _form = form;
+    _formSize = formSize;
+    _formLineWidth = formLineWidth;
     this.isFormLineDashed = isFormLineDashed;
-    this._formColor = formColor;
+    _formColor = formColor;
   }
 
   /// The legend entry text.

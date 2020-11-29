@@ -21,7 +21,7 @@ class LimitLine extends ComponentBase {
   PaintingStyle _textStyle = PaintingStyle.fill;
 
   /// label string that is drawn next to the limit line
-  String _label = "";
+  String _label = '';
 
   bool _isDashed = false;
 

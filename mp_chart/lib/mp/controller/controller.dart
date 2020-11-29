@@ -58,15 +58,13 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
       Color infoTextColor,
       this.infoBgColor,
       this.infoPaint,
-      String noDataText = "No chart data available.",
+      String noDataText = 'No chart data available.',
       this.xAxisSettingFunction,
       this.legendSettingFunction,
       this.rendererSettingFunction}) {
     animator = ChartAnimatorBySys(this);
 
-    if (infoTextColor == null) {
-      infoTextColor = ColorUtils.BLACK;
-    }
+    infoTextColor ??= ColorUtils.BLACK;
     infoPaint = PainterUtils.create(null, noDataText, infoTextColor, infoTextSize);
     infoBgColor ??= ColorUtils.WHITE;
 
@@ -74,8 +72,8 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
       maxHighlightDistance = Utils.convertDpToPixel(500);
     }
 
-    this.viewPortHandler ??= initViewPortHandler();
-    this.selectionListener ??= initSelectionListener();
+    viewPortHandler ??= initViewPortHandler();
+    selectionListener ??= initSelectionListener();
 
     if (resolveGestureHorizontalConflict) {
       horizontalConflictResolveFunc = () => true;
@@ -103,9 +101,7 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
   void doneBeforePainterInit() {
     legend = initLegend();
-    if (xAxis == null) {
-      xAxis = initXAxis();
-    }
+    xAxis ??= initXAxis();
     if (legendSettingFunction != null) {
       legendSettingFunction(legend, this);
     }

@@ -219,19 +219,19 @@ abstract class Utils {
   }
 
   static double nextUp(double d) {
-    if (d == double.infinity)
+    if (d == double.infinity) {
       return d;
-    else {
+    } else {
       /// dart don't have longBitsToDouble and doubleToRawLongBits
       /// so we just return like this
       var res = 0.0;
       try {
-        var len = d.toString().split(".")[1].length;
-        var value = "0.";
+        var len = d.toString().split('.')[1].length;
+        var value = '0.';
         for (var i = 0; i < len; i++) {
-          value += "0";
+          value += '0';
         }
-        value += "1";
+        value += '1';
         if (d >= 0) {
           res = double.parse(value);
         } else {
@@ -324,7 +324,9 @@ abstract class Utils {
   }
 
   static double getNormalizedAngle(double angle) {
-    while (angle < 0.0) angle += 360.0;
+    while (angle < 0.0) {
+      angle += 360.0;
+    }
 
     return angle % 360.0;
   }

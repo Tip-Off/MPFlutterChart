@@ -20,7 +20,7 @@ class XAxisRenderer extends AxisRenderer {
   XAxis _xAxis;
 
   XAxisRenderer(ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans) : super(viewPortHandler, trans, xAxis) {
-    this._xAxis = xAxis;
+    _xAxis = xAxis;
 
     axisLabelPaint = PainterUtils.create(null, null, ColorUtils.BLACK, Utils.convertDpToPixel(10));
   }
@@ -72,7 +72,7 @@ class XAxisRenderer extends AxisRenderer {
     final labelSize = Utils.calcTextSize1(axisLabelPaint, longest);
 
     final labelWidth = labelSize.width;
-    final labelHeight = Utils.calcTextHeight(axisLabelPaint, "Q").toDouble();
+    final labelHeight = Utils.calcTextHeight(axisLabelPaint, 'Q').toDouble();
 
     final labelRotatedSize = Utils.getSizeOfRotatedRectangleByDegrees(labelWidth, labelHeight, _xAxis.labelRotationAngle);
 

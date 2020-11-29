@@ -19,13 +19,13 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
   /// Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
   /// @param enabled
   void setDrawHorizontalHighlightIndicator(bool enabled) {
-    this._drawHorizontalHighlightIndicator = enabled;
+    _drawHorizontalHighlightIndicator = enabled;
   }
 
   /// Enables / disables the vertical highlight-indicator. If disabled, the indicator is not drawn.
   /// @param enabled
   void setDrawVerticalHighlightIndicator(bool enabled) {
-    this._drawVerticalHighlightIndicator = enabled;
+    _drawVerticalHighlightIndicator = enabled;
   }
 
   /// Enables / disables both vertical and horizontal highlight-indicators.
@@ -74,6 +74,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
   /// Default: disabled
   ///
   /// @return
+  @override
   bool isHighlightLineDashed() {
     return _isHighlightLineDashed;
   }
@@ -82,6 +83,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
     _isHighlightLineDashed = value;
   }
 
+  @override
   void copy(BaseDataSet baseDataSet) {
     super.copy(baseDataSet);
     if (baseDataSet is LineScatterCandleRadarDataSet) {

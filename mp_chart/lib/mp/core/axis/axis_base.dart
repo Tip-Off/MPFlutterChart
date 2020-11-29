@@ -92,7 +92,7 @@ abstract class AxisBase extends ComponentBase {
     textSize = 10;
     xOffset = 5;
     yOffset = 5;
-    this._limitLines = List<LimitLine>();
+    _limitLines = List<LimitLine>();
   }
 
   void enabledGridDashed() {
@@ -305,7 +305,7 @@ abstract class AxisBase extends ComponentBase {
   ///
   /// @return
   String getLongestLabel() {
-    var longest = "";
+    var longest = '';
 
     for (var i = 0; i < _entries.length; i++) {
       var text = getFormattedLabel(i);
@@ -317,10 +317,11 @@ abstract class AxisBase extends ComponentBase {
   }
 
   String getFormattedLabel(int index) {
-    if (index < 0 || index >= _entries.length)
-      return "";
-    else
+    if (index < 0 || index >= _entries.length) {
+      return '';
+    } else {
       return getValueFormatter().getAxisLabel(_entries[index], this);
+    }
   }
 
   String getDirectFormattedLabel(double entry) {
@@ -335,10 +336,11 @@ abstract class AxisBase extends ComponentBase {
   ///
   /// @param f
   void setValueFormatter(ValueFormatter f) {
-    if (f == null)
+    if (f == null) {
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
-    else
+    } else {
       _axisValueFormatter = f;
+    }
   }
 
   /// Returns the formatter used for formatting the axis labels.
@@ -346,8 +348,9 @@ abstract class AxisBase extends ComponentBase {
   /// @return
   ValueFormatter getValueFormatter() {
     if (_axisValueFormatter == null ||
-        (_axisValueFormatter is DefaultAxisValueFormatter && (_axisValueFormatter as DefaultAxisValueFormatter).digits != _decimals))
+        (_axisValueFormatter is DefaultAxisValueFormatter && (_axisValueFormatter as DefaultAxisValueFormatter).digits != _decimals)) {
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
+    }
 
     return _axisValueFormatter;
   }
@@ -396,7 +399,7 @@ abstract class AxisBase extends ComponentBase {
     _customAxisMin = true;
     _axisMinimum = min;
 
-    this._axisRange = (_axisMaximum - min).abs();
+    _axisRange = (_axisMaximum - min).abs();
   }
 
   /// Use setAxisMinimum(...) instead.
@@ -414,7 +417,7 @@ abstract class AxisBase extends ComponentBase {
   void setAxisMaximum(double max) {
     _customAxisMax = true;
     _axisMaximum = max;
-    this._axisRange = (max - _axisMinimum).abs();
+    _axisRange = (max - _axisMinimum).abs();
   }
 
   /// Use setAxisMaximum(...) instead.
@@ -444,11 +447,11 @@ abstract class AxisBase extends ComponentBase {
       min = min - 1;
     }
 
-    this._axisMinimum = min;
-    this._axisMaximum = max;
+    _axisMinimum = min;
+    _axisMaximum = max;
 
     // actual range
-    this._axisRange = (max - min).abs();
+    _axisRange = (max - min).abs();
   }
 
   // ignore: unnecessary_getters_setters

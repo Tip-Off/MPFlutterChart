@@ -390,10 +390,11 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   }
 
   double getAxisRange(AxisDependency axis) {
-    if (axis == AxisDependency.LEFT)
+    if (axis == AxisDependency.LEFT) {
       return axisLeft.axisRange;
-    else
+    } else {
       return axisRight.axisRange;
+    }
   }
 
   MPPointD getValuesByTouchPoint(double x, double y, AxisDependency axis) {
