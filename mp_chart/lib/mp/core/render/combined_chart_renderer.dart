@@ -78,20 +78,6 @@ class CombinedChartRenderer extends DataRenderer {
     var pix = MPPointD(-1, -1);
     var rendererSize = Size(0, 0);
     _renderers.forEach((renderer) {
-      // ChartData data;
-
-      // if (renderer is CandleStickChartRenderer) {
-      //   data = renderer.porvider.getCandleData();
-      // } else if (renderer is BarChartRenderer)
-      //   data = renderer.provider.getBarData();
-      // else if (renderer is LineChartRenderer)
-      //   data = renderer.provider.getLineData();
-      // else if (renderer is ScatterChartRenderer)
-      //   data = renderer.provider.getScatterData();
-      // else if (renderer is BubbleChartRenderer) data = renderer.provider.getBubbleData();
-
-      // int dataIndex = data == null ? -1 : (chart.getData() as CombinedData).getAllData().indexOf(data);
-
       mHighlightBuffer.clear();
 
       for (Highlight h in indices) {
