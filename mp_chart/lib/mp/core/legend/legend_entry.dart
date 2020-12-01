@@ -1,25 +1,18 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/enums/legend_form.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 
 class LegendEntry {
   LegendEntry.empty();
 
-  LegendEntry(
-      String label,
-      LegendForm form,
-      double formSize,
-      double formLineWidth,
-      DashPathEffect formLineDashEffect,
-      Color formColor) {
-    this._label = label;
-    this._form = form;
-    this._formSize = formSize;
-    this._formLineWidth = formLineWidth;
-    this.formLineDashEffect = formLineDashEffect;
-    this._formColor = formColor;
+  LegendEntry(String label, LegendForm form, double formSize, double formLineWidth, bool isFormLineDashed, Color formColor) {
+    _label = label;
+    _form = form;
+    _formSize = formSize;
+    _formLineWidth = formLineWidth;
+    this.isFormLineDashed = isFormLineDashed;
+    _formColor = formColor;
   }
 
   /// The legend entry text.
@@ -43,10 +36,7 @@ class LegendEntry {
   /// Set as NaN to use the legend's default
   double _formLineWidth = double.nan;
 
-  /// Line dash path effect used for shapes that consist of lines.
-  ///
-  /// Set to null to use the legend's default
-  DashPathEffect formLineDashEffect;
+  bool isFormLineDashed;
 
   /// The color for drawing the form
   Color _formColor = ColorUtils.COLOR_NONE;

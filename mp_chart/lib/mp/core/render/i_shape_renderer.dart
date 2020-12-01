@@ -12,11 +12,5 @@ mixin IShapeRenderer {
   /// @param posX            Position to draw the shape at
   /// @param posY            Position to draw the shape at
   /// @param renderPaint     Paint object used for styling and drawing
-  void renderShape(
-      Canvas c,
-      IScatterDataSet dataSet,
-      ViewPortHandler viewPortHandler,
-      double posX,
-      double posY,
-      Paint renderPaint);
+  void renderShape(Canvas c, IScatterDataSet dataSet, ViewPortHandler viewPortHandler, double posX, double posY, Paint renderPaint);
 }

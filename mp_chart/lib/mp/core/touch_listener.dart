@@ -1,5 +1,4 @@
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
-import 'package:flutter/gestures.dart';
 
 mixin OnTouchEventListener {
   TouchValueType valueType();
@@ -18,6 +17,4 @@ mixin OnTouchEventListener {
   void onPerformHighlight(Highlight h, HighlightStatus status);
 }
 
-enum TouchValueType{
-  SCREEN,LOCAL,CHART
-}
+enum TouchValueType { SCREEN, LOCAL, CHART }

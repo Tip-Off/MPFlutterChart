@@ -17,22 +17,22 @@ class StackedValueFormatter extends ValueFormatter {
   /// @param suffix         a string that should be appended behind the value
   /// @param decimals       the number of decimal digits to use
   StackedValueFormatter(bool drawWholeStack, String suffix, int decimals) {
-    this._drawWholeStack = drawWholeStack;
-    this._suffix = suffix;
+    _drawWholeStack = drawWholeStack;
+    _suffix = suffix;
 
-    StringBuffer b = new StringBuffer();
-    for (int i = 0; i < decimals; i++) {
-      if (i == 0) b.write(".");
-      b.write("0");
+    var b = StringBuffer();
+    for (var i = 0; i < decimals; i++) {
+      if (i == 0) b.write('.');
+      b.write('0');
     }
 
-    this._format = NumberFormat("###,###,###,##0" + b.toString());
+    _format = NumberFormat('###,###,###,##0' + b.toString());
   }
 
   @override
   String getBarStackedLabel(double value, BarEntry entry) {
     if (!_drawWholeStack) {
-      List<double> vals = entry.yVals;
+      var vals = entry.yVals;
 
       if (vals != null) {
         // find out if we are on top of the stack
@@ -40,7 +40,7 @@ class StackedValueFormatter extends ValueFormatter {
           // return the "sum" across all stack values
           return _format.format(entry.y) + _suffix;
         } else {
-          return ""; // return empty
+          return ''; // return empty
         }
       }
     }

@@ -7,16 +7,13 @@ import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/chart_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/chart_interface.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/highlight/i_highlighter.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/render/data_renderer.dart';
-import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/value_formatter/default_value_formatter.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
@@ -41,19 +38,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
   final double _extraTopOffset, _extraRightOffset, _extraBottomOffset, _extraLeftOffset;
 
-  /// the view that represents the marker
-  final IMarker _marker;
-
-  /// the object responsible for representing the description text
-  final Description _description;
-
-  /// if set to true, the marker view is drawn when a value is clicked
-  final bool _drawMarkers;
-
-  /// paint object used for drawing the description text in the bottom right
-  /// corner of the chart
-  final TextPainter _descPaint;
-
   /// paint object for drawing the information text when there are no values in
   /// the chart
   final TextPainter _infoPaint;
@@ -65,7 +49,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
   /// the legend object containing all data associated with the legend
   final Legend _legend;
-  final LegendRenderer _legendRenderer;
 
   final OnChartValueSelectedListener _selectionListener;
 
@@ -88,7 +71,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   bool _offsetsCalculated = false;
 
   /// default value-formatter, number of digits depends on provided chart-data
-  DefaultValueFormatter _defaultValueFormatter = DefaultValueFormatter(0);
+  final DefaultValueFormatter _defaultValueFormatter = DefaultValueFormatter(0);
 
   bool _isInit = false;
 
@@ -98,8 +81,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
   ViewPortHandler get viewPortHandler => _viewPortHandler;
 
-  LegendRenderer get legendRenderer => _legendRenderer;
-
   double get extraLeftOffset => _extraLeftOffset;
 
   double get extraRightOffset => _extraRightOffset;
@@ -107,10 +88,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   double get extraTopOffset => _extraTopOffset;
 
   double get extraBottomOffset => _extraBottomOffset;
-
-  IMarker get marker => _marker;
-
-  bool get isDrawMarkers => _drawMarkers;
 
   Animator get animator => _animator;
 
@@ -133,15 +110,10 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
       double extraTopOffset,
       double extraRightOffset,
       double extraBottomOffset,
-      IMarker marker,
-      Description desc,
-      bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
-      TextPainter descPainter,
       XAxis xAxis,
       Legend legend,
-      LegendRenderer legendRenderer,
       DataRendererSettingFunction rendererSettingFunction,
       OnChartValueSelectedListener selectedListener)
       : _data = data,
@@ -153,21 +125,16 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
         _extraTopOffset = extraTopOffset,
         _extraRightOffset = extraRightOffset,
         _extraBottomOffset = extraBottomOffset,
-        _marker = marker,
-        _description = desc,
-        _drawMarkers = drawMarkers,
         _infoBackgroundColor = infoBgColor,
         _infoPaint = infoPainter,
-        _descPaint = descPainter,
         _xAxis = xAxis,
         _legend = legend,
-        _legendRenderer = legendRenderer,
         _rendererSettingFunction = rendererSettingFunction,
         _selectionListener = selectedListener,
         _highlightForced = highlightForced,
         super() {
     initDefaultNormal();
-    if (data == null || data.dataSets == null || data.dataSets.length == 0) {
+    if (data == null || data.dataSets == null || data.dataSets.isEmpty) {
       return;
     }
     initDefaultWithData();
@@ -182,7 +149,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
     // calculate how many digits are needed
     _setupDefaultFormatter(_data.getYMin1(), _data.getYMax1());
 
-    for (IDataSet set in _data.dataSets) {
+    for (var set in _data.dataSets) {
       if (set.needsFormatter() || set.getValueFormatter() == _defaultValueFormatter) set.setValueFormatter(_defaultValueFormatter);
     }
   }
@@ -202,7 +169,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   /// Calculates the required number of digits for the values that might be
   /// drawn in the chart (if enabled), and creates the default-value-formatter
   void _setupDefaultFormatter(double min1, double max1) {
-    double reference = 0;
+    var reference = 0.0;
 
     if (_data == null || _data.getEntryCount() < 2) {
       reference = max(min1.abs(), max1.abs());
@@ -210,7 +177,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
       reference = (max1 - min1).abs();
     }
 
-    int digits = Utils.getDecimals(reference);
+    var digits = Utils.getDecimals(reference);
 
     // setup the formatter with a new number of digits
     _defaultValueFormatter.setup(digits);
@@ -230,7 +197,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
     if (!_isInit) {
       canvas.drawRect(Rect.fromLTRB(0, 0, size.width, size.height), Paint()..color = _infoBackgroundColor);
-      MPPointF c = getCenter(size);
+      var c = getCenter(size);
       _infoPaint.layout();
       _infoPaint.paint(canvas, Offset(c.x - _infoPaint.width / 2, c.y - _infoPaint.height / 2));
       return;
@@ -248,32 +215,13 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
   void onPaint(Canvas canvas, Size size);
 
-  /// Draws the description text in the bottom right corner of the chart (per default)
-  void drawDescription(Canvas c, Size size) {
-    // check if description should be drawn
-    if (_description != null && _description.enabled) {
-      MPPointF position = _description.position;
-      double x, y;
-      // if no position specified, draw on default position
-      if (position == null) {
-        x = size.width - _viewPortHandler.offsetRight() - _description.xOffset;
-        y = size.height - _viewPortHandler.offsetBottom() - _description.yOffset;
-      } else {
-        x = position.x;
-        y = position.y;
-      }
-      _descPaint.layout();
-      _descPaint.paint(c, Offset(x, y));
-    }
-  }
-
   /// Returns true if there are values to highlight, false if there are no
   /// values to highlight. Checks if the highlight array is null, has a length
   /// of zero or if the first object is null.
   ///
   /// @return
   bool valuesToHighlight() {
-    var res = _indicesToHighlight == null || _indicesToHighlight.length <= 0 || _indicesToHighlight[0] == null ? false : true;
+    var res = _indicesToHighlight == null || _indicesToHighlight.isEmpty || _indicesToHighlight[0] == null ? false : true;
     return res;
   }
 
@@ -356,14 +304,14 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
         high = null;
       } else {
         // set the indices to highlight
-        _indicesToHighlight = List()..add(high);
+        _indicesToHighlight = [high];
       }
     }
 
     if (callListener && _selectionListener != null) {
-      if (!valuesToHighlight())
+      if (!valuesToHighlight()) {
         _selectionListener?.onNothingSelected();
-      else {
+      } else {
         // notify the listener
         _selectionListener?.onValueSelected(e, high);
       }
@@ -396,7 +344,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 //      }
 //    }
   void selectedValue(Highlight high) {
-    Entry e = _data.getEntryForHighlight(high);
+    var e = _data.getEntryForHighlight(high);
     _selectionListener?.onValueSelected(e, null);
   }
 
@@ -413,42 +361,6 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
     } else {
       return highlighter.getHighlight(x, y);
     }
-  }
-
-  /// draws all MarkerViews on the highlighted positions
-  void drawMarkers(Canvas canvas) {
-    if (_marker == null || !_drawMarkers || !valuesToHighlight()) return;
-
-    for (int i = 0; i < _indicesToHighlight.length; i++) {
-      Highlight highlight = _indicesToHighlight[i];
-
-      IDataSet set = _data.getDataSetByIndex(highlight.dataSetIndex);
-
-      Entry e = _data.getEntryForHighlight(_indicesToHighlight[i]);
-      int entryIndex = set.getEntryIndex2(e);
-      // make sure entry not null
-      if (e == null || entryIndex > set.getEntryCount() * _animator.getPhaseX()) continue;
-
-      List<double> pos = getMarkerPosition(highlight);
-
-      // check bounds
-      if (!_viewPortHandler.isInBounds(pos[0], pos[1])) continue;
-
-      // callbacks to update the content
-      _marker.refreshContent(e, highlight);
-
-      // draw the marker
-      _marker.draw(canvas, pos[0], pos[1]);
-    }
-  }
-
-  /// Returns the actual position in pixels of the MarkerView for the given
-  /// Highlight object.
-  ///
-  /// @param high
-  /// @return
-  List<double> getMarkerPosition(Highlight high) {
-    return List<double>()..add(high.drawX)..add(high.drawY);
   }
 
   @override
@@ -470,6 +382,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
   /// Returns the center point of the chart (the whole View) in pixels.
   ///
   /// @return
+  @override
   MPPointF getCenter(Size size) {
     return MPPointF.getInstance1(size.width / 2, size.height / 2);
   }

@@ -34,7 +34,7 @@ class ChartData<T extends IDataSet<Entry>> {
 
   /// Default constructor.
   ChartData() {
-    _dataSets = List<T>();
+    _dataSets = <T>[];
   }
 
   /// Constructor taking single or multiple DataSet objects.
@@ -58,7 +58,7 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @param fromX the x-value to start the calculation from
   /// @param toX   the x-value to which the calculation should be performed
   void calcMinMaxY(double fromX, double toX) {
-    for (T set in _dataSets) {
+    for (var set in _dataSets) {
       set.calcMinMaxY(fromX, toX);
     }
 
@@ -75,7 +75,7 @@ class ChartData<T extends IDataSet<Entry>> {
     _xMax = -double.infinity;
     _xMin = double.infinity;
 
-    for (T set in _dataSets) {
+    for (var set in _dataSets) {
       calcMinMax3(set);
     }
 
@@ -85,13 +85,13 @@ class ChartData<T extends IDataSet<Entry>> {
     _rightAxisMin = double.infinity;
 
     // left axis
-    T firstLeft = getFirstLeft(_dataSets);
+    var firstLeft = getFirstLeft(_dataSets);
 
     if (firstLeft != null) {
       _leftAxisMax = firstLeft.getYMax();
       _leftAxisMin = firstLeft.getYMin();
 
-      for (T dataSet in _dataSets) {
+      for (var dataSet in _dataSets) {
         if (dataSet.getAxisDependency() == AxisDependency.LEFT) {
           if (dataSet.getYMin() < _leftAxisMin) _leftAxisMin = dataSet.getYMin();
 
@@ -101,13 +101,13 @@ class ChartData<T extends IDataSet<Entry>> {
     }
 
     // right axis
-    T firstRight = getFirstRight(_dataSets);
+    var firstRight = getFirstRight(_dataSets);
 
     if (firstRight != null) {
       _rightAxisMax = firstRight.getYMax();
       _rightAxisMin = firstRight.getYMin();
 
-      for (T dataSet in _dataSets) {
+      for (var dataSet in _dataSets) {
         if (dataSet.getAxisDependency() == AxisDependency.RIGHT) {
           if (dataSet.getYMin() < _rightAxisMin) _rightAxisMin = dataSet.getYMin();
 
@@ -117,7 +117,7 @@ class ChartData<T extends IDataSet<Entry>> {
     }
   }
 
-  /** ONLY GETTERS AND SETTERS BELOW THIS */
+  /// ONLY GETTERS AND SETTERS BELOW THIS
 
   /// returns the number of LineDataSets this object contains
   ///
@@ -142,13 +142,15 @@ class ChartData<T extends IDataSet<Entry>> {
     if (axis == AxisDependency.LEFT) {
       if (_leftAxisMin.isInfinite) {
         return _rightAxisMin;
-      } else
+      } else {
         return _leftAxisMin;
+      }
     } else {
       if (_rightAxisMin.isInfinite) {
         return _leftAxisMin;
-      } else
+      } else {
         return _rightAxisMin;
+      }
     }
   }
 
@@ -167,13 +169,15 @@ class ChartData<T extends IDataSet<Entry>> {
     if (axis == AxisDependency.LEFT) {
       if (_leftAxisMax == -double.infinity) {
         return _rightAxisMax;
-      } else
+      } else {
         return _leftAxisMax;
+      }
     } else {
       if (_rightAxisMax == -double.infinity) {
         return _leftAxisMax;
-      } else
+      } else {
         return _rightAxisMax;
+      }
     }
   }
 
@@ -215,9 +219,13 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @return
   int getDataSetIndexByLabel(List<T> dataSets, String label, bool ignorecase) {
     if (ignorecase) {
-      for (int i = 0; i < dataSets.length; i++) if (DartAdapterUtils.equalsIgnoreCase(label, dataSets[i].getLabel())) return i;
+      for (var i = 0; i < dataSets.length; i++) {
+        if (DartAdapterUtils.equalsIgnoreCase(label, dataSets[i].getLabel())) return i;
+      }
     } else {
-      for (int i = 0; i < dataSets.length; i++) if (label == dataSets[i].getLabel()) return i;
+      for (var i = 0; i < dataSets.length; i++) {
+        if (label == dataSets[i].getLabel()) return i;
+      }
     }
 
     return -1;
@@ -227,9 +235,9 @@ class ChartData<T extends IDataSet<Entry>> {
   ///
   /// @return
   List<String> getDataSetLabels() {
-    List<String> types = List(_dataSets.length);
+    var types = List<String>(_dataSets.length);
 
-    for (int i = 0; i < _dataSets.length; i++) {
+    for (var i = 0; i < _dataSets.length; i++) {
       types[i] = _dataSets[i].getLabel();
     }
 
@@ -241,9 +249,9 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @param highlight
   /// @return the entry that is highlighted
   Entry getEntryForHighlight(Highlight highlight) {
-    if (highlight.dataSetIndex >= _dataSets.length)
+    if (highlight.dataSetIndex >= _dataSets.length) {
       return null;
-    else {
+    } else {
       return _dataSets[highlight.dataSetIndex].getEntryForXValue2(highlight.x, highlight.y);
     }
   }
@@ -256,12 +264,13 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @param ignorecase
   /// @return
   T getDataSetByLabel(String label, bool ignorecase) {
-    int index = getDataSetIndexByLabel(_dataSets, label, ignorecase);
+    var index = getDataSetIndexByLabel(_dataSets, label, ignorecase);
 
-    if (index < 0 || index >= _dataSets.length)
+    if (index < 0 || index >= _dataSets.length) {
       return null;
-    else
+    } else {
       return _dataSets[index];
+    }
   }
 
   T getDataSetByIndex(int index) {
@@ -289,7 +298,7 @@ class ChartData<T extends IDataSet<Entry>> {
   bool removeDataSet1(T d) {
     if (d == null) return false;
 
-    bool removed = _dataSets.remove(d);
+    var removed = _dataSets.remove(d);
 
     // if a DataSet was removed
     if (removed) {
@@ -307,7 +316,7 @@ class ChartData<T extends IDataSet<Entry>> {
   bool removeDataSet2(int index) {
     if (index >= _dataSets.length || index < 0) return false;
 
-    T set = _dataSets[index];
+    var set = _dataSets[index];
     return removeDataSet1(set);
   }
 
@@ -397,15 +406,16 @@ class ChartData<T extends IDataSet<Entry>> {
 
     if (set != null) {
       // remove the entry from the dataset
-      bool removed = set.removeEntry1(e);
+      var removed = set.removeEntry1(e);
 
       if (removed) {
         calcMinMax1();
       }
 
       return removed;
-    } else
+    } else {
       return false;
+    }
   }
 
   /// Removes the Entry object closest to the given DataSet at the
@@ -419,7 +429,7 @@ class ChartData<T extends IDataSet<Entry>> {
     if (dataSetIndex >= _dataSets.length) return false;
 
     IDataSet dataSet = _dataSets[dataSetIndex];
-    Entry e = dataSet.getEntryForXValue2(xValue, double.nan);
+    var e = dataSet.getEntryForXValue2(xValue, double.nan);
 
     if (e == null) return false;
 
@@ -434,10 +444,10 @@ class ChartData<T extends IDataSet<Entry>> {
   T getDataSetForEntry(Entry e) {
     if (e == null) return null;
 
-    for (int i = 0; i < _dataSets.length; i++) {
-      T set = _dataSets[i];
+    for (var i = 0; i < _dataSets.length; i++) {
+      var set = _dataSets[i];
 
-      for (int j = 0; j < set.getEntryCount(); j++) {
+      for (var j = 0; j < set.getEntryCount(); j++) {
         if (e == set.getEntryForXValue2(e.x, e.y)) return set;
       }
     }
@@ -452,19 +462,19 @@ class ChartData<T extends IDataSet<Entry>> {
   List<ui.Color> getColors() {
     if (_dataSets == null) return null;
 
-    int clrcnt = 0;
+    var clrcnt = 0;
 
-    for (int i = 0; i < _dataSets.length; i++) {
+    for (var i = 0; i < _dataSets.length; i++) {
       clrcnt += _dataSets[i].getColors().length;
     }
 
-    List<ui.Color> colors = List(clrcnt);
-    int cnt = 0;
+    var colors = List<ui.Color>(clrcnt);
+    var cnt = 0;
 
-    for (int i = 0; i < _dataSets.length; i++) {
-      List<ui.Color> clrs = _dataSets[i].getColors();
+    for (var i = 0; i < _dataSets.length; i++) {
+      var clrs = _dataSets[i].getColors();
 
-      for (ui.Color clr in clrs) {
+      for (var clr in clrs) {
         colors[cnt] = clr;
         cnt++;
       }
@@ -486,7 +496,7 @@ class ChartData<T extends IDataSet<Entry>> {
   ///
   /// @return
   T getFirstLeft(List<T> sets) {
-    for (T dataSet in sets) {
+    for (var dataSet in sets) {
       if (dataSet.getAxisDependency() == AxisDependency.LEFT) return dataSet;
     }
     return null;
@@ -497,7 +507,7 @@ class ChartData<T extends IDataSet<Entry>> {
   ///
   /// @return
   T getFirstRight(List<T> sets) {
-    for (T dataSet in sets) {
+    for (var dataSet in sets) {
       if (dataSet.getAxisDependency() == AxisDependency.RIGHT) return dataSet;
     }
     return null;
@@ -507,9 +517,9 @@ class ChartData<T extends IDataSet<Entry>> {
   ///
   /// @param f
   void setValueFormatter(ValueFormatter f) {
-    if (f == null)
+    if (f == null) {
       return;
-    else {
+    } else {
       for (IDataSet set in _dataSets) {
         set.setValueFormatter(f);
       }
@@ -601,7 +611,7 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @param dataSet
   /// @return
   bool contains(T dataSet) {
-    for (T set in _dataSets) {
+    for (var set in _dataSets) {
       if (set == dataSet) return true;
     }
     return false;
@@ -611,8 +621,8 @@ class ChartData<T extends IDataSet<Entry>> {
   ///
   /// @return
   int getEntryCount() {
-    int count = 0;
-    for (T set in _dataSets) {
+    var count = 0;
+    for (var set in _dataSets) {
       count += set.getEntryCount();
     }
     return count;
@@ -623,8 +633,8 @@ class ChartData<T extends IDataSet<Entry>> {
   /// @return
   T getMaxEntryCountSet() {
     if (_dataSets == null || _dataSets.isEmpty) return null;
-    T max = _dataSets[0];
-    for (T set in _dataSets) {
+    var max = _dataSets[0];
+    for (var set in _dataSets) {
       if (set.getEntryCount() > max.getEntryCount()) max = set;
     }
     return max;

@@ -24,7 +24,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   List<ui.Color> _valueColors;
 
   /// label that describes the DataSet or the data the DataSet represents
-  String _label = "DataSet";
+  String _label = 'DataSet';
 
   /// this specifies which axis this DataSet should be plotted against
   AxisDependency _axisDependency = AxisDependency.LEFT;
@@ -41,7 +41,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   LegendForm _form = LegendForm.DEFAULT;
   double _formSize = double.nan;
   double _formLineWidth = double.nan;
-  DashPathEffect _formLineDashEffect;
+  bool _isFormLineDashed;
 
   /// if true, y-values are drawn on the chart
   bool _drawValues = true;
@@ -60,8 +60,8 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
   /// Default constructor.
   BaseDataSet() {
-    _colors = List();
-    _valueColors = List();
+    _colors = [];
+    _valueColors = [];
     // default color
     _colors.add(ui.Color.fromARGB(255, 140, 234, 255));
     _valueColors.add(ColorUtils.BLACK);
@@ -71,13 +71,13 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   ///
   /// @param label
   BaseDataSet.withLabel(String label) {
-    _colors = List();
-    _valueColors = List();
+    _colors = [];
+    _valueColors = [];
 
     // default color
     _colors.add(ui.Color.fromARGB(255, 140, 234, 255));
     _valueColors.add(ColorUtils.BLACK);
-    this._label = label;
+    _label = label;
   }
 
   /// Use this method to tell the data set that the underlying data has changed.
@@ -121,9 +121,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     return _gradientColors[index % _gradientColors.length];
   }
 
-  /**
-   * ###### ###### COLOR SETTING RELATED METHODS ##### ######
-   */
+  /// ###### ###### COLOR SETTING RELATED METHODS ##### ######
 
   /// Sets the colors that should be used fore this DataSet. Colors are reused
   /// as soon as the number of Entries the DataSet represents is higher than
@@ -133,14 +131,14 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   ///
   /// @param colors
   void setColors1(List<ui.Color> colors) {
-    this._colors = colors;
+    _colors = colors;
   }
 
   /// Adds a  color to the colors array of the DataSet.
   ///
   /// @param color
   void addColor(ui.Color color) {
-    if (_colors == null) _colors = List();
+    _colors ??= [];
     _colors.add(color);
   }
 
@@ -171,7 +169,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   ///
   /// @param gradientColors
   void setGradientColors(List<GradientColor> gradientColors) {
-    this._gradientColors = gradientColors;
+    _gradientColors = gradientColors;
   }
 
   /// Sets a color with a specific alpha value.
@@ -188,16 +186,14 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   /// @param alpha
   void setColors2(List<ui.Color> colors, int alpha) {
     resetColors();
-    for (ui.Color color in colors) {
+    for (var color in colors) {
       addColor(ui.Color.fromARGB(alpha, color.red, color.green, color.blue));
     }
   }
 
   /// Resets all colors of this DataSet and recreates the colors array.
   void resetColors() {
-    if (_colors == null) {
-      _colors = List();
-    }
+    _colors ??= [];
     _colors.clear();
   }
 
@@ -225,10 +221,11 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
   @override
   void setValueFormatter(ValueFormatter f) {
-    if (f == null)
+    if (f == null) {
       return;
-    else
+    } else {
       _valueFormatter = f;
+    }
   }
 
   @override
@@ -310,18 +307,18 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     return _formLineWidth;
   }
 
-  void setFormLineDashEffect(DashPathEffect dashPathEffect) {
-    _formLineDashEffect = dashPathEffect;
+  void setFormLineDashed(bool value) {
+    _isFormLineDashed = value;
   }
 
   @override
-  DashPathEffect getFormLineDashEffect() {
-    return _formLineDashEffect;
+  bool isFormLineDashed() {
+    return _isFormLineDashed;
   }
 
   @override
   void setDrawValues(bool enabled) {
-    this._drawValues = enabled;
+    _drawValues = enabled;
   }
 
   @override
@@ -374,7 +371,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
 
   @override
   int getIndexInEntries(int xIndex) {
-    for (int i = 0; i < getEntryCount(); i++) {
+    for (var i = 0; i < getEntryCount(); i++) {
       if (xIndex == getEntryForIndex(i).x) return i;
     }
 
@@ -384,36 +381,38 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   @override
   bool removeFirst() {
     if (getEntryCount() > 0) {
-      T entry = getEntryForIndex(0);
+      var entry = getEntryForIndex(0);
       return removeEntry1(entry);
-    } else
+    } else {
       return false;
+    }
   }
 
   @override
   bool removeLast() {
     if (getEntryCount() > 0) {
-      T e = getEntryForIndex(getEntryCount() - 1);
+      var e = getEntryForIndex(getEntryCount() - 1);
       return removeEntry1(e);
-    } else
+    } else {
       return false;
+    }
   }
 
   @override
   bool removeEntryByXValue(double xValue) {
-    T e = getEntryForXValue2(xValue, double.nan);
+    var e = getEntryForXValue2(xValue, double.nan);
     return removeEntry1(e);
   }
 
   @override
   bool removeEntry2(int index) {
-    T e = getEntryForIndex(index);
+    var e = getEntryForIndex(index);
     return removeEntry1(e);
   }
 
   @override
   bool contains(T e) {
-    for (int i = 0; i < getEntryCount(); i++) {
+    for (var i = 0; i < getEntryCount(); i++) {
       if (getEntryForIndex(i) == e) return true;
     }
 
@@ -426,7 +425,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     baseDataSet._drawIcons = _drawIcons;
     baseDataSet._drawValues = _drawValues;
     baseDataSet._form = _form;
-    baseDataSet._formLineDashEffect = _formLineDashEffect;
+    baseDataSet._isFormLineDashed = _isFormLineDashed;
     baseDataSet._formLineWidth = _formLineWidth;
     baseDataSet._formSize = _formSize;
     baseDataSet._gradientColor = _gradientColor;

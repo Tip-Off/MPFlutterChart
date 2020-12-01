@@ -6,9 +6,9 @@ import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/data_set.dart';
 import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
+import 'package:mp_chart/mp/core/utils/utils.dart';
 
-class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
-    implements IBarDataSet {
+class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements IBarDataSet {
   /// the maximum number of bars that are stacked upon each other, this value
   /// is calculated from the Entries that are added to the DataSet
   int _stackSize = 1;
@@ -26,8 +26,14 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
   /// the overall entry count, including counting each stack-value individually
   int _entryCountStacks = 0;
 
+  /// the width of the highlight indicator lines
+  double _highlightLineWidth = Utils.convertDpToPixel(0.5);
+
+  /// the path effect for dashed highlight-lines
+  bool _isHighlightLineDashed = false;
+
   /// array of labels used to describe the different values of the stacked bars
-  List<String> _stackLabels = List()..add("Stack");
+  List<String> _stackLabels = ['Stack'];
 
   BarDataSet(List<BarEntry> yVals, String label) : super(yVals, label) {
     setHighLightColor(Color.fromARGB(255, 0, 0, 0));
@@ -37,15 +43,16 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
 
   @override
   DataSet<BarEntry> copy1() {
-    List<BarEntry> entries = List();
-    for (int i = 0; i < values.length; i++) {
+    var entries = <BarEntry>[];
+    for (var i = 0; i < values.length; i++) {
       entries.add(values[i].copy());
     }
-    BarDataSet copied = BarDataSet(entries, getLabel());
+    var copied = BarDataSet(entries, getLabel());
     copy(copied);
     return copied;
   }
 
+  @override
   void copy(BaseDataSet baseDataSet) {
     super.copy(baseDataSet);
     if (baseDataSet is BarDataSet) {
@@ -63,21 +70,22 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
   void calcEntryCountIncludingStacks(List<BarEntry> yVals) {
     _entryCountStacks = 0;
 
-    for (int i = 0; i < yVals.length; i++) {
-      List<double> vals = yVals[i].yVals;
+    for (var i = 0; i < yVals.length; i++) {
+      var vals = yVals[i].yVals;
 
-      if (vals == null)
+      if (vals == null) {
         _entryCountStacks++;
-      else
+      } else {
         _entryCountStacks += vals.length;
+      }
     }
   }
 
   /// calculates the maximum stacksize that occurs in the Entries array of this
   /// DataSet
   void calcStackSize(List<BarEntry> yVals) {
-    for (int i = 0; i < yVals.length; i++) {
-      List<double> vals = yVals[i].yVals;
+    for (var i = 0; i < yVals.length; i++) {
+      var vals = yVals[i].yVals;
 
       if (vals != null && vals.length > _stackSize) _stackSize = vals.length;
     }
@@ -187,5 +195,33 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry>
   @override
   List<String> getStackLabels() {
     return _stackLabels;
+  }
+
+  /// Sets the width of the highlight line in dp.
+  /// @param width
+  void setHighlightLineWidth(double width) {
+    _highlightLineWidth = Utils.convertDpToPixel(width);
+  }
+
+  @override
+  double getHighlightLineWidth() {
+    return _highlightLineWidth;
+  }
+
+  void enableHighlightLineDashed() {
+    _isHighlightLineDashed = true;
+  }
+
+  void disableHighlightLineDashed() {
+    _isHighlightLineDashed = false;
+  }
+
+  @override
+  bool isHighlightLineDashed() {
+    return _isHighlightLineDashed;
+  }
+
+  set highlightDashPathEffect(bool value) {
+    _isHighlightLineDashed = value;
   }
 }

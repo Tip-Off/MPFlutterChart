@@ -10,7 +10,6 @@ import 'package:mp_chart/mp/core/utils/highlight_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:optimized_gesture_detector/details.dart';
 import 'package:optimized_gesture_detector/direction.dart';
-import 'package:mp_chart/mp/chart/horizontal_bar_chart.dart';
 import 'package:mp_chart/mp/core/enums/x_axis_position.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
@@ -116,7 +115,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
 
     if (widget.controller.painter.highLightPerTapEnabled) {
-      Highlight h = widget.controller.painter.getHighlightByTouchPoint(details.localPosition.dx, details.localPosition.dy);
+      var h = widget.controller.painter.getHighlightByTouchPoint(details.localPosition.dx, details.localPosition.dy);
       lastHighlighted = HighlightUtils.performHighlight(widget.controller.painter, h, lastHighlighted);
       setStateIfNotDispose();
 
@@ -168,13 +167,13 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
 
     if (widget.controller.painter.doubleTapToZoomEnabled && widget.controller.painter.getData().getEntryCount() > 0) {
-      MPPointF trans = _getTrans(localPosition.dx, localPosition.dy);
+      var trans = _getTrans(localPosition.dx, localPosition.dy);
       widget.controller.painter.zoom(widget.controller.painter.scaleXEnabled ? 1.2 : 1, widget.controller.painter.scaleYEnabled ? 1.2 : 1, trans.x, trans.y);
       setStateIfNotDispose();
       MPPointF.recycleInstance(trans);
     }
     if (widget.controller.painter.highLightPerTapEnabled) {
-      Highlight h = widget.controller.painter.getHighlightByTouchPoint(localPosition.dx, localPosition.dy);
+      var h = widget.controller.painter.getHighlightByTouchPoint(localPosition.dx, localPosition.dy);
 
       if (h != null) {
         h.highlightX = widget.controller.getValuesByTouchPoint(localPosition.dx, localPosition.dy, AxisDependency.LEFT).x;
@@ -248,7 +247,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
       var trans = _getTrans(_curX, _curY);
       var h = widget.controller.painter.viewPortHandler;
 
-      bool canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
+      var canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
       widget.controller.painter.zoom(canZoomMoreX ? scale : 1, 1, trans.x, trans.y);
 
       setStateIfNotDispose();
@@ -306,13 +305,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
     var dy = details.localPoint.dy - _curY;
     if (widget.controller.painter.dragYEnabled && widget.controller.painter.dragXEnabled) {
       if (_inverted()) {
-        /// if there is an inverted horizontalbarchart
-        if (widget is HorizontalBarChart) {
-          dx = -dx;
-        } else {
-          dy = -dy;
-        }
+        dy = -dy;
       }
+
       widget.controller.painter.translate(dx, dy);
       if (widget.controller.touchEventListener != null) {
         var point = _getTouchValue(
@@ -323,13 +318,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
     } else {
       if (widget.controller.painter.dragXEnabled) {
         if (_inverted()) {
-          /// if there is an inverted horizontalbarchart
-          if (widget is HorizontalBarChart) {
-            dx = -dx;
-          } else {
-            dy = -dy;
-          }
+          dy = -dy;
         }
+
         widget.controller.painter.translate(dx, 0.0);
         if (widget.controller.touchEventListener != null) {
           var point = _getTouchValue(
@@ -339,13 +330,9 @@ class CombinedChartState extends ChartState<CombinedChart> {
         setStateIfNotDispose();
       } else if (widget.controller.painter.dragYEnabled) {
         if (_inverted()) {
-          /// if there is an inverted horizontalbarchart
-          if (widget is HorizontalBarChart) {
-            dx = -dx;
-          } else {
-            dy = -dy;
-          }
+          dy = -dy;
         }
+
         widget.controller.painter.translate(0.0, dy);
         if (widget.controller.touchEventListener != null) {
           var point = _getTouchValue(
@@ -416,12 +403,12 @@ class CombinedChartState extends ChartState<CombinedChart> {
     } else {
       scale = _isYDirection ? details.verticalScale / _scale : details.horizontalScale / _scale;
     }
-    MPPointF trans = _getTrans(_curX, _curY);
+    var trans = _getTrans(_curX, _curY);
     var h = widget.controller.painter.viewPortHandler;
     scale = Utils.optimizeScale(scale);
     if (pinchZoomEnabled) {
-      bool canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
-      bool canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
+      var canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
+      var canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
       widget.controller.painter.zoom(canZoomMoreX ? scale : 1, canZoomMoreY ? scale : 1, trans.x, trans.y);
       if (widget.controller.touchEventListener != null) {
         var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
@@ -432,7 +419,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
     } else {
       if (_isYDirection) {
         if (widget.controller.painter.scaleYEnabled) {
-          bool canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
+          var canZoomMoreY = scale < 1 ? h.canZoomOutMoreY() : h.canZoomInMoreY();
           widget.controller.painter.zoom(1, canZoomMoreY ? scale : 1, trans.x, trans.y);
           if (widget.controller.touchEventListener != null) {
             var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
@@ -443,7 +430,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
         }
       } else {
         if (widget.controller.painter.scaleXEnabled) {
-          bool canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
+          var canZoomMoreX = scale < 1 ? h.canZoomOutMoreX() : h.canZoomInMoreX();
           widget.controller.painter.zoom(canZoomMoreX ? scale : 1, 1, trans.x, trans.y);
           if (widget.controller.touchEventListener != null) {
             var point = _getTouchValue(widget.controller.touchEventListener.valueType(), details.globalFocalPoint.dx, details.globalFocalPoint.dy,
@@ -473,6 +460,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
   }
 
+  @override
   void onDragStart(LongPressStartDetails details) {
     var specialDoubleTapUp = _specialDragHighlight(details.localPosition);
     if (specialDoubleTapUp) {
@@ -484,6 +472,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
   }
 
+  @override
   void onDragUpdate(LongPressMoveUpdateDetails details) {
     var specialMoved = _specialMove(details.localPosition);
     if (specialMoved) {
@@ -495,6 +484,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
     }
   }
 
+  @override
   void onDragEnd(LongPressEndDetails details) {
     var specialDoubleTapUp = _specialDragHighlight(details.localPosition);
     if (specialDoubleTapUp) {
@@ -510,7 +500,7 @@ class CombinedChartState extends ChartState<CombinedChart> {
   void updatePainter() {
     if (widget.controller.painter.getData() != null &&
         widget.controller.painter.getData().dataSets != null &&
-        widget.controller.painter.getData().dataSets.length > 0) {
+        widget.controller.painter.getData().dataSets.isNotEmpty) {
       widget.controller.painter.highlightValue6(lastHighlighted, false);
       widget.controller.painter.highlightValueForce(widget.controller.painter.highlightForced, false);
     }

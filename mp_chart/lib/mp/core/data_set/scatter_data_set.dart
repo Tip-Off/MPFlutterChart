@@ -5,24 +5,11 @@ import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/data_set.dart';
 import 'package:mp_chart/mp/core/data_set/line_scatter_candle_radar_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'package:mp_chart/mp/core/enums/scatter_shape.dart';
-import 'package:mp_chart/mp/core/render/chevron_down_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/chevron_up_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/circle_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/cross_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/i_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/square_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/triangle_shape_renderer.dart';
-import 'package:mp_chart/mp/core/render/x_shape_renderer.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 
-class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
-    implements IScatterDataSet {
+class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> implements IScatterDataSet {
   /// the size the scattershape will have, in density pixels
   double _shapeSize = 15;
-
-  /// Renderer responsible for rendering this DataSet, default: square
-  IShapeRenderer _shapeRenderer = SquareShapeRenderer();
 
   /// The radius of the hole in the shape (applies to Square, Circle and Triangle)
   /// - default: 0.0
@@ -37,11 +24,11 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
 
   @override
   DataSet<Entry> copy1() {
-    List<Entry> entries = List<Entry>();
-    for (int i = 0; i < values.length; i++) {
+    var entries = <Entry>[];
+    for (var i = 0; i < values.length; i++) {
       entries.add(values[i].copy());
     }
-    ScatterDataSet copied = ScatterDataSet(entries, getLabel());
+    var copied = ScatterDataSet(entries, getLabel());
     copy(copied);
     return copied;
   }
@@ -52,7 +39,6 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
     if (baseDataSet is ScatterDataSet) {
       var scatterDataSet = baseDataSet;
       scatterDataSet._shapeSize = _shapeSize;
-      scatterDataSet._shapeRenderer = _shapeRenderer;
       scatterDataSet._scatterShapeHoleRadius = _scatterShapeHoleRadius;
       scatterDataSet._scatterShapeHoleColor = _scatterShapeHoleColor;
     }
@@ -69,27 +55,6 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
   @override
   double getScatterShapeSize() {
     return _shapeSize;
-  }
-
-  /// Sets the ScatterShape this DataSet should be drawn with. This will search for an available IShapeRenderer and set this
-  /// renderer for the DataSet.
-  ///
-  /// @param shape
-  void setScatterShape(ScatterShape shape) {
-    _shapeRenderer = getRendererForShape(shape);
-  }
-
-  /// Sets a  IShapeRenderer responsible for drawing this DataSet.
-  /// This can also be used to set a custom IShapeRenderer aside from the default ones.
-  ///
-  /// @param shapeRenderer
-  void setShapeRenderer(IShapeRenderer shapeRenderer) {
-    _shapeRenderer = shapeRenderer;
-  }
-
-  @override
-  IShapeRenderer getShapeRenderer() {
-    return _shapeRenderer;
   }
 
   /// Sets the radius of the hole in the shape (applies to Square, Circle and Triangle)
@@ -115,26 +80,5 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry>
   @override
   Color getScatterShapeHoleColor() {
     return _scatterShapeHoleColor;
-  }
-
-  static IShapeRenderer getRendererForShape(ScatterShape shape) {
-    switch (shape) {
-      case ScatterShape.SQUARE:
-        return SquareShapeRenderer();
-      case ScatterShape.CIRCLE:
-        return CircleShapeRenderer();
-      case ScatterShape.TRIANGLE:
-        return TriangleShapeRenderer();
-      case ScatterShape.CROSS:
-        return CrossShapeRenderer();
-      case ScatterShape.X:
-        return XShapeRenderer();
-      case ScatterShape.CHEVRON_UP:
-        return ChevronUpShapeRenderer();
-      case ScatterShape.CHEVRON_DOWN:
-        return ChevronDownShapeRenderer();
-    }
-
-    return null;
   }
 }

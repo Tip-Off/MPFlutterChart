@@ -19,18 +19,18 @@ class DefaultValueFormatter extends ValueFormatter {
   ///
   /// @param digits
   void setup(int digits) {
-    this._decimalDigits = digits;
+    _decimalDigits = digits;
 
     if (digits < 1) {
       digits = 1;
     }
 
-    StringBuffer b = StringBuffer();
-    b.write(".");
-    for (int i = 0; i < digits; i++) {
-      b.write("0");
+    var b = StringBuffer();
+    b.write('.');
+    for (var i = 0; i < digits; i++) {
+      b.write('0');
     }
-    _format = NumberFormat("###,###,###,##0" + b.toString());
+    _format = NumberFormat('###,###,###,##0' + b.toString());
   }
 
   @override

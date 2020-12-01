@@ -27,7 +27,7 @@ abstract class DataRenderer extends Renderer {
   TextPainter _valuePaint;
 
   DataRenderer(Animator animator, ViewPortHandler viewPortHandler) : super(viewPortHandler) {
-    this._animator = animator;
+    _animator = animator;
 
     _renderPaint = Paint()
       ..isAntiAlias = true

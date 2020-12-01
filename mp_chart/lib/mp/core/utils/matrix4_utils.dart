@@ -39,7 +39,7 @@ abstract class Matrix4Utils {
     var s14 = second.storage[11];
     var s15 = second.storage[15];
 
-    Matrix4 res = Matrix4.identity();
+    var res = Matrix4.identity();
 
     res.storage[0] = f0 * s0 + f1 * s4 + f2 * s8 + f3 * s12; // 123
     res.storage[4] = f0 * s1 + f1 * s5 + f2 * s9 + f3 * s13; // 567
@@ -64,8 +64,7 @@ abstract class Matrix4Utils {
     return res;
   }
 
-  static Matrix4 _getScaleTempMatrixByPoint(
-      double sx, double sy, double px, double py) {
+  static Matrix4 _getScaleTempMatrixByPoint(double sx, double sy, double px, double py) {
     return Matrix4.identity()
       ..storage[13] = py - sy * py
       ..storage[5] = sy
@@ -73,8 +72,7 @@ abstract class Matrix4Utils {
       ..storage[0] = sx;
   }
 
-  static void postScaleByPoint(
-      Matrix4 m, double sx, double sy, double px, double py) {
+  static void postScaleByPoint(Matrix4 m, double sx, double sy, double px, double py) {
     var temp = _getScaleTempMatrixByPoint(sx, sy, px, py);
     postConcat(m, temp);
   }
@@ -99,12 +97,12 @@ abstract class Matrix4Utils {
   }
 
   static void mapPoints(Matrix4 m, List<double> valuePoints) {
-    double x = 0;
-    double y = 0;
-    for (int i = 0; i < valuePoints.length; i += 2) {
-      x = valuePoints[i] == null ? 0 : valuePoints[i];
-      y = valuePoints[i + 1] == null ? 0 : valuePoints[i + 1];
-      final Vector3 transformed = m.perspectiveTransform(Vector3(x, y, 0));
+    var x = 0.0;
+    var y = 0.0;
+    for (var i = 0; i < valuePoints.length; i += 2) {
+      x = valuePoints[i] ?? 0;
+      y = valuePoints[i + 1] ?? 0;
+      final transformed = m.perspectiveTransform(Vector3(x, y, 0));
       valuePoints[i] = transformed.x;
       valuePoints[i + 1] = transformed.y;
     }
@@ -138,8 +136,7 @@ abstract class Matrix4Utils {
       ..storage[15] = 1;
   }
 
-  static void setScaleByPoint(
-      Matrix4 m, double sx, double sy, double px, double py) {
+  static void setScaleByPoint(Matrix4 m, double sx, double sy, double px, double py) {
     m
       ..storage[0] = sx
       ..storage[1] = 0

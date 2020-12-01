@@ -28,7 +28,7 @@ abstract class HighlightUtils {
   }
 
   static Highlight performHighlightDrag(ChartPainter painter, Highlight lastHighlight, Offset offset) {
-    Highlight h = painter.getHighlightByTouchPoint(offset.dx, offset.dy);
+    var h = painter.getHighlightByTouchPoint(offset.dx, offset.dy);
 
     if (h != null && !h.equalTo(lastHighlight)) {
       lastHighlight = h;

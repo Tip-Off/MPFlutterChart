@@ -24,8 +24,7 @@ abstract class Animator {
 
   void reset();
 
-  void spin(int durationMillis, double fromAngle, double toAngle,
-      EasingFunction easing);
+  void spin(int durationMillis, double fromAngle, double toAngle, EasingFunction easing);
 
   /// Animates values along the X axis, in a linear fashion.
   ///
@@ -53,8 +52,7 @@ abstract class Animator {
   /// @param durationMillisX animation duration along the X axis
   /// @param durationMillisY animation duration along the Y axis
   /// @param easing EasingFunction for both axes
-  void animateXY2(
-      int durationMillisX, int durationMillisY, EasingFunction easing);
+  void animateXY2(int durationMillisX, int durationMillisY, EasingFunction easing);
 
   /// Animates values along both the X and Y axes.
   ///
@@ -62,8 +60,7 @@ abstract class Animator {
   /// @param durationMillisY animation duration along the Y axis
   /// @param easingX EasingFunction for the X axis
   /// @param easingY EasingFunction for the Y axis
-  void animateXY3(int durationMillisX, int durationMillisY,
-      EasingFunction easingX, EasingFunction easingY);
+  void animateXY3(int durationMillisX, int durationMillisY, EasingFunction easingX, EasingFunction easingY);
 
   /// Animates values along the Y axis, in a linear fashion.
   ///
@@ -126,34 +123,29 @@ class ChartAnimator extends Animator {
 
   ChartAnimator(AnimatorUpdateListener listener) : super(listener);
 
+  @override
   void reset() {
     _isShowed = false;
   }
 
   bool get needReset => _isShowed;
 
-  void spin(int durationMillis, double fromAngle, double toAngle,
-      EasingFunction easing) {
-    if (_isShowed ||
-        _countdownTimer != null ||
-        durationMillis < 0 ||
-        fromAngle >= toAngle) {
+  @override
+  void spin(int durationMillis, double fromAngle, double toAngle, EasingFunction easing) {
+    if (_isShowed || _countdownTimer != null || durationMillis < 0 || fromAngle >= toAngle) {
       return;
     }
     reset();
     _isShowed = true;
-    final double totalTime = durationMillis.toDouble();
+    final totalTime = durationMillis.toDouble();
     angle = fromAngle;
-    _countdownTimer =
-        Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
+    _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
       if (durationMillis < 0) {
         angle = toAngle;
         _countdownTimer?.cancel();
         _countdownTimer = null;
       } else {
-        angle = fromAngle +
-            (toAngle - fromAngle) *
-                (1.0 - easing.getInterpolation(durationMillis / totalTime));
+        angle = fromAngle + (toAngle - fromAngle) * (1.0 - easing.getInterpolation(durationMillis / totalTime));
         if (angle >= toAngle) {
           angle = toAngle;
         }
@@ -163,16 +155,16 @@ class ChartAnimator extends Animator {
     });
   }
 
+  @override
   void animateX2(int durationMillis, EasingFunction easing) {
     if (_isShowed || _countdownTimer != null || durationMillis < 0) {
       return;
     }
     reset();
     _isShowed = true;
-    final double totalTime = durationMillis.toDouble();
+    final totalTime = durationMillis.toDouble();
     phaseX = MIN;
-    _countdownTimer =
-        Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
+    _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
       if (durationMillis < 0) {
         phaseX = MAX;
         _countdownTimer?.cancel();
@@ -188,22 +180,18 @@ class ChartAnimator extends Animator {
     });
   }
 
-  void animateXY2(
-      int durationMillisX, int durationMillisY, EasingFunction easing) {
-    if (_isShowed ||
-        _countdownTimer != null ||
-        durationMillisX < 0 ||
-        durationMillisY < 0) {
+  @override
+  void animateXY2(int durationMillisX, int durationMillisY, EasingFunction easing) {
+    if (_isShowed || _countdownTimer != null || durationMillisX < 0 || durationMillisY < 0) {
       return;
     }
     reset();
     _isShowed = true;
-    final double totalTimeX = durationMillisX.toDouble();
-    final double totalTimeY = durationMillisY.toDouble();
+    final totalTimeX = durationMillisX.toDouble();
+    final totalTimeY = durationMillisY.toDouble();
     phaseX = MIN;
     phaseY = MIN;
-    _countdownTimer =
-        Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
+    _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
       if (durationMillisX < 0 && durationMillisY < 0) {
         phaseX = MAX;
         phaseY = MAX;
@@ -227,22 +215,18 @@ class ChartAnimator extends Animator {
     });
   }
 
-  void animateXY3(int durationMillisX, int durationMillisY,
-      EasingFunction easingX, EasingFunction easingY) {
-    if (_isShowed ||
-        _countdownTimer != null ||
-        durationMillisX < 0 ||
-        durationMillisY < 0) {
+  @override
+  void animateXY3(int durationMillisX, int durationMillisY, EasingFunction easingX, EasingFunction easingY) {
+    if (_isShowed || _countdownTimer != null || durationMillisX < 0 || durationMillisY < 0) {
       return;
     }
     reset();
     _isShowed = true;
-    final double totalTimeX = durationMillisX.toDouble();
-    final double totalTimeY = durationMillisY.toDouble();
+    final totalTimeX = durationMillisX.toDouble();
+    final totalTimeY = durationMillisY.toDouble();
     phaseX = MIN;
     phaseY = MIN;
-    _countdownTimer =
-        Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
+    _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
       if (durationMillisX < 0 && durationMillisY < 0) {
         phaseX = MAX;
         phaseY = MAX;
@@ -266,16 +250,16 @@ class ChartAnimator extends Animator {
     });
   }
 
+  @override
   void animateY2(int durationMillis, EasingFunction easing) {
     if (_isShowed || _countdownTimer != null || durationMillis < 0) {
       return;
     }
     reset();
     _isShowed = true;
-    final double totalTime = durationMillis.toDouble();
+    final totalTime = durationMillis.toDouble();
     phaseY = MIN;
-    _countdownTimer =
-        Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
+    _countdownTimer = Timer.periodic(Duration(milliseconds: REFRESH_RATE), (timer) {
       if (durationMillis < 0) {
         phaseY = MAX;
         _countdownTimer?.cancel();
@@ -299,7 +283,7 @@ class ChartAnimatorBySys extends Animator {
   static const int ANIMATE_SPIN = 3;
 
   AnimationController _controller;
-  ChartTickerProvider _provider = ChartTickerProvider();
+  final ChartTickerProvider _provider = ChartTickerProvider();
 
   EasingFunction easingFunction_1;
   EasingFunction easingFunction_2;
@@ -318,7 +302,7 @@ class ChartAnimatorBySys extends Animator {
     _controller = AnimationController(vsync: _provider);
 
     _controller.addListener(() {
-      double percent = _controller.value;
+      var percent = _controller.value;
       switch (which) {
         case ANIMATE_X:
           {
@@ -370,9 +354,7 @@ class ChartAnimatorBySys extends Animator {
           break;
         case ANIMATE_SPIN:
           {
-            angle = fromAngle +
-                (toAngle - fromAngle) *
-                    easingFunction_1.getInterpolation(percent);
+            angle = fromAngle + (toAngle - fromAngle) * easingFunction_1.getInterpolation(percent);
             if (angle >= toAngle) {
               angle = toAngle;
             }
@@ -414,19 +396,15 @@ class ChartAnimatorBySys extends Animator {
   }
 
   @override
-  void animateXY2(
-      int durationMillisX, int durationMillisY, EasingFunction easing) {
+  void animateXY2(int durationMillisX, int durationMillisY, EasingFunction easing) {
     if (animating) return;
     animating = true;
 
     phaseX = MIN;
     phaseY = MIN;
     xDurationLong = durationMillisX > durationMillisY;
-    durationMinPercent = xDurationLong
-        ? durationMillisY / durationMillisX
-        : durationMillisX / durationMillisY;
-    _controller.duration = Duration(
-        milliseconds: xDurationLong ? durationMillisX : durationMillisY);
+    durationMinPercent = xDurationLong ? durationMillisY / durationMillisX : durationMillisX / durationMillisY;
+    _controller.duration = Duration(milliseconds: xDurationLong ? durationMillisX : durationMillisY);
     easingFunction_1 = easing;
     easingFunction_2 = null;
     which = ANIMATE_XY;
@@ -434,19 +412,15 @@ class ChartAnimatorBySys extends Animator {
   }
 
   @override
-  void animateXY3(int durationMillisX, int durationMillisY,
-      EasingFunction easingX, EasingFunction easingY) {
+  void animateXY3(int durationMillisX, int durationMillisY, EasingFunction easingX, EasingFunction easingY) {
     if (animating) return;
     animating = true;
 
     phaseX = MIN;
     phaseY = MIN;
     xDurationLong = durationMillisX > durationMillisY;
-    durationMinPercent = xDurationLong
-        ? durationMillisY / durationMillisX
-        : durationMillisX / durationMillisY;
-    _controller.duration = Duration(
-        milliseconds: xDurationLong ? durationMillisX : durationMillisY);
+    durationMinPercent = xDurationLong ? durationMillisY / durationMillisX : durationMillisX / durationMillisY;
+    _controller.duration = Duration(milliseconds: xDurationLong ? durationMillisX : durationMillisY);
     easingFunction_1 = easingX;
     easingFunction_2 = easingY;
     which = ANIMATE_XY;
@@ -473,13 +447,12 @@ class ChartAnimatorBySys extends Animator {
   }
 
   @override
-  void spin(int durationMillis, double fromAngle, double toAngle,
-      EasingFunction easing) {
+  void spin(int durationMillis, double fromAngle, double toAngle, EasingFunction easing) {
     if (animating || fromAngle >= toAngle) return;
     animating = true;
 
     this.fromAngle = fromAngle;
-    this.angle = fromAngle;
+    angle = fromAngle;
     this.toAngle = toAngle;
     _controller.duration = Duration(milliseconds: durationMillis);
     easingFunction_1 = easing;
@@ -534,8 +507,7 @@ abstract class Easing {
   static const EasingFunction EaseInOutCirc = EaseInOutCircEasingFunction();
   static const EasingFunction EaseInElastic = EaseInElasticEasingFunction();
   static const EasingFunction EaseOutElastic = EaseOutElasticEasingFunction();
-  static const EasingFunction EaseInOutElastic =
-      EaseInOutElasticEasingFunction();
+  static const EasingFunction EaseInOutElastic = EaseInOutElasticEasingFunction();
   static const EasingFunction EaseInBack = EaseInBackEasingFunction();
   static const EasingFunction EaseOutBack = EaseOutBackEasingFunction();
   static const EasingFunction EaseInOutBack = EaseInOutBackEasingFunction();
@@ -561,7 +533,7 @@ class EaseOutBounceEasingFunction implements EasingFunction {
 
   @override
   double getInterpolation(double input) {
-    double s = 7.5625;
+    var s = 7.5625;
     if (input < (1 / 2.75)) {
       return s * input * input;
     } else if (input < (2 / 2.75)) {
@@ -587,13 +559,12 @@ class EaseInOutBackEasingFunction implements EasingFunction {
 
   @override
   double getInterpolation(double input) {
-    double s = 1.70158;
+    var s = 1.70158;
     input *= 2;
     if (input < 1) {
       return 0.5 * (input * input * (((s *= (1.525)) + 1) * input - s));
     }
-    return 0.5 *
-        ((input -= 2) * input * (((s *= (1.525)) + 1) * input + s) + 2);
+    return 0.5 * ((input -= 2) * input * (((s *= (1.525)) + 1) * input + s) + 2);
   }
 }
 
@@ -602,7 +573,7 @@ class EaseOutBackEasingFunction implements EasingFunction {
 
   @override
   double getInterpolation(double input) {
-    final double s = 1.70158;
+    final s = 1.70158;
     input--;
     return (input * input * ((s + 1) * input + s) + 1);
   }
@@ -613,7 +584,7 @@ class EaseInBackEasingFunction implements EasingFunction {
 
   @override
   double getInterpolation(double input) {
-    final double s = 1.70158;
+    final s = 1.70158;
     return input * input * ((s + 1) * input - s);
   }
 }
@@ -632,14 +603,12 @@ class EaseInOutElasticEasingFunction implements EasingFunction {
       return 1;
     }
 
-    double p = 1 / 0.45;
-    double s = 0.45 / DOUBLE_PI * asin(1);
+    var p = 1 / 0.45;
+    var s = 0.45 / DOUBLE_PI * asin(1);
     if (input < 1) {
-      return -0.5 *
-          (pow(2, 10 * (input -= 1)) * sin((input * 1 - s) * DOUBLE_PI * p));
+      return -0.5 * (pow(2, 10 * (input -= 1)) * sin((input * 1 - s) * DOUBLE_PI * p));
     }
-    return 1 +
-        0.5 * pow(2, -10 * (input -= 1)) * sin((input * 1 - s) * DOUBLE_PI * p);
+    return 1 + 0.5 * pow(2, -10 * (input -= 1)) * sin((input * 1 - s) * DOUBLE_PI * p);
   }
 }
 
@@ -654,8 +623,8 @@ class EaseOutElasticEasingFunction implements EasingFunction {
       return 1;
     }
 
-    double p = 0.3;
-    double s = p / DOUBLE_PI * asin(1);
+    var p = 0.3;
+    var s = p / DOUBLE_PI * asin(1);
     return 1 + pow(2, -10 * input) * sin((input - s) * DOUBLE_PI / p);
   }
 }
@@ -671,8 +640,8 @@ class EaseInElasticEasingFunction implements EasingFunction {
       return 1;
     }
 
-    double p = 0.3;
-    double s = p / DOUBLE_PI * asin(1);
+    var p = 0.3;
+    var s = p / DOUBLE_PI * asin(1);
     return -(pow(2, 10 * (input -= 1)) * sin((input - s) * DOUBLE_PI / p));
   }
 }

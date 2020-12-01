@@ -56,8 +56,8 @@ abstract class AbstractBuffer<T> {
   /// @param phaseX
   /// @param phaseY
   void setPhases(double phaseX, double phaseY) {
-    this._phaseX = phaseX;
-    this._phaseY = phaseY;
+    _phaseX = phaseX;
+    _phaseY = phaseY;
   }
 
   /// Builds up the buffer with the provided data and resets the buffer-index

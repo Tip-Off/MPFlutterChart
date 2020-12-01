@@ -10,14 +10,6 @@ mixin ICandleDataSet implements ILineScatterCandleRadarDataSet<CandleEntry> {
   /// @return
   double getBarSpace();
 
-  /// Returns whether the candle bars should show?
-  /// When false, only "ticks" will show
-  ///
-  /// - default: true
-  ///
-  /// @return
-  bool getShowCandleBar();
-
   /// Returns the width of the candle-shadow-line in pixels.
   ///
   /// @return
@@ -27,11 +19,6 @@ mixin ICandleDataSet implements ILineScatterCandleRadarDataSet<CandleEntry> {
   ///
   /// @return
   Color getShadowColor();
-
-  /// Returns the neutral color (for open == close)
-  ///
-  /// @return
-  Color getNeutralColor();
 
   /// Returns the increasing color (for open < close).
   ///

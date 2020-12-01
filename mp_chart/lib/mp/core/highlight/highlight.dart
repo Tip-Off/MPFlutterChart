@@ -1,15 +1,13 @@
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 
-enum HighlightStatus {
-  START, MOVE, END
-}
+enum HighlightStatus { START, MOVE, END }
 
 class Highlight {
   /// the x-value of the highlighted value
-  double _x = double.nan;
+  double x = double.nan;
 
   /// the y-value of the highlighted value
-  double _y = double.nan;
+  double y = double.nan;
 
   ///
   double freeX = double.nan;
@@ -64,55 +62,48 @@ class Highlight {
     // ignore: avoid_init_to_null
     AxisDependency axis = null,
   }) {
-    this._x = x;
-    this._y = y;
-    this._xPx = xPx;
-    this._yPx = yPx;
-    this._dataIndex = dataIndex;
-    this._dataSetIndex = dataSetIndex;
-    this._axis = axis;
-    this._stackIndex = stackIndex;
+    this.x = x;
+    this.y = y;
+    _xPx = xPx;
+    _yPx = yPx;
+    _dataIndex = dataIndex;
+    _dataSetIndex = dataSetIndex;
+    _axis = axis;
+    _stackIndex = stackIndex;
   }
-  
+
   Highlight copyWith({
-    double freeX, 
+    double freeX,
     double freeY,
     double highlightX,
     double highlightY,
-    double x, 
-    double y, 
-    double xPx, 
+    double x,
+    double y,
+    double xPx,
     double yPx,
     int dataSetIndex,
     int stackIndex,
     int dataIndex,
     AxisDependency axis,
-  }) => Highlight(
-    freeX: freeX ?? this.freeX,
-    freeY: freeY ?? this.freeY,
-    highlightX: highlightX ?? this.highlightX,
-    highlightY: highlightY ?? this.highlightY,
-    x: x ?? this.x,
-    y: y ?? this.y,
-    xPx: xPx ?? this.xPx,
-    yPx: yPx ?? this.yPx,
-    dataSetIndex: dataSetIndex ?? this.dataSetIndex,
-    stackIndex: stackIndex ?? this.stackIndex,
-    dataIndex: dataIndex ?? this.dataIndex,
-    axis: axis ?? this.axis,
-  );
-
-  double get x => _x;
-
-  double get y => _y;
+  }) =>
+      Highlight(
+        freeX: freeX ?? this.freeX,
+        freeY: freeY ?? this.freeY,
+        highlightX: highlightX ?? this.highlightX,
+        highlightY: highlightY ?? this.highlightY,
+        x: x ?? this.x,
+        y: y ?? this.y,
+        xPx: xPx ?? this.xPx,
+        yPx: yPx ?? this.yPx,
+        dataSetIndex: dataSetIndex ?? this.dataSetIndex,
+        stackIndex: stackIndex ?? this.stackIndex,
+        dataIndex: dataIndex ?? this.dataIndex,
+        axis: axis ?? this.axis,
+      );
 
   double get xPx => _xPx;
 
   double get yPx => _yPx;
-
-  set y (double yy) {
-    _y = yy;
-  }
 
   // ignore: unnecessary_getters_setters
   int get dataIndex => _dataIndex;
@@ -137,8 +128,8 @@ class Highlight {
   /// @param x
   /// @param y
   void setDraw(double x, double y) {
-    this._drawX = x;
-    this._drawY = y;
+    _drawX = x;
+    _drawY = y;
   }
 
   double get drawX => _drawX;
@@ -151,24 +142,25 @@ class Highlight {
   /// @param h
   /// @return
   bool equalTo(Highlight h) {
-    if (h == null)
+    if (h == null) {
       return false;
-    else {
-      if (this._dataSetIndex == h._dataSetIndex &&
-          this._x == h._x &&
-          this._y == h._y &&
-          this.freeX == h.freeX &&
-          this.freeY == h.freeY &&
-          this._stackIndex == h._stackIndex &&
-          this._dataIndex == h._dataIndex)
+    } else {
+      if (_dataSetIndex == h._dataSetIndex &&
+          x == h.x &&
+          y == h.y &&
+          freeX == h.freeX &&
+          freeY == h.freeY &&
+          _stackIndex == h._stackIndex &&
+          _dataIndex == h._dataIndex) {
         return true;
-      else
+      } else {
         return false;
+      }
     }
   }
 
   @override
   String toString() {
-    return "Highlight, x: $_x, y: $_y, dataSetIndex: $_dataSetIndex, stackIndex (only stacked barentry): $_stackIndex";
+    return 'Highlight, x: $x, y: $y, dataSetIndex: $_dataSetIndex, stackIndex (only stacked barentry): $_stackIndex';
   }
 }

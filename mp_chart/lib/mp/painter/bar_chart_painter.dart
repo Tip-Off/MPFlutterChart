@@ -5,18 +5,14 @@ import 'package:mp_chart/mp/core/axis/x_axis.dart';
 import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_data_provider.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/highlight/bar_highlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/bar_chart_renderer.dart';
-import 'package:mp_chart/mp/core/render/legend_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
@@ -24,8 +20,7 @@ import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/bar_line_chart_painter.dart';
 
-class BarChartPainter extends BarLineChartBasePainter<BarData>
-    implements BarDataProvider {
+class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDataProvider {
   /// flag that indicates whether the highlight should be full-bar oriented, or single-value?
   final bool _highlightFullBarEnabled;
 
@@ -48,15 +43,10 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
       double extraTopOffset,
       double extraRightOffset,
       double extraBottomOffset,
-      IMarker marker,
-      Description desc,
-      bool drawMarkers,
       Color infoBgColor,
       TextPainter infoPainter,
-      TextPainter descPainter,
       XAxis xAxis,
       Legend legend,
-      LegendRenderer legendRenderer,
       DataRendererSettingFunction rendererSettingFunction,
       OnChartValueSelectedListener selectedListener,
       int maxVisibleCount,
@@ -106,15 +96,10 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
             extraTopOffset,
             extraRightOffset,
             extraBottomOffset,
-            marker,
-            desc,
-            drawMarkers,
             infoBgColor,
             infoPainter,
-            descPainter,
             xAxis,
             legend,
-            legendRenderer,
             rendererSettingFunction,
             selectedListener,
             maxVisibleCount,
@@ -158,17 +143,14 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   @override
   void calcMinMax() {
     if (_fitBars) {
-      xAxis.calculate(getBarData().xMin - getBarData().barWidth / 2.0,
-          getBarData().xMax + getBarData().barWidth / 2.0);
+      xAxis.calculate(getBarData().xMin - getBarData().barWidth / 2.0, getBarData().xMax + getBarData().barWidth / 2.0);
     } else {
       xAxis.calculate(getBarData().xMin, getBarData().xMax);
     }
 
     // calculate axis range (min / max) according to provided data
-    axisLeft.calculate(getBarData().getYMin2(AxisDependency.LEFT),
-        getBarData().getYMax2(AxisDependency.LEFT));
-    axisRight.calculate(getBarData().getYMin2(AxisDependency.RIGHT),
-        getBarData().getYMax2(AxisDependency.RIGHT));
+    axisLeft.calculate(getBarData().getYMin2(AxisDependency.LEFT), getBarData().getYMax2(AxisDependency.LEFT));
+    axisRight.calculate(getBarData().getYMin2(AxisDependency.RIGHT), getBarData().getYMax2(AxisDependency.RIGHT));
   }
 
   /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch
@@ -183,18 +165,11 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
     if (getBarData() == null) {
       return null;
     } else {
-      Highlight h = highlighter.getHighlight(x, y);
+      var h = highlighter.getHighlight(x, y);
       if (h == null || !isHighlightFullBarEnabled()) return h;
 
       // For isHighlightFullBarEnabled, remove stackIndex
-      return Highlight(
-          x: h.x,
-          y: h.y,
-          xPx: h.xPx,
-          yPx: h.yPx,
-          dataSetIndex: h.dataSetIndex,
-          stackIndex: -1,
-          axis: h.axis);
+      return Highlight(x: h.x, y: h.y, xPx: h.xPx, yPx: h.yPx, dataSetIndex: h.dataSetIndex, stackIndex: -1, axis: h.axis);
     }
   }
 
@@ -204,25 +179,24 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   /// @param e
   /// @return
   Rect getBarBounds(BarEntry e) {
-    Rect bounds = Rect.zero;
+    var bounds = Rect.zero;
 
-    IBarDataSet set = getBarData().getDataSetForEntry(e);
+    var set = getBarData().getDataSetForEntry(e);
 
     if (set == null) {
-      bounds = Rect.fromLTRB(double.minPositive, double.minPositive,
-          double.minPositive, double.minPositive);
+      bounds = Rect.fromLTRB(double.minPositive, double.minPositive, double.minPositive, double.minPositive);
       return bounds;
     }
 
-    double y = e.y;
-    double x = e.x;
+    var y = e.y;
+    var x = e.x;
 
-    double barWidth = getBarData().barWidth;
+    var barWidth = getBarData().barWidth;
 
-    double left = x - barWidth / 2.0;
-    double right = x + barWidth / 2.0;
-    double top = y >= 0 ? y : 0;
-    double bottom = y <= 0 ? y : 0;
+    var left = x - barWidth / 2.0;
+    var right = x + barWidth / 2.0;
+    var top = y >= 0 ? y : 0.0;
+    var bottom = y <= 0 ? y : 0.0;
 
     bounds = Rect.fromLTRB(left, top, right, bottom);
 
@@ -232,6 +206,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   /// returns true if drawing values above bars is enabled, false if not
   ///
   /// @return
+  @override
   bool isDrawValueAboveBarEnabled() {
     return _drawValueAboveBar;
   }
@@ -239,6 +214,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   /// returns true if drawing shadows (maxvalue) for each bar is enabled, false if not
   ///
   /// @return
+  @override
   bool isDrawBarShadowEnabled() {
     return _drawBarShadow;
   }
@@ -256,9 +232,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   /// @param dataSetIndex
   /// @param stackIndex   the index inside the stack - only relevant for stacked entries
   void highlightValue(double x, int dataSetIndex, int stackIndex) {
-    highlightValue6(
-        Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex),
-        false);
+    highlightValue6(Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex), false);
   }
 
   /// Groups all BarDataSet objects this data object holds together by modifying the x-value of their entries.
@@ -271,8 +245,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData>
   /// @param barSpace   the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
   void groupBars(double fromX, double groupSpace, double barSpace) {
     if (getBarData() == null) {
-      throw Exception(
-          "You need to set data for the chart before grouping bars.");
+      throw Exception('You need to set data for the chart before grouping bars.');
     } else {
       getBarData().groupBars(fromX, groupSpace, barSpace);
     }

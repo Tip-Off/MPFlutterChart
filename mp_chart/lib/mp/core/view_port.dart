@@ -57,10 +57,10 @@ class ViewPortHandler {
   /// @param width
   /// @param height
   void setChartDimens(double width, double height) {
-    double offsetLeft = this.offsetLeft();
-    double offsetTop = this.offsetTop();
-    double offsetRight = this.offsetRight();
-    double offsetBottom = this.offsetBottom();
+    var offsetLeft = this.offsetLeft();
+    var offsetTop = this.offsetTop();
+    var offsetRight = this.offsetRight();
+    var offsetBottom = this.offsetBottom();
 
     _chartHeight = height;
     _chartWidth = width;
@@ -69,16 +69,15 @@ class ViewPortHandler {
   }
 
   bool hasChartDimens() {
-    if (_chartHeight > 0 && _chartWidth > 0)
+    if (_chartHeight > 0 && _chartWidth > 0) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
-  void restrainViewPort(double offsetLeft, double offsetTop, double offsetRight,
-      double offsetBottom) {
-    _contentRect = Rect.fromLTRB(offsetLeft, offsetTop,
-        _chartWidth - offsetRight, _chartHeight - offsetBottom);
+  void restrainViewPort(double offsetLeft, double offsetTop, double offsetRight, double offsetBottom) {
+    _contentRect = Rect.fromLTRB(offsetLeft, offsetTop, _chartWidth - offsetRight, _chartHeight - offsetBottom);
   }
 
   double offsetLeft() {
@@ -130,8 +129,7 @@ class ViewPortHandler {
   }
 
   MPPointF getContentCenter() {
-    return MPPointF.getInstance1(
-        _contentRect.center.dx, _contentRect.center.dy);
+    return MPPointF.getInstance1(_contentRect.center.dx, _contentRect.center.dy);
   }
 
   double getChartHeight() {
@@ -149,10 +147,8 @@ class ViewPortHandler {
     return min(_contentRect.width, _contentRect.height);
   }
 
-  /**
-   * ################ ################ ################ ################
-   */
-  /** CODE BELOW THIS RELATED TO SCALING AND GESTURES */
+  /// ################ ################ ################ ################
+  /// CODE BELOW THIS RELATED TO SCALING AND GESTURES
 
   /// Zooms in by 1.4f, x and y are the coordinates (in pixels) of the zoom
   /// center.
@@ -160,7 +156,7 @@ class ViewPortHandler {
   /// @param x
   /// @param y
   Matrix4 zoomIn1(double x, double y) {
-    Matrix4 save = Matrix4.identity();
+    var save = Matrix4.identity();
     zoomIn2(x, y, save);
     return save;
   }
@@ -173,7 +169,7 @@ class ViewPortHandler {
   /// Zooms out by 0.7f, x and y are the coordinates (in pixels) of the zoom
   /// center.
   Matrix4 zoomOut1(double x, double y) {
-    Matrix4 save = Matrix4.identity();
+    var save = Matrix4.identity();
     zoomOut2(x, y, save);
     return save;
   }
@@ -196,7 +192,7 @@ class ViewPortHandler {
   /// @param scaleY
   /// @return
   Matrix4 zoom1(double scaleX, double scaleY) {
-    Matrix4 save = Matrix4.identity();
+    var save = Matrix4.identity();
     zoom2(scaleX, scaleY, save);
     return save;
   }
@@ -214,13 +210,12 @@ class ViewPortHandler {
   /// @param y
   /// @return
   Matrix4 zoom3(double scaleX, double scaleY, double x, double y) {
-    Matrix4 save = Matrix4.identity();
+    var save = Matrix4.identity();
     zoom4(scaleX, scaleY, x, y, save);
     return save;
   }
 
-  void zoom4(
-      double scaleX, double scaleY, double x, double y, Matrix4 outputMatrix) {
+  void zoom4(double scaleX, double scaleY, double x, double y, Matrix4 outputMatrix) {
     _matrixTouch.copyInto(outputMatrix);
     Matrix4Utils.postScaleByPoint(outputMatrix, scaleX, scaleY, x, y);
   }
@@ -231,7 +226,7 @@ class ViewPortHandler {
   /// @param scaleY
   /// @return
   Matrix4 setZoom1(double scaleX, double scaleY) {
-    Matrix4 save = Matrix4.identity();
+    var save = Matrix4.identity();
     setZoom2(scaleX, scaleY, save);
     return save;
   }
@@ -249,7 +244,7 @@ class ViewPortHandler {
   /// @param y
   /// @return
   Matrix4 setZoom3(double scaleX, double scaleY, double x, double y) {
-    Matrix4 save = Matrix4.identity();
+    var save = Matrix4.identity();
     save.add(_matrixTouch);
     Matrix4Utils.setScaleByPoint(save, scaleX, scaleY, x, y);
     return save;
@@ -260,7 +255,7 @@ class ViewPortHandler {
   /// Resets all zooming and dragging and makes the chart fit exactly it's
   /// bounds.
   Matrix4 fitScreen1() {
-    Matrix4 save = Matrix4.identity();
+    var save = Matrix4.identity();
     fitScreen2(save);
     return save;
   }
@@ -278,8 +273,8 @@ class ViewPortHandler {
       ..storage[7] = 0
       ..storage[0] = 1
       ..storage[5] = 1;
-    List<double> vals = valsBufferForFitScreen;
-    for (int i = 0; i < 16; i++) {
+    var vals = valsBufferForFitScreen;
+    for (var i = 0; i < 16; i++) {
       vals[i] = outputMatrix.storage[i];
     }
   }
@@ -289,7 +284,7 @@ class ViewPortHandler {
   /// @param transformedPts
   /// @return
   Matrix4 translate1(List<double> transformedPts) {
-    Matrix4 save = Matrix4.identity();
+    var save = Matrix4.identity();
     translate2(transformedPts, save);
     return save;
   }
@@ -300,11 +295,10 @@ class ViewPortHandler {
   /// @return
   void translate2(final List<double> transformedPts, Matrix4 outputMatrix) {
     _matrixTouch.copyInto(outputMatrix);
-    final double x = transformedPts[0] - offsetLeft();
-    final double y = transformedPts[1] - offsetTop();
-    print('x, y $x, $y');
+    final x = transformedPts[0] - offsetLeft();
+    final y = transformedPts[1] - offsetTop();
+
     Matrix4Utils.postTranslate(outputMatrix, -x, -y);
-    print('tttt $outputMatrix');
   }
 
   Matrix4 mCenterViewPortMatrixBuffer = Matrix4.identity();
@@ -317,11 +311,11 @@ class ViewPortHandler {
   /// @param transformedPts the position to center view viewport to
   void centerViewPort(final List<double> transformedPts) {
     mCenterViewPortMatrixBuffer = Matrix4.identity();
-    Matrix4 save = mCenterViewPortMatrixBuffer;
+    var save = mCenterViewPortMatrixBuffer;
     _matrixTouch.copyInto(save);
 
-    final double x = transformedPts[0] - offsetLeft();
-    final double y = transformedPts[1] - offsetTop();
+    final x = transformedPts[0] - offsetLeft();
+    final y = transformedPts[1] - offsetTop();
 
     Matrix4Utils.postTranslate(save, -x, -y);
 
@@ -346,15 +340,15 @@ class ViewPortHandler {
   ///
   /// @param matrix
   void limitTransAndScale(Matrix4 matrix, Rect content) {
-    for (int i = 0; i < 16; i++) {
+    for (var i = 0; i < 16; i++) {
       matrixBuffer[i] = matrix.storage[i];
     }
 
-    double curTransX = matrixBuffer[12];
-    double curScaleX = matrixBuffer[0];
+    var curTransX = matrixBuffer[12];
+    var curScaleX = matrixBuffer[0];
 
-    double curTransY = matrixBuffer[13];
-    double curScaleY = matrixBuffer[5];
+    var curTransY = matrixBuffer[13];
+    var curScaleY = matrixBuffer[5];
 
     // min scale-x is 1f
     _scaleX = min(max(_minScaleX, curScaleX), _maxScaleX);
@@ -362,21 +356,21 @@ class ViewPortHandler {
     // min scale-y is 1f
     _scaleY = min(max(_minScaleY, curScaleY), _maxScaleY);
 
-    double width = 0;
-    double height = 0;
+    var width = 0.0;
+    var height = 0.0;
 
     if (content != null) {
       width = content.width;
       height = content.height;
     }
 
-    double maxTransX = -width * (_scaleX - 1);
+    var maxTransX = -width * (_scaleX - 1);
 
     maxTransX = maxTransX - (width - 100);
 
     _transX = min(max(curTransX, maxTransX - _transOffsetX), _transOffsetX);
 
-    double maxTransY = height * (_scaleY - 1);
+    var maxTransY = height * (_scaleY - 1);
     _transY = max(min(curTransY, maxTransY + _transOffsetY), -_transOffsetY);
 
     matrixBuffer[12] = _transX;
@@ -385,7 +379,7 @@ class ViewPortHandler {
     matrixBuffer[13] = _transY;
     matrixBuffer[5] = _scaleY;
 
-    for (int i = 0; i < 16; i++) {
+    for (var i = 0; i < 16; i++) {
       matrix.storage[i] = matrixBuffer[i];
     }
   }
@@ -456,14 +450,10 @@ class ViewPortHandler {
   Matrix4 getMatrixTouch() {
     return _matrixTouch;
   }
-  
-  void blas() {
-    
-  }
 
-  /**
-   * ################ ################ ################ ################
-   */
+  void blas() {}
+
+  /// ################ ################ ################ ################
 
   /// BELOW METHODS FOR BOUNDS CHECK
 

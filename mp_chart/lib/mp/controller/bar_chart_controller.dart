@@ -5,10 +5,7 @@ import 'package:mp_chart/mp/controller/bar_line_scatter_candle_bubble_controller
 import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/bar_data.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/marker/bar_chart_marker.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/touch_listener.dart';
@@ -16,8 +13,7 @@ import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/painter/bar_chart_painter.dart';
 
-class BarChartController
-    extends BarLineScatterCandleBubbleController<BarChartPainter> {
+class BarChartController extends BarLineScatterCandleBubbleController<BarChartPainter> {
   bool highlightFullBarEnabled;
   bool drawValueAboveBar;
   bool drawBarShadow;
@@ -62,9 +58,7 @@ class BarChartController
     AxisRightSettingFunction axisRightSettingFunction,
     OnTouchEventListener touchEventListener,
     ChartTransListener chartTransListener,
-    IMarker marker,
-    Description description,
-    String noDataText = "No chart data available.",
+    String noDataText = 'No chart data available.',
     XAxisSettingFunction xAxisSettingFunction,
     LegendSettingFunction legendSettingFunction,
     DataRendererSettingFunction rendererSettingFunction,
@@ -75,17 +69,12 @@ class BarChartController
     double extraRightOffset = 0.0,
     double extraBottomOffset = 0.0,
     double extraLeftOffset = 0.0,
-    bool drawMarkers = true,
     bool resolveGestureHorizontalConflict = false,
     bool resolveGestureVerticalConflict = false,
-    double descTextSize = 12,
     double infoTextSize = 12,
-    Color descTextColor,
     Color infoTextColor,
     Color infoBgColor,
   }) : super(
-            marker: marker,
-            description: description,
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
             legendSettingFunction: legendSettingFunction,
@@ -97,12 +86,9 @@ class BarChartController
             extraRightOffset: extraRightOffset,
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
-            drawMarkers: drawMarkers,
             resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
             resolveGestureVerticalConflict: resolveGestureVerticalConflict,
-            descTextSize: descTextSize,
             infoTextSize: infoTextSize,
-            descTextColor: descTextColor,
             infoTextColor: infoTextColor,
             infoBgColor: infoBgColor,
             maxVisibleCount: maxVisibleCount,
@@ -144,7 +130,7 @@ class BarChartController
   void initialPainter() {
     painter = BarChartPainter(
         data,
-        painter != null ?painter.highlightForced : null,
+        painter != null ? painter.highlightForced : null,
         animator,
         viewPortHandler,
         maxHighlightDistance,
@@ -153,15 +139,10 @@ class BarChartController
         extraTopOffset,
         extraRightOffset,
         extraBottomOffset,
-        marker,
-        description,
-        drawMarkers,
         infoBgColor,
         infoPaint,
-        descPaint,
         xAxis,
         legend,
-        legendRenderer,
         rendererSettingFunction,
         selectionListener,
         maxVisibleCount,
@@ -198,19 +179,18 @@ class BarChartController
         chartTransListener);
   }
 
+  @override
   BarChartPainter get painter => super.painter;
 
+  @override
   BarChartState get state => super.state;
 
   @override
-  IMarker initMarker() => BarChartMarker();
-
   BarData get data => super.data;
 
   void groupBars(double fromX, double groupSpace, double barSpace) {
     if (data == null) {
-      throw Exception(
-          "You need to set data for the chart before grouping bars.");
+      throw Exception('You need to set data for the chart before grouping bars.');
     } else {
       data.groupBars(fromX, groupSpace, barSpace);
     }

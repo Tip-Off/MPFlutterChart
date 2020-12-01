@@ -16,19 +16,17 @@ class BarEntry extends Entry {
   /// the sum of all positive values this entry (if stacked) contains
   double _positiveSum;
 
-  BarEntry({double x, double y, ui.Image icon, Object data})
-      : super(x: x, y: y, icon: icon, data: data);
+  BarEntry({double x, double y, ui.Image icon, Object data}) : super(x: x, y: y, icon: icon, data: data);
 
-  BarEntry.fromListYVals(
-      {double x, List<double> vals, ui.Image icon, Object data})
-      : super(x: x, y: calcSum(vals), icon: icon, data: data) {
-    this._yVals = vals;
+  BarEntry.fromListYVals({double x, List<double> vals, ui.Image icon, Object data}) : super(x: x, y: calcSum(vals), icon: icon, data: data) {
+    _yVals = vals;
     calcPosNegSum();
     calcRanges();
   }
 
+  @override
   BarEntry copy() {
-    BarEntry copied = BarEntry(x: x, y: y, data: mData);
+    var copied = BarEntry(x: x, y: y, data: mData);
     copied.setVals(_yVals);
     return copied;
   }
@@ -57,8 +55,8 @@ class BarEntry extends Entry {
   double getSumBelow(int stackIndex) {
     if (_yVals == null) return 0;
 
-    double remainder = 0.0;
-    int index = _yVals.length - 1;
+    var remainder = 0.0;
+    var index = _yVals.length - 1;
     while (index > stackIndex && index >= 0) {
       remainder += _yVals[index];
       index--;
@@ -78,14 +76,15 @@ class BarEntry extends Entry {
       return;
     }
 
-    double sumNeg = 0.0;
-    double sumPos = 0.0;
+    var sumNeg = 0.0;
+    var sumPos = 0.0;
 
-    for (double f in _yVals) {
-      if (f <= 0.0)
+    for (var f in _yVals) {
+      if (f <= 0.0) {
         sumNeg += f.abs();
-      else
+      } else {
         sumPos += f;
+      }
     }
 
     _negativeSum = sumNeg;
@@ -98,23 +97,25 @@ class BarEntry extends Entry {
   /// @return
   static double calcSum(List<double> vals) {
     if (vals == null) return 0.0;
-    double sum = 0.0;
-    for (double f in vals) sum += f;
+    var sum = 0.0;
+    for (var f in vals) {
+      sum += f;
+    }
     return sum;
   }
 
   void calcRanges() {
-    List<double> values = yVals;
+    var values = yVals;
 
-    if (values == null || values.length == 0) return;
+    if (values == null || values.isEmpty) return;
 
     _ranges = List(values.length);
 
-    double negRemain = -negativeSum;
-    double posRemain = 0.0;
+    var negRemain = -negativeSum;
+    var posRemain = 0.0;
 
-    for (int i = 0; i < _ranges.length; i++) {
-      double value = values[i];
+    for (var i = 0; i < _ranges.length; i++) {
+      var value = values[i];
 
       if (value < 0) {
         _ranges[i] = Range(negRemain, negRemain - value);

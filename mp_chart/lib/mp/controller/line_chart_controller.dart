@@ -5,10 +5,7 @@ import 'package:mp_chart/mp/controller/bar_line_scatter_candle_bubble_controller
 import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/line_data.dart';
-import 'package:mp_chart/mp/core/description.dart';
 import 'package:mp_chart/mp/core/functions.dart';
-import 'package:mp_chart/mp/core/marker/i_marker.dart';
-import 'package:mp_chart/mp/core/marker/line_chart_marker.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/touch_listener.dart';
@@ -51,9 +48,7 @@ class LineChartController extends BarLineScatterCandleBubbleController<LineChart
       AxisLeftSettingFunction axisLeftSettingFunction,
       AxisRightSettingFunction axisRightSettingFunction,
       OnTouchEventListener touchEventListener,
-      IMarker marker,
-      Description description,
-      String noDataText = "No chart data available.",
+      String noDataText = 'No chart data available.',
       XAxisSettingFunction xAxisSettingFunction,
       LegendSettingFunction legendSettingFunction,
       DataRendererSettingFunction rendererSettingFunction,
@@ -64,18 +59,13 @@ class LineChartController extends BarLineScatterCandleBubbleController<LineChart
       double extraRightOffset = 0.0,
       double extraBottomOffset = 0.0,
       double extraLeftOffset = 0.0,
-      bool drawMarkers = true,
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
-      double descTextSize = 12,
       double infoTextSize = 12,
-      Color descTextColor,
       Color infoTextColor,
       Color infoBgColor,
       ChartTransListener chartTransListener})
       : super(
-            marker: marker,
-            description: description,
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
             legendSettingFunction: legendSettingFunction,
@@ -87,12 +77,9 @@ class LineChartController extends BarLineScatterCandleBubbleController<LineChart
             extraRightOffset: extraRightOffset,
             extraBottomOffset: extraBottomOffset,
             extraLeftOffset: extraLeftOffset,
-            drawMarkers: drawMarkers,
             resolveGestureHorizontalConflict: resolveGestureHorizontalConflict,
             resolveGestureVerticalConflict: resolveGestureVerticalConflict,
-            descTextSize: descTextSize,
             infoTextSize: infoTextSize,
-            descTextColor: descTextColor,
             infoTextColor: infoTextColor,
             infoBgColor: infoBgColor,
             maxVisibleCount: maxVisibleCount,
@@ -131,12 +118,12 @@ class LineChartController extends BarLineScatterCandleBubbleController<LineChart
             chartTransListener: chartTransListener);
 
   @override
-  IMarker initMarker() => LineChartMarker();
-
   LineData get data => super.data;
 
+  @override
   LineChartState get state => super.state;
 
+  @override
   LineChartPainter get painter => super.painter;
 
   @override
@@ -152,15 +139,10 @@ class LineChartController extends BarLineScatterCandleBubbleController<LineChart
         extraTopOffset,
         extraRightOffset,
         extraBottomOffset,
-        marker,
-        description,
-        drawMarkers,
         infoBgColor,
         infoPaint,
-        descPaint,
         xAxis,
         legend,
-        legendRenderer,
         rendererSettingFunction,
         selectionListener,
         maxVisibleCount,

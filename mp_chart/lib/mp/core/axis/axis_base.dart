@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/component.dart';
 import 'package:mp_chart/mp/core/limit_line.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
@@ -19,9 +18,13 @@ abstract class AxisBase extends ComponentBase {
 
   double _axisLineWidth = 1;
 
-  List<double> _entries = List();
+  List<double> _entries = [];
 
-  List<double> _centeredEntries = List();
+  List<double> _centeredEntries = [];
+
+  bool _isAxisLineDashed = false;
+
+  bool _isGridDashed = false;
 
   /// the number of entries the legend contains
   int _entryCount = 0;
@@ -54,12 +57,6 @@ abstract class AxisBase extends ComponentBase {
   bool _drawLabels = true;
 
   bool _centerAxisLabels = false;
-
-  /// the path effect of the axis line that makes dashed lines possible
-  DashPathEffect _axisLineDashPathEffect;
-
-  /// the path effect of the grid lines that makes dashed lines possible
-  DashPathEffect _gridDashPathEffect;
 
   /// array of limit lines that can be set for the axis
   List<LimitLine> _limitLines;
@@ -95,7 +92,31 @@ abstract class AxisBase extends ComponentBase {
     textSize = 10;
     xOffset = 5;
     yOffset = 5;
-    this._limitLines = List<LimitLine>();
+    _limitLines = <LimitLine>[];
+  }
+
+  void enabledGridDashed() {
+    _isGridDashed = true;
+  }
+
+  void disabledGridDashed() {
+    _isGridDashed = false;
+  }
+
+  bool isGridDashedEnabled() {
+    return _isGridDashed;
+  }
+
+  void enabledAxisLineDashed() {
+    _isAxisLineDashed = true;
+  }
+
+  void disabledAxisLineDashed() {
+    _isAxisLineDashed = false;
+  }
+
+  bool isAxisLineDashedEnabled() {
+    return _isAxisLineDashed;
   }
 
   // ignore: unnecessary_getters_setters
@@ -284,10 +305,10 @@ abstract class AxisBase extends ComponentBase {
   ///
   /// @return
   String getLongestLabel() {
-    String longest = "";
+    var longest = '';
 
-    for (int i = 0; i < _entries.length; i++) {
-      String text = getFormattedLabel(i);
+    for (var i = 0; i < _entries.length; i++) {
+      var text = getFormattedLabel(i);
 
       if (text != null && longest.length < text.length) longest = text;
     }
@@ -296,10 +317,11 @@ abstract class AxisBase extends ComponentBase {
   }
 
   String getFormattedLabel(int index) {
-    if (index < 0 || index >= _entries.length)
-      return "";
-    else
+    if (index < 0 || index >= _entries.length) {
+      return '';
+    } else {
       return getValueFormatter().getAxisLabel(_entries[index], this);
+    }
   }
 
   String getDirectFormattedLabel(double entry) {
@@ -314,10 +336,11 @@ abstract class AxisBase extends ComponentBase {
   ///
   /// @param f
   void setValueFormatter(ValueFormatter f) {
-    if (f == null)
+    if (f == null) {
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
-    else
+    } else {
       _axisValueFormatter = f;
+    }
   }
 
   /// Returns the formatter used for formatting the axis labels.
@@ -325,76 +348,11 @@ abstract class AxisBase extends ComponentBase {
   /// @return
   ValueFormatter getValueFormatter() {
     if (_axisValueFormatter == null ||
-        (_axisValueFormatter is DefaultAxisValueFormatter &&
-            (_axisValueFormatter as DefaultAxisValueFormatter).digits !=
-                _decimals))
+        (_axisValueFormatter is DefaultAxisValueFormatter && (_axisValueFormatter as DefaultAxisValueFormatter).digits != _decimals)) {
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
+    }
 
     return _axisValueFormatter;
-  }
-
-  /// Enables the grid line to be drawn in dashed mode, e.g. like this
-  /// "- - - - - -". THIS ONLY WORKS IF HARDWARE-ACCELERATION IS TURNED OFF.
-  /// Keep in mind that hardware acceleration boosts performance.
-  ///
-  /// @param lineLength  the length of the line pieces
-  /// @param spaceLength the length of space in between the pieces
-  /// @param phase       offset, in degrees (normally, use 0)
-  void enableGridDashedLine(
-      double lineLength, double spaceLength, double phase) {
-    _gridDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
-  }
-
-  // ignore: unnecessary_getters_setters
-  DashPathEffect get gridDashPathEffect => _gridDashPathEffect;
-
-  // ignore: unnecessary_getters_setters
-  set gridDashPathEffect(DashPathEffect value) {
-    _gridDashPathEffect = value;
-  }
-
-  /// Disables the grid line to be drawn in dashed mode.
-  void disableGridDashedLine() {
-    _gridDashPathEffect = null;
-  }
-
-  /// Returns true if the grid dashed-line effect is enabled, false if not.
-  ///
-  /// @return
-  bool isGridDashedLineEnabled() {
-    return _gridDashPathEffect == null ? false : true;
-  }
-
-  /// Enables the axis line to be drawn in dashed mode, e.g. like this
-  /// "- - - - - -". THIS ONLY WORKS IF HARDWARE-ACCELERATION IS TURNED OFF.
-  /// Keep in mind that hardware acceleration boosts performance.
-  ///
-  /// @param lineLength  the length of the line pieces
-  /// @param spaceLength the length of space in between the pieces
-  /// @param phase       offset, in degrees (normally, use 0)
-  void enableAxisLineDashedLine(
-      double lineLength, double spaceLength, double phase) {
-    _axisLineDashPathEffect = DashPathEffect(lineLength, spaceLength, phase);
-  }
-
-  /// Disables the axis line to be drawn in dashed mode.
-  void disableAxisLineDashedLine() {
-    _axisLineDashPathEffect = null;
-  }
-
-  /// Returns true if the axis dashed-line effect is enabled, false if not.
-  ///
-  /// @return
-  bool isAxisLineDashedLineEnabled() {
-    return _axisLineDashPathEffect == null ? false : true;
-  }
-
-  // ignore: unnecessary_getters_setters
-  DashPathEffect get axisLineDashPathEffect => _axisLineDashPathEffect;
-
-  // ignore: unnecessary_getters_setters
-  set axisLineDashPathEffect(DashPathEffect value) {
-    _axisLineDashPathEffect = value;
   }
 
   /// ###### BELOW CODE RELATED TO CUSTOM AXIS VALUES ######
@@ -440,8 +398,8 @@ abstract class AxisBase extends ComponentBase {
   void setAxisMinimum(double min) {
     _customAxisMin = true;
     _axisMinimum = min;
-    print('setAxisMinimummdaf $_axisMinimum');
-    this._axisRange = (_axisMaximum - min).abs();
+
+    _axisRange = (_axisMaximum - min).abs();
   }
 
   /// Use setAxisMinimum(...) instead.
@@ -459,7 +417,7 @@ abstract class AxisBase extends ComponentBase {
   void setAxisMaximum(double max) {
     _customAxisMax = true;
     _axisMaximum = max;
-    this._axisRange = (max - _axisMinimum).abs();
+    _axisRange = (max - _axisMinimum).abs();
   }
 
   /// Use setAxisMaximum(...) instead.
@@ -477,11 +435,11 @@ abstract class AxisBase extends ComponentBase {
   void calculate(double dataMin, double dataMax) {
     // if custom, use value as is, else use data value
 //    double min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
-    double min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
-    double max = _customAxisMax ? _axisMaximum : (dataMax + _spaceMax);
+    var min = _customAxisMin ? _axisMinimum : (dataMin - _spaceMin);
+    var max = _customAxisMax ? _axisMaximum : (dataMax + _spaceMax);
 
     // temporary range (before calculations)
-    double range = (max - min).abs();
+    var range = (max - min).abs();
 
     // in case all values are equal
     if (range == 0) {
@@ -489,11 +447,11 @@ abstract class AxisBase extends ComponentBase {
       min = min - 1;
     }
 
-    this._axisMinimum = min;
-    this._axisMaximum = max;
+    _axisMinimum = min;
+    _axisMaximum = max;
 
     // actual range
-    this._axisRange = (max - min).abs();
+    _axisRange = (max - min).abs();
   }
 
   // ignore: unnecessary_getters_setters

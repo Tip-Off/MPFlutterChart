@@ -4,8 +4,7 @@ class FSize extends Poolable {
   double _width;
   double _height;
 
-  static ObjectPool<Poolable> pool = ObjectPool.create(256, FSize(0, 0))
-    ..setReplenishPercentage(0.5);
+  static ObjectPool<Poolable> pool = ObjectPool.create(256, FSize(0, 0))..setReplenishPercentage(0.5);
 
   @override
   Poolable instantiate() {
@@ -53,7 +52,7 @@ class FSize extends Poolable {
       return true;
     }
     if (obj is FSize) {
-      final FSize other = obj;
+      final other = obj;
       return _width == other._width && _height == other._height;
     }
     return false;
@@ -61,7 +60,7 @@ class FSize extends Poolable {
 
   @override
   String toString() {
-    return "${_width}x$_height";
+    return '${_width}x$_height';
   }
 
   @override

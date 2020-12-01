@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/base_data_set.dart';
 import 'package:mp_chart/mp/core/data_set/data_set.dart';
@@ -37,9 +36,6 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   /// descreasing candlesticks are traditionally filled
   PaintingStyle _decreasingPaintStyle = PaintingStyle.fill;
 
-  /// color for open == close
-  Color _neutralColor = ColorUtils.COLOR_SKIP;
-
   /// color for open < close
   Color _increasingColor = ColorUtils.COLOR_SKIP;
 
@@ -54,15 +50,16 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
 
   @override
   DataSet<CandleEntry> copy1() {
-    List<CandleEntry> entries = List<CandleEntry>();
-    for (int i = 0; i < values.length; i++) {
+    var entries = <CandleEntry>[];
+    for (var i = 0; i < values.length; i++) {
       entries.add(values[i].copy());
     }
-    CandleDataSet copied = CandleDataSet(entries, getLabel());
+    var copied = CandleDataSet(entries, getLabel());
     copy(copied);
     return copied;
   }
 
+  @override
   void copy(BaseDataSet baseDataSet) {
     super.copy(baseDataSet);
     if (baseDataSet is CandleDataSet) {
@@ -74,7 +71,6 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
       candleDataSet.setHighLightColor(getHighLightColor());
       candleDataSet._increasingPaintStyle = _increasingPaintStyle;
       candleDataSet._decreasingPaintStyle = _decreasingPaintStyle;
-      candleDataSet._neutralColor = _neutralColor;
       candleDataSet._increasingColor = _increasingColor;
       candleDataSet._decreasingColor = _decreasingColor;
       candleDataSet._shadowColor = _shadowColor;
@@ -136,26 +132,6 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
     _showCandleBar = showCandleBar;
   }
 
-  @override
-  bool getShowCandleBar() {
-    return _showCandleBar;
-  }
-
-  /** BELOW THIS COLOR HANDLING */
-
-  /// Sets the one and ONLY color that should be used for this DataSet when
-  /// open == close.
-  ///
-  /// @param color
-  void setNeutralColor(Color color) {
-    _neutralColor = color;
-  }
-
-  @override
-  Color getNeutralColor() {
-    return _neutralColor;
-  }
-
   /// Sets the one and ONLY color that should be used for this DataSet when
   /// open <= close.
   ///
@@ -191,7 +167,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   ///
   /// @param paintStyle
   void setIncreasingPaintStyle(PaintingStyle paintStyle) {
-    this._increasingPaintStyle = paintStyle;
+    _increasingPaintStyle = paintStyle;
   }
 
   @override
@@ -203,7 +179,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   ///
   /// @param decreasingPaintStyle
   void setDecreasingPaintStyle(PaintingStyle decreasingPaintStyle) {
-    this._decreasingPaintStyle = decreasingPaintStyle;
+    _decreasingPaintStyle = decreasingPaintStyle;
   }
 
   @override
@@ -215,7 +191,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   ///
   /// @param shadowColor
   void setShadowColor(Color shadowColor) {
-    this._shadowColor = shadowColor;
+    _shadowColor = shadowColor;
   }
 
   @override
@@ -227,12 +203,7 @@ class CandleDataSet extends LineScatterCandleRadarDataSet<CandleEntry> implement
   ///
   /// @param shadowColorSameAsCandle
   void setShadowColorSameAsCandle(bool shadowColorSameAsCandle) {
-    this._shadowColorSameAsCandle = shadowColorSameAsCandle;
-  }
-
-  @override
-  DashPathEffect getDashPathEffectHighlight() {
-    return null;
+    _shadowColorSameAsCandle = shadowColorSameAsCandle;
   }
 
   @override

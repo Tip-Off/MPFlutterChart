@@ -1,10 +1,7 @@
 import 'package:flutter/rendering.dart';
-import 'package:mp_chart/mp/core/data_interfaces/i_bubble_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_line_data_set.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_scatter_data_set.dart';
-import 'package:mp_chart/mp/core/entry/candle_entry.dart';
-import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/utils/matrix4_utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
@@ -19,7 +16,7 @@ class Transformer {
   ViewPortHandler _viewPortHandler;
 
   Transformer(ViewPortHandler viewPortHandler) {
-    this._viewPortHandler = viewPortHandler;
+    _viewPortHandler = viewPortHandler;
   }
 
   ViewPortHandler get viewPortHandler => _viewPortHandler;
@@ -39,10 +36,9 @@ class Transformer {
   /// @param deltaX
   /// @param deltaY
   /// @param yChartMin
-  void prepareMatrixValuePx(
-      double xChartMin, double deltaX, double deltaY, double yChartMin) {
-    double scaleX = ((_viewPortHandler.contentWidth()) / deltaX);
-    double scaleY = ((_viewPortHandler.contentHeight()) / deltaY);
+  void prepareMatrixValuePx(double xChartMin, double deltaX, double deltaY, double yChartMin) {
+    var scaleX = ((_viewPortHandler.contentWidth()) / deltaX);
+    var scaleY = ((_viewPortHandler.contentHeight()) / deltaY);
 
     if (scaleX.isInfinite) {
       scaleX = 0;
@@ -65,12 +61,10 @@ class Transformer {
 
     // offset.postTranslate(mOffsetLeft, getHeight() - mOffsetBottom);
 
-    if (!copyInverseed)
-      Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(),
-          _viewPortHandler.getChartHeight() - _viewPortHandler.offsetBottom());
-    else {
-      Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(),
-          -_viewPortHandler.offsetTop());
+    if (!copyInverseed) {
+      Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(), _viewPortHandler.getChartHeight() - _viewPortHandler.offsetBottom());
+    } else {
+      Matrix4Utils.postTranslate(_matrixOffset, _viewPortHandler.offsetLeft(), -_viewPortHandler.offsetTop());
       Matrix4Utils.postScale(_matrixOffset, 1.0, -1.0);
     }
   }
@@ -82,52 +76,17 @@ class Transformer {
   ///
   /// @param data
   /// @return
-  List<double> generateTransformedValuesScatter(
-      IScatterDataSet data, double phaseX, double phaseY, int from, int to) {
-    int count = (((to - from) * phaseX + 1) * 2).toInt();
+  List<double> generateTransformedValuesScatter(IScatterDataSet data, double phaseX, double phaseY, int from, int to) {
+    var count = (((to - from) * phaseX + 1) * 2).toInt();
     count = count % 2 == 0 ? count : count - 1;
 
     if (_valuePointsForGenerateTransformedValuesScatter.length != count) {
       _valuePointsForGenerateTransformedValuesScatter = List(count);
     }
-    List<double> valuePoints = _valuePointsForGenerateTransformedValuesScatter;
+    var valuePoints = _valuePointsForGenerateTransformedValuesScatter;
 
-    for (int j = 0; j < count; j += 2) {
-      Entry e = data.getEntryForIndex(j ~/ 2 + from);
-
-      if (e != null) {
-        valuePoints[j] = e.x;
-        valuePoints[j + 1] = e.y * phaseY;
-      } else {
-        valuePoints[j] = 0;
-        valuePoints[j + 1] = 0;
-      }
-    }
-
-    Matrix4Utils.mapPoints(getValueToPixelMatrix(), valuePoints);
-
-    return valuePoints;
-  }
-
-  List<double> _valuePointsForGenerateTransformedValuesBubble = List(1);
-
-  /// Transforms an List of Entry into a double array containing the x and
-  /// y values Matrix4Utils.transformed with all matrices for the BUBBLECHART.
-  ///
-  /// @param data
-  /// @return
-  List<double> generateTransformedValuesBubble(
-      IBubbleDataSet data, double phaseY, int from, int to) {
-    final int count =
-        (to - from + 1) * 2; // (int) Math.ceil((to - from) * phaseX) * 2;
-
-    if (_valuePointsForGenerateTransformedValuesBubble.length != count) {
-      _valuePointsForGenerateTransformedValuesBubble = List(count);
-    }
-    List<double> valuePoints = _valuePointsForGenerateTransformedValuesBubble;
-
-    for (int j = 0; j < count; j += 2) {
-      Entry e = data.getEntryForIndex(j ~/ 2 + from);
+    for (var j = 0; j < count; j += 2) {
+      var e = data.getEntryForIndex(j ~/ 2 + from);
 
       if (e != null) {
         valuePoints[j] = e.x;
@@ -150,17 +109,16 @@ class Transformer {
   ///
   /// @param data
   /// @return
-  List<double> generateTransformedValuesLine(
-      ILineDataSet data, double phaseX, double phaseY, int min, int max) {
-    final int count = ((((max - min) * phaseX) + 1).toInt() * 2);
+  List<double> generateTransformedValuesLine(ILineDataSet data, double phaseX, double phaseY, int min, int max) {
+    final count = ((((max - min) * phaseX) + 1).toInt() * 2);
 
     if (_valuePointsForGenerateTransformedValuesLine.length != count) {
       _valuePointsForGenerateTransformedValuesLine = List(count);
     }
-    List<double> valuePoints = _valuePointsForGenerateTransformedValuesLine;
+    var valuePoints = _valuePointsForGenerateTransformedValuesLine;
 
-    for (int j = 0; j < count; j += 2) {
-      Entry e = data.getEntryForIndex(j ~/ 2 + min);
+    for (var j = 0; j < count; j += 2) {
+      var e = data.getEntryForIndex(j ~/ 2 + min);
 
       if (e != null) {
         valuePoints[j] = e.x;
@@ -183,18 +141,17 @@ class Transformer {
   ///
   /// @param data
   /// @return
-  List<double> generateTransformedValuesCandle(
-      ICandleDataSet data, double phaseX, double phaseY, int from, int to) {
-    int count = (((to - from) * phaseX + 1) * 2).toInt();
+  List<double> generateTransformedValuesCandle(ICandleDataSet data, double phaseX, double phaseY, int from, int to) {
+    var count = (((to - from) * phaseX + 1) * 2).toInt();
     count = count % 2 == 0 ? count : count - 1;
 
     if (_valuePointsForGenerateTransformedValuesCandle.length != count) {
       _valuePointsForGenerateTransformedValuesCandle = List(count);
     }
-    List<double> valuePoints = _valuePointsForGenerateTransformedValuesCandle;
+    var valuePoints = _valuePointsForGenerateTransformedValuesCandle;
 
-    for (int j = 0; j < count; j += 2) {
-      CandleEntry e = data.getEntryForIndex(j ~/ 2 + from);
+    for (var j = 0; j < count; j += 2) {
+      var e = data.getEntryForIndex(j ~/ 2 + from);
 
       if (e != null) {
         valuePoints[j] = e.x;
@@ -282,10 +239,11 @@ class Transformer {
   ///
   /// @param rects
   void rectValuesToPixel(List<Rect> rects) {
-    Matrix4 m = getValueToPixelMatrix();
+    var m = getValueToPixelMatrix();
 
-    for (int i = 0; i < rects.length; i++)
+    for (var i = 0; i < rects.length; i++) {
       rects[i] = Matrix4Utils.mapRect(m, rects[i]);
+    }
   }
 
   Matrix4 _pixelToValueMatrixBuffer = Matrix4.identity();
@@ -296,7 +254,7 @@ class Transformer {
   /// @param pixels
   void pixelsToValue(List<double> pixels) {
     _pixelToValueMatrixBuffer = Matrix4.identity();
-    Matrix4 tmp = _pixelToValueMatrixBuffer;
+    var tmp = _pixelToValueMatrixBuffer;
     // copyInverse all matrixes to convert back to the original value
     tmp.copyInverse(_matrixOffset);
     Matrix4Utils.mapPoints(tmp, pixels);
@@ -309,7 +267,7 @@ class Transformer {
   }
 
   /// buffer for performance
-  List<double> _ptsBuffer = List(2);
+  final List<double> _ptsBuffer = List(2);
 
   /// Returns a recyclable MPPointD instance.
   /// returns the x and y values in the chart at the given touch point
@@ -321,7 +279,7 @@ class Transformer {
   /// @param y
   /// @return
   MPPointD getValuesByTouchPoint1(double x, double y) {
-    MPPointD result = MPPointD.getInstance1(0, 0);
+    var result = MPPointD.getInstance1(0, 0);
     getValuesByTouchPoint2(x, y, result);
     return result;
   }
@@ -348,8 +306,8 @@ class Transformer {
 
     pointValuesToPixel(_ptsBuffer);
 
-    double xPx = _ptsBuffer[0];
-    double yPx = _ptsBuffer[1];
+    var xPx = _ptsBuffer[0];
+    var yPx = _ptsBuffer[1];
 
     return MPPointD.getInstance1(xPx, yPx);
   }
@@ -362,7 +320,7 @@ class Transformer {
     return _matrixOffset;
   }
 
-  Matrix4 _mBuffer1 = Matrix4.identity();
+  final Matrix4 _mBuffer1 = Matrix4.identity();
 
   Matrix4 getValueToPixelMatrix() {
     _matrixValueToPx.copyInto(_mBuffer1);
@@ -371,7 +329,7 @@ class Transformer {
     return _mBuffer1;
   }
 
-  Matrix4 _mBuffer2 = Matrix4.identity();
+  final Matrix4 _mBuffer2 = Matrix4.identity();
 
   Matrix4 getPixelToValueMatrix() {
     _mBuffer2.copyInverse(getValueToPixelMatrix());

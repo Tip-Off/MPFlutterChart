@@ -57,7 +57,7 @@ class YAxis extends AxisBase {
   double _maxWidth = double.infinity;
 
   YAxis({AxisDependency position = AxisDependency.LEFT}) : super() {
-    this._axisDependency = position;
+    _axisDependency = position;
     yOffset = 0;
   }
 
@@ -116,10 +116,11 @@ class YAxis extends AxisBase {
   ///
   /// @param startAtZero
   void setStartAtZero(bool startAtZero) {
-    if (startAtZero)
+    if (startAtZero) {
       setAxisMinimum(0);
-    else
+    } else {
       resetAxisMinimum();
+    }
   }
 
   // ignore: unnecessary_getters_setters
@@ -176,11 +177,10 @@ class YAxis extends AxisBase {
   /// @return
   double getRequiredWidthSpace(TextPainter p) {
     p = PainterUtils.create(p, null, null, textSize);
-    String label = getLongestLabel();
-    double width = Utils.calcTextWidth(p, label) + xOffset * 2;
+    var label = getLongestLabel();
+    var width = Utils.calcTextWidth(p, label) + xOffset * 2.0;
     if (minWidth > 0) minWidth = Utils.convertDpToPixel(minWidth);
-    if (maxWidth > 0 && maxWidth != double.infinity)
-      maxWidth = Utils.convertDpToPixel(maxWidth);
+    if (maxWidth > 0 && maxWidth != double.infinity) maxWidth = Utils.convertDpToPixel(maxWidth);
     width = max(minWidth, min(width, maxWidth > 0.0 ? maxWidth : width));
     return width;
   }
@@ -192,7 +192,7 @@ class YAxis extends AxisBase {
   double getRequiredHeightSpace(TextPainter p) {
     p = PainterUtils.create(p, null, null, textSize);
 
-    String label = getLongestLabel();
+    var label = getLongestLabel();
     return Utils.calcTextHeight(p, label) + yOffset * 2;
   }
 
@@ -200,10 +200,11 @@ class YAxis extends AxisBase {
   ///
   /// @return
   bool needsOffset() {
-    if (enabled && drawLabels && position == YAxisLabelPosition.OUTSIDE_CHART)
+    if (enabled && drawLabels && position == YAxisLabelPosition.OUTSIDE_CHART) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   // ignore: unnecessary_getters_setters
@@ -224,10 +225,10 @@ class YAxis extends AxisBase {
 
   @override
   void calculate(double dataMin, double dataMax) {
-    double min = dataMin;
-    double max = dataMax;
+    var min = dataMin;
+    var max = dataMax;
 
-    double range = (max - min).abs();
+    var range = (max - min).abs();
 
     // in case all values are equal
     if (range == 0) {
@@ -239,13 +240,9 @@ class YAxis extends AxisBase {
     range = (max - min).abs();
 
     // calc extra spacing
-    this.axisMinimum = customAxisMin
-        ? this.axisMinimum
-        : min - (range / 100) * spacePercentBottom;
-    this.axisMaximum = customAxisMax
-        ? this.axisMaximum
-        : max + (range / 100) * spacePercentTop;
+    axisMinimum = customAxisMin ? axisMinimum : min - (range / 100) * spacePercentBottom;
+    axisMaximum = customAxisMax ? axisMaximum : max + (range / 100) * spacePercentTop;
 
-    this.axisRange = (this.axisMinimum - this.axisMaximum).abs();
+    axisRange = (axisMinimum - axisMaximum).abs();
   }
 }

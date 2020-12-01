@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui show window;
 
-/**
- * @Author: thl
- * @GitHub: https://github.com/Sky24n
- * @Email: 863764940@qq.com
- * @Email: sky24no@gmail.com
- * @Description: Screen Util.
- * @Date: 2018/9/8
- */
+/// @Author: thl
+/// @GitHub: https://github.com/Sky24n
+/// @Email: 863764940@qq.com
+/// @Email: sky24no@gmail.com
+/// @Description: Screen Util.
+/// @Date: 2018/9/8
 
 ///默认设计稿尺寸（单位 dp or pt）
 double _designW = 360.0;
 double _designH = 640.0;
 double _designD = 3.0;
 
-/**
- * 配置设计稿尺寸（单位 dp or pt）
- * w 宽
- * h 高
- * density 像素密度
- */
+/// 配置设计稿尺寸（单位 dp or pt）
+/// w 宽
+/// h 高
+/// density 像素密度
 
 /// 配置设计稿尺寸 屏幕 宽，高，密度。
 /// Configuration design draft size  screen width, height, density.
-void setDesignWHD(double w, double h, {double density: 3.0}) {
+void setDesignWHD(double w, double h, {double density = 3.0}) {
   _designW = w;
   _designH = h;
   _designD = density;
@@ -47,8 +43,8 @@ class ScreenUtils {
     return _singleton;
   }
 
-  _init() {
-    MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
+  void _init() {
+    var mediaQuery = MediaQueryData.fromWindow(ui.window);
     if (_mediaQueryData != mediaQuery) {
       _mediaQueryData = mediaQuery;
       _screenWidth = mediaQuery.size.width;
@@ -89,41 +85,41 @@ class ScreenUtils {
   /// screen width
   /// 当前屏幕 宽
   static double getScreenW(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.size.width;
   }
 
   /// screen height
   /// 当前屏幕 高
   static double getScreenH(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.size.height;
   }
 
   /// screen density
   /// 当前屏幕 像素密度
   static double getScreenDensity(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.devicePixelRatio;
   }
 
   /// status bar Height
   /// 当前状态栏高度
   static double getStatusBarH(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.padding.top;
   }
 
   /// status bar Height
   /// 当前BottomBar高度
   static double getBottomBarH(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.padding.bottom;
   }
 
   /// 当前MediaQueryData
   static MediaQueryData getMediaQueryData(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery;
   }
 
@@ -154,7 +150,7 @@ class ScreenUtils {
   /// Orientation
   /// 设备方向(portrait, landscape)
   static Orientation getOrientation(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     return mediaQuery.orientation;
   }
 
@@ -176,18 +172,14 @@ class ScreenUtils {
   /// 返回根据屏幕宽适配后尺寸（单位 dp or pt）
   /// sizePx unit px
   double getWidthPx(double sizePx) {
-    return _screenWidth == 0.0
-        ? (sizePx / _designD)
-        : (sizePx * _screenWidth / (_designW * _designD));
+    return _screenWidth == 0.0 ? (sizePx / _designD) : (sizePx * _screenWidth / (_designW * _designD));
   }
 
   /// returns the size after adaptation according to the screen height.(unit dp or pt)
   /// 返回根据屏幕高适配后尺寸（单位 dp or pt）
   /// sizePx unit px
   double getHeightPx(double sizePx) {
-    return _screenHeight == 0.0
-        ? (sizePx / _designD)
-        : (sizePx * _screenHeight / (_designH * _designD));
+    return _screenHeight == 0.0 ? (sizePx / _designD) : (sizePx * _screenHeight / (_designH * _designD));
   }
 
   /// returns the font size after adaptation according to the screen density.

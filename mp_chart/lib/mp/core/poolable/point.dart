@@ -1,6 +1,5 @@
 class MPPointF extends Poolable {
-  static ObjectPool<Poolable> pool = ObjectPool.create(32, MPPointF(0, 0))
-    ..setReplenishPercentage(0.5);
+  static ObjectPool<Poolable> pool = ObjectPool.create(32, MPPointF(0, 0))..setReplenishPercentage(0.5);
 
   double _x;
   double _y;
@@ -23,7 +22,7 @@ class MPPointF extends Poolable {
 
   @override
   String toString() {
-    return "x:$_x y:$_y";
+    return 'x:$_x y:$_y';
   }
 
   static MPPointF getInstance1(double x, double y) {
@@ -56,13 +55,12 @@ class MPPointF extends Poolable {
 
   @override
   Poolable instantiate() {
-    return new MPPointF(0, 0);
+    return MPPointF(0, 0);
   }
 }
 
 class MPPointD extends Poolable {
-  static ObjectPool<Poolable> pool = ObjectPool.create(64, new MPPointD(0, 0))
-    ..setReplenishPercentage(0.5);
+  static ObjectPool<Poolable> pool = ObjectPool.create(64, MPPointD(0, 0))..setReplenishPercentage(0.5);
 
   static MPPointD getInstance1(double x, double y) {
     MPPointD result = pool.get();
@@ -92,7 +90,7 @@ class MPPointD extends Poolable {
   /// returns a string representation of the object
   @override
   String toString() {
-    return "MPPointD, x: $x, y: $y";
+    return 'MPPointD, x: $x, y: $y';
   }
 }
 
@@ -127,7 +125,7 @@ class ObjectPool<T extends Poolable> {
   /// @param object An instance of the object that the pool should recycle.
   /// @return
   static ObjectPool create(int withCapacity, Poolable object) {
-    ObjectPool result = ObjectPool(withCapacity, object);
+    var result = ObjectPool(withCapacity, object);
     result.poolId = ids;
     ids++;
 
@@ -136,15 +134,14 @@ class ObjectPool<T extends Poolable> {
 
   ObjectPool(int withCapacity, T object) {
     if (withCapacity <= 0) {
-      throw new Exception(
-          "Object Pool must be instantiated with a capacity greater than 0!");
+      throw Exception('Object Pool must be instantiated with a capacity greater than 0!');
     }
-    this.desiredCapacity = withCapacity;
-    this.objects = List(this.desiredCapacity);
-    this.objectsPointer = 0;
-    this.modelObject = object;
-    this.replenishPercentage = 1.0;
-    this.refillPool1();
+    desiredCapacity = withCapacity;
+    objects = List(desiredCapacity);
+    objectsPointer = 0;
+    modelObject = object;
+    replenishPercentage = 1.0;
+    refillPool1();
   }
 
   /// Set the percentage of the pool to replenish on empty.  Valid values are between
@@ -152,13 +149,13 @@ class ObjectPool<T extends Poolable> {
   ///
   /// @param percentage a value between 0 and 1, representing the percentage of the pool to replenish.
   void setReplenishPercentage(double percentage) {
-    double p = percentage;
+    var p = percentage;
     if (p > 1) {
       p = 1;
     } else if (p < 0) {
       p = 0;
     }
-    this.replenishPercentage = p;
+    replenishPercentage = p;
   }
 
   double getReplenishPercentage() {
@@ -166,11 +163,11 @@ class ObjectPool<T extends Poolable> {
   }
 
   void refillPool1() {
-    this.refillPool2(this.replenishPercentage);
+    refillPool2(replenishPercentage);
   }
 
   void refillPool2(double percentage) {
-    int portionOfCapacity = (desiredCapacity * percentage).toInt();
+    var portionOfCapacity = (desiredCapacity * percentage).toInt();
 
     if (portionOfCapacity < 1) {
       portionOfCapacity = 1;
@@ -178,8 +175,8 @@ class ObjectPool<T extends Poolable> {
       portionOfCapacity = desiredCapacity;
     }
 
-    for (int i = 0; i < portionOfCapacity; i++) {
-      this.objects[i] = modelObject.instantiate();
+    for (var i = 0; i < portionOfCapacity; i++) {
+      objects[i] = modelObject.instantiate();
     }
     objectsPointer = portionOfCapacity - 1;
   }
@@ -190,13 +187,13 @@ class ObjectPool<T extends Poolable> {
   ///
   /// @return An instance of Poolable object T
   T get() {
-    if (this.objectsPointer == -1 && this.replenishPercentage > 0.0) {
-      this.refillPool1();
+    if (objectsPointer == -1 && replenishPercentage > 0.0) {
+      refillPool1();
     }
 
-    T result = objects[this.objectsPointer];
+    T result = objects[objectsPointer];
     result.currentOwnerId = Poolable.NO_OWNER;
-    this.objectsPointer--;
+    objectsPointer--;
 
     return result;
   }
@@ -207,22 +204,21 @@ class ObjectPool<T extends Poolable> {
   /// @param object An object of type T to recycle
   void recycle1(T object) {
     if (object.currentOwnerId != Poolable.NO_OWNER) {
-      if (object.currentOwnerId == this.poolId) {
-        throw new Exception(
-            "The object passed is already stored in this pool!");
+      if (object.currentOwnerId == poolId) {
+        throw Exception('The object passed is already stored in this pool!');
       } else {
-        throw new Exception(
-            "The object to recycle already belongs to poolId ${object.currentOwnerId}.  Object cannot belong to two different pool instances simultaneously!");
+        throw Exception(
+            'The object to recycle already belongs to poolId ${object.currentOwnerId}.  Object cannot belong to two different pool instances simultaneously!');
       }
     }
 
-    this.objectsPointer++;
-    if (this.objectsPointer >= objects.length) {
-      this.resizePool();
+    objectsPointer++;
+    if (objectsPointer >= objects.length) {
+      resizePool();
     }
 
-    object.currentOwnerId = this.poolId;
-    objects[this.objectsPointer] = object;
+    object.currentOwnerId = poolId;
+    objects[objectsPointer] = object;
   }
 
   /// Recycle a List of Poolables that this pool is capable of generating.
@@ -230,37 +226,36 @@ class ObjectPool<T extends Poolable> {
   ///
   /// @param objects A list of objects of type T to recycle
   void recycle2(List<T> objects) {
-    while (objects.length + this.objectsPointer + 1 > this.desiredCapacity) {
-      this.resizePool();
+    while (objects.length + objectsPointer + 1 > desiredCapacity) {
+      resizePool();
     }
-    final int objectsListSize = objects.length;
+    final objectsListSize = objects.length;
 
     // Not relying on recycle(T object) because this is more performant.
-    for (int i = 0; i < objectsListSize; i++) {
-      T object = objects[i];
+    for (var i = 0; i < objectsListSize; i++) {
+      var object = objects[i];
       if (object.currentOwnerId != Poolable.NO_OWNER) {
-        if (object.currentOwnerId == this.poolId) {
-          throw new Exception(
-              "The object passed is already stored in this pool!");
+        if (object.currentOwnerId == poolId) {
+          throw Exception('The object passed is already stored in this pool!');
         } else {
-          throw new Exception(
-              "The object to recycle already belongs to poolId ${object.currentOwnerId}.  Object cannot belong to two different pool instances simultaneously!");
+          throw Exception(
+              'The object to recycle already belongs to poolId ${object.currentOwnerId}.  Object cannot belong to two different pool instances simultaneously!');
         }
       }
-      object.currentOwnerId = this.poolId;
-      this.objects[this.objectsPointer + 1 + i] = object;
+      object.currentOwnerId = poolId;
+      this.objects[objectsPointer + 1 + i] = object;
     }
-    this.objectsPointer += objectsListSize;
+    objectsPointer += objectsListSize;
   }
 
   void resizePool() {
-    final int oldCapacity = this.desiredCapacity;
-    this.desiredCapacity *= 2;
-    List<Object> temp = List(this.desiredCapacity);
-    for (int i = 0; i < oldCapacity; i++) {
-      temp[i] = this.objects[i];
+    final oldCapacity = desiredCapacity;
+    desiredCapacity *= 2;
+    var temp = List<Object>(desiredCapacity);
+    for (var i = 0; i < oldCapacity; i++) {
+      temp[i] = objects[i];
     }
-    this.objects = temp;
+    objects = temp;
   }
 
   /// Returns the capacity of this object pool.  Note : The pool will automatically resize
@@ -269,13 +264,13 @@ class ObjectPool<T extends Poolable> {
   ///
   /// @return The capacity of the pool.
   int getPoolCapacity() {
-    return this.objects.length;
+    return objects.length;
   }
 
   /// Returns the number of objects remaining in the pool, for diagnostic purposes.
   ///
   /// @return The number of objects remaining in the pool.
   int getPoolCount() {
-    return this.objectsPointer + 1;
+    return objectsPointer + 1;
   }
 }

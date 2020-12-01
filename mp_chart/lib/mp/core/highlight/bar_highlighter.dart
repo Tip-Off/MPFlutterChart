@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import 'package:mp_chart/mp/core/data/bar_data.dart';
 import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_data_provider.dart';
-import 'package:mp_chart/mp/core/entry/bar_entry.dart';
 import 'package:mp_chart/mp/core/highlight/chart_hightlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
@@ -15,17 +13,17 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
   @override
   Highlight getHighlight(double x, double y) {
-    Highlight high = super.getHighlight(x, y);
+    var high = super.getHighlight(x, y);
 
     if (high == null) {
       return null;
     }
 
-    MPPointD pos = getValsForTouch(x, y);
+    var pos = getValsForTouch(x, y);
 
-    BarData barData = provider.getBarData();
+    var barData = provider.getBarData();
 
-    IBarDataSet set = barData.getDataSetByIndex(high.dataSetIndex);
+    var set = barData.getDataSetByIndex(high.dataSetIndex);
     if (set.isStacked()) {
       return getStackedHighlight(high, set, pos.x, pos.y);
     }
@@ -43,9 +41,8 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @param xVal
   /// @param yVal
   /// @return
-  Highlight getStackedHighlight(
-      Highlight high, IBarDataSet set, double xVal, double yVal) {
-    BarEntry entry = set.getEntryForXValue2(xVal, yVal);
+  Highlight getStackedHighlight(Highlight high, IBarDataSet set, double xVal, double yVal) {
+    var entry = set.getEntryForXValue2(xVal, yVal);
 
     if (entry == null) return null;
 
@@ -53,23 +50,15 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
     if (entry.yVals == null) {
       return high;
     } else {
-      List<Range> ranges = entry.ranges;
+      var ranges = entry.ranges;
 
-      if (ranges.length > 0) {
-        int stackIndex = getClosestStackIndex(ranges, yVal);
+      if (ranges.isNotEmpty) {
+        var stackIndex = getClosestStackIndex(ranges, yVal);
 
-        MPPointD pixels = provider
-            .getTransformer(set.getAxisDependency())
-            .getPixelForValues(high.x, ranges[stackIndex].to);
+        var pixels = provider.getTransformer(set.getAxisDependency()).getPixelForValues(high.x, ranges[stackIndex].to);
 
-        Highlight stackedHigh = Highlight(
-            x: entry.x,
-            y: entry.y,
-            xPx: pixels.x,
-            yPx: pixels.y,
-            dataSetIndex: high.dataSetIndex,
-            stackIndex: stackIndex,
-            axis: high.axis);
+        var stackedHigh =
+            Highlight(x: entry.x, y: entry.y, xPx: pixels.x, yPx: pixels.y, dataSetIndex: high.dataSetIndex, stackIndex: stackIndex, axis: high.axis);
 
         MPPointD.recycleInstance2(pixels);
 
@@ -87,15 +76,16 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @param value
   /// @return
   int getClosestStackIndex(List<Range> ranges, double value) {
-    if (ranges == null || ranges.length == 0) return 0;
-    int stackIndex = 0;
-    for (Range range in ranges) {
-      if (range.contains(value))
+    if (ranges == null || ranges.isEmpty) return 0;
+    var stackIndex = 0;
+    for (var range in ranges) {
+      if (range.contains(value)) {
         return stackIndex;
-      else
+      } else {
         stackIndex++;
+      }
     }
-    int length = max(ranges.length - 1, 0);
+    var length = max(ranges.length - 1, 0);
     return (value > ranges[length].to) ? length : 0;
   }
 

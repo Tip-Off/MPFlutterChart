@@ -18,7 +18,6 @@ class CandleEntry extends Entry {
 
   bool highlighted;
 
-  //TODO: refactory
   CandleEntry({
     this.volume = 0,
     this.highlighted = false,
@@ -30,10 +29,10 @@ class CandleEntry extends Entry {
     ui.Image icon,
     Object data,
   }) : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
-    this._shadowHigh = shadowH;
-    this._shadowLow = shadowL;
-    this._open = open;
-    this._close = close;
+    _shadowHigh = shadowH;
+    _shadowLow = shadowL;
+    _open = open;
+    _close = close;
   }
 
   @override
@@ -64,8 +63,9 @@ class CandleEntry extends Entry {
     return (_open - _close).abs();
   }
 
+  @override
   CandleEntry copy() {
-    CandleEntry c = CandleEntry(
+    var c = CandleEntry(
       x: x,
       shadowH: _shadowHigh,
       shadowL: _shadowLow,
