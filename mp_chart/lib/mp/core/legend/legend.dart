@@ -15,11 +15,11 @@ import 'package:mp_chart/mp/core/utils/utils.dart';
 
 class Legend extends ComponentBase {
   /// The legend entries array
-  List<LegendEntry> _entries = [];
+  List<LegendEntry?> _entries = [];
 
   /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
   /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
-  List<LegendEntry> _extraEntries;
+  List<LegendEntry?>? _extraEntries;
 
   /// Are the legend labels/colors a custom value or auto calculated? If false,
   /// then it's auto, if true, then custom. default false (automatic legend)
@@ -74,9 +74,9 @@ class Legend extends ComponentBase {
   /// flag that indicates if word wrapping is enabled
   bool _wordWrapEnabled = false;
 
-  List<FSize> _calculatedLabelSizes = List(16);
-  List<bool> _calculatedLabelBreakPoints = List(16);
-  List<FSize> _calculatedLineSizes = List(16);
+  List<FSize?> _calculatedLabelSizes = List.filled(16, null);
+  List<bool?> _calculatedLabelBreakPoints = List.filled(16, null);
+  List<FSize?> _calculatedLineSizes = List.filled(16, null);
 
   /// default constructor
   Legend() {
@@ -88,7 +88,7 @@ class Legend extends ComponentBase {
   /// Constructor. Provide entries for the legend.
   ///
   /// @param entries
-  Legend.fromList(List<LegendEntry> entries) {
+  Legend.fromList(List<LegendEntry?>? entries) {
     textSize = Utils.convertDpToPixel(10);
     xOffset = Utils.convertDpToPixel(5);
     yOffset = Utils.convertDpToPixel(3);
@@ -100,10 +100,10 @@ class Legend extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  List<LegendEntry> get entries => _entries;
+  List<LegendEntry?> get entries => _entries;
 
   // ignore: unnecessary_getters_setters
-  set entries(List<LegendEntry> value) {
+  set entries(List<LegendEntry?> value) {
     _entries = value;
   }
 
@@ -117,7 +117,7 @@ class Legend extends ComponentBase {
     var maxFormSize = 0.0;
     var formToTextSpace = Utils.convertDpToPixel(_formToTextSpace);
     for (var entry in _entries) {
-      final formSize = Utils.convertDpToPixel(double.nan == entry.formSize ? _formSize : entry.formSize);
+      final formSize = Utils.convertDpToPixel(double.nan == entry!.formSize ? _formSize : entry.formSize);
       if (formSize > maxFormSize) maxFormSize = formSize;
 
       var label = entry.label;
@@ -138,7 +138,7 @@ class Legend extends ComponentBase {
   double getMaximumEntryHeight(TextPainter p) {
     var max = 0.0;
     for (var entry in _entries) {
-      var label = entry.label;
+      var label = entry!.label;
       if (label == null) continue;
 
       var length = Utils.calcTextHeight(p, label).toDouble();
@@ -149,9 +149,9 @@ class Legend extends ComponentBase {
     return max;
   }
 
-  List<LegendEntry> get extraEntries => _extraEntries;
+  List<LegendEntry?>? get extraEntries => _extraEntries;
 
-  void setExtra1(List<LegendEntry> entries) {
+  void setExtra1(List<LegendEntry?> entries) {
     _extraEntries = entries;
   }
 
@@ -328,11 +328,11 @@ class Legend extends ComponentBase {
 
   double get neededHeight => _neededHeight;
 
-  List<FSize> get calculatedLineSizes => _calculatedLineSizes;
+  List<FSize?> get calculatedLineSizes => _calculatedLineSizes;
 
-  List<FSize> get calculatedLabelSizes => _calculatedLabelSizes;
+  List<FSize?> get calculatedLabelSizes => _calculatedLabelSizes;
 
-  List<bool> get calculatedLabelBreakPoints => _calculatedLabelBreakPoints;
+  List<bool?> get calculatedLabelBreakPoints => _calculatedLabelBreakPoints;
 
   /// Calculates the dimensions of the Legend. This includes the maximum width
   /// and height of a single entry, as well as the total width and height of
@@ -360,7 +360,7 @@ class Legend extends ComponentBase {
           var wasStacked = false;
 
           for (var i = 0; i < entryCount; i++) {
-            var e = entries[i];
+            var e = entries[i]!;
             var drawingForm = e.form != LegendForm.NONE;
             var formSize = e.formSize.isNaN ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
             var label = e.label;
@@ -418,7 +418,7 @@ class Legend extends ComponentBase {
           _calculatedLineSizes = [];
 
           for (var i = 0; i < entryCount; i++) {
-            var e = entries[i];
+            var e = entries[i]!;
             var drawingForm = e.form != LegendForm.NONE;
             var formSize = e.formSize.isNaN ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
             var label = e.label;
@@ -438,7 +438,7 @@ class Legend extends ComponentBase {
             if (label != null) {
               _calculatedLabelSizes.add(Utils.calcTextSize1(labelpainter, label));
               requiredWidth += drawingForm ? formToTextSpace + formSize : 0;
-              requiredWidth += _calculatedLabelSizes[i].width;
+              requiredWidth += _calculatedLabelSizes[i]!.width;
             } else {
               _calculatedLabelSizes.add(FSize.getInstance(0, 0));
               requiredWidth += drawingForm ? formSize : 0;

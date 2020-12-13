@@ -14,7 +14,7 @@ mixin OnTouchEventListener {
   void onDragStart(double x, double y);
   void onDragUpdate(double x, double y);
   void onDragEnd(double x, double y);
-  void onPerformHighlight(Highlight h, HighlightStatus status);
+  void onPerformHighlight(Highlight? h, HighlightStatus status);
 }
 
 enum TouchValueType { SCREEN, LOCAL, CHART }

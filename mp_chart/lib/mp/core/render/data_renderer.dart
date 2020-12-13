@@ -14,17 +14,17 @@ import 'package:mp_chart/mp/core/poolable/point.dart';
 
 abstract class DataRenderer extends Renderer {
   /// the animator object used to perform animations on the chart data
-  Animator _animator;
+  late Animator _animator;
 
   /// main paint object used for rendering
-  Paint _renderPaint;
+  late Paint _renderPaint;
 
   /// paint used for highlighting values
-  Paint _highlightPaint;
+  late Paint _highlightPaint;
 
-  Paint _drawPaint;
+  late Paint _drawPaint;
 
-  TextPainter _valuePaint;
+  TextPainter? _valuePaint;
 
   DataRenderer(Animator animator, ViewPortHandler viewPortHandler) : super(viewPortHandler) {
     _animator = animator;
@@ -45,14 +45,14 @@ abstract class DataRenderer extends Renderer {
   }
 
   bool isDrawingValuesAllowed(ChartInterface chart) {
-    return chart.getData().getEntryCount() < chart.getMaxVisibleCount() * viewPortHandler.getScaleX();
+    return chart.getData()!.getEntryCount() < chart.getMaxVisibleCount() * viewPortHandler!.getScaleX();
   }
 
   // ignore: unnecessary_getters_setters
-  TextPainter get valuePaint => _valuePaint;
+  TextPainter? get valuePaint => _valuePaint;
 
   // ignore: unnecessary_getters_setters
-  set valuePaint(TextPainter value) {
+  set valuePaint(TextPainter? value) {
     _valuePaint = value;
   }
 
@@ -76,7 +76,7 @@ abstract class DataRenderer extends Renderer {
   /// @param set
   void applyValueTextStyle(IDataSet set) {
     _valuePaint = PainterUtils.create(_valuePaint, null, Color.fromARGB(255, 63, 63, 63), Utils.convertDpToPixel(9),
-        fontFamily: set?.getValueTypeface()?.fontFamily, fontWeight: set?.getValueTypeface()?.fontWeight);
+        fontFamily: set.getValueTypeface()?.fontFamily, fontWeight: set.getValueTypeface()!.fontWeight);
   }
 
   /// Initializes the buffers used for rendering with a  size. Since this

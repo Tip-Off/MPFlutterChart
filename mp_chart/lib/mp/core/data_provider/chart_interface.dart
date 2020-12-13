@@ -28,5 +28,5 @@ mixin ChartInterface {
 
   int getMaxVisibleCount();
 
-  ChartData getData();
+  ChartData? getData();
 }

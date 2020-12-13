@@ -96,7 +96,7 @@ abstract class Matrix4Utils {
     (Matrix4.identity()..setTranslationRaw(tx, ty, 0.0)).copyInto(m);
   }
 
-  static void mapPoints(Matrix4 m, List<double> valuePoints) {
+  static void mapPoints(Matrix4 m, List<double?> valuePoints) {
     var x = 0.0;
     var y = 0.0;
     for (var i = 0; i < valuePoints.length; i += 2) {

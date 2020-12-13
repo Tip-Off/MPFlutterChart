@@ -21,7 +21,7 @@ class LimitLine extends ComponentBase {
   PaintingStyle _textStyle = PaintingStyle.fill;
 
   /// label string that is drawn next to the limit line
-  String _label = '';
+  String? _label = '';
 
   bool _isDashed = false;
 
@@ -91,10 +91,10 @@ class LimitLine extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  String get label => _label;
+  String? get label => _label;
 
   // ignore: unnecessary_getters_setters
-  set label(String value) {
+  set label(String? value) {
     _label = value;
   }
 

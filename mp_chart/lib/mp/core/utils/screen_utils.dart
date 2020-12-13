@@ -34,7 +34,7 @@ class ScreenUtils {
   double _statusBarHeight = 0.0;
   double _bottomBarHeight = 0.0;
   double _appBarHeight = 0.0;
-  MediaQueryData _mediaQueryData;
+  MediaQueryData? _mediaQueryData;
 
   static final ScreenUtils _singleton = ScreenUtils();
 
@@ -80,7 +80,7 @@ class ScreenUtils {
   double get bottomBarHeight => _bottomBarHeight;
 
   /// media Query Data
-  MediaQueryData get mediaQueryData => _mediaQueryData;
+  MediaQueryData? get mediaQueryData => _mediaQueryData;
 
   /// screen width
   /// 当前屏幕 宽
@@ -126,7 +126,7 @@ class ScreenUtils {
   /// returns the size after adaptation according to the screen width.(unit dp or pt)
   /// 返回根据屏幕宽适配后尺寸（单位 dp or pt）
   /// size 单位 dp or pt
-  static double getScaleW(BuildContext context, double size) {
+  static double getScaleW(BuildContext? context, double size) {
     if (context == null || getScreenW(context) == 0.0) return size;
     return size * getScreenW(context) / _designW;
   }
@@ -134,7 +134,7 @@ class ScreenUtils {
   /// returns the size after adaptation according to the screen height.(unit dp or pt)
   /// 返回根据屏幕高适配后尺寸 （单位 dp or pt）
   /// size unit dp or pt
-  static double getScaleH(BuildContext context, double size) {
+  static double getScaleH(BuildContext? context, double size) {
     if (context == null || getScreenH(context) == 0.0) return size;
     return size * getScreenH(context) / _designH;
   }
@@ -142,7 +142,7 @@ class ScreenUtils {
   /// returns the font size after adaptation according to the screen density.
   /// 返回根据屏幕宽适配后字体尺寸
   /// fontSize 字体尺寸
-  static double getScaleSp(BuildContext context, double fontSize) {
+  static double getScaleSp(BuildContext? context, double fontSize) {
     if (context == null || getScreenDensity(context) == 0.0) return fontSize;
     return fontSize * getScreenW(context) / _designW;
   }

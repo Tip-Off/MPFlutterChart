@@ -36,32 +36,32 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
       bool drawBorders = false,
       bool clipValuesToContent = false,
       double minOffset = 30.0,
-      OnDrawListener drawListener,
-      YAxis axisLeft,
-      YAxis axisRight,
-      YAxisRenderer axisRendererLeft,
-      YAxisRenderer axisRendererRight,
-      Transformer leftAxisTransformer,
-      Transformer rightAxisTransformer,
-      XAxisRenderer xAxisRenderer,
+      OnDrawListener? drawListener,
+      YAxis? axisLeft,
+      YAxis? axisRight,
+      YAxisRenderer? axisRendererLeft,
+      YAxisRenderer? axisRendererRight,
+      Transformer? leftAxisTransformer,
+      Transformer? rightAxisTransformer,
+      XAxisRenderer? xAxisRenderer,
       bool customViewPortEnabled = false,
-      Matrix4 zoomMatrixBuffer,
+      Matrix4? zoomMatrixBuffer,
       bool pinchZoomEnabled = true,
       bool keepPositionOnRotation = false,
-      Paint gridBackgroundPaint,
-      Paint borderPaint,
-      Color backgroundColor,
-      Color gridBackColor,
-      Color borderColor,
+      Paint? gridBackgroundPaint,
+      Paint? borderPaint,
+      Color? backgroundColor,
+      Color? gridBackColor,
+      Color? borderColor,
       double borderStrokeWidth = 1.0,
-      AxisLeftSettingFunction axisLeftSettingFunction,
-      AxisRightSettingFunction axisRightSettingFunction,
-      OnTouchEventListener touchEventListener,
+      AxisLeftSettingFunction? axisLeftSettingFunction,
+      AxisRightSettingFunction? axisRightSettingFunction,
+      OnTouchEventListener? touchEventListener,
       String noDataText = 'No chart data available.',
-      XAxisSettingFunction xAxisSettingFunction,
-      LegendSettingFunction legendSettingFunction,
-      DataRendererSettingFunction rendererSettingFunction,
-      OnChartValueSelectedListener selectionListener,
+      XAxisSettingFunction? xAxisSettingFunction,
+      LegendSettingFunction? legendSettingFunction,
+      DataRendererSettingFunction? rendererSettingFunction,
+      OnChartValueSelectedListener? selectionListener,
       double maxHighlightDistance = 100.0,
       bool highLightPerTapEnabled = true,
       double extraTopOffset = 0.0,
@@ -71,9 +71,9 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
       double infoTextSize = 12,
-      Color infoTextColor,
-      Color infoBgColor,
-      ChartTransListener chartTransListener})
+      Color? infoTextColor,
+      Color? infoBgColor,
+      ChartTransListener? chartTransListener})
       : super(
             specialMoveEnabled: specialMoveEnabled,
             highlightMagneticSetEnabled: highlightMagneticSetEnabled,
@@ -129,33 +129,33 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
             chartTransListener: chartTransListener);
 
   @override
-  CandleData get data => super.data;
+  CandleData? get data => super.data as CandleData?;
 
   @override
-  CandlestickChartState get state => super.state;
+  CandlestickChartState? get state => super.state as CandlestickChartState?;
 
   @override
-  CandlestickChartPainter get painter => super.painter;
+  CandlestickChartPainter? get painter => super.painter;
 
   @override
   void initialPainter() {
     painter = CandlestickChartPainter(
-        data,
-        painter != null ? painter.highlightForced : null,
+        data!,
+        painter != null ? painter!.highlightForced : null,
         animator,
-        viewPortHandler,
+        viewPortHandler!,
         maxHighlightDistance,
         highLightPerTapEnabled,
         extraLeftOffset,
         extraTopOffset,
         extraRightOffset,
         extraBottomOffset,
-        infoBgColor,
-        infoPaint,
-        xAxis,
-        legend,
-        rendererSettingFunction,
-        selectionListener,
+        infoBgColor!,
+        infoPaint!,
+        xAxis!,
+        legend!,
+        rendererSettingFunction!,
+        selectionListener!,
         maxVisibleCount,
         autoScaleMinMaxEnabled,
         pinchZoomEnabled,
@@ -165,39 +165,39 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
         dragYEnabled,
         scaleXEnabled,
         scaleYEnabled,
-        gridBackgroundPaint,
-        backgroundPaint,
-        borderPaint,
+        gridBackgroundPaint!,
+        backgroundPaint!,
+        borderPaint!,
         drawGridBackground,
         drawBorders,
         clipValuesToContent,
         minOffset,
         keepPositionOnRotation,
-        drawListener,
-        axisLeft,
-        axisRight,
-        axisRendererLeft,
-        axisRendererRight,
-        leftAxisTransformer,
-        rightAxisTransformer,
-        xAxisRenderer,
-        zoomMatrixBuffer,
+        drawListener!,
+        axisLeft!,
+        axisRight!,
+        axisRendererLeft!,
+        axisRendererRight!,
+        leftAxisTransformer!,
+        rightAxisTransformer!,
+        xAxisRenderer!,
+        zoomMatrixBuffer!,
         customViewPortEnabled,
-        chartTransListener);
+        chartTransListener!);
 
     initialParameters();
   }
 
   void initialParameters() {
     if (initialXRange > 0) {
-      _initialXZoom = _initialXZoom == 1 ? 1 : ((data.xMax - 1) - data.xMin).abs() / initialXRange;
+      _initialXZoom = _initialXZoom == 1 ? 1 : ((data!.xMax - 1) - data!.xMin).abs() / initialXRange;
 
-      var matrix = painter.viewPortHandler.getMatrixTouch();
-      painter.viewPortHandler.zoom2(_initialXZoom, 0, matrix);
-      painter.viewPortHandler.refresh(matrix);
+      var matrix = painter!.viewPortHandler!.getMatrixTouch();
+      painter!.viewPortHandler!.zoom2(_initialXZoom, 0, matrix);
+      painter!.viewPortHandler!.refresh(matrix);
 
       if (_initialXZoom != 1) {
-        moveViewToAnimated(initialXPosition < 0 ? data.xMax : initialXPosition, 0, AxisDependency.LEFT, 50);
+        moveViewToAnimated(initialXPosition < 0 ? data!.xMax : initialXPosition as double, 0, AxisDependency.LEFT, 50);
       }
 
       _initialXZoom = 1;

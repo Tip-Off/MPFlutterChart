@@ -88,7 +88,7 @@ abstract class ChartState<T extends Chart> extends State<T> {
   @override
   void reassemble() {
     super.reassemble();
-    widget.controller.animator?.reset();
+    widget.controller.animator.reset();
     widget.controller.painter?.reassemble();
   }
 

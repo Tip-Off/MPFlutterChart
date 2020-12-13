@@ -3,7 +3,7 @@ abstract class AbstractBuffer<T> {
   int _index = 0;
 
   /// double-buffer that holds the data points to draw, order: x,y,x,y,...
-  List<double> _buffer;
+  late List<double> _buffer;
 
   /// animation phase x-axis
   double _phaseX = 1.0;
@@ -24,7 +24,7 @@ abstract class AbstractBuffer<T> {
   /// @param size
   AbstractBuffer(int size) {
     _index = 0;
-    _buffer = List(size);
+    _buffer = List.filled(size, 0.0);
   }
 
   /// limits the drawing on the x-axis

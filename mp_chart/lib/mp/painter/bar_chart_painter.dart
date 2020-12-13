@@ -34,7 +34,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
 
   BarChartPainter(
       BarData data,
-      Highlight highlightForced,
+      Highlight? highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -135,7 +135,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
   void initDefaultWithData() {
     super.initDefaultWithData();
     highlighter = BarHighlighter(this);
-    renderer = BarChartRenderer(this, animator, viewPortHandler);
+    renderer = BarChartRenderer(this, animator, viewPortHandler!);
     xAxis?.spaceMin = (0.5);
     xAxis?.spaceMax = (0.5);
   }
@@ -143,14 +143,14 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
   @override
   void calcMinMax() {
     if (_fitBars) {
-      xAxis.calculate(getBarData().xMin - getBarData().barWidth / 2.0, getBarData().xMax + getBarData().barWidth / 2.0);
+      xAxis!.calculate(getBarData()!.xMin - getBarData()!.barWidth / 2.0, getBarData()!.xMax + getBarData()!.barWidth / 2.0);
     } else {
-      xAxis.calculate(getBarData().xMin, getBarData().xMax);
+      xAxis!.calculate(getBarData()!.xMin, getBarData()!.xMax);
     }
 
     // calculate axis range (min / max) according to provided data
-    axisLeft.calculate(getBarData().getYMin2(AxisDependency.LEFT), getBarData().getYMax2(AxisDependency.LEFT));
-    axisRight.calculate(getBarData().getYMin2(AxisDependency.RIGHT), getBarData().getYMax2(AxisDependency.RIGHT));
+    axisLeft.calculate(getBarData()!.getYMin2(AxisDependency.LEFT), getBarData()!.getYMax2(AxisDependency.LEFT));
+    axisRight.calculate(getBarData()!.getYMin2(AxisDependency.RIGHT), getBarData()!.getYMax2(AxisDependency.RIGHT));
   }
 
   /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch
@@ -161,11 +161,11 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
   /// @param y
   /// @return
   @override
-  Highlight getHighlightByTouchPoint(double x, double y) {
+  Highlight? getHighlightByTouchPoint(double x, double y) {
     if (getBarData() == null) {
       return null;
     } else {
-      var h = highlighter.getHighlight(x, y);
+      var h = highlighter?.getHighlight(x, y);
       if (h == null || !isHighlightFullBarEnabled()) return h;
 
       // For isHighlightFullBarEnabled, remove stackIndex
@@ -181,7 +181,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
   Rect getBarBounds(BarEntry e) {
     var bounds = Rect.zero;
 
-    var set = getBarData().getDataSetForEntry(e);
+    var set = getBarData()!.getDataSetForEntry(e);
 
     if (set == null) {
       bounds = Rect.fromLTRB(double.minPositive, double.minPositive, double.minPositive, double.minPositive);
@@ -191,7 +191,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
     var y = e.y;
     var x = e.x;
 
-    var barWidth = getBarData().barWidth;
+    var barWidth = getBarData()!.barWidth;
 
     var left = x - barWidth / 2.0;
     var right = x + barWidth / 2.0;
@@ -200,7 +200,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
 
     bounds = Rect.fromLTRB(left, top, right, bottom);
 
-    return getTransformer(set.getAxisDependency()).rectValueToPixel(bounds);
+    return getTransformer(set.getAxisDependency())!.rectValueToPixel(bounds);
   }
 
   /// returns true if drawing values above bars is enabled, false if not
@@ -247,12 +247,12 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
     if (getBarData() == null) {
       throw Exception('You need to set data for the chart before grouping bars.');
     } else {
-      getBarData().groupBars(fromX, groupSpace, barSpace);
+      getBarData()!.groupBars(fromX, groupSpace, barSpace);
     }
   }
 
   @override
-  BarData getBarData() {
-    return getData();
+  BarData? getBarData() {
+    return getData() as BarData;
   }
 }

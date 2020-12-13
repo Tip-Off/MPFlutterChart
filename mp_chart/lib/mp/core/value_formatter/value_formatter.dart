@@ -5,7 +5,7 @@ import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 
 abstract class ValueFormatter {
-  AxisBase axisFormatter;
+  AxisBase? axisFormatter;
 
   String getFormattedValue2(double value, AxisBase axis) {
     axisFormatter = axis;

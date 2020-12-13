@@ -17,7 +17,7 @@ class LegendEntry {
 
   /// The legend entry text.
   /// A `null` label will start a group.
-  String _label;
+  String? _label;
 
   /// The form to draw for this entry.
   ///
@@ -36,16 +36,16 @@ class LegendEntry {
   /// Set as NaN to use the legend's default
   double _formLineWidth = double.nan;
 
-  bool isFormLineDashed;
+  late bool isFormLineDashed;
 
   /// The color for drawing the form
   Color _formColor = ColorUtils.COLOR_NONE;
 
   // ignore: unnecessary_getters_setters
-  String get label => _label;
+  String? get label => _label;
 
   // ignore: unnecessary_getters_setters
-  set label(String value) {
+  set label(String? value) {
     _label = value;
   }
 

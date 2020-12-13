@@ -14,14 +14,15 @@ import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
+import 'package:collection/collection.dart';
 
 class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
-  CandleDataProvider _provider;
+  late CandleDataProvider _provider;
 
-  final List<double> _shadowBuffer = List(4);
-  final List<double> _bodyBuffers = List(4);
+  final List<double> _shadowBuffer = List.filled(4, 0.0);
+  final List<double> _bodyBuffers = List.filled(4, 0.0);
 
-  TextPainter _labelText;
+  late TextPainter _labelText;
 
   final _floatingLegendBg = Color.fromARGB(150, 50, 50, 50);
 
@@ -53,9 +54,9 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   void drawData(Canvas c) {
-    var candleData = _provider.getCandleData();
+    var candleData = _provider.getCandleData()!;
 
-    for (var set in candleData.dataSets) {
+    for (var set in candleData.dataSets!) {
       if (set.isVisible()) drawDataSet(c, set);
     }
   }
@@ -71,7 +72,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     renderPaint.strokeWidth = dataSet.getShadowWidth();
 
     // draw the body
-    for (var j = xBounds.min; j <= xBounds.range + xBounds.min; j++) {
+    for (var j = xBounds.min!; j <= xBounds.range! + xBounds.min!; j++) {
       // get the entry
       var e = dataSet.getEntryForIndex(j);
 
@@ -91,7 +92,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
       _shadowBuffer[2] = xPos;
       _shadowBuffer[3] = low * phaseY;
 
-      trans.pointValuesToPixel(_shadowBuffer);
+      trans!.pointValuesToPixel(_shadowBuffer);
 
       // draw the shadows
       if (dataSet.getShadowColorSameAsCandle()) {
@@ -144,15 +145,15 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   }
 
   void _drawIcon(Canvas c) {
-    var dataSets = _provider.getCandleData().dataSets;
+    var dataSets = _provider.getCandleData()!.dataSets;
 
-    for (var i = 0; i < dataSets.length; i++) {
+    for (var i = 0; i < dataSets!.length; i++) {
       var dataSet = dataSets[i];
 
       if (!dataSet.isDrawIconsEnabled()) continue;
 
       var trans = _provider.getTransformer(dataSet.getAxisDependency());
-      var positions = trans.generateTransformedValuesCandle(dataSet, animator.getPhaseX(), animator.getPhaseY(), xBounds.min, xBounds.max);
+      var positions = trans!.generateTransformedValuesCandle(dataSet, animator.getPhaseX(), animator.getPhaseY(), xBounds.min!, xBounds.max!);
       var iconsOffset = MPPointF.getInstance3(dataSet.getIconsOffset());
       iconsOffset.x = Utils.convertDpToPixel(iconsOffset.x);
       iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
@@ -161,14 +162,14 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
         var x = positions[j];
         var y = positions[j + 1];
 
-        if (!viewPortHandler.isInBoundsRight(x)) break;
+        if (!viewPortHandler!.isInBoundsRight(x)) break;
 
-        if (!viewPortHandler.isInBoundsLeft(x) || !viewPortHandler.isInBoundsY(y)) continue;
+        if (!viewPortHandler!.isInBoundsLeft(x) || !viewPortHandler!.isInBoundsY(y)) continue;
 
-        var entry = dataSet.getEntryForIndex(j ~/ 2 + xBounds.min);
+        var entry = dataSet.getEntryForIndex(j ~/ 2 + xBounds.min!);
 
-        if (entry.mIcon != null && dataSet.isDrawIconsEnabled()) {
-          CanvasUtils.drawImage(c, Offset(x + iconsOffset.x, y + iconsOffset.y), entry.mIcon, Size(10, 10), drawPaint);
+        if (entry?.mIcon != null && dataSet.isDrawIconsEnabled()) {
+          CanvasUtils.drawImage(c, Offset(x + iconsOffset.x, y + iconsOffset.y), entry!.mIcon!, Size(10, 10), drawPaint);
         }
       }
 
@@ -178,24 +179,24 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   void drawValue(Canvas c, String valueText, double x, double y, Color color, double textSize, TypeFace typeFace) {
-    valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize, fontFamily: typeFace?.fontFamily, fontWeight: typeFace?.fontWeight);
-    valuePaint.layout();
-    valuePaint.paint(c, Offset(x - valuePaint.width / 2, y - valuePaint.height));
+    valuePaint = PainterUtils.create(valuePaint, valueText, color, textSize, fontFamily: typeFace.fontFamily, fontWeight: typeFace.fontWeight);
+    valuePaint!.layout();
+    valuePaint!.paint(c, Offset(x - valuePaint!.width / 2, y - valuePaint!.height));
   }
 
   @override
   void drawExtras(Canvas c) {
-    var candleData = _provider.getCandleData();
+    var candleData = _provider.getCandleData()!;
 
-    for (var set in candleData.dataSets) {
+    for (var set in candleData.dataSets!) {
       if (set.isVisible()) _drawVolumeDataSet(c, set);
     }
   }
 
   double _getMaximumVolume(ICandleDataSet dataSet) {
     var maxVolume = 0.0;
-    for (var i = xBounds.min; i <= xBounds.range + xBounds.min; i++) {
-      maxVolume = max(maxVolume, dataSet.getEntryForIndex(i).volume);
+    for (var i = xBounds.min!; i <= xBounds.range! + xBounds.min!; i++) {
+      maxVolume = max(maxVolume, dataSet.getEntryForIndex(i)!.volume);
     }
     return maxVolume;
   }
@@ -219,20 +220,20 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     var maximumVolume = _getMaximumVolume(dataSet);
 
     // draw the body
-    for (var j = xBounds.min; j <= xBounds.range + xBounds.min; j++) {
+    for (var j = xBounds.min!; j <= xBounds.range! + xBounds.min!; j++) {
       var e = dataSet.getEntryForIndex(j);
       if (e == null || maximumVolume == 0.0) continue;
 
       final xPos = e.x;
       final volume = e.volume;
       final factor = volume / maximumVolume;
-      final h2 = viewPortHandler.getChartHeight() * .2;
+      final h2 = viewPortHandler!.getChartHeight() * .2;
 
-      var xBar = trans.getPixelForValues(xPos - 0.5 + barSpace, 0).x;
+      var xBar = trans!.getPixelForValues(xPos - 0.5 + barSpace, 0).x;
       var sizeBar = trans.getPixelForValues(xPos + 0.5 - barSpace, 0).x;
       var widthBar = (sizeBar - xBar).abs();
       var heightBar = h2 * factor;
-      var yBar = viewPortHandler.contentBottom() - heightBar;
+      var yBar = viewPortHandler!.contentBottom() - heightBar;
 
       renderPaint.color = _getColor(e.open, e.close, dataSet, j).withOpacity(.4);
       renderPaint.style = PaintingStyle.fill;
@@ -242,26 +243,26 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
-    var candleData = _provider.getCandleData();
+    var candleData = _provider.getCandleData()!;
 
     var pix = MPPointD(0, 0);
     for (var high in indices) {
-      ICandleDataSet dataSet;
+      ICandleDataSet? dataSet;
 
       if (high.dataSetIndex >= 0) {
         dataSet = candleData.getDataSetByIndex(high.dataSetIndex);
       } else {
-        dataSet = candleData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).isNotEmpty, orElse: () => null);
+        dataSet = candleData.dataSets!.firstWhereOrNull((element) => element.getEntriesForXValue(high.x).isNotEmpty);
       }
 
       if (dataSet == null || !dataSet.isHighlightEnabled()) continue;
 
-      var e = dataSet.getEntryForXValue2(high.x, high.y);
+      var e = dataSet.getEntryForXValue2(high.x, high.y)!;
 
       if (!isInBoundsX(e, dataSet)) continue;
 
-      var yVal = high.freeY == null || high.freeY.isNaN ? high.y : high.freeY;
-      pix = _provider.getTransformer(dataSet.getAxisDependency()).getPixelForValues(e.x, yVal);
+      var yVal = high.freeY == null || high.freeY!.isNaN ? high.y : high.freeY;
+      pix = _provider.getTransformer(dataSet.getAxisDependency())!.getPixelForValues(e.x, yVal!);
 
       high.setDraw(pix.x, pix.y);
 
@@ -275,8 +276,8 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
     var size = Size(0, 0);
     if (indices.isNotEmpty) {
-      var candleData = _provider.getCandleData();
-      for (var set in candleData.dataSets) {
+      var candleData = _provider.getCandleData()!;
+      for (var set in candleData.dataSets!) {
         if (set.isVisible()) {
           final drawSize = _drawFloatingLegend(c, set, indices.first);
           size = Size(size.width + drawSize.width, size.height + drawSize.height);
@@ -287,14 +288,14 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   }
 
   Size _drawFloatingLegend(Canvas c, ICandleDataSet dataSet, Highlight h) {
-    final e = dataSet.getEntryForXValue2(h.x, 0);
-    final ohlcPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
+    final e = dataSet.getEntryForXValue2(h.x, 0)!;
+    final ohlcPosition = Offset(viewPortHandler!.contentLeft(), viewPortHandler!.contentTop());
     final ohlcSize = _drawOHLC(c, e, ohlcPosition);
 
-    final diffPosition = Offset(viewPortHandler.contentLeft() + _labelText.width, viewPortHandler.contentTop());
+    final diffPosition = Offset(viewPortHandler!.contentLeft() + _labelText.width, viewPortHandler!.contentTop());
     _drawDiff(c, dataSet, e, diffPosition);
 
-    final volPosition = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + _labelText.height);
+    final volPosition = Offset(viewPortHandler!.contentLeft(), viewPortHandler!.contentTop() + _labelText.height);
     final volSize = _drawVol(c, e, volPosition);
 
     return Size(ohlcSize.width + volSize.width, ohlcSize.height + volSize.height);
@@ -324,7 +325,7 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     var currentIndex = dataSet.getEntryIndex2(currentEntry);
 
     if (currentIndex > 0) {
-      var previousEntry = dataSet.getEntryForIndex(currentIndex - 1);
+      var previousEntry = dataSet.getEntryForIndex(currentIndex - 1)!;
       var diff = currentEntry.close - previousEntry.close;
       var diffPorcentage = diff / previousEntry.close * 100;
       var signal = diff > 0 ? '+' : '';

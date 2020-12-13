@@ -36,33 +36,33 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
     bool drawBorders = false,
     bool clipValuesToContent = false,
     double minOffset = 30.0,
-    OnDrawListener drawListener,
-    YAxis axisLeft,
-    YAxis axisRight,
-    YAxisRenderer axisRendererLeft,
-    YAxisRenderer axisRendererRight,
-    Transformer leftAxisTransformer,
-    Transformer rightAxisTransformer,
-    XAxisRenderer xAxisRenderer,
+    OnDrawListener? drawListener,
+    YAxis? axisLeft,
+    YAxis? axisRight,
+    YAxisRenderer? axisRendererLeft,
+    YAxisRenderer? axisRendererRight,
+    Transformer? leftAxisTransformer,
+    Transformer? rightAxisTransformer,
+    XAxisRenderer? xAxisRenderer,
     bool customViewPortEnabled = false,
-    Matrix4 zoomMatrixBuffer,
+    Matrix4? zoomMatrixBuffer,
     bool pinchZoomEnabled = true,
     bool keepPositionOnRotation = false,
-    Paint gridBackgroundPaint,
-    Paint borderPaint,
-    Color backgroundColor,
-    Color gridBackColor,
-    Color borderColor,
+    Paint? gridBackgroundPaint,
+    Paint? borderPaint,
+    Color? backgroundColor,
+    Color? gridBackColor,
+    Color? borderColor,
     double borderStrokeWidth = 1.0,
-    AxisLeftSettingFunction axisLeftSettingFunction,
-    AxisRightSettingFunction axisRightSettingFunction,
-    OnTouchEventListener touchEventListener,
-    ChartTransListener chartTransListener,
+    AxisLeftSettingFunction? axisLeftSettingFunction,
+    AxisRightSettingFunction? axisRightSettingFunction,
+    OnTouchEventListener? touchEventListener,
+    ChartTransListener? chartTransListener,
     String noDataText = 'No chart data available.',
-    XAxisSettingFunction xAxisSettingFunction,
-    LegendSettingFunction legendSettingFunction,
-    DataRendererSettingFunction rendererSettingFunction,
-    OnChartValueSelectedListener selectionListener,
+    XAxisSettingFunction? xAxisSettingFunction,
+    LegendSettingFunction? legendSettingFunction,
+    DataRendererSettingFunction? rendererSettingFunction,
+    OnChartValueSelectedListener? selectionListener,
     double maxHighlightDistance = 100.0,
     bool highLightPerTapEnabled = true,
     double extraTopOffset = 0.0,
@@ -72,8 +72,8 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
     bool resolveGestureHorizontalConflict = false,
     bool resolveGestureVerticalConflict = false,
     double infoTextSize = 12,
-    Color infoTextColor,
-    Color infoBgColor,
+    Color? infoTextColor,
+    Color? infoBgColor,
   }) : super(
             noDataText: noDataText,
             xAxisSettingFunction: xAxisSettingFunction,
@@ -129,22 +129,22 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
   @override
   void initialPainter() {
     painter = BarChartPainter(
-        data,
-        painter != null ? painter.highlightForced : null,
+        data!,
+        painter != null ? painter!.highlightForced : null,
         animator,
-        viewPortHandler,
+        viewPortHandler!,
         maxHighlightDistance,
         highLightPerTapEnabled,
         extraLeftOffset,
         extraTopOffset,
         extraRightOffset,
         extraBottomOffset,
-        infoBgColor,
-        infoPaint,
-        xAxis,
-        legend,
-        rendererSettingFunction,
-        selectionListener,
+        infoBgColor!,
+        infoPaint!,
+        xAxis!,
+        legend!,
+        rendererSettingFunction!,
+        selectionListener!,
         maxVisibleCount,
         autoScaleMinMaxEnabled,
         pinchZoomEnabled,
@@ -154,45 +154,45 @@ class BarChartController extends BarLineScatterCandleBubbleController<BarChartPa
         dragYEnabled,
         scaleXEnabled,
         scaleYEnabled,
-        gridBackgroundPaint,
-        backgroundPaint,
-        borderPaint,
+        gridBackgroundPaint!,
+        backgroundPaint!,
+        borderPaint!,
         drawGridBackground,
         drawBorders,
         clipValuesToContent,
         minOffset,
         keepPositionOnRotation,
-        drawListener,
-        axisLeft,
-        axisRight,
-        axisRendererLeft,
-        axisRendererRight,
-        leftAxisTransformer,
-        rightAxisTransformer,
-        xAxisRenderer,
-        zoomMatrixBuffer,
+        drawListener!,
+        axisLeft!,
+        axisRight!,
+        axisRendererLeft!,
+        axisRendererRight!,
+        leftAxisTransformer!,
+        rightAxisTransformer!,
+        xAxisRenderer!,
+        zoomMatrixBuffer!,
         customViewPortEnabled,
         highlightFullBarEnabled,
         drawValueAboveBar,
         drawBarShadow,
         fitBars,
-        chartTransListener);
+        chartTransListener!);
   }
 
   @override
-  BarChartPainter get painter => super.painter;
+  BarChartPainter? get painter => super.painter;
 
   @override
-  BarChartState get state => super.state;
+  BarChartState? get state => super.state as BarChartState?;
 
   @override
-  BarData get data => super.data;
+  BarData? get data => super.data as BarData?;
 
   void groupBars(double fromX, double groupSpace, double barSpace) {
     if (data == null) {
       throw Exception('You need to set data for the chart before grouping bars.');
     } else {
-      data.groupBars(fromX, groupSpace, barSpace);
+      data!.groupBars(fromX, groupSpace, barSpace);
     }
   }
 

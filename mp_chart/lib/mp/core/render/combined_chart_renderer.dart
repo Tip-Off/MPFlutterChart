@@ -14,7 +14,7 @@ import 'package:mp_chart/mp/core/poolable/point.dart';
 class CombinedChartRenderer extends DataRenderer {
   /// all rederers for the different kinds of data this combined-renderer can draw
   List<DataRenderer> _renderers = [];
-  ChartPainter _painter;
+  ChartPainter? _painter;
   List<Highlight> mHighlightBuffer = [];
 
   CombinedChartRenderer(CombinedChartPainter chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
@@ -27,21 +27,21 @@ class CombinedChartRenderer extends DataRenderer {
   void createRenderers() {
     _renderers.clear();
 
-    var chart = (_painter as CombinedChartPainter);
+    var chart = (_painter as CombinedChartPainter?);
     if (chart == null) return;
 
     var orders = chart.getDrawOrder();
 
-    for (var order in orders) {
+    for (var order in orders!) {
       switch (order) {
         case DrawOrder.BAR:
-          if (chart.getBarData() != null) _renderers.add(BarChartRenderer(chart, animator, viewPortHandler));
+          if (chart.getBarData() != null) _renderers.add(BarChartRenderer(chart, animator, viewPortHandler!));
           break;
         case DrawOrder.LINE:
-          if (chart.getLineData() != null) _renderers.add(LineChartRenderer(chart, animator, viewPortHandler));
+          if (chart.getLineData() != null) _renderers.add(LineChartRenderer(chart, animator, viewPortHandler!));
           break;
         case DrawOrder.CANDLE:
-          if (chart.getCandleData() != null) _renderers.add(CandleStickChartRenderer(chart, animator, viewPortHandler));
+          if (chart.getCandleData() != null) _renderers.add(CandleStickChartRenderer(chart, animator, viewPortHandler!));
           break;
       }
     }
@@ -104,7 +104,7 @@ class CombinedChartRenderer extends DataRenderer {
   ///
   /// @param index
   /// @return
-  DataRenderer getSubRenderer(int index) {
+  DataRenderer? getSubRenderer(int index) {
     if (index >= _renderers.length || index < 0) {
       return null;
     } else {

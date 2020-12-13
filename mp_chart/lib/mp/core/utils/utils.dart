@@ -33,7 +33,7 @@ abstract class Utils {
       c.translate(translateX, translateY);
       c.rotate(angleDegrees);
 
-      paint.text = TextSpan(text: text, style: paint.text.style);
+      paint.text = TextSpan(text: text, style: paint.text!.style);
       paint.layout();
       switch (position) {
         case XAxisPosition.BOTTOM:
@@ -57,7 +57,7 @@ abstract class Utils {
       drawOffsetX += x;
       drawOffsetY += y;
 
-      paint.text = TextSpan(text: text, style: paint.text.style);
+      paint.text = TextSpan(text: text, style: paint.text!.style);
       paint.layout();
       switch (position) {
         case XAxisPosition.BOTTOM:
@@ -93,7 +93,7 @@ abstract class Utils {
       c.translate(translateX, translateY);
       c.rotate(angleDegrees);
 
-      paint.text = TextSpan(text: text, style: paint.text.style);
+      paint.text = TextSpan(text: text, style: paint.text!.style);
       paint.layout();
       switch (position) {
         case XAxisPosition.BOTTOM:
@@ -117,7 +117,7 @@ abstract class Utils {
       drawOffsetX += x;
       drawOffsetY += y;
 
-      paint.text = TextSpan(text: text, style: paint.text.style);
+      paint.text = TextSpan(text: text, style: paint.text!.style);
       paint.layout();
       paint.paint(c, Offset(drawOffsetX - paint.width / 2, drawOffsetY));
     }
@@ -140,7 +140,7 @@ abstract class Utils {
       c.translate(translateX, translateY);
       c.rotate(angleDegrees);
 
-      paint.text = TextSpan(text: text, style: paint.text.style);
+      paint.text = TextSpan(text: text, style: paint.text!.style);
       paint.layout();
       switch (position) {
         case XAxisPosition.BOTTOM:
@@ -164,7 +164,7 @@ abstract class Utils {
       drawOffsetX += x;
       drawOffsetY += y;
 
-      paint.text = TextSpan(text: text, style: paint.text.style);
+      paint.text = TextSpan(text: text, style: paint.text!.style);
       paint.layout();
       switch (position) {
         case XAxisPosition.BOTTOM:
@@ -211,7 +211,7 @@ abstract class Utils {
   }
 
   static void calcTextSize4(TextPainter paint, String demoText, FSize outputFSize) {
-    paint.text = TextSpan(text: demoText, style: paint.text.style);
+    paint.text = TextSpan(text: demoText, style: paint.text!.style);
     paint.layout();
     outputFSize.width = paint.width;
     outputFSize.height = paint.height;
@@ -262,13 +262,13 @@ abstract class Utils {
   }
 
   static int calcTextWidth(TextPainter p, String demoText) {
-    var painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
+    var painter = PainterUtils.create(p, demoText, p.text!.style!.color, p.text!.style!.fontSize);
     painter.layout();
     return painter.width.toInt();
   }
 
   static int calcTextHeight(TextPainter p, String demoText) {
-    var painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
+    var painter = PainterUtils.create(p, demoText, p.text!.style!.color, p.text!.style!.fontSize);
     painter.layout();
     return painter.height.toInt();
   }
@@ -280,7 +280,7 @@ abstract class Utils {
   }
 
   static void calcTextSize2(TextPainter p, String demoText, FSize outputFSize) {
-    var painter = PainterUtils.create(p, demoText, p.text.style.color, p.text.style.fontSize);
+    var painter = PainterUtils.create(p, demoText, p.text!.style!.color, p.text!.style!.fontSize);
     painter.layout();
     outputFSize.width = painter.width;
     outputFSize.height = painter.height;
@@ -317,7 +317,7 @@ abstract class Utils {
 
     final d = (log(number < 0 ? -number : number) / ln10).ceil().toDouble();
     final pw = 1 - d.toInt();
-    final double magnitude = pow(10.0, pw);
+    final magnitude = pow(10.0, pw);
     final shifted = (number * magnitude).round();
     return shifted / magnitude;
   }
@@ -341,7 +341,7 @@ abstract class Utils {
   }
 
   static MPPointF local2Chart(Controller controller, double x, double y, {bool inverted = false}) {
-    var vph = controller.painter.viewPortHandler;
+    var vph = controller.painter!.viewPortHandler!;
 
     var xTrans = x - vph.offsetLeft();
     var yTrans = 0.0;
@@ -350,7 +350,7 @@ abstract class Utils {
     if (inverted) {
       yTrans = -(y - vph.offsetTop());
     } else {
-      yTrans = -(controller.painter.getMeasuredHeight() - y - vph.offsetBottom());
+      yTrans = -(controller.painter!.getMeasuredHeight() - y - vph.offsetBottom());
     }
 
     return MPPointF.getInstance1(xTrans, yTrans);
