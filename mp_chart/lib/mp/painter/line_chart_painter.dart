@@ -20,7 +20,7 @@ import 'package:mp_chart/mp/core/highlight/highlight.dart';
 class LineChartPainter extends BarLineChartBasePainter<LineData> implements LineDataProvider {
   LineChartPainter(
       LineData data,
-      Highlight highlightForced,
+      Highlight? highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -112,11 +112,11 @@ class LineChartPainter extends BarLineChartBasePainter<LineData> implements Line
   @override
   void initDefaultWithData() {
     super.initDefaultWithData();
-    renderer = LineChartRenderer(this, animator, viewPortHandler);
+    renderer = LineChartRenderer(this, animator, viewPortHandler!);
   }
 
   @override
   LineData getLineData() {
-    return getData();
+    return getData() as LineData;
   }
 }

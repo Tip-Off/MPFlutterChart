@@ -3,16 +3,16 @@ import 'dart:ui' as ui;
 
 class CandleEntry extends Entry {
   /// shadow-high value
-  double _shadowHigh = 0;
+  late double _shadowHigh;
 
   /// shadow-low value
-  double _shadowLow = 0;
+  late double _shadowLow;
 
   /// close value
-  double _close = 0;
+  late double _close;
 
   /// open value
-  double _open = 0;
+  late double _open;
 
   final double volume;
 
@@ -21,13 +21,13 @@ class CandleEntry extends Entry {
   CandleEntry({
     this.volume = 0,
     this.highlighted = false,
-    double x,
-    double shadowH,
-    double shadowL,
-    double open,
-    double close,
-    ui.Image icon,
-    Object data,
+    required double x,
+    required double shadowH,
+    required double shadowL,
+    required double open,
+    required double close,
+    ui.Image? icon,
+    Object? data,
   }) : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
     _shadowHigh = shadowH;
     _shadowLow = shadowL;

@@ -11,7 +11,7 @@ import 'package:mp_chart/mp/core/poolable/point.dart';
 
 class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> implements IHighlighter {
   /// instance of the data-provider
-  T _provider;
+  late T _provider;
 
   /// buffer for storing previously highlighted values
   final List<Highlight> _highlightBuffer = <Highlight>[];
@@ -25,12 +25,13 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   List<Highlight> get highlightBuffer => _highlightBuffer;
 
   @override
-  Highlight getHighlight(double x, double y) {
+  Highlight? getHighlight(double x, double y) {
     var pos = getValsForTouch(x, y);
     var xVal = pos.x;
     var yVal = pos.y;
     MPPointD.recycleInstance2(pos);
     var high = getHighlightForX(xVal, yVal, x, y);
+
     return high;
   }
 
@@ -42,7 +43,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   /// @return
   MPPointD getValsForTouch(double x, double y) {
     // take any transformer to determine the x-axis value
-    var pos = _provider.getTransformer(AxisDependency.LEFT).getValuesByTouchPoint1(x, y);
+    var pos = _provider.getTransformer(AxisDependency.LEFT)!.getValuesByTouchPoint1(x, y);
     return pos;
   }
 
@@ -52,7 +53,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   /// @param x
   /// @param y
   /// @return
-  Highlight getHighlightForX(double xVal, double yVal, double x, double y) {
+  Highlight? getHighlightForX(double xVal, double yVal, double x, double y) {
     var closestValues = getHighlightsAtXValue(xVal, x, y);
 
     if (closestValues.isEmpty) {
@@ -64,7 +65,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
 
     var axis = leftAxisMinDist < rightAxisMinDist ? AxisDependency.LEFT : AxisDependency.RIGHT;
 
-    var detail = getClosestHighlightByPixel(closestValues, x, y, axis, _provider.getMaxHighlightDistance());
+    var detail = getClosestHighlightByPixel(closestValues, x, y, axis, _provider.getMaxHighlightDistance())!;
 
     detail.freeX = xVal;
     detail.freeY = yVal;
@@ -110,12 +111,10 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   List<Highlight> getHighlightsAtXValue(double xVal, double x, double y) {
     _highlightBuffer.clear();
 
-    var data = getData();
-
-    if (data == null) return _highlightBuffer;
+    var data = getData()!;
 
     for (var i = 0, dataSetCount = data.getDataSetCount(); i < dataSetCount; i++) {
-      IDataSet dataSet = data.getDataSetByIndex(i);
+      IDataSet dataSet = data.getDataSetByIndex(i)!;
 
       // don't include DataSets that cannot be highlighted
       if (!dataSet.isHighlightEnabled()) continue;
@@ -150,7 +149,7 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
     if (entries.isEmpty) return highlights;
 
     for (var e in entries) {
-      var pixels = _provider.getTransformer(set.getAxisDependency()).getPixelForValues(e.x, e.y);
+      var pixels = _provider.getTransformer(set.getAxisDependency())!.getPixelForValues(e.x, e.y);
 
       highlights.add(Highlight(x: e.x, y: e.y, xPx: pixels.x, yPx: pixels.y, dataSetIndex: dataSetIndex, axis: set.getAxisDependency()));
     }
@@ -168,8 +167,8 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   /// @param axis                 the closest axis
   /// @param minSelectionDistance
   /// @return
-  Highlight getClosestHighlightByPixel(List<Highlight> closestValues, double x, double y, AxisDependency axis, double minSelectionDistance) {
-    Highlight closest;
+  Highlight? getClosestHighlightByPixel(List<Highlight> closestValues, double x, double y, AxisDependency? axis, double minSelectionDistance) {
+    Highlight? closest;
     var distance = minSelectionDistance;
 
     for (var i = 0; i < closestValues.length; i++) {
@@ -195,12 +194,12 @@ class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> impleme
   /// @param y2
   /// @return
   double getDistance(double x1, double y1, double x2, double y2) {
-    double x = pow((x1 - x2), 2);
-    double y = pow((y1 - y2), 2);
+    var x = pow((x1 - x2), 2);
+    var y = pow((y1 - y2), 2);
     return sqrt(x + y);
   }
 
-  BarLineScatterCandleBubbleData getData() {
+  BarLineScatterCandleBubbleData? getData() {
     return _provider.getData();
   }
 }

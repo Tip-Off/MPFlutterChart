@@ -1,12 +1,13 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
 
 class DefaultAxisValueFormatter extends ValueFormatter {
   /// decimalformat for formatting
-  NumberFormat _format;
+  NumberFormat? _format;
 
   /// the number of decimal digits this formatter uses
-  int _digits;
+  late int _digits;
 
   /// Constructor that specifies to how many digits the value should be
   /// formatted.
@@ -27,7 +28,7 @@ class DefaultAxisValueFormatter extends ValueFormatter {
   @override
   String getFormattedValue1(double value) {
     // avoid memory allocations here (for performance)
-    return _format.format(value);
+    return _format!.format(value);
   }
 
   int get digits => _digits;

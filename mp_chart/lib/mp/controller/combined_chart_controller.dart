@@ -17,7 +17,7 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
   bool highlightFullBarEnabled;
   bool drawBarShadow;
   bool fitBars;
-  List<DrawOrder> drawOrder;
+  List<DrawOrder>? drawOrder;
 
   double _initialXZoom = 0;
   final int initialXPosition;
@@ -45,32 +45,32 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
       bool drawBorders = false,
       bool clipValuesToContent = false,
       double minOffset = 30.0,
-      OnDrawListener drawListener,
-      YAxis axisLeft,
-      YAxis axisRight,
-      YAxisRenderer axisRendererLeft,
-      YAxisRenderer axisRendererRight,
-      Transformer leftAxisTransformer,
-      Transformer rightAxisTransformer,
-      XAxisRenderer xAxisRenderer,
+      OnDrawListener? drawListener,
+      YAxis? axisLeft,
+      YAxis? axisRight,
+      YAxisRenderer? axisRendererLeft,
+      YAxisRenderer? axisRendererRight,
+      Transformer? leftAxisTransformer,
+      Transformer? rightAxisTransformer,
+      XAxisRenderer? xAxisRenderer,
       bool customViewPortEnabled = false,
-      Matrix4 zoomMatrixBuffer,
+      Matrix4? zoomMatrixBuffer,
       bool pinchZoomEnabled = true,
       bool keepPositionOnRotation = false,
-      Paint gridBackgroundPaint,
-      Paint borderPaint,
-      Color backgroundColor,
-      Color gridBackColor,
-      Color borderColor,
+      Paint? gridBackgroundPaint,
+      Paint? borderPaint,
+      Color? backgroundColor,
+      Color? gridBackColor,
+      Color? borderColor,
       double borderStrokeWidth = 1.0,
-      AxisLeftSettingFunction axisLeftSettingFunction,
-      AxisRightSettingFunction axisRightSettingFunction,
-      OnTouchEventListener touchEventListener,
+      AxisLeftSettingFunction? axisLeftSettingFunction,
+      AxisRightSettingFunction? axisRightSettingFunction,
+      OnTouchEventListener? touchEventListener,
       String noDataText = 'No chart data available.',
-      XAxisSettingFunction xAxisSettingFunction,
-      LegendSettingFunction legendSettingFunction,
-      DataRendererSettingFunction rendererSettingFunction,
-      OnChartValueSelectedListener selectionListener,
+      XAxisSettingFunction? xAxisSettingFunction,
+      LegendSettingFunction? legendSettingFunction,
+      DataRendererSettingFunction? rendererSettingFunction,
+      OnChartValueSelectedListener? selectionListener,
       double maxHighlightDistance = 100.0,
       bool highLightPerTapEnabled = true,
       double extraTopOffset = 0.0,
@@ -80,9 +80,9 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
       double infoTextSize = 12,
-      Color infoTextColor,
-      Color infoBgColor,
-      ChartTransListener chartTransListener})
+      Color? infoTextColor,
+      Color? infoBgColor,
+      ChartTransListener? chartTransListener})
       : super(
             specialMoveEnabled: specialMoveEnabled,
             highlightMagneticSetEnabled: highlightMagneticSetEnabled,
@@ -138,31 +138,31 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
             chartTransListener: chartTransListener);
 
   @override
-  CombinedData get data => super.data;
+  CombinedData? get data => super.data as CombinedData?;
 
   @override
-  CombinedChartPainter get painter => super.painter;
+  CombinedChartPainter? get painter => super.painter;
 
   @override
-  CombinedChartState get state => super.state;
+  CombinedChartState? get state => super.state as CombinedChartState;
 
   @override
   void initialPainter() {
     painter = CombinedChartPainter(
-        data,
-        painter != null ? painter.highlightForced : null,
+        data!,
+        painter != null ? painter!.highlightForced : null,
         animator,
-        viewPortHandler,
+        viewPortHandler!,
         maxHighlightDistance,
         highLightPerTapEnabled,
         extraLeftOffset,
         extraTopOffset,
         extraRightOffset,
         extraBottomOffset,
-        infoBgColor,
-        infoPaint,
-        xAxis,
-        legend,
+        infoBgColor!,
+        infoPaint!,
+        xAxis!,
+        legend!,
         rendererSettingFunction,
         selectionListener,
         maxVisibleCount,
@@ -174,41 +174,41 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
         dragYEnabled,
         scaleXEnabled,
         scaleYEnabled,
-        gridBackgroundPaint,
-        backgroundPaint,
-        borderPaint,
+        gridBackgroundPaint!,
+        backgroundPaint!,
+        borderPaint!,
         drawGridBackground,
         drawBorders,
         clipValuesToContent,
         minOffset,
         keepPositionOnRotation,
         drawListener,
-        axisLeft,
-        axisRight,
-        axisRendererLeft,
-        axisRendererRight,
-        leftAxisTransformer,
-        rightAxisTransformer,
-        xAxisRenderer,
-        zoomMatrixBuffer,
+        axisLeft!,
+        axisRight!,
+        axisRendererLeft!,
+        axisRendererRight!,
+        leftAxisTransformer!,
+        rightAxisTransformer!,
+        xAxisRenderer!,
+        zoomMatrixBuffer!,
         customViewPortEnabled,
         highlightFullBarEnabled,
         drawValueAboveBar,
         drawBarShadow,
         fitBars,
         drawOrder,
-        chartTransListener);
+        chartTransListener!);
 
     initialParameters();
   }
 
   void initialParameters() {
     if (initialXRange > 0) {
-      _initialXZoom = _initialXZoom == 1 ? 1 : ((data.xMax - 1) - data.xMin).abs() / initialXRange;
+      _initialXZoom = _initialXZoom == 1 ? 1 : ((data!.xMax - 1) - data!.xMin).abs() / initialXRange;
 
-      var matrix = viewPortHandler.getMatrixTouch();
-      viewPortHandler.zoom2(_initialXZoom, 0, matrix);
-      viewPortHandler.refresh(matrix);
+      var matrix = viewPortHandler!.getMatrixTouch();
+      viewPortHandler!.zoom2(_initialXZoom, 0, matrix);
+      viewPortHandler!.refresh(matrix);
 
       _initialXZoom = 1;
     }

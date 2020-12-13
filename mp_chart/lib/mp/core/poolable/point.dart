@@ -26,18 +26,18 @@ class MPPointF extends Poolable {
   }
 
   static MPPointF getInstance1(double x, double y) {
-    MPPointF result = pool.get();
+    var result = pool.get() as MPPointF;
     result._x = x;
     result._y = y;
     return result;
   }
 
   static MPPointF getInstance2() {
-    return pool.get();
+    return pool.get() as MPPointF;
   }
 
   static MPPointF getInstance3(MPPointF copy) {
-    MPPointF result = pool.get();
+    var result = pool.get() as MPPointF;
     result._x = copy._x;
     result._y = copy._y;
     return result;
@@ -63,7 +63,7 @@ class MPPointD extends Poolable {
   static ObjectPool<Poolable> pool = ObjectPool.create(64, MPPointD(0, 0))..setReplenishPercentage(0.5);
 
   static MPPointD getInstance1(double x, double y) {
-    MPPointD result = pool.get();
+    var result = pool.get() as MPPointD;
     result.x = x;
     result.y = y;
     return result;
@@ -105,17 +105,17 @@ abstract class Poolable {
 class ObjectPool<T extends Poolable> {
   static int ids = 0;
 
-  int poolId;
-  int desiredCapacity;
-  List<Object> objects;
-  int objectsPointer;
-  T modelObject;
-  double replenishPercentage;
+  int? poolId;
+  late int desiredCapacity;
+  late List<Object?> objects;
+  late int objectsPointer;
+  late T modelObject;
+  late double replenishPercentage;
 
   /// Returns the id of the given pool instance.
   ///
   /// @return an integer ID belonging to this pool instance.
-  int getPoolId() {
+  int? getPoolId() {
     return poolId;
   }
 
@@ -137,7 +137,7 @@ class ObjectPool<T extends Poolable> {
       throw Exception('Object Pool must be instantiated with a capacity greater than 0!');
     }
     desiredCapacity = withCapacity;
-    objects = List(desiredCapacity);
+    objects = List.filled(desiredCapacity, null);
     objectsPointer = 0;
     modelObject = object;
     replenishPercentage = 1.0;
@@ -191,7 +191,7 @@ class ObjectPool<T extends Poolable> {
       refillPool1();
     }
 
-    T result = objects[objectsPointer];
+    var result = objects[objectsPointer]! as T;
     result.currentOwnerId = Poolable.NO_OWNER;
     objectsPointer--;
 
@@ -217,7 +217,7 @@ class ObjectPool<T extends Poolable> {
       resizePool();
     }
 
-    object.currentOwnerId = poolId;
+    object.currentOwnerId = poolId!;
     objects[objectsPointer] = object;
   }
 
@@ -242,7 +242,7 @@ class ObjectPool<T extends Poolable> {
               'The object to recycle already belongs to poolId ${object.currentOwnerId}.  Object cannot belong to two different pool instances simultaneously!');
         }
       }
-      object.currentOwnerId = poolId;
+      object.currentOwnerId = poolId!;
       this.objects[objectsPointer + 1 + i] = object;
     }
     objectsPointer += objectsListSize;
@@ -251,7 +251,7 @@ class ObjectPool<T extends Poolable> {
   void resizePool() {
     final oldCapacity = desiredCapacity;
     desiredCapacity *= 2;
-    var temp = List<Object>(desiredCapacity);
+    var temp = List<Object?>.filled(desiredCapacity, null);
     for (var i = 0; i < oldCapacity; i++) {
       temp[i] = objects[i];
     }

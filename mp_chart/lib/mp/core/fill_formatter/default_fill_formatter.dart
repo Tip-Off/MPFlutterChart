@@ -9,7 +9,7 @@ class DefaultFillFormatter implements IFillFormatter {
     var chartMaxY = dataProvider.getYChartMax();
     var chartMinY = dataProvider.getYChartMin();
 
-    var data = dataProvider.getLineData();
+    var data = dataProvider.getLineData()!;
 
     if (dataSet.getYMax() > 0 && dataSet.getYMin() < 0) {
       fillMin = 0;

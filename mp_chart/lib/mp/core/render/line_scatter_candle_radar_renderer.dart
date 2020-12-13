@@ -22,8 +22,8 @@ abstract class LineScatterCandleRadarRenderer extends BarLineScatterCandleBubble
     if (set.isVerticalHighlightIndicatorEnabled()) {
       // create vertical path
       _highlightLinePath.reset();
-      _highlightLinePath.moveTo(x, viewPortHandler.contentTop());
-      _highlightLinePath.lineTo(x, viewPortHandler.contentBottom());
+      _highlightLinePath.moveTo(x, viewPortHandler!.contentTop());
+      _highlightLinePath.lineTo(x, viewPortHandler!.contentBottom());
 
       if (set.isHighlightLineDashed()) {
         highlightPaint = Painter.get(ImageStore.getVerticalDashed(), strokeWidth: set.getHighlightLineWidth(), color: set.getHighLightColor());
@@ -36,8 +36,8 @@ abstract class LineScatterCandleRadarRenderer extends BarLineScatterCandleBubble
     if (set.isHorizontalHighlightIndicatorEnabled()) {
       // create horizontal path
       _highlightLinePath.reset();
-      _highlightLinePath.moveTo(viewPortHandler.contentLeft(), y);
-      _highlightLinePath.lineTo(viewPortHandler.contentRight(), y);
+      _highlightLinePath.moveTo(viewPortHandler!.contentLeft(), y);
+      _highlightLinePath.lineTo(viewPortHandler!.contentRight(), y);
 
       if (set.isHighlightLineDashed()) {
         highlightPaint = Painter.get(ImageStore.getHorizontalDashed(), strokeWidth: set.getHighlightLineWidth(), color: set.getHighLightColor());

@@ -16,7 +16,7 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   Mode _mode = Mode.LINEAR;
 
   /// List representing all colors that are used for the circles
-  List<Color> _circleColors;
+  List<Color> _circleColors = [];
 
   /// the color of the inner circles
   Color _circleHoleColor = ColorUtils.WHITE;
@@ -30,7 +30,7 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   /// sets the intensity of the cubic lines
   double _cubicIntensity = 0.2;
 
-  bool _isDashed;
+  bool _isDashed = false;
 
   /// formatter for customizing the position of the fill-line
   IFillFormatter _fillFormatter = DefaultFillFormatter();
@@ -41,9 +41,6 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   bool mDrawCircleHole = true;
 
   LineDataSet(List<Entry> yVals, String label) : super(yVals, label) {
-    _circleColors ??= [];
-    _circleColors.clear();
-
     _circleColors.add(Color.fromARGB(255, 140, 234, 255));
   }
 
@@ -219,7 +216,6 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
 
   /// resets the circle-colors array and creates a  one
   void resetCircleColors() {
-    _circleColors ??= [];
     _circleColors.clear();
   }
 
@@ -251,7 +247,7 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
   /// filled-line for each DataSet. Set this to null to use the default logic.
   ///
   /// @param formatter
-  void setFillFormatter(IFillFormatter formatter) {
+  void setFillFormatter(IFillFormatter? formatter) {
     if (formatter == null) {
       _fillFormatter = DefaultFillFormatter();
     } else {

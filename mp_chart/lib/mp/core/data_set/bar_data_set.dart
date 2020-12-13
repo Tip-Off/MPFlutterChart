@@ -92,7 +92,7 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
   }
 
   @override
-  void calcMinMax1(BarEntry e) {
+  void calcMinMax1(BarEntry? e) {
     if (e != null && !e.y.isNaN) {
       if (e.yVals == null) {
         if (e.y < getYMin()) yMin = e.y;

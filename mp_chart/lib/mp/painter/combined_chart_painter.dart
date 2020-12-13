@@ -36,11 +36,11 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
   /// maximum value
   bool _drawBarShadow = false;
 
-  List<DrawOrder> _drawOrder;
+  List<DrawOrder>? _drawOrder;
 
   CombinedChartPainter(
       CombinedData data,
-      Highlight highlightForced,
+      Highlight? highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -53,8 +53,8 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
       TextPainter infoPainter,
       XAxis xAxis,
       Legend legend,
-      DataRendererSettingFunction rendererSettingFunction,
-      OnChartValueSelectedListener selectedListener,
+      DataRendererSettingFunction? rendererSettingFunction,
+      OnChartValueSelectedListener? selectedListener,
       int maxVisibleCount,
       bool autoScaleMinMaxEnabled,
       bool pinchZoomEnabled,
@@ -72,7 +72,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
       bool clipValuesToContent,
       double minOffset,
       bool keepPositionOnRotation,
-      OnDrawListener drawListener,
+      OnDrawListener? drawListener,
       YAxis axisLeft,
       YAxis axisRight,
       YAxisRenderer axisRendererLeft,
@@ -86,7 +86,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
       bool drawValueAboveBar,
       bool drawBarShadow,
       bool fitBars,
-      List<DrawOrder> drawOrder,
+      List<DrawOrder>? drawOrder,
       ChartTransListener chartTransListener)
       : _drawBarShadow = drawBarShadow,
         _highlightFullBarEnabled = highlightFullBarEnabled,
@@ -147,14 +147,14 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
     super.initDefaultWithData();
     _drawOrder ??= initDrawOrder();
     highlighter = CombinedHighlighter(this, this);
-    renderer = CombinedChartRenderer(this, animator, viewPortHandler);
+    renderer = CombinedChartRenderer(this, animator, viewPortHandler!);
     (renderer as CombinedChartRenderer).createRenderers();
-    renderer.initBuffers();
+    renderer!.initBuffers();
   }
 
   @override
-  CombinedData getCombinedData() {
-    return getData();
+  CombinedData? getCombinedData() {
+    return getData() as CombinedData?;
   }
 
   /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch
@@ -165,11 +165,11 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
   /// @param y
   /// @return
   @override
-  Highlight getHighlightByTouchPoint(double x, double y) {
+  Highlight? getHighlightByTouchPoint(double x, double y) {
     if (getCombinedData() == null) {
       return null;
     } else {
-      var h = highlighter.getHighlight(x, y);
+      var h = highlighter?.getHighlight(x, y);
       if (h == null || !isHighlightFullBarEnabled()) return h;
 
       // For isHighlightFullBarEnabled, remove stackIndex
@@ -180,27 +180,27 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
   }
 
   @override
-  LineData getLineData() {
+  LineData? getLineData() {
     if (getCombinedData() == null) return null;
-    return getCombinedData().getLineData();
+    return getCombinedData()!.getLineData();
   }
 
   @override
-  BarData getBarData() {
+  BarData? getBarData() {
     if (getCombinedData() == null) return null;
-    return getCombinedData().getBarData();
+    return getCombinedData()!.getBarData();
   }
 
   @override
-  ScatterData getScatterData() {
+  ScatterData? getScatterData() {
     if (getCombinedData() == null) return null;
-    return getCombinedData().getScatterData();
+    return getCombinedData()!.getScatterData();
   }
 
   @override
-  CandleData getCandleData() {
+  CandleData? getCandleData() {
     if (getCombinedData() == null) return null;
-    return getCombinedData().getCandleData();
+    return getCombinedData()!.getCandleData();
   }
 
   @override
@@ -246,7 +246,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
   /// Returns the currently set draw order.
   ///
   /// @return
-  List<DrawOrder> getDrawOrder() {
+  List<DrawOrder>? getDrawOrder() {
     return _drawOrder;
   }
 
@@ -256,7 +256,7 @@ class CombinedChartPainter extends BarLineChartBasePainter<CombinedData> impleme
   /// DrawOrder.LINE }, the bars will be drawn behind the lines.
   ///
   /// @param order
-  void setDrawOrder(List<DrawOrder> order) {
+  void setDrawOrder(List<DrawOrder>? order) {
     if (order == null || order.isEmpty) return;
     _drawOrder = order;
   }

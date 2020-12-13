@@ -20,24 +20,24 @@ class AxisHighlightRenderOpt {
 
 abstract class AxisRenderer extends Renderer {
   /// base axis this axis renderer works with */
-  AxisBase _axis;
+  late AxisBase _axis;
 
   /// transformer to transform values to screen pixels and return */
-  Transformer _trans;
+  late Transformer _trans;
 
   /// paint object for the grid lines
-  Paint _gridPaint;
+  Paint? _gridPaint;
 
   /// paint for the x-label values
-  TextPainter _axisLabelPaint;
+  TextPainter? _axisLabelPaint;
 
   /// paint for the line surrounding the chart
-  Paint _axisLinePaint;
+  Paint? _axisLinePaint;
 
   /// paint used for the limit lines
-  Paint _limitLinePaint;
+  Paint? _limitLinePaint;
 
-  AxisRenderer(ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis) : super(viewPortHandler) {
+  AxisRenderer(ViewPortHandler? viewPortHandler, Transformer trans, AxisBase axis) : super(viewPortHandler) {
     _trans = trans;
     _axis = axis;
     if (viewPortHandler != null) {
@@ -71,34 +71,34 @@ abstract class AxisRenderer extends Renderer {
   }
 
   // ignore: unnecessary_getters_setters
-  Paint get axisLinePaint => _axisLinePaint;
+  Paint? get axisLinePaint => _axisLinePaint;
 
   // ignore: unnecessary_getters_setters
-  set axisLinePaint(Paint value) {
+  set axisLinePaint(Paint? value) {
     _axisLinePaint = value;
   }
 
   // ignore: unnecessary_getters_setters
-  TextPainter get axisLabelPaint => _axisLabelPaint;
+  TextPainter? get axisLabelPaint => _axisLabelPaint;
 
   // ignore: unnecessary_getters_setters
-  set axisLabelPaint(TextPainter value) {
+  set axisLabelPaint(TextPainter? value) {
     _axisLabelPaint = value;
   }
 
   // ignore: unnecessary_getters_setters
-  Paint get gridPaint => _gridPaint;
+  Paint? get gridPaint => _gridPaint;
 
   // ignore: unnecessary_getters_setters
-  set gridPaint(Paint value) {
+  set gridPaint(Paint? value) {
     _gridPaint = value;
   }
 
   // ignore: unnecessary_getters_setters
-  Paint get limitLinePaint => _limitLinePaint;
+  Paint? get limitLinePaint => _limitLinePaint;
 
   // ignore: unnecessary_getters_setters
-  set limitLinePaint(Paint value) {
+  set limitLinePaint(Paint? value) {
     _limitLinePaint = value;
   }
 
@@ -109,9 +109,9 @@ abstract class AxisRenderer extends Renderer {
   void computeAxis(double min, double max, bool inverted) {
     // calculate the starting and entry point of the y-labels (depending on
     // zoom / contentrect bounds)
-    if (viewPortHandler != null && viewPortHandler.contentWidth() > 10 && !viewPortHandler.isFullyZoomedOutY()) {
-      var p1 = _trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentTop());
-      var p2 = _trans.getValuesByTouchPoint1(viewPortHandler.contentLeft(), viewPortHandler.contentBottom());
+    if (viewPortHandler != null && viewPortHandler!.contentWidth() > 10 && !viewPortHandler!.isFullyZoomedOutY()) {
+      var p1 = _trans.getValuesByTouchPoint1(viewPortHandler!.contentLeft(), viewPortHandler!.contentTop());
+      var p2 = _trans.getValuesByTouchPoint1(viewPortHandler!.contentLeft(), viewPortHandler!.contentBottom());
 
       if (!inverted) {
         min = p2.y;
@@ -155,7 +155,7 @@ abstract class AxisRenderer extends Renderer {
 
     // Normalize interval
     try {
-      var intervalMagnitude = Utils.roundToNextSignificant(pow(10.0, log(interval) ~/ ln10));
+      var intervalMagnitude = Utils.roundToNextSignificant(pow(10.0, log(interval) ~/ ln10) as double);
       var intervalSigDigit = interval ~/ intervalMagnitude;
       if (intervalSigDigit > 5) {
         // Use one order of magnitude higher, to avoid intervals like 0.9 or
@@ -175,7 +175,7 @@ abstract class AxisRenderer extends Renderer {
 
       if (_axis.entries.length < labelCount) {
         // Ensure stops contains at least numStops elements.
-        _axis.entries = List(labelCount);
+        _axis.entries = List.filled(labelCount, 0.0);
       }
 
       var v = min;
@@ -209,7 +209,7 @@ abstract class AxisRenderer extends Renderer {
 
       if (_axis.entries.length < num) {
         // Ensure stops contains at least numStops elements.
-        _axis.entries = List(num);
+        _axis.entries = List.filled(num, 0.0);
       }
 
       i = 0;
@@ -231,7 +231,7 @@ abstract class AxisRenderer extends Renderer {
 
     if (_axis.isCenterAxisLabelsEnabled()) {
       if (_axis.centeredEntries.length < num) {
-        _axis.centeredEntries = List(num);
+        _axis.centeredEntries = List.filled(num, 0.0);
       }
 
       var offset = interval ~/ 2;

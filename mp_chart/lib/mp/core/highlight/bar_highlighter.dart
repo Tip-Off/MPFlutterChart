@@ -12,7 +12,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   BarHighlighter(BarDataProvider chart) : super(chart);
 
   @override
-  Highlight getHighlight(double x, double y) {
+  Highlight? getHighlight(double x, double y) {
     var high = super.getHighlight(x, y);
 
     if (high == null) {
@@ -23,7 +23,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
 
     var barData = provider.getBarData();
 
-    var set = barData.getDataSetByIndex(high.dataSetIndex);
+    var set = barData!.getDataSetByIndex(high.dataSetIndex)!;
     if (set.isStacked()) {
       return getStackedHighlight(high, set, pos.x, pos.y);
     }
@@ -41,7 +41,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @param xVal
   /// @param yVal
   /// @return
-  Highlight getStackedHighlight(Highlight high, IBarDataSet set, double xVal, double yVal) {
+  Highlight? getStackedHighlight(Highlight high, IBarDataSet set, double xVal, double yVal) {
     var entry = set.getEntryForXValue2(xVal, yVal);
 
     if (entry == null) return null;
@@ -55,7 +55,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
       if (ranges.isNotEmpty) {
         var stackIndex = getClosestStackIndex(ranges, yVal);
 
-        var pixels = provider.getTransformer(set.getAxisDependency()).getPixelForValues(high.x, ranges[stackIndex].to);
+        var pixels = provider.getTransformer(set.getAxisDependency())!.getPixelForValues(high.x, ranges[stackIndex].to);
 
         var stackedHigh =
             Highlight(x: entry.x, y: entry.y, xPx: pixels.x, yPx: pixels.y, dataSetIndex: high.dataSetIndex, stackIndex: stackIndex, axis: high.axis);
@@ -75,7 +75,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   /// @param ranges
   /// @param value
   /// @return
-  int getClosestStackIndex(List<Range> ranges, double value) {
+  int getClosestStackIndex(List<Range>? ranges, double value) {
     if (ranges == null || ranges.isEmpty) return 0;
     var stackIndex = 0;
     for (var range in ranges) {
@@ -95,7 +95,7 @@ class BarHighlighter extends ChartHighlighter<BarDataProvider> {
   }
 
   @override
-  BarLineScatterCandleBubbleData getData() {
+  BarLineScatterCandleBubbleData? getData() {
     return provider.getBarData();
   }
 }

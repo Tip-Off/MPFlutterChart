@@ -8,7 +8,7 @@ abstract class ImageLoader {
   // images/start.jpg
   static Future<Image> loadImage(String path) async {
     final data = await rootBundle.load(path);
-    List<int> img = Uint8List.view(data.buffer);
+    var img = Uint8List.view(data.buffer);
     final completer = Completer<Image>();
     decodeImageFromList(img, (Image img) {
       return completer.complete(img);

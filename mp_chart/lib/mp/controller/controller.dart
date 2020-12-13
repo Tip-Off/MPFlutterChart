@@ -14,16 +14,16 @@ import 'package:mp_chart/mp/painter/painter.dart';
 import 'package:optimized_gesture_detector/gesture_dectetor.dart';
 
 abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListener {
-  ChartState state;
-  ChartData data;
-  Animator animator;
-  P _painter;
+  ChartState? state;
+  ChartData? data;
+  late Animator animator;
+  P? _painter;
 
   ////// needed
-  ViewPortHandler viewPortHandler;
-  XAxis xAxis;
-  Legend legend;
-  OnChartValueSelectedListener selectionListener;
+  ViewPortHandler? viewPortHandler;
+  XAxis? xAxis;
+  Legend? legend;
+  OnChartValueSelectedListener? selectionListener;
 
   ////// option
   double maxHighlightDistance;
@@ -31,15 +31,15 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
   double extraTopOffset, extraRightOffset, extraBottomOffset, extraLeftOffset;
 
   ////// split child property
-  Color infoBgColor;
-  TextPainter infoPaint;
+  Color? infoBgColor;
+  TextPainter? infoPaint;
 
-  XAxisSettingFunction xAxisSettingFunction;
-  LegendSettingFunction legendSettingFunction;
-  DataRendererSettingFunction rendererSettingFunction;
+  XAxisSettingFunction? xAxisSettingFunction;
+  LegendSettingFunction? legendSettingFunction;
+  DataRendererSettingFunction? rendererSettingFunction;
 
-  CanDragDownFunction horizontalConflictResolveFunc;
-  CanDragDownFunction verticalConflictResolveFunc;
+  CanDragDownFunction? horizontalConflictResolveFunc;
+  CanDragDownFunction? verticalConflictResolveFunc;
 
   Controller(
       {this.viewPortHandler,
@@ -55,7 +55,7 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
       bool resolveGestureHorizontalConflict = false,
       bool resolveGestureVerticalConflict = false,
       double infoTextSize = 12,
-      Color infoTextColor,
+      Color? infoTextColor,
       this.infoBgColor,
       this.infoPaint,
       String noDataText = 'No chart data available.',
@@ -90,11 +90,11 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
   Legend initLegend() => Legend();
 
-  OnChartValueSelectedListener initSelectionListener() => null;
+  OnChartValueSelectedListener? initSelectionListener() => null;
 
   ChartState createChartState() {
     state = createRealState();
-    return state;
+    return state!;
   }
 
   ChartState createRealState();
@@ -103,10 +103,10 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
     legend = initLegend();
     xAxis ??= initXAxis();
     if (legendSettingFunction != null) {
-      legendSettingFunction(legend, this);
+      legendSettingFunction!(legend, this);
     }
     if (xAxisSettingFunction != null) {
-      xAxisSettingFunction(xAxis, this);
+      xAxisSettingFunction!(xAxis, this);
     }
   }
 
@@ -114,17 +114,15 @@ abstract class Controller<P extends ChartPainter> implements AnimatorUpdateListe
 
   @override
   void onAnimationUpdate(double x, double y) {
-    state?.setStateIfNotDispose();
+    state!.setStateIfNotDispose();
   }
 
   @override
   void onRotateUpdate(double angle) {}
 
-  // ignore: unnecessary_getters_setters
-  P get painter => _painter;
+  P? get painter => _painter;
 
-  // ignore: unnecessary_getters_setters
-  set painter(P value) {
+  set painter(P? value) {
     _painter = value;
   }
 }

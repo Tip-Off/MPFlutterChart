@@ -19,7 +19,7 @@ import 'package:mp_chart/mp/core/highlight/highlight.dart';
 class CandlestickChartPainter extends BarLineChartBasePainter<CandleData> implements CandleDataProvider {
   CandlestickChartPainter(
       CandleData data,
-      Highlight highlightForced,
+      Highlight? highlightForced,
       Animator animator,
       ViewPortHandler viewPortHandler,
       double maxHighlightDistance,
@@ -111,13 +111,13 @@ class CandlestickChartPainter extends BarLineChartBasePainter<CandleData> implem
   @override
   void initDefaultWithData() {
     super.initDefaultWithData();
-    renderer = CandleStickChartRenderer(this, animator, viewPortHandler);
-    xAxis.spaceMin = (0.5);
-    xAxis.spaceMax = (0.5);
+    renderer = CandleStickChartRenderer(this, animator, viewPortHandler!);
+    xAxis!.spaceMin = (0.5);
+    xAxis!.spaceMax = (0.5);
   }
 
   @override
   CandleData getCandleData() {
-    return getData();
+    return getData() as CandleData;
   }
 }

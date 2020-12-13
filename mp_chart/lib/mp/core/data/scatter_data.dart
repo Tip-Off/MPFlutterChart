@@ -12,7 +12,7 @@ class ScatterData extends BarLineScatterCandleBubbleData<IScatterDataSet> {
   double getGreatestShapeSize() {
     var max = 0.0;
 
-    for (var set in dataSets) {
+    for (var set in dataSets!) {
       var size = set.getScatterShapeSize();
 
       if (size > max) max = size;

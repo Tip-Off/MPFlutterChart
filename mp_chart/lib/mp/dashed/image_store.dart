@@ -5,8 +5,8 @@ import 'orientation.dart';
 import 'dart:ui' as ui;
 
 class ImageStore {
-  static ui.Image _horizontalDashed;
-  static ui.Image _verticalDashed;
+  static late ui.Image _horizontalDashed;
+  static late ui.Image _verticalDashed;
 
   static ui.Image getHorizontalDashed() => _horizontalDashed;
   static ui.Image getVerticalDashed() => _verticalDashed;

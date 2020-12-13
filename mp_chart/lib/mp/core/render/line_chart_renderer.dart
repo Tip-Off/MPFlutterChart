@@ -18,11 +18,12 @@ import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
+import 'package:collection/collection.dart';
 
 class LineChartRenderer extends LineScatterCandleRadarRenderer {
-  LineDataProvider _provider;
+  late LineDataProvider _provider;
 
-  TextPainter _labelText;
+  late TextPainter _labelText;
 
   LineChartRenderer(LineDataProvider chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
     _provider = chart;
@@ -37,9 +38,9 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   void drawData(Canvas c) {
-    var lineData = _provider.getLineData();
+    var lineData = _provider.getLineData()!;
 
-    for (var set in lineData.dataSets) {
+    for (var set in lineData.dataSets!) {
       if (set.isVisible()) drawDataSet(c, set);
     }
   }
@@ -52,7 +53,7 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
     drawLinear(c, dataSet);
   }
 
-  List<double> mLineBuffer = List(4);
+  List<double> mLineBuffer = List.filled(4, 0.0);
 
   void drawLinear(Canvas canvas, ILineDataSet dataSet) {
     var entryCount = dataSet.getEntryCount();
@@ -70,16 +71,16 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
     // more than 1 color
     if (dataSet.getColors().length > 1) {
-      if (mLineBuffer.length <= pointsPerEntryPair * 2) mLineBuffer = List(pointsPerEntryPair * 4);
+      if (mLineBuffer.length <= pointsPerEntryPair * 2) mLineBuffer = List.filled(pointsPerEntryPair * 4, 0.0);
 
-      for (var j = xBounds.min; j <= xBounds.range + xBounds.min; j++) {
+      for (var j = xBounds.min!; j <= xBounds.range! + xBounds.min!; j++) {
         var e = dataSet.getEntryForIndex(j);
         if (e == null) continue;
 
         mLineBuffer[0] = e.x;
         mLineBuffer[1] = e.y * phaseY;
 
-        if (j < xBounds.max) {
+        if (j < xBounds.max!) {
           e = dataSet.getEntryForIndex(j + 1);
 
           if (e == null) break;
@@ -100,13 +101,13 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
           mLineBuffer[3] = mLineBuffer[1];
         }
 
-        trans.pointValuesToPixel(mLineBuffer);
+        trans!.pointValuesToPixel(mLineBuffer);
 
-        if (!viewPortHandler.isInBoundsRight(mLineBuffer[0])) break;
+        if (!viewPortHandler!.isInBoundsRight(mLineBuffer[0])) break;
 
         // make sure the lines don't do shitty things outside bounds
-        if (!viewPortHandler.isInBoundsLeft(mLineBuffer[2]) ||
-            (!viewPortHandler.isInBoundsTop(mLineBuffer[1]) && !viewPortHandler.isInBoundsBottom(mLineBuffer[3]))) continue;
+        if (!viewPortHandler!.isInBoundsLeft(mLineBuffer[2]) ||
+            (!viewPortHandler!.isInBoundsTop(mLineBuffer[1]) && !viewPortHandler!.isInBoundsBottom(mLineBuffer[3]))) continue;
 
         // get the color that is set for this line-segment
         renderPaint.color = dataSet.getColor2(j);
@@ -117,22 +118,22 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
       // only one color per dataset
 
       if (mLineBuffer.length < max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 2) {
-        mLineBuffer = List(max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 4);
+        mLineBuffer = List.filled(max((entryCount) * pointsPerEntryPair, pointsPerEntryPair) * 4, 0.0);
       }
 
-      Entry e1, e2;
+      Entry? e1, e2;
 
-      e1 = dataSet.getEntryForIndex(xBounds.min);
+      e1 = dataSet.getEntryForIndex(xBounds.min!);
 
       if (e1 != null) {
         var j = 0;
-        for (var x = xBounds.min; x <= xBounds.range + xBounds.min; x++) {
+        for (var x = xBounds.min!; x <= xBounds.range! + xBounds.min!; x++) {
           e1 = dataSet.getEntryForIndex(x == 0 ? 0 : (x - 1));
           e2 = dataSet.getEntryForIndex(x);
 
           if (e1 == null || e2 == null) continue;
 
-          if (e1.mData is bool && !e1.mData) continue;
+          if (e1.mData is bool && !(e1.mData as bool)) continue;
 
           mLineBuffer[j++] = e1.x;
           mLineBuffer[j++] = e1.y * phaseY;
@@ -149,9 +150,9 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
         }
 
         if (j > 0) {
-          trans.pointValuesToPixel(mLineBuffer);
+          trans!.pointValuesToPixel(mLineBuffer);
 
-          final size = max((xBounds.range + 1) * pointsPerEntryPair, pointsPerEntryPair) * 2;
+          final size = max((xBounds.range! + 1) * pointsPerEntryPair, pointsPerEntryPair) * 2;
 
           renderPaint.color = dataSet.getColor1();
 
@@ -172,27 +173,27 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   MPPointD drawHighlighted(Canvas c, List<Highlight> indices) {
-    var lineData = _provider.getLineData();
+    var lineData = _provider.getLineData()!;
 
     var pix = MPPointD(0, 0);
 
     for (var high in indices) {
-      ILineDataSet dataSet;
+      ILineDataSet? dataSet;
       if (high.dataSetIndex >= 0) {
         dataSet = lineData.getDataSetByIndex(high.dataSetIndex);
       } else {
-        dataSet = lineData.dataSets.firstWhere((element) => element.getEntriesForXValue(high.x).isNotEmpty, orElse: () => null);
+        dataSet = lineData.dataSets!.firstWhereOrNull((element) => element.getEntriesForXValue(high.x).isNotEmpty);
       }
 
       if (dataSet == null || !dataSet.isHighlightEnabled()) continue;
 
-      var e = dataSet.getEntryForXValue2(high.x, high.y);
+      var e = dataSet.getEntryForXValue2(high.x, high.y)!;
 
       if (!isInBoundsX(e, dataSet)) continue;
 
-      var yVal = high.freeY == null || high.freeY.isNaN ? high.y : high.freeY;
+      var yVal = high.freeY == null || high.freeY!.isNaN ? high.y : high.freeY;
 
-      pix = _provider.getTransformer(dataSet.getAxisDependency()).getPixelForValues(e.x, yVal);
+      pix = _provider.getTransformer(dataSet.getAxisDependency())!.getPixelForValues(e.x, yVal!);
 
       high.setDraw(pix.x, pix.y);
 
@@ -204,7 +205,7 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
   @override
   Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
-    final data = _provider.getData();
-    return FloatLegendUtils.drawFloatingLegend<LineDataSet>(_labelText, c, viewPortHandler, data, indices, rendererSize);
+    final data = _provider.getData()!;
+    return FloatLegendUtils.drawFloatingLegend<LineDataSet>(_labelText, c, viewPortHandler!, data, indices, rendererSize);
   }
 }

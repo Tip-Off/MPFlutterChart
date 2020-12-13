@@ -10,22 +10,22 @@ class Highlight {
   double y = double.nan;
 
   ///
-  double freeX = double.nan;
+  double? freeX = double.nan;
 
   ///
-  double freeY = double.nan;
+  double? freeY = double.nan;
 
   ///
-  double highlightX = double.nan;
+  double? highlightX = double.nan;
 
   ///
-  double highlightY = double.nan;
+  double? highlightY = double.nan;
 
   /// the x-pixel of the highlight
-  double _xPx;
+  late double _xPx;
 
   /// the y-pixel of the highlight
-  double _yPx;
+  late double _yPx;
 
   /// the index of the data object - in case it refers to more than one
   int _dataIndex = -1;
@@ -33,19 +33,19 @@ class Highlight {
   ///
   /// the index of the datase
   /// t the highlighted value is in
-  int _dataSetIndex;
+  late int _dataSetIndex;
 
   /// index which value of a stacked bar entry is highlighted, default -1
   int _stackIndex = -1;
 
   /// the axis the highlighted value belongs to
-  AxisDependency _axis;
+  AxisDependency? _axis;
 
   /// the x-position (pixels) on which this highlight object was last drawn
-  double _drawX;
+  double? _drawX;
 
   /// the y-position (pixels) on which this highlight object was last drawn
-  double _drawY;
+  double? _drawY;
 
   Highlight({
     this.freeX,
@@ -60,7 +60,7 @@ class Highlight {
     int stackIndex = -1,
     int dataIndex = -1,
     // ignore: avoid_init_to_null
-    AxisDependency axis = null,
+    AxisDependency? axis = null,
   }) {
     this.x = x;
     this.y = y;
@@ -73,18 +73,18 @@ class Highlight {
   }
 
   Highlight copyWith({
-    double freeX,
-    double freeY,
-    double highlightX,
-    double highlightY,
-    double x,
-    double y,
-    double xPx,
-    double yPx,
-    int dataSetIndex,
-    int stackIndex,
-    int dataIndex,
-    AxisDependency axis,
+    double? freeX,
+    double? freeY,
+    double? highlightX,
+    double? highlightY,
+    double? x,
+    double? y,
+    double? xPx,
+    double? yPx,
+    int? dataSetIndex,
+    int? stackIndex,
+    int? dataIndex,
+    AxisDependency? axis,
   }) =>
       Highlight(
         freeX: freeX ?? this.freeX,
@@ -121,7 +121,7 @@ class Highlight {
     return _stackIndex >= 0;
   }
 
-  AxisDependency get axis => _axis;
+  AxisDependency? get axis => _axis;
 
   /// Sets the x- and y-position (pixels) where this highlight was last drawn.
   ///
@@ -132,16 +132,16 @@ class Highlight {
     _drawY = y;
   }
 
-  double get drawX => _drawX;
+  double? get drawX => _drawX;
 
-  double get drawY => _drawY;
+  double? get drawY => _drawY;
 
   /// Returns true if this highlight object is equal to the other (compares
   /// xIndex and dataSetIndex)
   ///
   /// @param h
   /// @return
-  bool equalTo(Highlight h) {
+  bool equalTo(Highlight? h) {
     if (h == null) {
       return false;
     } else {

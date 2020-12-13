@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 class TypeFace {
-  String _fontFamily;
-  FontWeight _fontWeight;
+  String? _fontFamily;
+  late FontWeight _fontWeight;
 
-  TypeFace({String fontFamily, FontWeight fontWeight = FontWeight.w400}) {
+  TypeFace({String? fontFamily, FontWeight fontWeight = FontWeight.w400}) {
     _fontFamily = fontFamily;
     _fontWeight = fontWeight;
   }
@@ -18,10 +18,10 @@ class TypeFace {
   }
 
   // ignore: unnecessary_getters_setters
-  String get fontFamily => _fontFamily;
+  String? get fontFamily => _fontFamily;
 
   // ignore: unnecessary_getters_setters
-  set fontFamily(String value) {
+  set fontFamily(String? value) {
     _fontFamily = value;
   }
 }

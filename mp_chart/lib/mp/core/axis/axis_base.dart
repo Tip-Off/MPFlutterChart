@@ -8,7 +8,7 @@ import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
 
 abstract class AxisBase extends ComponentBase {
   /// custom formatter that is used instead of the auto-formatter if set
-  ValueFormatter _axisValueFormatter;
+  ValueFormatter? _axisValueFormatter;
 
   Color _gridColor = ColorUtils.GRAY;
 
@@ -59,7 +59,7 @@ abstract class AxisBase extends ComponentBase {
   bool _centerAxisLabels = false;
 
   /// array of limit lines that can be set for the axis
-  List<LimitLine> _limitLines;
+  late List<LimitLine> _limitLines;
 
   /// flag indicating the limit lines layer depth
   bool _drawLimitLineBehindData = false;
@@ -120,10 +120,10 @@ abstract class AxisBase extends ComponentBase {
   }
 
   // ignore: unnecessary_getters_setters
-  ValueFormatter get axisValueFormatter => _axisValueFormatter;
+  ValueFormatter? get axisValueFormatter => _axisValueFormatter;
 
   // ignore: unnecessary_getters_setters
-  set axisValueFormatter(ValueFormatter value) {
+  set axisValueFormatter(ValueFormatter? value) {
     _axisValueFormatter = value;
   }
 
@@ -316,16 +316,16 @@ abstract class AxisBase extends ComponentBase {
     return longest;
   }
 
-  String getFormattedLabel(int index) {
+  String? getFormattedLabel(int index) {
     if (index < 0 || index >= _entries.length) {
       return '';
     } else {
-      return getValueFormatter().getAxisLabel(_entries[index], this);
+      return getValueFormatter()?.getAxisLabel(_entries[index], this);
     }
   }
 
-  String getDirectFormattedLabel(double entry) {
-    return getValueFormatter().getDirectFormattedValue(entry, this);
+  String? getDirectFormattedLabel(double entry) {
+    return getValueFormatter()?.getDirectFormattedValue(entry, this);
   }
 
   /// Sets the formatter to be used for formatting the axis labels. If no formatter is set, the
@@ -335,7 +335,7 @@ abstract class AxisBase extends ComponentBase {
   /// the chart. Use chart.getDefaultValueFormatter() to use the formatter calculated by the chart.
   ///
   /// @param f
-  void setValueFormatter(ValueFormatter f) {
+  void setValueFormatter(ValueFormatter? f) {
     if (f == null) {
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);
     } else {
@@ -346,7 +346,7 @@ abstract class AxisBase extends ComponentBase {
   /// Returns the formatter used for formatting the axis labels.
   ///
   /// @return
-  ValueFormatter getValueFormatter() {
+  ValueFormatter? getValueFormatter() {
     if (_axisValueFormatter == null ||
         (_axisValueFormatter is DefaultAxisValueFormatter && (_axisValueFormatter as DefaultAxisValueFormatter).digits != _decimals)) {
       _axisValueFormatter = DefaultAxisValueFormatter(_decimals);

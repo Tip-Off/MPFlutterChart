@@ -23,7 +23,7 @@ class FloatLegendUtils {
 
     entryColors.keys.forEach((element) {
       final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + drawSize.height);
-      final legendSize = _drawTextLegend(labelText, c, entryColors[element], element, position);
+      final legendSize = _drawTextLegend(labelText, c, entryColors[element]!, element, position);
 
       drawSize = Size(drawSize.width + legendSize.width, drawSize.height + legendSize.height);
     });
@@ -35,7 +35,7 @@ class FloatLegendUtils {
   static Map<String, List<EntryColor>> _createEntries<T extends IDataSet>(BarLineScatterCandleBubbleData data, List<Highlight> indices) {
     final entryColors = <String, List<EntryColor>>{};
 
-    data.dataSets.where((element) => element is T && element.getEntriesForXValue(indices.first.x).isNotEmpty).toList().asMap().forEach((i, element) {
+    data.dataSets!.where((element) => element is T && element.getEntriesForXValue(indices.first.x).isNotEmpty).toList().asMap().forEach((i, element) {
       if (element.isVisible()) {
         final h = indices.first;
         final entry = element.getEntryForXValue2(h.x, 0);
@@ -49,9 +49,9 @@ class FloatLegendUtils {
         final color = element.getColor1();
 
         if (entryColors.containsKey(text)) {
-          entryColors[text].add(EntryColor(entry, color, inputs));
+          entryColors[text]!.add(EntryColor(entry!, color, inputs));
         } else {
-          entryColors.putIfAbsent(text, () => [EntryColor(entry, color, inputs)]);
+          entryColors.putIfAbsent(text, () => [EntryColor(entry!, color, inputs)]);
         }
       }
     });

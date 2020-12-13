@@ -24,13 +24,13 @@ mixin IDataSet<T extends Entry> {
 
   void calcMinMaxY(double fromX, double toX);
 
-  T getEntryForXValue1(double xValue, double closestToY, Rounding rounding);
+  T? getEntryForXValue1(double xValue, double closestToY, Rounding rounding);
 
-  T getEntryForXValue2(double xValue, double closestToY);
+  T? getEntryForXValue2(double xValue, double closestToY);
 
   List<T> getEntriesForXValue(double xValue);
 
-  T getEntryForIndex(int index);
+  T? getEntryForIndex(int index);
 
   int getEntryIndex1(double xValue, double closestToY, Rounding rounding);
 
@@ -50,7 +50,7 @@ mixin IDataSet<T extends Entry> {
 
   bool removeLast();
 
-  bool removeEntry1(T e);
+  bool removeEntry1(T? e);
 
   bool removeEntryByXValue(double xValue);
 
@@ -72,9 +72,9 @@ mixin IDataSet<T extends Entry> {
 
   ui.Color getColor1();
 
-  GradientColor getGradientColor1();
+  GradientColor? getGradientColor1();
 
-  List<GradientColor> getGradientColors();
+  List<GradientColor>? getGradientColors();
 
   GradientColor getGradientColor2(int index);
 
@@ -86,7 +86,7 @@ mixin IDataSet<T extends Entry> {
 
   void setValueFormatter(ValueFormatter f);
 
-  ValueFormatter getValueFormatter();
+  ValueFormatter? getValueFormatter();
 
   bool needsFormatter();
 
@@ -102,7 +102,7 @@ mixin IDataSet<T extends Entry> {
 
   ui.Color getValueTextColor2(int index);
 
-  TypeFace getValueTypeface();
+  TypeFace? getValueTypeface();
 
   double getValueTextSize();
 
