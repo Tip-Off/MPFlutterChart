@@ -24,7 +24,7 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
   ///
   /// @param values
   /// @param label
-  DataSet(List<T> values, String label) : super.withLabel(label) {
+  DataSet(List<T> values, String label, String identifier) : super.withLabel(label, identifier) {
     _values = values;
 
     calcMinMax();

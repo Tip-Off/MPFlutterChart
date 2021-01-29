@@ -40,7 +40,7 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
 
   bool mDrawCircleHole = true;
 
-  LineDataSet(List<Entry> yVals, String label) : super(yVals, label) {
+  LineDataSet(List<Entry> yVals, String label, String identifier) : super(yVals, label, identifier) {
     _circleColors.add(Color.fromARGB(255, 140, 234, 255));
   }
 
@@ -266,7 +266,7 @@ class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet {
     for (var i = 0; i < values.length; i++) {
       entries.add(Entry(x: values[i].x, y: values[i].y, icon: values[i].mIcon, data: values[i].mData));
     }
-    var copied = LineDataSet(entries, getLabel());
+    var copied = LineDataSet(entries, getLabel(), getIdentifier());
     copy(copied);
     return copied;
   }

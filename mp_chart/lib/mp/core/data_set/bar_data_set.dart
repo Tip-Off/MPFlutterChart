@@ -35,7 +35,7 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
   /// array of labels used to describe the different values of the stacked bars
   List<String> _stackLabels = ['Stack'];
 
-  BarDataSet(List<BarEntry> yVals, String label) : super(yVals, label) {
+  BarDataSet(List<BarEntry> yVals, String label, String identifier) : super(yVals, label, identifier) {
     setHighLightColor(Color.fromARGB(255, 0, 0, 0));
     calcStackSize(yVals);
     calcEntryCountIncludingStacks(yVals);
@@ -47,7 +47,7 @@ class BarDataSet extends BarLineScatterCandleBubbleDataSet<BarEntry> implements 
     for (var i = 0; i < values.length; i++) {
       entries.add(values[i].copy());
     }
-    var copied = BarDataSet(entries, getLabel());
+    var copied = BarDataSet(entries, getLabel(), getIdentifier());
     copy(copied);
     return copied;
   }

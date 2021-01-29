@@ -26,6 +26,8 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   /// label that describes the DataSet or the data the DataSet represents
   String _label = 'DataSet';
 
+  String _identifier = '';
+
   /// this specifies which axis this DataSet should be plotted against
   AxisDependency _axisDependency = AxisDependency.LEFT;
 
@@ -70,7 +72,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   /// Constructor with label.
   ///
   /// @param label
-  BaseDataSet.withLabel(String label) {
+  BaseDataSet.withLabel(String label, String identifier) {
     _colors = [];
     _valueColors = [];
 
@@ -78,6 +80,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     _colors.add(ui.Color.fromARGB(255, 140, 234, 255));
     _valueColors.add(ColorUtils.BLACK);
     _label = label;
+    _identifier = identifier;
   }
 
   /// Use this method to tell the data set that the underlying data has changed.
@@ -205,6 +208,11 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   @override
   String getLabel() {
     return _label;
+  }
+
+  @override
+  String getIdentifier() {
+    return _identifier;
   }
 
   @override

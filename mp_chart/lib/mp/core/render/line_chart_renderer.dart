@@ -20,6 +20,8 @@ import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:collection/collection.dart';
 
+import '../utils/color_utils.dart';
+
 class LineChartRenderer extends LineScatterCandleRadarRenderer {
   late LineDataProvider _provider;
 
@@ -75,7 +77,13 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
       for (var j = xBounds.min!; j <= xBounds.range! + xBounds.min!; j++) {
         var e = dataSet.getEntryForIndex(j);
+
         if (e == null) continue;
+
+        bool visible = e.mData as bool;
+        if (e.mData is bool && !(visible)) {
+          continue;
+        }
 
         mLineBuffer[0] = e.x;
         mLineBuffer[1] = e.y * phaseY;
@@ -132,6 +140,11 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
           e2 = dataSet.getEntryForIndex(x);
 
           if (e1 == null || e2 == null) continue;
+
+          bool visible = e2.mData as bool;
+          if (e2.mData is bool && !visible) {
+            continue;
+          }
 
           if (e1.mData is bool && !(e1.mData as bool)) continue;
 

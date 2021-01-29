@@ -24,7 +24,7 @@ abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandleRadarD
 
   bool _gradientEnable = false;
 
-  LineRadarDataSet(List<T> yVals, String label) : super(yVals, label);
+  LineRadarDataSet(List<T> yVals, String label, String identifier) : super(yVals, label, identifier);
 
   @override
   Color getFillColor() {

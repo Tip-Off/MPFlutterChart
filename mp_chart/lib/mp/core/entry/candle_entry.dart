@@ -14,12 +14,12 @@ class CandleEntry extends Entry {
   /// open value
   late double _open;
 
-  final double volume;
+  late double _volume;
 
   bool highlighted;
 
   CandleEntry({
-    this.volume = 0,
+    double volume = 0,
     this.highlighted = false,
     required double x,
     required double shadowH,
@@ -33,6 +33,7 @@ class CandleEntry extends Entry {
     _shadowLow = shadowL;
     _open = open;
     _close = close;
+    _volume = volume;
   }
 
   @override
@@ -72,41 +73,40 @@ class CandleEntry extends Entry {
       open: _open,
       close: _close,
       highlighted: highlighted,
-      volume: volume,
+      volume: _volume,
       data: mData,
+      icon: mIcon,
     );
     return c;
   }
 
-  // ignore: unnecessary_getters_setters
   double get open => _open;
 
-  // ignore: unnecessary_getters_setters
   set open(double value) {
     _open = value;
   }
 
-  // ignore: unnecessary_getters_setters
   double get close => _close;
 
-  // ignore: unnecessary_getters_setters
   set close(double value) {
     _close = value;
   }
 
-  // ignore: unnecessary_getters_setters
   double get shadowLow => _shadowLow;
 
-  // ignore: unnecessary_getters_setters
   set shadowLow(double value) {
     _shadowLow = value;
   }
 
-  // ignore: unnecessary_getters_setters
   double get shadowHigh => _shadowHigh;
 
-  // ignore: unnecessary_getters_setters
   set shadowHigh(double value) {
     _shadowHigh = value;
+  }
+
+  double get volume => _volume;
+
+  set volume(double value) {
+    _volume = value;
   }
 }

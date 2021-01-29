@@ -62,6 +62,8 @@ mixin IDataSet<T extends Entry> {
 
   String getLabel();
 
+  String getIdentifier();
+
   void setLabel(String label);
 
   AxisDependency getAxisDependency();

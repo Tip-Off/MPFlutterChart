@@ -44,6 +44,11 @@ class BarBuffer extends AbstractBuffer<IBarDataSet> {
 
       if (e == null) continue;
 
+      bool visible = e.mData as bool;
+      if (e.mData is bool && !visible) {
+        continue;
+      }
+
       var x = e.x;
       var y = e.y;
       var vals = e.yVals;

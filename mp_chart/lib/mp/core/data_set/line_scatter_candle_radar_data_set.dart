@@ -14,7 +14,7 @@ abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineSca
   /// the path effect for dashed highlight-lines
   bool _isHighlightLineDashed = false;
 
-  LineScatterCandleRadarDataSet(List<T> yVals, String label) : super(yVals, label);
+  LineScatterCandleRadarDataSet(List<T> yVals, String label, String identifier) : super(yVals, label, identifier);
 
   /// Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
   /// @param enabled

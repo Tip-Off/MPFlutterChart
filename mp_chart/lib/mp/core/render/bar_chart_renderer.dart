@@ -208,6 +208,11 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
       var e = dataSet.getEntryForXValue2(high.x, high.y)!;
 
+      bool visible = e.mData as bool;
+      if (e.mData is bool && !visible) {
+        continue;
+      }
+
       if (!isInBoundsX(e, dataSet)) continue;
 
       var trans = _provider.getTransformer(dataSet.getAxisDependency());
