@@ -12,6 +12,7 @@ import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/render/bar_line_scatter_candle_bubble_renderer.dart';
 import 'package:mp_chart/mp/core/render/float_legend_utils.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
@@ -32,8 +33,9 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
   late Paint _shadowPaint;
   late Paint _barBorderPaint;
+  final LegendFormatter formatter;
 
-  BarChartRenderer(BarDataProvider chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
+  BarChartRenderer(BarDataProvider chart, Animator animator, ViewPortHandler viewPortHandler, this.formatter) : super(animator, viewPortHandler) {
     _provider = chart;
 
     _labelText = PainterUtils.create(null, null, ColorUtils.WHITE, null);
@@ -277,6 +279,6 @@ class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
   @override
   Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
     final data = _provider.getData()!;
-    return FloatLegendUtils.drawFloatingLegend<BarDataSet>(_labelText, c, viewPortHandler!, data, indices, rendererSize);
+    return FloatLegendUtils.drawFloatingLegend<BarDataSet>(_labelText, c, viewPortHandler!, data, indices, rendererSize, formatter);
   }
 }

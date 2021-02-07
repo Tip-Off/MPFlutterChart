@@ -6,6 +6,7 @@ import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/touch_listener.dart';
@@ -49,6 +50,8 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   Color? borderColor;
   Color? backgroundColor;
   double borderStrokeWidth;
+
+  LegendFormatter? legendFormatter;
 
   final bool highlightMagneticSetEnabled;
   final bool specialMoveEnabled;
@@ -115,6 +118,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
       LegendSettingFunction? legendSettingFunction,
       DataRendererSettingFunction? rendererSettingFunction,
       OnChartValueSelectedListener? selectionListener,
+      LegendFormatter lf = const LegendFormatter(),
       double maxHighlightDistance = 100.0,
       bool highLightPerTapEnabled = true,
       double extraTopOffset = 0.0,
@@ -143,6 +147,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
             infoTextSize: infoTextSize,
             infoBgColor: infoBgColor,
             infoTextColor: infoTextColor) {
+    legendFormatter = lf;
     axisLeft ??= initAxisLeft();
     axisRight ??= initAxisRight();
   }

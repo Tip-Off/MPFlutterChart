@@ -8,6 +8,7 @@ import 'package:mp_chart/mp/core/data_provider/candle_data_provider.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/render/candle_stick_chart_renderer.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
@@ -106,6 +107,7 @@ class CandlestickChartPainter extends BarLineChartBasePainter<CandleData> implem
             zoomMatrixBuffer,
             customViewPortEnabled,
             backgroundPaint,
+            LegendFormatter(),
             chartTransListener);
 
   @override

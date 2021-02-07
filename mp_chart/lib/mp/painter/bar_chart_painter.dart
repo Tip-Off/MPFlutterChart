@@ -13,6 +13,7 @@ import 'package:mp_chart/mp/core/highlight/bar_highlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/render/bar_chart_renderer.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
@@ -80,6 +81,7 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
       bool drawValueAboveBar,
       bool drawBarShadow,
       bool fitBars,
+      LegendFormatter legendFormatter,
       ChartTransListener chartTransListener)
       : _highlightFullBarEnabled = highlightFullBarEnabled,
         _drawValueAboveBar = drawValueAboveBar,
@@ -129,13 +131,14 @@ class BarChartPainter extends BarLineChartBasePainter<BarData> implements BarDat
             zoomMatrixBuffer,
             customViewPortEnabled,
             backgroundPaint,
+            legendFormatter,
             chartTransListener);
 
   @override
   void initDefaultWithData() {
     super.initDefaultWithData();
     highlighter = BarHighlighter(this);
-    renderer = BarChartRenderer(this, animator, viewPortHandler!);
+    renderer = BarChartRenderer(this, animator, viewPortHandler!, legendFormatter!);
     xAxis?.spaceMin = (0.5);
     xAxis?.spaceMax = (0.5);
   }

@@ -4,6 +4,7 @@ import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_data_set.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 
 class FloatLegendUtils {
@@ -16,6 +17,7 @@ class FloatLegendUtils {
     BarLineScatterCandleBubbleData data,
     List<Highlight> indices,
     Size rendererSize,
+    LegendFormatter formatter,
   ) {
     var drawSize = rendererSize;
 
@@ -23,7 +25,7 @@ class FloatLegendUtils {
 
     entryColors.keys.forEach((element) {
       final position = Offset(viewPortHandler.contentLeft(), viewPortHandler.contentTop() + drawSize.height);
-      final legendSize = _drawTextLegend(labelText, c, entryColors[element]!, element, position);
+      final legendSize = _drawTextLegend(labelText, c, entryColors[element]!, element, position, formatter);
 
       drawSize = Size(drawSize.width + legendSize.width, drawSize.height + legendSize.height);
     });
@@ -59,8 +61,8 @@ class FloatLegendUtils {
     return entryColors;
   }
 
-  static Size _drawTextLegend(TextPainter labelText, Canvas c, List<EntryColor> entryColor, String text, Offset labelPosition) {
-    final span = _createTextSpan(entryColor, text.split('#').first);
+  static Size _drawTextLegend(TextPainter labelText, Canvas c, List<EntryColor> entryColor, String text, Offset labelPosition, LegendFormatter formatter) {
+    final span = _createTextSpan(entryColor, text.split('#').first, formatter);
 
     labelText.text = TextSpan(
       text: '',
@@ -77,7 +79,7 @@ class FloatLegendUtils {
     return labelText.size;
   }
 
-  static List<InlineSpan> _createTextSpan(List<EntryColor> entryColor, String text) {
+  static List<InlineSpan> _createTextSpan(List<EntryColor> entryColor, String text, LegendFormatter formatter) {
     final _whiteStyle = TextStyle(
       fontSize: 10,
       color: Colors.white,
@@ -100,7 +102,7 @@ class FloatLegendUtils {
     entryColor.forEach((element) {
       span.add(
         TextSpan(
-          text: ' ${element.entry.y.toStringAsFixed(2)}',
+          text: ' ${formatter.value(element.entry.y)}',
           style: TextStyle(
             fontSize: 10,
             color: element.color,

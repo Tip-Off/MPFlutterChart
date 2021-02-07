@@ -21,6 +21,7 @@ import 'package:mp_chart/mp/core/highlight/chart_hightlighter.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
@@ -182,6 +183,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
       Matrix4 zoomMatrixBuffer,
       bool customViewPortEnabled,
       Paint backgroundPaint,
+      LegendFormatter legendFormatter,
       ChartTransListener chartTransListener)
       : _keepPositionOnRotation = keepPositionOnRotation,
         _leftAxisTransformer = leftAxisTransformer,
@@ -211,8 +213,25 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
         _borderPaint = borderPaint,
         _backgroundPaint = backgroundPaint,
         _chartTransListener = chartTransListener,
-        super(data, highlighForced, animator, viewPortHandler, maxHighlightDistance, highLightPerTapEnabled, extraLeftOffset, extraTopOffset, extraRightOffset,
-            extraBottomOffset, infoBgColor, infoPainter, xAxis, legend, rendererSettingFunction, selectedListener);
+        super(
+          data,
+          highlighForced,
+          animator,
+          viewPortHandler,
+          maxHighlightDistance,
+          highLightPerTapEnabled,
+          extraLeftOffset,
+          extraTopOffset,
+          extraRightOffset,
+          extraBottomOffset,
+          infoBgColor,
+          infoPainter,
+          xAxis,
+          legend,
+          rendererSettingFunction,
+          legendFormatter,
+          selectedListener,
+        );
 
   @override
   void initDefaultWithData() {

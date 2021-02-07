@@ -14,6 +14,7 @@ import 'package:mp_chart/mp/core/highlight/i_highlighter.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
 import 'package:mp_chart/mp/core/render/data_renderer.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/value_formatter/default_value_formatter.dart';
 import 'package:mp_chart/mp/core/value_formatter/value_formatter.dart';
@@ -67,6 +68,8 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
   Size? _size;
 
+  LegendFormatter? _legendFormatter;
+
   /// flag that indicates if offsets calculation has already been done or not
   bool _offsetsCalculated = false;
 
@@ -93,6 +96,8 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
 
   Size? get size => _size;
 
+  LegendFormatter? get legendFormatter => _legendFormatter;
+
   List<Highlight>? get indicesToHighlight => _indicesToHighlight;
 
   Highlight? get highlightForced => _highlightForced;
@@ -115,6 +120,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
       XAxis xAxis,
       Legend legend,
       DataRendererSettingFunction? rendererSettingFunction,
+      LegendFormatter? legendFormatter,
       OnChartValueSelectedListener? selectedListener)
       : _data = data,
         _viewPortHandler = viewPortHandler,
@@ -132,6 +138,7 @@ abstract class ChartPainter<T extends ChartData<IDataSet<Entry>>> extends Custom
         _rendererSettingFunction = rendererSettingFunction,
         _selectionListener = selectedListener,
         _highlightForced = highlightForced,
+        _legendFormatter = legendFormatter,
         super() {
     initDefaultNormal();
     if (data == null || data.dataSets!.isEmpty) {

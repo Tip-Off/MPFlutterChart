@@ -12,6 +12,7 @@ import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/mode.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/render/float_legend_utils.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/render/line_scatter_candle_radar_renderer.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
@@ -26,8 +27,9 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
   late LineDataProvider _provider;
 
   late TextPainter _labelText;
+  final LegendFormatter formatter;
 
-  LineChartRenderer(LineDataProvider chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
+  LineChartRenderer(LineDataProvider chart, Animator animator, ViewPortHandler viewPortHandler, this.formatter) : super(animator, viewPortHandler) {
     _provider = chart;
 
     _labelText = PainterUtils.create(null, null, ColorUtils.WHITE, null);
@@ -219,6 +221,6 @@ class LineChartRenderer extends LineScatterCandleRadarRenderer {
   @override
   Size drawFloatingLegend(Canvas c, List<Highlight> indices, Size rendererSize) {
     final data = _provider.getData()!;
-    return FloatLegendUtils.drawFloatingLegend<LineDataSet>(_labelText, c, viewPortHandler!, data, indices, rendererSize);
+    return FloatLegendUtils.drawFloatingLegend<LineDataSet>(_labelText, c, viewPortHandler!, data, indices, rendererSize, formatter);
   }
 }

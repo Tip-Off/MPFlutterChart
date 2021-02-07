@@ -20,7 +20,7 @@ class ScatterDataSet extends LineScatterCandleRadarDataSet<Entry> implements ISc
   /// - default: ColorUtils.COLOR_NONE
   Color _scatterShapeHoleColor = ColorUtils.COLOR_NONE;
 
-  ScatterDataSet(List<Entry> yVals, String label) : super(yVals, label);
+  ScatterDataSet(List<Entry> yVals, String label) : super(yVals, label, '');
 
   @override
   DataSet<Entry> copy1() {

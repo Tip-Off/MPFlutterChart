@@ -35,10 +35,10 @@ class CombinedChartRenderer extends DataRenderer {
     for (var order in orders!) {
       switch (order) {
         case DrawOrder.BAR:
-          if (chart.getBarData() != null) _renderers.add(BarChartRenderer(chart, animator, viewPortHandler!));
+          if (chart.getBarData() != null) _renderers.add(BarChartRenderer(chart, animator, viewPortHandler!, _painter!.legendFormatter!));
           break;
         case DrawOrder.LINE:
-          if (chart.getLineData() != null) _renderers.add(LineChartRenderer(chart, animator, viewPortHandler!));
+          if (chart.getLineData() != null) _renderers.add(LineChartRenderer(chart, animator, viewPortHandler!, _painter!.legendFormatter!));
           break;
         case DrawOrder.CANDLE:
           if (chart.getCandleData() != null) _renderers.add(CandleStickChartRenderer(chart, animator, viewPortHandler!));

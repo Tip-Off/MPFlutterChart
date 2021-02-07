@@ -6,6 +6,7 @@ import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/functions.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/touch_listener.dart';
@@ -172,6 +173,7 @@ class LineChartController extends BarLineScatterCandleBubbleController<LineChart
         xAxisRenderer!,
         zoomMatrixBuffer!,
         customViewPortEnabled,
+        legendFormatter ?? LegendFormatter(),
         chartTransListener!);
   }
 

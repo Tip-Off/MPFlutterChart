@@ -8,6 +8,7 @@ import 'package:mp_chart/mp/core/data/line_data.dart';
 import 'package:mp_chart/mp/core/data_provider/line_data_provider.dart';
 import 'package:mp_chart/mp/core/functions.dart';
 import 'package:mp_chart/mp/core/legend/legend.dart';
+import 'package:mp_chart/mp/core/render/legend_formatter.dart';
 import 'package:mp_chart/mp/core/render/line_chart_renderer.dart';
 import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
@@ -62,6 +63,7 @@ class LineChartPainter extends BarLineChartBasePainter<LineData> implements Line
       XAxisRenderer xAxisRenderer,
       Matrix4 zoomMatrixBuffer,
       bool customViewPortEnabled,
+      LegendFormatter legendFormatter,
       ChartTransListener chartTransListener)
       : super(
             data,
@@ -107,12 +109,13 @@ class LineChartPainter extends BarLineChartBasePainter<LineData> implements Line
             zoomMatrixBuffer,
             customViewPortEnabled,
             backgroundPaint,
+            legendFormatter,
             chartTransListener);
 
   @override
   void initDefaultWithData() {
     super.initDefaultWithData();
-    renderer = LineChartRenderer(this, animator, viewPortHandler!);
+    renderer = LineChartRenderer(this, animator, viewPortHandler!, legendFormatter!);
   }
 
   @override
