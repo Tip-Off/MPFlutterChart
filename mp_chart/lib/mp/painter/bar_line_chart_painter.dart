@@ -468,7 +468,7 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
       }
 
       if (xAxis!.enabled && xAxis!.drawLabels) {
-        var xLabelHeight = xAxis!.labelRotatedHeight + xAxis!.yOffset + xAxis!.getRequiredHeightSpace(_xAxisRenderer.axisLabelPaint!);
+        var xLabelHeight = xAxis!.getRequiredHeightSpace(_xAxisRenderer.axisLabelPaint!);
 
         // offsets for x-labels
         if (xAxis!.position == XAxisPosition.BOTTOM) {
