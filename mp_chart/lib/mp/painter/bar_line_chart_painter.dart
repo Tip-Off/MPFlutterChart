@@ -310,13 +310,15 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
         pointOnChartY = indicesToHighlight?.first.y ?? highlightForced?.y;
       }
 
-      if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
-        _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY!)));
+      if (pointOnChartY != null && !pointOnChartY.isNaN) {
+        if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
+          _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)));
+        }
+        if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData) {
+          _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)));
+        }
+        _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)));
       }
-      if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData) {
-        _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY!)));
-      }
-      _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY!)));
     }
 
     if (_clipValuesToContent) {
