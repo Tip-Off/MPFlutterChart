@@ -146,8 +146,8 @@ class CombinedChartState extends ChartState<CombinedChart> {
   AxisEnabled get axisEnabled {
     var xAxisPosition = widget.controller.xAxis!.position;
     return AxisEnabled(
-        bottom: xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.BOTTOM,
-        top: xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.TOP,
+        bottom: xAxisPosition != XAxisPosition.NONE && (xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.BOTTOM),
+        top: xAxisPosition != XAxisPosition.NONE && (xAxisPosition == XAxisPosition.BOTH_SIDED || xAxisPosition == XAxisPosition.TOP),
         left: widget.controller.axisLeft!.enabled,
         right: widget.controller.axisRight!.enabled);
   }
