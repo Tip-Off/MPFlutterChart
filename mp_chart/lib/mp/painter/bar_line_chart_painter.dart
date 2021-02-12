@@ -300,14 +300,14 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
     _axisRendererLeft.renderAxisLabels(canvas);
     _axisRendererRight.renderAxisLabels(canvas);
 
-    if (valuesToHighlight() && indicesToHighlight!.length == 1) {
-      var axisPointX = indicesToHighlight!.first.highlightX;
-      var axisPointY = indicesToHighlight!.first.highlightY;
+    if (valuesToHighlight() || highlightForced != null) {
+      var axisPointX = indicesToHighlight?.first.highlightX ?? highlightForced?.highlightX;
+      var axisPointY = indicesToHighlight?.first.highlightY ?? highlightForced?.highlightY;
 
       var pointOnChartY = axisPointY;
       final dataSet = getData();
       if (dataSet!.dataSets!.isNotEmpty && dataSet.dataSets!.first is BarDataSet) {
-        pointOnChartY = indicesToHighlight!.first.y;
+        pointOnChartY = indicesToHighlight?.first.y ?? highlightForced?.y;
       }
 
       if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
