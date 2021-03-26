@@ -1,5 +1,5 @@
 import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'dart:ui' as ui;
+import 'package:mp_chart/mp/core/enums/alert_type.dart';
 
 import 'package:mp_chart/mp/core/range.dart';
 
@@ -16,9 +16,10 @@ class BarEntry extends Entry {
   /// the sum of all positive values this entry (if stacked) contains
   late double _positiveSum;
 
-  BarEntry({required double x, required double y, ui.Image? icon, Object? data}) : super(x: x, y: y, icon: icon, data: data);
+  BarEntry({required double x, required double y, AlertType? alertType, Object? data}) : super(x: x, y: y, alertType: alertType, data: data);
 
-  BarEntry.fromListYVals({required double x, List<double>? vals, ui.Image? icon, Object? data}) : super(x: x, y: calcSum(vals), icon: icon, data: data) {
+  BarEntry.fromListYVals({required double x, List<double>? vals, AlertType? alertType, Object? data})
+      : super(x: x, y: calcSum(vals), alertType: alertType, data: data) {
     _yVals = vals;
     calcPosNegSum();
     calcRanges();

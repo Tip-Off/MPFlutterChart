@@ -1,4 +1,4 @@
-import 'dart:ui' as ui;
+import 'package:mp_chart/mp/core/enums/alert_type.dart';
 
 abstract class BaseEntry {
   /// the y value
@@ -7,21 +7,21 @@ abstract class BaseEntry {
   /// optional spot for additional data this Entry represents
   Object? _data;
 
-  /// optional icon image
-  ui.Image? _icon;
+  /// optional alert type
+  AlertType? _alertType;
 
-  BaseEntry({required double y, ui.Image? icon, Object? data}) {
+  BaseEntry({required double y, AlertType? alertType, Object? data}) {
     _y = y;
-    _icon = icon;
+    _alertType = alertType;
     _data = data;
   }
 
   // ignore: unnecessary_getters_setters
-  ui.Image? get mIcon => _icon;
+  AlertType? get mAlertType => _alertType;
 
   // ignore: unnecessary_getters_setters
-  set mIcon(ui.Image? value) {
-    _icon = value;
+  set mAlertType(AlertType? value) {
+    _alertType = value;
   }
 
   // ignore: unnecessary_getters_setters

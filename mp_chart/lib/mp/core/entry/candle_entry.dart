@@ -1,5 +1,6 @@
 import 'package:mp_chart/mp/core/entry/entry.dart';
-import 'dart:ui' as ui;
+
+import 'package:mp_chart/mp/core/enums/alert_type.dart';
 
 class CandleEntry extends Entry {
   /// shadow-high value
@@ -26,9 +27,9 @@ class CandleEntry extends Entry {
     required double shadowL,
     required double open,
     required double close,
-    ui.Image? icon,
+    AlertType? alertType,
     Object? data,
-  }) : super(x: x, y: (shadowH + shadowL) / 2, icon: icon, data: data) {
+  }) : super(x: x, y: (shadowH + shadowL) / 2, alertType: alertType, data: data) {
     _shadowHigh = shadowH;
     _shadowLow = shadowL;
     _open = open;
@@ -75,7 +76,7 @@ class CandleEntry extends Entry {
       highlighted: highlighted,
       volume: _volume,
       data: mData,
-      icon: mIcon,
+      alertType: mAlertType,
     );
     return c;
   }

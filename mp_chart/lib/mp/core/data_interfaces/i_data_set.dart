@@ -120,13 +120,9 @@ mixin IDataSet<T extends Entry> {
 
   bool isDrawValuesEnabled();
 
-  void setDrawIcons(bool enabled);
+  void setDrawAlerts(bool enabled);
 
-  bool isDrawIconsEnabled();
-
-  void setIconsOffset(MPPointF offset);
-
-  MPPointF getIconsOffset();
+  bool isDrawAlertsEnabled();
 
   void setVisible(bool visible);
 

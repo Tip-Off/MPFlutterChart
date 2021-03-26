@@ -27,7 +27,7 @@ abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
   /// @param set
   /// @return
   bool shouldDrawValues(IDataSet set) {
-    return set.isVisible() && (set.isDrawValuesEnabled() || set.isDrawIconsEnabled());
+    return set.isVisible() && (set.isDrawValuesEnabled() || set.isDrawAlertsEnabled());
   }
 
   /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
