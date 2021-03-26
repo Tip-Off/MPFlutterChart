@@ -168,11 +168,11 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     Path? path;
 
     if (alertType == AlertType.bull || alertType == AlertType.triggered_bull) {
-      path = _bullPath(_bodyBuffers[0], _bodyBuffers[2], pY, half, size, offset);
+      path = _bullPath(left, right, pY, half, size, offset);
     } else if (alertType == AlertType.bear || alertType == AlertType.triggered_bear) {
-      path = _bearPath(_bodyBuffers[0], _bodyBuffers[2], pY, half, size, offset);
+      path = _bearPath(left, right, pY, half, size, offset);
     } else {
-      path = _normalPath(_bodyBuffers[0], _bodyBuffers[2], pY, half, size, offset);
+      path = _normalPath(left, right, pY, half, size, offset);
     }
 
     renderPaint.color = ColorUtils.WHITE;
