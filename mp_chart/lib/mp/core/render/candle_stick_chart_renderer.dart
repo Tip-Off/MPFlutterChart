@@ -145,8 +145,6 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   @override
   void drawValues(Canvas c) {}
 
-  var rng = Random();
-
   void _maybeDrawAlert(Canvas c, ICandleDataSet dataSet, CandleEntry entry) {
     if (!dataSet.isDrawAlertsEnabled() || entry.mAlertType == null) return;
 
