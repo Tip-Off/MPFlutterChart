@@ -7,15 +7,14 @@ import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/candle_data_provider.dart';
 import 'package:mp_chart/mp/core/entry/candle_entry.dart';
-import 'package:mp_chart/mp/core/enums/alert_type.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/render/line_scatter_candle_radar_renderer.dart';
+import 'package:mp_chart/mp/core/utils/alerts_utils.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:collection/collection.dart';
 
 class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
@@ -151,8 +150,6 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   void _maybeDrawAlert(Canvas c, ICandleDataSet dataSet, CandleEntry entry) {
     if (!dataSet.isDrawAlertsEnabled() || entry.mAlertType == null) return;
 
-    final alertType = entry.mAlertType!;
-
     var y = _shadowBuffer[1];
 
     final left = _bodyBuffers[0];
@@ -165,102 +162,25 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
     final pY = y;
 
-    Path? path;
+    final functions = AlertsUtils.getAlertFunctions(entry.mAlertType!);
 
-    if (alertType == AlertType.bull || alertType == AlertType.triggered_bull) {
-      path = _bullPath(left, right, pY, half, size, offset);
-    } else if (alertType == AlertType.bear || alertType == AlertType.triggered_bear) {
-      path = _bearPath(left, right, pY, half, size, offset);
-    } else {
-      path = _normalPath(left, right, pY, half, size, offset);
-    }
+    final path = functions[0](left, right, pY, half, size, offset);
 
-    renderPaint.color = ColorUtils.WHITE;
+    renderPaint.color = functions[1]();
 
     c.drawPath(path, renderPaint);
 
-    List<double> centroid;
+    final centroid = functions[2](left, right, pY, half, size, offset);
 
-    if (alertType == AlertType.bull || alertType == AlertType.triggered_bull) {
-      centroid = _bullCentroid(left, right, pY, half, size, offset);
-    } else if (alertType == AlertType.bear || alertType == AlertType.triggered_bear) {
-      centroid = _bearCentroid(left, right, pY, half, size, offset);
-    } else {
-      centroid = _normalCentroid(left, right, y, half, size, offset);
-    }
-
-    var scale = 0.7;
-
-    if (alertType == AlertType.normal || alertType == AlertType.triggered_normal) scale = 0.8;
+    var scale = functions[3]();
 
     final matrix = Matrix4Transform().scale(scale, origin: Offset(centroid[0], centroid[1])).matrix4;
 
     final path2 = path.transform(matrix.storage);
 
-    if (alertType == AlertType.bull || alertType == AlertType.triggered_bull) {
-      renderPaint.color = _highlightColorOr(dataSet, dataSet.getIncreasingColor(), entry.highlighted);
-    } else if (alertType == AlertType.bear || alertType == AlertType.triggered_bear) {
-      renderPaint.color = _highlightColorOr(dataSet, dataSet.getDecreasingColor(), entry.highlighted);
-    } else {
-      renderPaint.color = Colors.purple;
-    }
+    renderPaint.color = functions[4](dataSet);
 
     c.drawPath(path2, renderPaint);
-  }
-
-  Path _bullPath(double left, double right, double y, double half, double size, double offset) {
-    var path = Path();
-
-    path.moveTo(left + half, y - size - offset);
-    path.lineTo(left, y - offset);
-    path.lineTo(right, y - offset);
-    path.close();
-
-    return path;
-  }
-
-  List<double> _bullCentroid(double left, double right, double y, double half, double size, double offset) {
-    final centroidX = (left + left + half + right) / 3;
-    final centroidY = (y - size - offset + y - offset + y - offset) / 3;
-
-    return [centroidX, centroidY];
-  }
-
-  Path _bearPath(double left, double right, double y, double half, double size, double offset) {
-    var path = Path();
-
-    path.moveTo(left + half, y - offset);
-    path.lineTo(left, y - size - offset);
-    path.lineTo(right, y - size - offset);
-    path.close();
-
-    return path;
-  }
-
-  List<double> _bearCentroid(double left, double right, double y, double half, double size, double offset) {
-    final centroidX = (left + left + half + right) / 3;
-    final centroidY = (y - offset + y - size - offset + y - size - offset) / 3;
-
-    return [centroidX, centroidY];
-  }
-
-  Path _normalPath(double left, double right, double y, double half, double size, double offset) {
-    var path = Path();
-
-    path.moveTo(left, y - offset);
-    path.lineTo(right, y - offset);
-    path.lineTo(right, y - size - offset);
-    path.lineTo(left, y - size - offset);
-    path.close();
-
-    return path;
-  }
-
-  List<double> _normalCentroid(double left, double right, double y, double half, double size, double offset) {
-    final centroidX = (left + right) / 2;
-    final centroidY = (y - offset + y - size - offset) / 2;
-
-    return [centroidX, centroidY];
   }
 
   @override
