@@ -1,12 +1,12 @@
 import 'package:mp_chart/mp/core/entry/base_entry.dart';
-import 'dart:ui' as ui;
+import 'package:mp_chart/mp/core/enums/alert_type.dart';
 
 class Entry extends BaseEntry {
   double _x = 0;
 
-  Entry({required double x, required double y, ui.Image? icon, Object? data})
+  Entry({required double x, required double y, AlertType? alertType, Object? data})
       : _x = x,
-        super(y: y, icon: icon, data: data);
+        super(y: y, alertType: alertType, data: data);
 
   Entry copy() {
     var e = Entry(x: _x, y: y, data: mData);

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:matrix4_transform/matrix4_transform.dart';
 import 'package:mp_chart/mp/core/adapter_android_mp.dart';
 import 'package:mp_chart/mp/core/animator.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
@@ -8,12 +9,12 @@ import 'package:mp_chart/mp/core/data_provider/candle_data_provider.dart';
 import 'package:mp_chart/mp/core/entry/candle_entry.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/render/line_scatter_candle_radar_renderer.dart';
+import 'package:mp_chart/mp/core/utils/alerts_utils.dart';
 import 'package:mp_chart/mp/core/utils/canvas_utils.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/painter_utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/core/poolable/point.dart';
-import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:collection/collection.dart';
 
 class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
@@ -133,6 +134,8 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
         c.drawLine(Offset(_bodyBuffers[0], _bodyBuffers[1]), Offset(_bodyBuffers[2], _bodyBuffers[3]), renderPaint);
       }
+
+      _maybeDrawAlert(c, dataSet, e);
     }
   }
 
@@ -140,41 +143,42 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
       dataSet.getHighlightCandleEnabled() && candleHighlight ? dataSet.getHighlightCandleColor() : alternative;
 
   @override
-  void drawValues(Canvas c) {
-    _drawIcon(c);
-  }
+  void drawValues(Canvas c) {}
 
-  void _drawIcon(Canvas c) {
-    var dataSets = _provider.getCandleData()!.dataSets;
+  void _maybeDrawAlert(Canvas c, ICandleDataSet dataSet, CandleEntry entry) {
+    if (!dataSet.isDrawAlertsEnabled() || entry.mAlertType == null) return;
 
-    for (var i = 0; i < dataSets!.length; i++) {
-      var dataSet = dataSets[i];
+    var y = _shadowBuffer[1];
 
-      if (!dataSet.isDrawIconsEnabled()) continue;
+    final left = _bodyBuffers[0];
+    final right = _bodyBuffers[2];
 
-      var trans = _provider.getTransformer(dataSet.getAxisDependency());
-      var positions = trans!.generateTransformedValuesCandle(dataSet, animator.getPhaseX(), animator.getPhaseY(), xBounds.min!, xBounds.max!);
-      var iconsOffset = MPPointF.getInstance3(dataSet.getIconsOffset());
-      iconsOffset.x = Utils.convertDpToPixel(iconsOffset.x);
-      iconsOffset.y = Utils.convertDpToPixel(iconsOffset.y);
+    final size = right - left;
+    final half = size / 2;
 
-      for (var j = 0; j < positions.length; j += 2) {
-        var x = positions[j];
-        var y = positions[j + 1];
+    final offset = half;
 
-        if (!viewPortHandler!.isInBoundsRight(x)) break;
+    final pY = y;
 
-        if (!viewPortHandler!.isInBoundsLeft(x) || !viewPortHandler!.isInBoundsY(y)) continue;
+    final functions = AlertsUtils.getAlertFunctions(entry.mAlertType!);
 
-        var entry = dataSet.getEntryForIndex(j ~/ 2 + xBounds.min!);
+    final path = functions[0](left, right, pY, half, size, offset);
 
-        if (entry?.mIcon != null && dataSet.isDrawIconsEnabled()) {
-          CanvasUtils.drawImage(c, Offset(x + iconsOffset.x, y + iconsOffset.y), entry!.mIcon!, Size(10, 10), drawPaint);
-        }
-      }
+    renderPaint.color = functions[1]();
 
-      MPPointF.recycleInstance(iconsOffset);
-    }
+    c.drawPath(path, renderPaint);
+
+    final centroid = functions[2](left, right, pY, half, size, offset);
+
+    var scale = functions[3]();
+
+    final matrix = Matrix4Transform().scale(scale, origin: Offset(centroid[0], centroid[1])).matrix4;
+
+    final path2 = path.transform(matrix.storage);
+
+    renderPaint.color = functions[4](dataSet);
+
+    c.drawPath(path2, renderPaint);
   }
 
   @override

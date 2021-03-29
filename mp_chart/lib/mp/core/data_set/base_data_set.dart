@@ -48,11 +48,8 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   /// if true, y-values are drawn on the chart
   bool _drawValues = true;
 
-  /// if true, y-icons are drawn on the chart
-  bool _drawIcons = false;
-
-  /// the offset for drawing icons (in dp)
-  MPPointF _iconsOffset = MPPointF(0, 0);
+  /// if true, y-alerts are drawn on the chart
+  bool _drawAlerts = false;
 
   /// the size of the value-text labels
   double _valueTextSize = 17;
@@ -333,24 +330,13 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   }
 
   @override
-  void setDrawIcons(bool enabled) {
-    _drawIcons = enabled;
+  void setDrawAlerts(bool enabled) {
+    _drawAlerts = enabled;
   }
 
   @override
-  bool isDrawIconsEnabled() {
-    return _drawIcons;
-  }
-
-  @override
-  void setIconsOffset(MPPointF offsetDp) {
-    _iconsOffset.x = offsetDp.x;
-    _iconsOffset.y = offsetDp.y;
-  }
-
-  @override
-  MPPointF getIconsOffset() {
-    return _iconsOffset;
+  bool isDrawAlertsEnabled() {
+    return _drawAlerts;
   }
 
   @override
@@ -428,7 +414,7 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
   void copy(BaseDataSet baseDataSet) {
     baseDataSet._axisDependency = _axisDependency;
     baseDataSet._colors = _colors;
-    baseDataSet._drawIcons = _drawIcons;
+    baseDataSet._drawAlerts = _drawAlerts;
     baseDataSet._drawValues = _drawValues;
     baseDataSet._form = _form;
     baseDataSet._isFormLineDashed = _isFormLineDashed;
@@ -437,7 +423,6 @@ abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     baseDataSet._gradientColor = _gradientColor;
     baseDataSet._gradientColors = _gradientColors;
     baseDataSet._highlightEnabled = _highlightEnabled;
-    baseDataSet._iconsOffset = _iconsOffset;
     baseDataSet._valueColors = _valueColors;
     baseDataSet._valueFormatter = _valueFormatter;
     baseDataSet._valueColors = _valueColors;
