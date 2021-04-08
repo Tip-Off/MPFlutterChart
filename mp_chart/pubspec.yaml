@@ -12,6 +12,7 @@ dependencies:
 
   matrix4_transform: ^2.0.0
 
+  intl: ^0.17.0
 
   # optimized_gesture_detector:
   #   path: ../../OptimizedGestureDetector
