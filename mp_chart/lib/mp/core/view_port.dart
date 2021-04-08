@@ -25,7 +25,7 @@ class ViewPortHandler {
   double _minScaleX = 1;
 
   /// maximum scale value on the x-axis
-  double _maxScaleX = 1000;
+  double _maxScaleX = 10;
 
   /// contains the current scale factor of the x-axis
   double _scaleX = 1;
