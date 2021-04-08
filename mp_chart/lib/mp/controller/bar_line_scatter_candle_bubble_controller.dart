@@ -227,7 +227,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   void moveViewToX(double xValue) {
     // This is hardcoded to relate to the hardcoded value from
     // ViewPort limitTransAndScale function
-    xValue = xValue - 50;
+    xValue = xValue - 26;
 
     var pts = [xValue, 0.0];
 
@@ -258,7 +258,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   void moveViewTo(double xValue, double yValue, AxisDependency axis) {
     // This is hardcoded to relate to the hardcoded value from
     // ViewPort limitTransAndScale function
-    xValue = xValue - 50;
+    xValue = xValue - 26;
 
     var yInView = getAxisRange(axis) / viewPortHandler!.getScaleY();
     var pts = <double>[xValue, yValue + yInView / 2];
@@ -278,7 +278,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   void moveViewToAnimated(double xValue, double yValue, AxisDependency axis, int durationMillis) {
     // This is hardcoded to relate to the hardcoded value from
     // ViewPort limitTransAndScale function
-    xValue = xValue - 50;
+    xValue = xValue - 26;
 
     var bounds = getValuesByTouchPoint(viewPortHandler!.contentLeft(), viewPortHandler!.contentTop(), axis);
     var yInView = getAxisRange(axis) / viewPortHandler!.getScaleY();
