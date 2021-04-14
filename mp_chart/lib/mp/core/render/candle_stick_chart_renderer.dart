@@ -32,16 +32,6 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     color: Colors.white,
   );
 
-  final _greenStyle = TextStyle(
-    fontSize: 10,
-    color: Colors.lightGreenAccent,
-  );
-
-  final _redStyle = TextStyle(
-    fontSize: 10,
-    color: Colors.redAccent,
-  );
-
   CandleStickChartRenderer(CandleDataProvider chart, Animator animator, ViewPortHandler viewPortHandler) : super(animator, viewPortHandler) {
     _provider = chart;
 
@@ -213,6 +203,14 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     }
   }
 
+  TextStyle _getTextStyleByEntry(CandleEntry e, ICandleDataSet dataSet) {
+    return TextStyle(
+        fontSize: 10,
+        color: e.close > e.open
+            ? (dataSet.getDecreasingColor() == ColorUtils.COLOR_NONE ? Colors.lightGreenAccent : dataSet.getIncreasingColor())
+            : (dataSet.getIncreasingColor() == ColorUtils.COLOR_NONE ? Colors.redAccent : dataSet.getDecreasingColor()));
+  }
+
   void _drawVolumeDataSet(Canvas c, ICandleDataSet dataSet) {
     var trans = _provider.getTransformer(dataSet.getAxisDependency());
 
@@ -294,19 +292,19 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   Size _drawFloatingLegend(Canvas c, ICandleDataSet dataSet, Highlight h) {
     final e = dataSet.getEntryForXValue2(h.x, 0)!;
     final ohlcPosition = Offset(viewPortHandler!.contentLeft(), viewPortHandler!.contentTop());
-    final ohlcSize = _drawOHLC(c, e, ohlcPosition);
+    final ohlcSize = _drawOHLC(c, e, ohlcPosition, dataSet);
 
     final diffPosition = Offset(viewPortHandler!.contentLeft() + _labelText.width, viewPortHandler!.contentTop());
     _drawDiff(c, dataSet, e, diffPosition);
 
     final volPosition = Offset(viewPortHandler!.contentLeft(), viewPortHandler!.contentTop() + _labelText.height);
-    final volSize = _drawVol(c, e, volPosition);
+    final volSize = _drawVol(c, e, volPosition, dataSet);
 
     return Size(ohlcSize.width + volSize.width, ohlcSize.height + volSize.height);
   }
 
-  Size _drawOHLC(Canvas c, CandleEntry e, Offset labelPosition) {
-    var style = _colorByEntry(e);
+  Size _drawOHLC(Canvas c, CandleEntry e, Offset labelPosition, ICandleDataSet dataSet) {
+    var style = _getTextStyleByEntry(e, dataSet);
 
     _labelText.text = TextSpan(text: '', style: _whiteStyle, children: [
       TextSpan(text: 'O', style: _whiteStyle),
@@ -334,14 +332,16 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
       var diffPorcentage = diff / previousEntry.close * 100;
       var signal = diff > 0 ? '+' : '';
 
+      final textStyle = _getTextStyleByEntry(currentEntry, dataSet);
+
       _labelText.text = TextSpan(text: '\t\t', style: _whiteStyle, children: [
         TextSpan(
           text: '$signal${diff.toStringAsFixed(2)}',
-          style: _colorByEntry(currentEntry),
+          style: textStyle,
         ),
         TextSpan(
           text: '\t($signal${diffPorcentage.toStringAsFixed(2)}%)',
-          style: _colorByEntry(currentEntry),
+          style: textStyle,
         ),
       ]);
       _labelText.layout();
@@ -350,11 +350,11 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
     }
   }
 
-  Size _drawVol(Canvas c, CandleEntry e, Offset labelPosition) {
+  Size _drawVol(Canvas c, CandleEntry e, Offset labelPosition, ICandleDataSet dataSet) {
     _labelText.text = TextSpan(text: 'Vol ', style: _whiteStyle, children: [
       TextSpan(
         text: '${e.volume}',
-        style: _colorByEntry(e),
+        style: _getTextStyleByEntry(e, dataSet),
       ),
     ]);
     _labelText.layout();
@@ -367,6 +367,4 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
   void _drawFloatingLegendBg(Canvas c, Offset position, Size size) {
     c.drawRect(Rect.fromLTWH(position.dx, position.dy, size.width, size.height), Paint()..color = _floatingLegendBg);
   }
-
-  TextStyle _colorByEntry(CandleEntry e) => e.close > e.open ? _greenStyle : _redStyle;
 }
