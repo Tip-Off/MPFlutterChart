@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mp_chart/mp/core/animator.dart';
@@ -8,8 +9,11 @@ import 'package:mp_chart/mp/core/axis/y_axis.dart';
 import 'package:mp_chart/mp/core/common_interfaces.dart';
 import 'package:mp_chart/mp/core/data/bar_line_scatter_candle_bubble_data.dart';
 import 'package:mp_chart/mp/core/data_interfaces/i_bar_line_scatter_candle_bubble_data_set.dart';
+import 'package:mp_chart/mp/core/data_interfaces/i_candle_data_set.dart';
 import 'package:mp_chart/mp/core/data_provider/bar_line_scatter_candle_bubble_data_provider.dart';
 import 'package:mp_chart/mp/core/data_set/bar_data_set.dart';
+import 'package:mp_chart/mp/core/data_set/candle_data_set.dart';
+import 'package:mp_chart/mp/core/entry/candle_entry.dart';
 import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/enums/legend_horizontal_alignment.dart';
@@ -26,11 +30,13 @@ import 'package:mp_chart/mp/core/render/x_axis_renderer.dart';
 import 'package:mp_chart/mp/core/render/y_axis_renderer.dart';
 import 'package:mp_chart/mp/core/chart_trans_listener.dart';
 import 'package:mp_chart/mp/core/transformer/transformer.dart';
+import 'package:mp_chart/mp/core/utils/color_utils.dart';
 import 'package:mp_chart/mp/core/utils/matrix4_utils.dart';
 import 'package:mp_chart/mp/core/utils/utils.dart';
 import 'package:mp_chart/mp/core/view_port.dart';
 import 'package:mp_chart/mp/painter/painter.dart';
 import 'package:mp_chart/mp/core/render/axis_renderer.dart';
+import 'package:collection/collection.dart';
 
 abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<IBarLineScatterCandleBubbleDataSet<Entry>>> extends ChartPainter<T>
     implements BarLineScatterCandleBubbleDataProvider {
@@ -310,14 +316,18 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
         pointOnChartY = indicesToHighlight?.first.y ?? highlightForced?.y;
       }
 
+      // Get candle color to use in highlight background
+      final color = _getCandleColor(axisPointX, dataSet);
+
       if (pointOnChartY != null && !pointOnChartY.isNaN) {
         if (_axisLeft.enabled && !_axisLeft.drawLimitLineBehindData) {
-          _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)));
+          _axisRendererLeft.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)), color);
         }
         if (_axisRight.enabled && !_axisRight.drawLimitLineBehindData) {
-          _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)));
+          _axisRendererRight.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)), color);
         }
-        _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)));
+
+        _xAxisRenderer.renderHighlight(canvas, AxisHighlightRenderOpt(highlightPoint, MPPointD(axisPointX!, pointOnChartY)), color);
       }
     }
 
@@ -331,6 +341,32 @@ abstract class BarLineChartBasePainter<T extends BarLineScatterCandleBubbleData<
     } else {
       renderer!.drawValues(canvas);
     }
+  }
+
+  Color _getCandleColor(double? axisPointX, BarLineScatterCandleBubbleData dataSet) {
+    final color = Colors.deepOrange;
+
+    if (axisPointX == null) return color;
+
+    var entryPosition = (axisPointX + 0.5).floor();
+
+    final candleDataSet = dataSet.dataSets?.firstWhereOrNull((element) => element is CandleDataSet) as ICandleDataSet?;
+
+    if (candleDataSet == null) return color;
+
+    if (entryPosition >= candleDataSet.getEntryCount()) entryPosition = candleDataSet.getEntryCount() - 1;
+
+    final candleEntry = candleDataSet.getEntryForIndex(entryPosition);
+
+    if (candleEntry != null) {
+      if (candleEntry.open > candleEntry.close) {
+        return candleDataSet.getDecreasingColor() == ColorUtils.COLOR_NONE ? color : candleDataSet.getDecreasingColor();
+      } else {
+        return candleDataSet.getIncreasingColor() == ColorUtils.COLOR_NONE ? color : candleDataSet.getIncreasingColor();
+      }
+    }
+
+    return color;
   }
 
   void prepareValuePxMatrix() {

@@ -316,7 +316,7 @@ class YAxisRenderer extends AxisRenderer {
   }
 
   @override
-  void renderHighlight(Canvas c, AxisHighlightRenderOpt opt) {
+  void renderHighlight(Canvas c, AxisHighlightRenderOpt opt, Color color) {
     var dependency = _yAxis.axisDependency;
     var labelPosition = _yAxis.position;
 
@@ -335,7 +335,7 @@ class YAxisRenderer extends AxisRenderer {
       }
     }
 
-    _drawYHighlightLabels(c, xPos, opt, _yAxis.axisDependency, _yAxis.position);
+    _drawYHighlightLabels(c, xPos, opt, _yAxis.axisDependency, _yAxis.position, color);
   }
 
   void _drawYHighlightLabels(
@@ -344,6 +344,7 @@ class YAxisRenderer extends AxisRenderer {
     AxisHighlightRenderOpt opt,
     AxisDependency axisDependency,
     YAxisLabelPosition position,
+    Color color,
   ) {
     axisLabelPaint!.text = TextSpan(
       text: _yAxis.getDirectFormattedLabel(opt.axisPoint.y),
@@ -370,7 +371,7 @@ class YAxisRenderer extends AxisRenderer {
     var validPoint = Offset(viewPortHandler!.getContentCenter().x, labelPosition.dy);
 
     if (viewPortHandler!.getContentRect().contains(validPoint)) {
-      var paint = Paint()..color = Colors.deepOrange;
+      var paint = Paint()..color = color;
 
       c.drawRect(Rect.fromLTWH(labelPosition.dx - 1, labelPosition.dy - 1, axisLabelPaint!.width + 2, axisLabelPaint!.height + 2), paint);
 

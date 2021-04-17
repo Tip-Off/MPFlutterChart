@@ -384,31 +384,32 @@ class XAxisRenderer extends AxisRenderer {
   }
 
   @override
-  void renderHighlight(Canvas c, AxisHighlightRenderOpt opt) {
+  void renderHighlight(Canvas c, AxisHighlightRenderOpt opt, Color color) {
     switch (_xAxis.position) {
       case XAxisPosition.BOTTOM:
-        _drawXHighlightLabels(c, viewPortHandler!.contentBottom(), opt);
+        _drawXHighlightLabels(c, viewPortHandler!.contentBottom(), opt, color);
         break;
       case XAxisPosition.TOP:
-        _drawXHighlightLabels(c, viewPortHandler!.contentTop() - axisLabelPaint!.height, opt);
+        _drawXHighlightLabels(c, viewPortHandler!.contentTop() - axisLabelPaint!.height, opt, color);
         break;
       case XAxisPosition.BOTTOM_INSIDE:
-        _drawXHighlightLabels(c, viewPortHandler!.contentBottom() + axisLabelPaint!.height, opt);
+        _drawXHighlightLabels(c, viewPortHandler!.contentBottom() + axisLabelPaint!.height, opt, color);
         break;
       case XAxisPosition.BOTH_SIDED:
-        _drawXHighlightLabels(c, viewPortHandler!.contentBottom(), opt);
-        _drawXHighlightLabels(c, viewPortHandler!.contentTop() - axisLabelPaint!.height, opt);
+        _drawXHighlightLabels(c, viewPortHandler!.contentBottom(), opt, color);
+        _drawXHighlightLabels(c, viewPortHandler!.contentTop() - axisLabelPaint!.height, opt, color);
         break;
       default:
         break;
     }
   }
 
-  void _drawXHighlightLabels(Canvas c, double fixedPosition, AxisHighlightRenderOpt opt) {
+  void _drawXHighlightLabels(Canvas c, double fixedPosition, AxisHighlightRenderOpt opt, Color color) {
     axisLabelPaint!.text = TextSpan(
       text: _xAxis.getDirectFormattedLabel(opt.axisPoint.x.roundToDouble()),
       style: axisLabelPaint!.text!.style!.copyWith(color: Colors.white),
     );
+
     axisLabelPaint!.layout();
 
     var labelPosition = Offset(opt.screenPoint.x, fixedPosition);
@@ -416,7 +417,7 @@ class XAxisRenderer extends AxisRenderer {
       labelPosition = Offset(opt.screenPoint.x - axisLabelPaint!.width - 2, fixedPosition);
     }
 
-    var paint = Paint()..color = Colors.deepOrange;
+    var paint = Paint()..color = color;
 
     c.drawRect(Rect.fromLTWH(labelPosition.dx, labelPosition.dy - 1, axisLabelPaint!.width + 3, axisLabelPaint!.height + 2), paint);
 

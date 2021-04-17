@@ -262,5 +262,5 @@ abstract class AxisRenderer extends Renderer {
   /// @param c
   void renderLimitLines(Canvas c);
 
-  void renderHighlight(Canvas c, AxisHighlightRenderOpt opt);
+  void renderHighlight(Canvas c, AxisHighlightRenderOpt opt, Color color);
 }
