@@ -110,6 +110,14 @@ class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
 
       renderPaint.style = PaintingStyle.fill;
 
+      final diff = _bodyBuffers[1] - _bodyBuffers[3];
+
+      if (diff < 1 && diff >= 0) {
+        _bodyBuffers[1] = _bodyBuffers[1] + (1 - diff);
+      } else if (diff > -1 && diff <= 0) {
+        _bodyBuffers[3] = _bodyBuffers[3] + (1 + diff);
+      }
+
       // draw body differently for increasing and decreasing entry
       if (open > close) {
         renderPaint.color = _highlightColorOr(dataSet, dataSet.getDecreasingColor(), candleHighlight);
