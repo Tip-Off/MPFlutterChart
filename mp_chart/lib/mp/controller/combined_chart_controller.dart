@@ -210,9 +210,11 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
     if (initialXRange > 0) {
       _initialXZoom = _initialXZoom == 1 ? 1 : ((data!.xMax - 1) - data!.xMin).abs() / initialXRange;
 
+//      print("data max: ${data!.xMax}, min: ${data!.xMin}, _initialXZoom: ${_initialXZoom}, initialXRange: $initialXRange");
+
       var matrix = viewPortHandler!.getMatrixTouch();
       viewPortHandler!.zoom2(_initialXZoom, 0, matrix);
-      viewPortHandler!.refresh(matrix);
+      viewPortHandler!.refresh(matrix, maxCandles: data!.xMax);
 
       _initialXZoom = 1;
     }

@@ -194,7 +194,7 @@ class CandlestickChartController extends BarLineScatterCandleBubbleController<Ca
 
       var matrix = painter!.viewPortHandler!.getMatrixTouch();
       painter!.viewPortHandler!.zoom2(_initialXZoom, 0, matrix);
-      painter!.viewPortHandler!.refresh(matrix);
+      painter!.viewPortHandler!.refresh(matrix, maxCandles: data!.xMax);
 
       if (_initialXZoom != 1) {
         moveViewToAnimated(initialXPosition < 0 ? data!.xMax : initialXPosition as double, 0, AxisDependency.LEFT, 50);
