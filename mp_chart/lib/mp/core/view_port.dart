@@ -25,7 +25,10 @@ class ViewPortHandler {
   double _minScaleX = 1;
 
   /// maximum scale value on the x-axis
-  double _maxScaleX = 1000;
+  double _maxScaleX = 1;
+
+  /// minimum shown candles in chart
+  double _minShownCandles = 10;
 
   /// contains the current scale factor of the x-axis
   double _scaleX = 1;
@@ -46,8 +49,6 @@ class ViewPortHandler {
 
   /// offset that allows the chart to be dragged over its bounds on the y-axis
   double _transOffsetY = 0;
-
-  double _lastTransX = 0;
 
   double? _maxCandles;
 
@@ -358,6 +359,10 @@ class ViewPortHandler {
     var curTransY = matrixBuffer[13];
     var curScaleY = matrixBuffer[5];
 
+    if (_maxCandles != null) {
+      _maxScaleX = _maxCandles! <= _minShownCandles ? 1.0 : (_maxCandles! - 1) / _minShownCandles;
+    }
+
     // min scale-x is 1f
     _scaleX = min(max(_minScaleX, curScaleX), _maxScaleX);
 
@@ -381,30 +386,8 @@ class ViewPortHandler {
     var maxTransY = height * (_scaleY - 1);
     _transY = max(min(curTransY, maxTransY + _transOffsetY), -_transOffsetY);
 
-    if (_maxCandles != null) {
-      var minShownCandles = 5;
-      var maxScale = (_maxCandles! - 1) / minShownCandles;
-
-      print('_transX: $_transX');
-
-      if (_scaleX < maxScale) {
-        matrixBuffer[12] = _transX;
-        matrixBuffer[0] = _scaleX;
-
-        _lastTransX = _transX;
-      } else {
-        matrixBuffer[12] = _scaleX != _lastScaleX ? _lastTransX : _transX;
-        matrixBuffer[0] = maxScale;
-      }
-      //_scaleX = maxScale;
-
-      print("scaleX: $_scaleX, ${maxScale}");
-    } else {
-      matrixBuffer[12] = _transX;
-      matrixBuffer[0] = _scaleX;
-    }
-
-    _lastScaleX = _scaleX;
+    matrixBuffer[12] = _transX;
+    matrixBuffer[0] = _scaleX;
 
     matrixBuffer[13] = _transY;
     matrixBuffer[5] = _scaleY;
