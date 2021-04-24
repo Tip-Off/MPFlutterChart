@@ -326,7 +326,7 @@ class ViewPortHandler {
 
     Matrix4Utils.postTranslate(save, -x, -y);
 
-    refresh(save, maxCandles: maxCandles);
+    refresh(save, maxCandles: maxCandles, applyScaleMinMax: true);
   }
 
   List<double> matrixBuffer = List.filled(16, 0.0);
@@ -335,12 +335,12 @@ class ViewPortHandler {
   ///
   /// @param newMatrix
   /// @return
-  Matrix4 refresh(Matrix4 newMatrix, {double? maxCandles}) {
+  Matrix4 refresh(Matrix4 newMatrix, {double? maxCandles, bool applyScaleMinMax = false}) {
     if (maxCandles != null) _maxCandles = maxCandles;
 
     newMatrix.copyInto(_matrixTouch);
     // make sure scale and translation are within their bounds
-    limitTransAndScale(_matrixTouch, _contentRect);
+    limitTransAndScale(_matrixTouch, _contentRect, applyScaleMinMax: applyScaleMinMax);
     _matrixTouch.copyInto(newMatrix);
     return newMatrix;
   }
@@ -348,7 +348,7 @@ class ViewPortHandler {
   /// limits the maximum scale and X translation of the given matrix
   ///
   /// @param matrix
-  void limitTransAndScale(Matrix4 matrix, Rect? content) {
+  void limitTransAndScale(Matrix4 matrix, Rect? content, {bool applyScaleMinMax = false}) {
     for (var i = 0; i < 16; i++) {
       matrixBuffer[i] = matrix.storage[i];
     }
@@ -364,7 +364,7 @@ class ViewPortHandler {
     }
 
     // min scale-x is 1f
-    _scaleX = min(max(_minScaleX, curScaleX), _maxScaleX);
+    _scaleX = applyScaleMinMax ? min(max(_minScaleX, curScaleX), _maxScaleX) : curScaleX;
 
     // min scale-y is 1f
     _scaleY = min(max(_minScaleY, curScaleY), _maxScaleY);
