@@ -216,7 +216,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   /// @param scaleX
   /// @param scaleY
   void setScaleMinima(double scaleX, double scaleY) {
-    viewPortHandler!.setMinimumScaleX(scaleX);
+    viewPortHandler!.setMinimumScaleX(scaleX, maxCandles: data!.xMax);
     viewPortHandler!.setMinimumScaleY(scaleY);
   }
 
@@ -232,7 +232,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
     var pts = [xValue, 0.0];
 
     painter?.getTransformer(AxisDependency.LEFT)?.pointValuesToPixel(pts);
-    viewPortHandler!.centerViewPort(pts);
+    viewPortHandler!.centerViewPort(pts, maxCandles: data!.xMax);
   }
 
   /// This will center the viewport to the specified y value on the y-axis.
@@ -245,7 +245,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
     var pts = <double>[0.0, yValue + yInView / 2];
 
     painter?.getTransformer(axis)!.pointValuesToPixel(pts);
-    viewPortHandler!.centerViewPort(pts);
+    viewPortHandler!.centerViewPort(pts, maxCandles: data!.xMax);
   }
 
   /// This will move the left side of the current viewport to the specified
@@ -264,7 +264,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
     var pts = <double>[xValue, yValue + yInView / 2];
 
     painter?.getTransformer(axis)!.pointValuesToPixel(pts);
-    viewPortHandler!.centerViewPort(pts);
+    viewPortHandler!.centerViewPort(pts, maxCandles: data!.xMax);
   }
 
   /// This will move the left side of the current viewport to the specified x-value
@@ -292,7 +292,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
       pts[0] = xOrigin + (xValue - xOrigin) * x;
       pts[1] = yOrigin + (yValue - yOrigin) * y;
       painter?.getTransformer(axis)!.pointValuesToPixel(pts);
-      viewPortHandler!.centerViewPort(pts);
+      viewPortHandler!.centerViewPort(pts, maxCandles: data!.xMax);
       state?.setStateIfNotDispose();
     })).animateXY1(durationMillis, durationMillis);
 
@@ -309,7 +309,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
     var pts = <double>[0.0, yValue + valsInView / 2];
 
     painter?.getTransformer(axis)!.pointValuesToPixel(pts);
-    viewPortHandler!.centerViewPort(pts);
+    viewPortHandler!.centerViewPort(pts, maxCandles: data!.xMax);
   }
 
   /// This will move the center of the current viewport to the specified
@@ -326,7 +326,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
     var pts = <double>[xValue - xInView / 2, yValue + yInView / 2];
 
     painter?.getTransformer(axis)!.pointValuesToPixel(pts);
-    viewPortHandler!.centerViewPort(pts);
+    viewPortHandler!.centerViewPort(pts, maxCandles: data!.xMax);
   }
 
   /// This will move the center of the current viewport to the specified
@@ -353,7 +353,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
       pts[0] = xOrigin + (xValue - xOrigin) * x;
       pts[1] = yOrigin + (yValue - yOrigin) * y;
       painter?.getTransformer(axis)!.pointValuesToPixel(pts);
-      viewPortHandler!.centerViewPort(pts);
+      viewPortHandler!.centerViewPort(pts, maxCandles: data!.xMax);
       state?.setStateIfNotDispose();
     })).animateXY1(durationMillis, durationMillis);
 
@@ -368,7 +368,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   /// @param maxXRange The maximum visible range of x-values.
   void setVisibleXRangeMaximum(double maxXRange) {
     var xScale = xAxis!.axisRange / (maxXRange);
-    viewPortHandler!.setMinimumScaleX(xScale);
+    viewPortHandler!.setMinimumScaleX(xScale, maxCandles: data!.xMax);
   }
 
   /// Sets the size of the area (range on the x-axis) that should be minimum
@@ -379,7 +379,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   /// @param minXRange The minimum visible range of x-values.
   void setVisibleXRangeMinimum(double minXRange) {
     var xScale = xAxis!.axisRange / (minXRange);
-    viewPortHandler!.setMaximumScaleX(xScale);
+    viewPortHandler!.setMaximumScaleX(xScale, maxCandles: data!.xMax);
   }
 
   /// Limits the maximum and minimum x range that can be visible by pinching and zooming. e.g. minRange=10, maxRange=100 the
@@ -391,7 +391,7 @@ abstract class BarLineScatterCandleBubbleController<P extends BarLineChartBasePa
   void setVisibleXRange(double minXRange, double maxXRange) {
     var minScale = xAxis!.axisRange / minXRange;
     var maxScale = xAxis!.axisRange / maxXRange;
-    viewPortHandler!.setMinMaxScaleX(minScale, maxScale);
+    viewPortHandler!.setMinMaxScaleX(minScale, maxScale, maxCandles: data!.xMax);
   }
 
   double getAxisRange(AxisDependency axis) {

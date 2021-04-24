@@ -212,7 +212,7 @@ class CombinedChartController extends BarLineScatterCandleBubbleController<Combi
 
       var matrix = viewPortHandler!.getMatrixTouch();
       viewPortHandler!.zoom2(_initialXZoom, 0, matrix);
-      viewPortHandler!.refresh(matrix);
+      viewPortHandler!.refresh(matrix, maxCandles: data!.xMax);
 
       _initialXZoom = 1;
     }

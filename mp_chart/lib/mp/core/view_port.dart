@@ -25,7 +25,10 @@ class ViewPortHandler {
   double _minScaleX = 1;
 
   /// maximum scale value on the x-axis
-  double _maxScaleX = 10;
+  double _maxScaleX = 1;
+
+  /// minimum shown candles in chart
+  double _minShownCandles = 10;
 
   /// contains the current scale factor of the x-axis
   double _scaleX = 1;
@@ -44,6 +47,8 @@ class ViewPortHandler {
 
   /// offset that allows the chart to be dragged over its bounds on the y-axis
   double _transOffsetY = 0;
+
+  double? _maxCandles;
 
   /// Constructor - don't forget calling setChartDimens(...)
   ViewPortHandler();
@@ -309,7 +314,7 @@ class ViewPortHandler {
   /// setScaleMinima(...) method.
   ///
   /// @param transformedPts the position to center view viewport to
-  void centerViewPort(final List<double> transformedPts) {
+  void centerViewPort(final List<double> transformedPts, {required double? maxCandles}) {
     mCenterViewPortMatrixBuffer = Matrix4.identity();
     var save = mCenterViewPortMatrixBuffer;
     _matrixTouch.copyInto(save);
@@ -319,7 +324,7 @@ class ViewPortHandler {
 
     Matrix4Utils.postTranslate(save, -x, -y);
 
-    refresh(save);
+    refresh(save, maxCandles: maxCandles, applyScaleMinMax: true);
   }
 
   List<double> matrixBuffer = List.filled(16, 0.0);
@@ -328,10 +333,12 @@ class ViewPortHandler {
   ///
   /// @param newMatrix
   /// @return
-  Matrix4 refresh(Matrix4 newMatrix) {
+  Matrix4 refresh(Matrix4 newMatrix, {double? maxCandles, bool applyScaleMinMax = false}) {
+    if (maxCandles != null) _maxCandles = maxCandles;
+
     newMatrix.copyInto(_matrixTouch);
     // make sure scale and translation are within their bounds
-    limitTransAndScale(_matrixTouch, _contentRect);
+    limitTransAndScale(_matrixTouch, _contentRect, applyScaleMinMax: applyScaleMinMax);
     _matrixTouch.copyInto(newMatrix);
     return newMatrix;
   }
@@ -339,7 +346,7 @@ class ViewPortHandler {
   /// limits the maximum scale and X translation of the given matrix
   ///
   /// @param matrix
-  void limitTransAndScale(Matrix4 matrix, Rect? content) {
+  void limitTransAndScale(Matrix4 matrix, Rect? content, {bool applyScaleMinMax = false}) {
     for (var i = 0; i < 16; i++) {
       matrixBuffer[i] = matrix.storage[i];
     }
@@ -350,8 +357,12 @@ class ViewPortHandler {
     var curTransY = matrixBuffer[13];
     var curScaleY = matrixBuffer[5];
 
+    if (_maxCandles != null) {
+      _maxScaleX = _maxCandles! <= _minShownCandles ? 1.0 : (_maxCandles! - 1) / _minShownCandles;
+    }
+
     // min scale-x is 1f
-    _scaleX = min(max(_minScaleX, curScaleX), _maxScaleX);
+    _scaleX = applyScaleMinMax ? min(max(_minScaleX, curScaleX), _maxScaleX) : curScaleX;
 
     // min scale-y is 1f
     _scaleY = min(max(_minScaleY, curScaleY), _maxScaleY);
@@ -387,7 +398,9 @@ class ViewPortHandler {
   /// Sets the minimum scale factor for the x-axis
   ///
   /// @param xScale
-  void setMinimumScaleX(double xScale) {
+  void setMinimumScaleX(double xScale, {required double maxCandles}) {
+    _maxCandles = maxCandles;
+
     if (xScale < 1) xScale = 1;
     _minScaleX = xScale;
     limitTransAndScale(_matrixTouch, _contentRect);
@@ -396,7 +409,9 @@ class ViewPortHandler {
   /// Sets the maximum scale factor for the x-axis
   ///
   /// @param xScale
-  void setMaximumScaleX(double xScale) {
+  void setMaximumScaleX(double xScale, {required double maxCandles}) {
+    _maxCandles = maxCandles;
+
     if (xScale == 0) xScale = double.maxFinite;
     _maxScaleX = xScale;
     limitTransAndScale(_matrixTouch, _contentRect);
@@ -406,7 +421,9 @@ class ViewPortHandler {
   ///
   /// @param minScaleX
   /// @param maxScaleX
-  void setMinMaxScaleX(double minScaleX, double maxScaleX) {
+  void setMinMaxScaleX(double minScaleX, double maxScaleX, {required double maxCandles}) {
+    _maxCandles = maxCandles;
+
     if (minScaleX < 1) minScaleX = 1;
 
     if (maxScaleX == 0) maxScaleX = double.maxFinite;
