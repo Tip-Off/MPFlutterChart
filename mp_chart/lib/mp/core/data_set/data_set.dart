@@ -251,6 +251,8 @@ abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
   @override
   T getEntryForIndex(int index) {
+    if (index < 0) index = 0;
+
     return _values![index];
   }
 
